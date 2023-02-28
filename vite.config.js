@@ -61,7 +61,7 @@ export default ({ mode }) => {
 
       AutoImport({
         // 自动导入vue相关的Api
-        imports: ["vue"], // 也支持vue-router、axios等
+        imports: ["vue", "vue-router", "vuex"], // 也支持vue-router、axios等
         resolvers: [ElementPlusResolver()],
         // 声明文件的存放位置
         dts: "src/auto-imports.d.ts",
@@ -78,7 +78,7 @@ export default ({ mode }) => {
       }),
     ],
 
-    base:"/",
+    base:"./",
     resolve: {
       alias: {
         "@": resolve(__dirname, "src"),

@@ -1,12 +1,3 @@
-<script setup>
-import { ref } from 'vue'
-
-defineProps({
-  msg: String,
-})
-
-const count = ref(0)
-</script>
 
 <template>
   <h1>{{ msg }}</h1>
@@ -32,6 +23,19 @@ const count = ref(0)
   </p>
   <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
+
+<script setup>
+  import {test} from "@/utils/axios/home/index.js"
+  
+  defineProps({
+    msg: String,
+  })
+  const count = ref(0)
+  onMounted(async () => {
+    const data = await test()
+    console.log(data);
+  })
+</script>
 
 <style scoped>
 .read-the-docs {

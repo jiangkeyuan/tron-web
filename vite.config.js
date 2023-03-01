@@ -18,10 +18,7 @@ import {
 } from "vite-plugin-style-import";
 
 
-const npm_config_page = process.env.npm_config_page;
-
 export default ({ mode }) => {
-  const __DEV__ = mode === "development";
   return defineConfig({
     plugins: [
       vue(),
@@ -87,7 +84,7 @@ export default ({ mode }) => {
     },
 
     build: {
-      outDir: "vue",
+      outDir: "tron-web",
       sourcemap: true,
       chunkSizeWarningLimit: 800,
       assetsDir: "./assets",

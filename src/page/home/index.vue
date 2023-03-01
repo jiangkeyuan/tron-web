@@ -1,8 +1,10 @@
 <template>
-    <h1>{{ msg }}</h1>
+    <h1>{{ $t('hello')}}</h1>
 
     <div class="card">
         <button type="button" @click="count++">count is {{ count }}</button>
+        <button type="button" @click="()=> setlang('en-US')">英文</button>
+        <button type="button" @click="()=> setlang('zh-CN')">中文</button>
         <p>
             Edit
             <code>components/HelloWorld.vue</code> to test HMR
@@ -23,8 +25,11 @@
 
 <script setup>
 import { test } from "@/utils/axios/home/index.js";
-
+const { appContext } = getCurrentInstance();
 const count = ref(0);
+const setlang = (lang)=>{
+    appContext.config.globalProperties.$mitt.emit('changeLang',lang);
+}
 onMounted(() => { });
 </script>
 

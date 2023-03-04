@@ -5,6 +5,10 @@ const routes = [
     path: '/',
     component: () => import('../page/home/index.vue'),
   },
+  {
+    path: '/auth/login',
+    component: () => import('../page/login/index.vue'),
+  },
 //   {
 //     path: '/dome2',
 //     component: () => import('../views/Dome2.vue'),

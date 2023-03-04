@@ -1,3 +1,4 @@
+import common from "./common.js";
 // 设置localStorage
 export const setStorage = function(key, obj) {
     let json = JSON.stringify(obj);
@@ -16,6 +17,15 @@ export const getStorage = function(key) {
 // 移除localStorage
 export const removeStorage = function(key) {
     window.localStorage.removeItem(key)
+}
+
+export const filterName = (lang)=>{
+    if(!lang)return '简体中文';
+    if(lang === common.LANGEN){
+        return 'English';
+    }else{
+        return '简体中文';
+    }
 }
 
 // 获取浏览器默认语言

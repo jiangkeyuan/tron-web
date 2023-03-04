@@ -7,10 +7,14 @@
 </template>
 
 <script setup>
+import {
+    setStorage
+}
+from '@/utils/utils/index.js';
 const {ctx,appContext } = getCurrentInstance();
 appContext.config.globalProperties.$mitt.on('changeLang',(langs)=>{
   ctx.$i18n.locale = langs;
-  sessionStorage.setItem('lang',langs);
+  setStorage('lang',langs);
 })
 </script>
 

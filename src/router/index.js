@@ -9,13 +9,26 @@ const routes = [
     path: '/auth/login',
     component: () => import('../page/login/index.vue'),
   },
-//   {
-//     path: '/dome2',
-//     component: () => import('../views/Dome2.vue'),
-//     meta: {
-//       title: 'Dome2'
-//     }
-//   }
+  {
+    path: '/buyer',
+    component: () => import('../page/buyer/index.vue'),
+    children:[
+      {
+        path: 'dashboard',
+        components:{
+          helper: () => import('../page/buyer/dashbord/index.vue'),
+          default:() => import('../page/buyer/dashbord/index.vue'),
+        }
+      },
+      {
+        path: 'sale-record',
+        components:{
+          helper: () => import('../page/buyer/sale-record/index.vue'),
+          default:() => import('../page/buyer/sale-record/index.vue'),
+        }
+      }
+    ]
+  },
 ]
 
 const router = createRouter({

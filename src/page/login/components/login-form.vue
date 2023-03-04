@@ -6,7 +6,9 @@
             :rules="rules" 
             ref="ruleFormRef"
         >
-            <h2 class="login-content-right-title">登录</h2>
+            <h2 class="login-content-right-title">
+                {{ filterName(props.type) }}
+             </h2>
             <el-form-item class="login-content-right-input" prop="email">
                 <el-input
                     class="login-content-right-input-l"
@@ -18,49 +20,55 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <el-form-item 
-                class="login-content-right-input" 
-                prop="passWord"
-                :rules="[
-                    { required: true, message: '请输入密码！', trigger: ['blur','change'] },
-                    { required: true,min:8, message: '请输入大于8位数的密码！', trigger: ['blur','change'] },
-                ]"
-            >
-                <el-input
-                    class="login-content-right-input-l"
-                    v-model.trim="value.passWord"
-                    type="password"
-                    placeholder="请输入您的密码"
-                    show-password
+            <Transition :duration="550" name="slide-up">
+                <el-form-item 
+                    v-if="props.type !== '2'"
+                    class="login-content-right-input" 
+                    prop="passWord"
+                    :rules="[
+                        { required: true, message: '请输入密码！', trigger: ['blur','change'] },
+                        { required: true,min:8, message: '请输入大于8位数的密码！', trigger: ['blur','change'] },
+                    ]"
                 >
-                    <template #prefix>
-                        <img src="@/assets/login/login-password.svg" alt="" color="red"/>
-                    </template>
-                </el-input>
-            </el-form-item>
-    
-            <el-form-item 
-                prop="confirmPassword"
-                class="login-content-right-input" 
-                :rules="[
-                    { required: true, message: '请输入二次密码！', trigger: ['blur','change'] },
-                    { required: true, validator: checkPassWord, trigger: ['blur','change'] },
-                ]"
-            >
-                <el-input
-                    clearable
-                    class="login-content-right-input-l"
-                    v-model.trim="value.confirmPassword"
-                    type="password"
-                    placeholder="确认密码"
-                    show-password
+                    <el-input
+                        class="login-content-right-input-l"
+                        v-model.trim="value.passWord"
+                        type="password"
+                        placeholder="请输入您的密码"
+                        show-password
+                    >
+                        <template #prefix>
+                            <img src="@/assets/login/login-password.svg" alt="" color="red"/>
+                        </template>
+                    </el-input>
+                </el-form-item>
+            </Transition>
+            
+            <Transition :duration="550" name="slide-up">
+                <el-form-item 
+                    v-if="props.type === '1'"
+                    prop="confirmPassword"
+                    class="login-content-right-input" 
+                    :rules="[
+                        { required: true, message: '请输入二次密码！', trigger: ['blur','change'] },
+                        { required: true, validator: checkPassWord, trigger: ['blur','change'] },
+                    ]"
                 >
-                    <template #prefix>
-                        <img src="@/assets/login/login-password.svg" alt="" color="red"/>
-                    </template>
-                </el-input>
-            </el-form-item>
-    
+                    <el-input
+                        clearable
+                        class="login-content-right-input-l"
+                        v-model.trim="value.confirmPassword"
+                        type="password"
+                        placeholder="确认密码"
+                        show-password
+                    >
+                        <template #prefix>
+                            <img src="@/assets/login/login-password.svg" alt="" color="red"/>
+                        </template>
+                    </el-input>
+                </el-form-item>
+            </Transition>
+        
             <el-form-item class="login-content-right-input login-content-right-c" prop="code">
                 <el-input
                     class="login-content-right-input-l login-content-right-input-code"
@@ -83,10 +91,12 @@ const props = defineProps({
     data:{
         default:{},
         type:Object
-    }
+    },
+    type:String
 });
 
 const emit = defineEmits(['update:data'])
+const ruleFormRef = ref();
 
 const value = reactive(props.data);
 watch(value,(o,n)=>{
@@ -114,6 +124,23 @@ const submitForm = async (formEl) => {
   })
 }
 
+const filterName = (type)=>{
+    switch (type) {
+        case '0':
+            return '登陆'
+        case '1':
+            return '注册'
+        case '2':
+            return '忘记密码'
+        default:
+            return '登陆'
+    }
+}
+
+const clearRules = ()=>{
+    ruleFormRef.value.resetFields();
+}
+
 const checkPassWord = (rule, v, callback)=>{
     if (v !== value.passWord) {
         callback(new Error("两次输入的密码不一致！"))
@@ -122,6 +149,10 @@ const checkPassWord = (rule, v, callback)=>{
     }
 }
 
+
+defineExpose({
+    clearRules,
+})
 </script>
 <style scoped>
 .login-content-right-title{
@@ -152,5 +183,19 @@ const checkPassWord = (rule, v, callback)=>{
     height: 40px;
     position: absolute;
     right: 0;
+}
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
 }
 </style>

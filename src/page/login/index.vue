@@ -6,17 +6,33 @@
         </div>
         <div class="login-content">
             <img class="login-content-img" src="@/assets/login/login-content.png" alt=""/>
-            <LoginForm v-model:data.sync="data">
-                <div class="login-content-login">
+            <LoginForm v-model:data.sync="data" :type="type" ref="loginFormRef">
+                <div class="login-content-login" v-if="type === '0'">
                     <el-button type="primary" color="#294aa5" class="login-content-button" @click="login">登录</el-button>
                     <div class="login-content-login-text">
-                        <el-button type="primary" text class="login-content-login-text-button">注册</el-button>
-                        <el-button type="primary" text class="login-content-login-text-button">忘记密码?</el-button>
+                        <el-button type="primary" text class="login-content-login-text-button" @click="()=>changeType('1')">注册</el-button>
+                        <el-button type="primary" text class="login-content-login-text-button" @click="()=>changeType('2')">忘记密码?</el-button>
                     </div>
                     <el-divider>或使用以下方式快速登录</el-divider>
                     <div class="login-content-other-login-text-button">
                         <img width="20" src="@//assets/login/tron-link-logo.svg"/>
                         <span>TronLink</span>
+                    </div>
+                </div>
+                <div v-if="type === '1'">
+                    <div>
+                        <el-button type="primary" color="#294aa5" class="login-content-button">注册</el-button>
+                    </div>
+                    <div>
+                        <el-button class="login-content-button" @click="()=>changeType('0')">返回</el-button>
+                    </div>
+                </div>
+                <div v-if="type === '2'" class="login-content-login-text-other">
+                    <div>
+                        <el-button type="primary" color="#294aa5" class="login-content-button">发送验证码</el-button>
+                    </div>
+                    <div>
+                        <el-button class="login-content-button" @click="()=>changeType('0')">返回</el-button>
                     </div>
                 </div>
             </LoginForm>
@@ -33,8 +49,22 @@
         code:""
     })
 
+    let type = ref('0');// 0是登陆 1 是注册 2 是忘记密码
+    let loginFormRef = ref();
+
     const login = ()=>{
         console.log(data);
+    }
+    const changeType = (t)=>{
+        Object.keys(data).map(v=>{
+            data[v] = '';
+        })
+        clearRules();
+        type.value = t;
+    }
+
+    const clearRules = ()=>{
+        loginFormRef.value.clearRules();
     }
 </script>
 <style scoped>
@@ -120,5 +150,9 @@
 }
 .login-content-other-login-text-button img{
     margin-right: 0.3em;
+}
+.login-content-login-text-other{
+    display: flex;
+    flex-direction: column;
 }
 </style>

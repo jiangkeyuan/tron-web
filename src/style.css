@@ -1,11 +1,9 @@
 /*css reset code */
-
 /****  文字大小初始化,使1em=10px *****/
 body {
   font-size: 62.5%;
   color: black !important;
 }
-
 /* for IE/Win */
 html>body {
   font-size: 15px;

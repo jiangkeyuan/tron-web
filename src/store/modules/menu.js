@@ -78,9 +78,8 @@ export default {
     },
   },
   mutations: {
-    setLanguage: (state, language) => {
-      state.language = language;
-      setStorage("lang", language);
-    },
+    changeMenuType:(state,t)=>{
+        state.menuType = t;
+    }
   },
 };

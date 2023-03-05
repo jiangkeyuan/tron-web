@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36" viewBox="0 0 36 36">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#266ef1"/>
+      <stop offset="1" stop-color="#2a47ab"/>
+    </linearGradient>
+    <filter id="头像" x="7" y="5.999" width="21.672" height="24.284" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feFlood flood-opacity="0.078"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="组_6730" data-name="组 6730" transform="translate(-1696.36 -32)">
+    <circle id="tu3" cx="18" cy="18" r="18" transform="translate(1696.36 32)" fill="url(#linear-gradient)"/>
+    <g transform="matrix(1, 0, 0, 1, 1696.36, 32)" filter="url(#头像)">
+      <path id="头像-2" data-name="头像" d="M99.3,43.305c-1.842,1.623-2.182,4.816-2.22,6.685,1.8,1.772,13.259,1.673,15.638,0,.228-2.13-.7-5.392-2.149-6.777-.56,0-1.081,0-1.573,0a2.023,2.023,0,0,1-1.059-.142,3.072,3.072,0,0,1-.628-1.544,4.37,4.37,0,0,0,.884-1.606,1.211,1.211,0,0,0,.528-.643,3.214,3.214,0,0,0,.179-1.226l0-.158-.13-.09a1.649,1.649,0,0,0-.149-.092c.259-1.927-.092-3.212-1.067-3.934a5.014,5.014,0,0,0-5.557.119c-.913.756-1.157,1.737-.867,3.859-.024.016-.05.032-.075.049l-.13.089,0,.159A3.192,3.192,0,0,0,101.1,39.3a1.188,1.188,0,0,0,.548.638,4.346,4.346,0,0,0,.973,1.7,3.415,3.415,0,0,1-.467,1.27,1.258,1.258,0,0,1-1.161.4c-.528,0-1.09,0-1.7,0h0Z" transform="translate(-87.08 -24)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

@@ -1,12 +1,16 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
-import { resolve } from "path";
+import path,{ resolve } from "path";
+import Icons from 'unplugin-icons/vite'
 // 引入viteMockServe
 import { viteMockServe } from "vite-plugin-mock";
 import viteCompression from "vite-plugin-compression";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import IconsResolver from 'unplugin-icons/resolver'
+import { svg4VuePlugin } from 'vite-plugin-svg4vue'
+const pathSrc = path.resolve(__dirname, 'src')
 
 import {
   createStyleImportPlugin,
@@ -22,6 +26,7 @@ export default ({ mode }) => {
   return defineConfig({
     plugins: [
       vue(),
+      svg4VuePlugin(),
 
       // viteCompression({
 
@@ -57,16 +62,44 @@ export default ({ mode }) => {
       }),
 
       AutoImport({
-        // 自动导入vue相关的Api
-        imports: ["vue", "vue-router", "vuex"], // 也支持vue-router、axios等
-        resolvers: [ElementPlusResolver()],
-        // 声明文件的存放位置
-        dts: "src/auto-imports.d.ts",
+        // Auto import functions from Vue, e.g. ref, reactive, toRef...
+        // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+        imports: ['vue',"vue-router", "vuex"],
+  
+        // Auto import functions from Element Plus, e.g. ElMessage, ElMessageBox... (with style)
+        // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
+        resolvers: [
+          ElementPlusResolver(),
+  
+          // Auto import icon components
+          // 自动导入图标组件
+          IconsResolver({
+            prefix: 'Icon',
+          }),
+        ],
+  
+        dts: path.resolve(pathSrc, 'auto-imports.d.ts'),
+      }),
+  
+      Components({
+        resolvers: [
+          // Auto register icon components
+          // 自动注册图标组件
+          IconsResolver({
+            enabledCollections: ['ep'],
+          }),
+          // Auto register Element Plus components
+          // 自动导入 Element Plus 组件
+          ElementPlusResolver(),
+        ],
+  
+        dts: path.resolve(pathSrc, 'components.d.ts'),
+      }),
+  
+      Icons({
+        autoInstall: true,
       }),
 
-      Components({
-        resolvers: [ElementPlusResolver()],
-      }),
 
       viteMockServe({
         logger: false,
@@ -74,8 +107,6 @@ export default ({ mode }) => {
         supportTs: false,
       }),
     ],
-
-    base:"./",
     resolve: {
       alias: {
         "@": resolve(__dirname, "src"),

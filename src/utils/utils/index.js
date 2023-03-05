@@ -1,3 +1,4 @@
+import { useRoute } from 'vue-router';
 import common from "./common.js";
 // 设置localStorage
 export const setStorage = function(key, obj) {
@@ -38,4 +39,9 @@ export const getBrowserLang = function() {
         defaultBrowserLang = 'en-US'
     }
     return defaultBrowserLang
+}
+
+export const getRouter = () =>{
+    const router = useRoute();
+    return router;
 }

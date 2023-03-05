@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import language from './modules/language';
+import menuList from './modules/menu.js';
 
 export default createStore({
   state: {
@@ -10,5 +11,6 @@ export default createStore({
   },
   modules: {
     language,
+    menuList
   }
 })

@@ -9,7 +9,8 @@ const props = defineProps({
     title:{
         type: String,
         default: "Feee.io"
-    }
+    },
+    isLogin:Boolean
 });
 </script>
 <style scoped>

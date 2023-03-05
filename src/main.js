@@ -11,6 +11,6 @@ const app = createApp(App);
 app.config.globalProperties.$mitt = mitt();
 app.use(ElemetPlusDirectivesPlugins)
     .use(router)
-    .use(store)
     .use(i18n)
+    .use(store)
     .mount('#app');

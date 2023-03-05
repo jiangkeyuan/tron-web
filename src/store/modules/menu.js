@@ -44,13 +44,6 @@ const buyerMenuList = [
 ];
 const sellerMenuList = [];
 
-import {
-    getStorage,
-    setStorage,
-    getBrowserLang,
-    getRouter
-}
-from '@/utils/utils/index.js';
 
 export default {
   state: {
@@ -58,7 +51,7 @@ export default {
   },
   getters: {
     menuList: () => {
-      const fullPath = getRouter().fullPath;
+      const fullPath = window.location.pathname;
       const isBuyer = fullPath.indexOf('buyer/');
       if(isBuyer){
         return buyerMenuList.map(v=>{

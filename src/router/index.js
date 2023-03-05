@@ -26,7 +26,41 @@ const routes = [
           helper: () => import('../page/buyer/sale-record/index.vue'),
           default:() => import('../page/buyer/sale-record/index.vue'),
         }
-      }
+      },
+
+      {
+        path: 'recharge',
+        components:{
+          helper: () => import('../page/buyer/recharge/index.vue'),
+          default:() => import('../page/buyer/recharge/index.vue'),
+        }
+      },
+      {
+        path: 'manual-lease',
+        components:{
+          helper: () => import('../page/buyer/manual-lease/index.vue'),
+          default:() => import('../page/buyer/manual-lease/index.vue'),
+        }
+      },
+
+      {
+        path: 'api-key',
+        components:{
+          helper: () => import('../page/buyer/api-key/index.vue'),
+          default:() => import('../page/buyer/api-key/index.vue'),
+        }
+      },
+
+      {
+        path: 'help',
+        components:{
+          helper: () => import('../page/buyer/help/index.vue'),
+          default:() => import('../page/buyer/help/index.vue'),
+        }
+      },
+
+
+
     ]
   },
 ]

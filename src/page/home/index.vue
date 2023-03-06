@@ -28,7 +28,6 @@ import { test } from "@/utils/axios/home/index.js";
 const { appContext } = getCurrentInstance();
 const count = ref(0);
 const setlang = (lang)=>{
-    const { appContext } = getCurrentInstance();
     appContext.config.globalProperties.$mitt.emit('changeLang',lang);
 }
 onMounted(() => { });

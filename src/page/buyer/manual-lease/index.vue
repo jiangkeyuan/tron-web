@@ -34,7 +34,6 @@ const form = reactive({});
 </script>
 <style scoped>
 .maual-lease{
-    margin: 16px;
     padding: 24px;
     box-sizing: border-box;
     color: #000000d9;

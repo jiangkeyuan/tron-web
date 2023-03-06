@@ -45,3 +45,74 @@ export const getRouter = () =>{
     const router = useRoute();
     return router;
 }
+
+/**
+ * @param text 用户需要复制的文本内容
+ * @param id
+ * @param callback
+ */
+export const copy = (copyEle)=>{
+    let {
+        id,
+        msg,
+        callback
+    } = copyEle;
+    msg = copyValue.fetchMsg(msg, id);
+    try {
+        copyValue.clipCopy(msg)
+    } catch (e) {
+        copyValue.inputCopy(msg)
+    } finally {
+        // 如果有回调则执行回调函数
+        if (callback) callback();
+    }
+}
+
+export let copyValue = {
+    /**
+     * @param data 复制的内容
+     * @desc   使用 input 方式进行内容复制
+     */
+    inputCopy(data) {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", data);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+    },
+    /**
+     * @desc 使用 clipboard 方式进行内容复制
+     */
+    clipCopy(data) {
+        if(!document.execCommand('copy')){
+            copyValue.inputCopy(data)
+            return;
+        }
+        let copyMethods = (e)=>{
+            e.clipboardData.setData('text/plain', data);
+            e.preventDefault();
+        }
+        document.addEventListener('copy', function copy(e) {
+            copyMethods(e);
+        })
+        document.execCommand('copy');
+        document.removeEventListener('copy', copyMethods);
+    },
+    /**
+     * @param text 复制内容
+     * @param id 提供 DOM 节点的 id 属性
+     * @desc 用来判断用户是直接复制内容,还是通过获取元素内容进行的
+     *       并且,这里并不会区分是 input 还是普通的 DOM 元素
+     */
+    fetchMsg(text, id) {
+        if (!id) return text;
+        let ele = document.querySelector('#' + id);
+        const TEXT = ['INPUT', 'TEXTAREA'];
+        console.log(ele.textContent);
+        if (TEXT.includes(ele.tagName))
+            return ele.textContent; 
+        else
+            return ele.innerHTML;
+    }
+}

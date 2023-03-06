@@ -35,6 +35,15 @@ const routes = [
           default:() => import('../page/buyer/recharge/index.vue'),
         }
       },
+
+      {
+        path: 'recharge-log',
+        components:{
+          helper: () => import('../page/buyer/recharge-log/index.vue'),
+          default:() => import('../page/buyer/recharge-log/index.vue'),
+        }
+      },
+
       {
         path: 'manual-lease',
         components:{

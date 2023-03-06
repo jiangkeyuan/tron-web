@@ -18,10 +18,20 @@
           @select="handleSelect"
         >
           <el-menu-item index="1">首页</el-menu-item>
-          <el-sub-menu index="2">
+          <el-sub-menu index="2" popper-class="sub-nav">
             <template #title>能量交易</template>
-            <el-menu-item index="2-1">自助交易</el-menu-item>
-            <el-menu-item index="2-2">快捷交易</el-menu-item>
+            <el-menu-item index="2-1">
+              <div class="link">
+                <div>自助交易</div>
+                <p class="intro">灵活选择 价格优惠</p>
+              </div>
+            </el-menu-item>
+            <el-menu-item index="2-2">
+              <div class="link">
+                <div>快捷交易</div>
+                <p class="intro">租期更长 快速成交</p>
+              </div>
+            </el-menu-item>
           </el-sub-menu>
           <el-menu-item index="3">小助手</el-menu-item>
           <el-menu-item index="4">推荐奖励</el-menu-item>
@@ -181,5 +191,19 @@ onMounted(() => {})
     width: 32px;
     height: 32px;
   }
+}
+:global(.el-popper.sub-nav) {
+  border: 0;
+}
+:global(.el-popper.sub-nav .el-menu-item) {
+  height: auto;
+  line-height: 1.5;
+}
+:global(.el-popper.sub-nav .el-menu .link) {
+  padding: 14px 34px;
+  color: #fff;
+}
+:global(.el-menu--horizontal) {
+  border: 0;
 }
 </style>

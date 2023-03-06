@@ -1,9 +1,5 @@
 <template>
-  <div class="root">
-    <el-config-provider>
-      <router-view></router-view>
-    </el-config-provider>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script setup>

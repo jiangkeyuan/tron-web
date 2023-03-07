@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ApiBox: typeof import('./components/api-box.vue')['default']
+    CooperationPopupWrapper: typeof import('./components/cooperation-popup-wrapper.vue')['default']
     DashbordContent: typeof import('./components/dashbord-content.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']

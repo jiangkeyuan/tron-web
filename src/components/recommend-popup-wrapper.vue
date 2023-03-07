@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    v-model="dialogVisible"
+    v-model="props.show"
     title=""
     width="500px"
     :before-close="handleClose"
@@ -25,15 +25,15 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+// import { ref, defineProps, defineEmits } from 'vue'
+const emit = defineEmits(['close'])
 const props = defineProps({
   show: {
     type: Boolean,
   }
 })
-const dialogVisible = ref(false)
-console.log('6666666',props.show)
 const handleClose = () => {
+    emit('close', false)
 }
 </script>
 

@@ -7,7 +7,39 @@
           <span class="text">Feee.io</span>
         </h1>
       </a>
-      <div class="navigation-wrapper">
+      <div class="navigation-wrapper nav">
+        <!-- <ul class="nav">
+          <li class="item">
+            <a class="link" href="/"><span>首页</span></a>
+          </li>
+          <li class="item">
+            <a class="link" href="/c2c">
+              <span>能量交易</span>
+            </a>
+            <ul class="sub-nav">
+              <li class="item">
+                <a href="/">
+                  <span></span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="item">
+            <a class="link" href=""><span></span></a>
+          </li>
+          <li class="item">
+            <a class="link" href=""><span></span></a>
+          </li>
+          <li class="item">
+            <a class="link" href=""><span></span></a>
+          </li>
+          <li class="item">
+            <a class="link" href=""><span></span></a>
+          </li>
+          <li class="item">
+            <a class="link" href=""><span></span></a>
+          </li>
+        </ul> -->
         <el-menu
           :default-active="activeIndex2"
           class="el-menu-demo"
@@ -17,18 +49,20 @@
           active-text-color="#ffd04b"
           @select="handleSelect"
         >
-          <el-menu-item index="1">首页</el-menu-item>
+          <el-menu-item index="1">
+            <a href="/"> 首页 </a>
+          </el-menu-item>
           <el-sub-menu index="2" popper-class="sub-nav">
             <template #title>能量交易</template>
             <el-menu-item index="2-1">
               <div class="link">
-                <div>自助交易</div>
+                <div class="sub-link_title">自助交易</div>
                 <p class="intro">灵活选择 价格优惠</p>
               </div>
             </el-menu-item>
             <el-menu-item index="2-2">
               <div class="link">
-                <div>快捷交易</div>
+                <div class="sub-link_title">快捷交易</div>
                 <p class="intro">租期更长 快速成交</p>
               </div>
             </el-menu-item>
@@ -62,11 +96,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 const activeIndex = ref('1')
 const activeIndex2 = ref('1')
+const emit = defineEmits(['itemClick'])
 const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath)
+  emit('itemClick', { key, keyPath })
 }
 onMounted(() => {})
 </script>
@@ -106,6 +141,9 @@ onMounted(() => {})
       height: 100%;
       .el-menu {
         height: 100%;
+      }
+      .el-menu-item {
+        font-size: 16px;
       }
       .el-menu--horizontal {
         border-bottom: 0;
@@ -205,5 +243,11 @@ onMounted(() => {})
 }
 :global(.el-menu--horizontal) {
   border: 0;
+}
+</style>
+<style lang="less">
+.el-sub-menu__title,
+.sub-link_title {
+  font-size: 16px;
 }
 </style>

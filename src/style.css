@@ -1,15 +1,21 @@
 /*css reset code */
 /****  文字大小初始化,使1em=10px *****/
-:root{
-  --el-color-primary:#294aa5 !important;
+:root {
+    --el-color-primary: #294aa5 !important;
 }
+
 body {
-  font-size: 62.5%;
-  color: black !important;
+    font-size: 62.5%;
+    color: black !important;
 }
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
 /* for IE/Win */
 html>body {
-  font-size: 15px;
+    font-size: 15px;
 }
 
 /* for everything else */
@@ -38,22 +44,22 @@ p,
 blockquote,
 th,
 td {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 fieldset,
 img {
-  border: 0;
+    border: 0;
 }
 
 img {
-  display: block;
+    display: block;
 }
 
 address,
@@ -63,18 +69,18 @@ code,
 dfn,
 th,
 var {
-  font-weight: normal;
-  font-style: normal;
+    font-weight: normal;
+    font-style: normal;
 }
 
 ol,
 ul {
-  list-style: none;
+    list-style: none;
 }
 
 caption,
 th {
-  text-align: left;
+    text-align: left;
 }
 
 h1,
@@ -83,22 +89,39 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: normal;
-  font-size: 100%;
+    font-size: 100%;
+    color: #000000d9;
+    font-weight: 500;
 }
 
 q:before,
 q:after {
-  content: '';
+    content: '';
 }
 
 abbr,
 acronym {
-  border: 0;
+    border: 0;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
+}
+
+.icon {
+    flex: none;
+    display: inline-block;
+    height: 1.2em;
+    vertical-align: middle;
+    --pd: 0.2em;
+}
+
+.tg-robot,
+.customer, 
+.to-top {
+    position: fixed;
+    z-index: 5;
+    right: 25px;
 }
 
 /*初始化结束*************************************************************** */

@@ -56,14 +56,14 @@
             <template #title>能量交易</template>
             <el-menu-item index="2-1">
               <div class="link">
-                <div class="sub-link_title">自助交易</div>
-                <p class="intro">灵活选择 价格优惠</p>
+                  <div class="sub-link_title">自助交易</div>
+                  <p class="intro">灵活选择 价格优惠</p>
               </div>
             </el-menu-item>
             <el-menu-item index="2-2">
               <div class="link">
-                <div class="sub-link_title">快捷交易</div>
-                <p class="intro">租期更长 快速成交</p>
+                  <div class="sub-link_title">快捷交易</div>
+                  <p class="intro">租期更长 快速成交</p>
               </div>
             </el-menu-item>
           </el-sub-menu>

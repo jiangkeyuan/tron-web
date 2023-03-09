@@ -18,6 +18,13 @@ const routes = [
           helper: () => import('../page/home/c2c/index.vue'),
           default: () => import('../page/home/c2c/index.vue')
         }
+      },
+      {
+        path: 'b2c',
+        components: {
+          helper: () => import('../page/home/b2c/index.vue'),
+          default: () => import('../page/home/b2c/index.vue')
+        }
       }
     ]
   },

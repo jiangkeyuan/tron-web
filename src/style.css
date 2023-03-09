@@ -108,6 +108,29 @@ a {
     text-decoration: none;
 }
 
+a {
+    color: #294aa5;
+    text-decoration: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: color .3s;
+    -webkit-text-decoration-skip: objects;
+}
+
+a:active, a:hover {
+    text-decoration: none;
+    outline: 0;
+}
+
+a:active {
+    color: #193180;
+}
+
+a:hover {
+    color: #4969b3;
+}
+
 .icon {
     flex: none;
     display: inline-block;
@@ -117,7 +140,7 @@ a {
 }
 
 .tg-robot,
-.customer, 
+.customer,
 .to-top {
     position: fixed;
     z-index: 5;

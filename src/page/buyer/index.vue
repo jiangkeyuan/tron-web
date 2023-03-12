@@ -127,18 +127,19 @@
 import Logo from "@/components/logo.vue";
 import GlobalIzation from "@/components/GlobalIzation.vue";
 import DefaultAvatar from "@/icons/default-avatar.svg?component";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 
-const rightTitle = computed(() => {
-  let title = "";
+const rightTitle = ref('');
+
+watch(route,() => {
   store.getters.menuList.map((v) => {
     if (v.isActive) {
-      title = v.title;
+      rightTitle.value = v.title;
     }
   });
-  return title;
 });
 
 const menuType = computed(() => {

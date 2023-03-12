@@ -89,6 +89,27 @@ const routes = [
           helper: () => import('../page/buyer/help/index.vue'),
           default: () => import('../page/buyer/help/index.vue')
         }
+      },
+      {
+        path: 'help/withdraw',
+        components: {
+          helper: () => import('../page/buyer/help/with-draw/index.vue'),
+          default: () => import('../page/buyer/help/with-draw/index.vue')
+        }
+      },
+      {
+        path: 'help/set-api-key',
+        components: {
+          helper: () => import('../page/buyer/help/set-api-key/index.vue'),
+          default: () => import('../page/buyer/help/set-api-key/index.vue')
+        }
+      },
+      {
+        path: 'help/recharge',
+        components: {
+          helper: () => import('../page/buyer/help/recharge/index.vue'),
+          default: () => import('../page/buyer/help/recharge/index.vue')
+        }
       }
     ]
   }

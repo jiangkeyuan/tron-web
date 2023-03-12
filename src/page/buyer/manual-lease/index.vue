@@ -17,7 +17,7 @@
                 </div>
             </el-form-item>
             <el-form-item label="租用天数:" class="maual-lease-item">
-                <el-input-number class="el-input-number" v-model="form.date" :min="1" :max="10" @change="handleChange" />
+                <el-input-number class="el-input-number" v-model="form.date" :min="1" :max="10" />
             </el-form-item>
             <el-form-item label="接收地址:" class="maual-lease-item">
                 <el-input v-model="form.name" />

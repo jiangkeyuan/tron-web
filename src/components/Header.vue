@@ -67,7 +67,7 @@
               </div>
             </el-menu-item>
           </el-sub-menu>
-          <el-menu-item index="3">小助手</el-menu-item>
+          <!-- <el-menu-item index="3">小助手</el-menu-item> -->
           <el-menu-item index="4">推荐奖励</el-menu-item>
           <el-menu-item index="5">平台公告</el-menu-item>
           <el-menu-item index="6">

@@ -25,6 +25,28 @@ const routes = [
           helper: () => import('../page/home/b2c/index.vue'),
           default: () => import('../page/home/b2c/index.vue')
         }
+      },
+      {
+        path: 'announcement',
+        components: {
+          helper: () => import('../page/home/announcement/index.vue'),
+          default: () => import('../page/home/announcement/index.vue')
+        }
+      },
+      {
+        path: 'announcement/detail',
+        components: {
+          helper: () => import('../page/home/announcement/detail.vue'),
+          default: () => import('../page/home/announcement/detail.vue')
+        }
+      },
+      {
+        path: 'help/:id',
+        name: 'help',
+        components: {
+          helper: () => import('../page/home/help/index.vue'),
+          default: () => import('../page/home/help/index.vue')
+        }
       }
     ]
   },

@@ -8,9 +8,11 @@
       <p class="features" style="margin-bottom: 5px">能量 | 兑换</p>
       <p class="features">查询 | 监控</p>
     </a>
-    <div class="to-top-wrapper to-top">
+    <!-- <div class="to-top-wrapper to-top">
       <img src="@/assets/logo/logo.svg" alt="" class="icon" />
-    </div>
+       
+    </div> -->
+    <el-backtop class="to-top" :right="25" bottom="" />
     <a class="customer-wrapper customer" href="http://" target="_blank">
       <img src="@/assets/logo/logo.svg" alt="" class="icon" />
       <p class="title">在线客服</p>
@@ -39,13 +41,16 @@ const itemClick = ({ key }) => {
   console.log(key)
   switch (key) {
     case '2-1':
-        router.push('c2c')
+      router.push('/c2c')
       break
     case '2-2':
-        router.push('b2c')
+      router.push('/b2c')
       break
     case '4':
       recommendDialogVisible.value = true
+      break
+    case '5':
+      router.push('/announcement')
       break
     case '7':
       cooperationDialogVisible.value = true
@@ -94,20 +99,8 @@ onMounted(() => {})
 }
 .to-top {
   bottom: calc(15% - 80px);
-}
-.to-top-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 60px;
   height: 60px;
-  border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0 0 10px #00000026;
-  cursor: pointer;
-  .icon {
-    color: #2a4da0;
-  }
 }
 .customer {
   bottom: 15%;

@@ -92,13 +92,13 @@
       <h2 class="title">FAQ</h2>
       <div class="main">
         <ul class="faq-list">
-          <li><a href="/">什么是能量？能量是免费的吗？</a></li>
-          <li><a href="/">能量有什么用？</a></li>
-          <li><a href="/">如何获得能量？</a></li>
-          <li><a href="/">如何租用能量？</a></li>
-          <li><a href="/">支付成功后，能量什么时候到账？</a></li>
-          <li><a href="/">能量使用后多久能恢复满？</a></li>
-          <li><a href="/">订单可以撤回吗？</a></li>
+          <li
+            v-for="(item, index) in helpList"
+            :key="index"
+            @click="toHelp(item.id)"
+          >
+            <a href="javascript:void(0)">{{ item.title }}</a>
+          </li>
         </ul>
       </div>
     </section>
@@ -106,7 +106,47 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const router = useRouter()
+const helpList = [
+  {
+    title: '什么是能量？能量是免费的吗？',
+    id: 'q1'
+  },
+  {
+    title: '能量有什么用？',
+    id: 'q2'
+  },
+  {
+    title: '如何获得能量？',
+    id: 'q3'
+  },
+  {
+    title: '如何租用能量？',
+    id: 'q4'
+  },
+  {
+    title: '支付成功后，能量什么时候到账？',
+    id: 'q5'
+  },
+  {
+    title: '能量使用后多久能恢复满？',
+    id: 'q6'
+  },
+  {
+    title: '订单可以撤回吗？',
+    id: 'q7'
+  }
+]
+const toHelp = id => {
+  router.push({
+    name: 'help',
+    params: {
+      id: id
+    }
+  })
+}
+</script>
 
 <style lang="less" scoped>
 .page {

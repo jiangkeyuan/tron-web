@@ -4,7 +4,7 @@
       class="api-key-button"
       type="primary"
       v-if="apiList.length !== 0"
-      @click="createApi"
+      @click="createAPIKEY"
       >创建API密钥</el-button
     >
 
@@ -44,7 +44,11 @@
         <div class="api-key-content-header">
           <div class="api-key-content-header-left">
             <span class="api-key-content-header-left-title">1111</span>
-            <span class="api-key-content-header-left-edit" @click="()=>edit(item)">编辑</span>
+            <span
+              class="api-key-content-header-left-edit"
+              @click="() => edit(item)"
+              >编辑</span
+            >
           </div>
           <div class="api-key-content-header-left">
             <span
@@ -84,6 +88,7 @@
 <script setup>
 import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
+import { createAPIKEY } from "@/utils/utils/utils-ui.js";
 const apiList = ref([
   {
     id: 169,
@@ -118,32 +123,13 @@ const copyEnd = (msg) => {
   });
 };
 
-const createApi = () => {
-  ElMessageBox.prompt("", "请输入Key的名称，以便区分统计", {
-    confirmButtonText: "创建KEY",
-    showCancelButton: false,
-    inputErrorMessage: "Invalid Email",
-    beforeClose: (a, b, done) => {
-      if (a === "confirm") {
-        done();
-      }
-    },
-  });
-  // .then(({ value }) => {
-  //     ElMessage({
-  //         type: 'success',
-  //         message: `Your email is:${value}`,
-  //     })
-  // })
-};
-
 const edit = (item) => {
   ElMessageBox.prompt("", "请输入Key的名称，以便区分统计", {
     confirmButtonText: "创建KEY",
     inputErrorMessage: "Invalid Email",
-    inputPlaceholder:"请输入内容",
+    inputPlaceholder: "请输入内容",
     showCancelButton: false,
-    inputValue:item.name,
+    inputValue: item.name,
     beforeClose: (a, b, done) => {
       if (a === "confirm") {
         done();

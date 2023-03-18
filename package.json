@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "echarts": "^5.4.1",
     "element-plus": "^2.2.12",
     "mitt": "^3.0.0",
+    "tronweb": "^5.1.0",
     "vue": "^3.2.45",
     "vue-axios": "^3.4.1",
     "vue-i18n": "^9.2.2",

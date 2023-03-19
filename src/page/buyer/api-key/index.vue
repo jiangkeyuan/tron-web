@@ -1,12 +1,6 @@
 <template>
   <div class="api-key">
-    <el-button
-      class="api-key-button"
-      type="primary"
-      v-if="apiList.length !== 0"
-      @click="createAPIKEY"
-      >创建API密钥</el-button
-    >
+    <el-button class="api-key-button" type="primary" v-if="apiList.length !== 0" @click="createAPIKEY">创建API密钥</el-button>
 
     <div class="api-key-content" v-if="apiList.length === 0">
       <DashBord>
@@ -15,13 +9,8 @@
             <span class="api-key-content-header-left-title">API密钥(0/3)</span>
           </div>
           <div class="api-key-content-header-left">
-            <span
-              class="api-key-content-header-left-title api-key-content-header-left-title-color"
-              >如何使用API?</span
-            >
-            <el-button class="api-key-button" type="primary" @click="createApi"
-              >创建API密钥</el-button
-            >
+            <span class="api-key-content-header-left-title api-key-content-header-left-title-color">如何使用API?</span>
+            <el-button class="api-key-button" type="primary" @click="createApi">创建API密钥</el-button>
           </div>
         </div>
 
@@ -43,41 +32,29 @@
       <DashBord>
         <div class="api-key-content-header">
           <div class="api-key-content-header-left">
-            <span class="api-key-content-header-left-title">1111</span>
-            <span
-              class="api-key-content-header-left-edit"
-              @click="() => edit(item)"
-              >编辑</span
-            >
+            <span class="api-key-content-header-left-title">{{ item.value }}</span>
+            <span class="api-key-content-header-left-edit" @click="() => edit(item)">编辑</span>
           </div>
           <div class="api-key-content-header-left">
-            <span
-              class="api-key-content-header-left-title api-key-content-header-left-title-color"
-              >e7311742-6980-4959-825d-f3e20b7cf4ed</span
-            >
-            <el-icon
-              size="15"
-              @click="copyEnd"
-              class="recharge-content-address-icon"
-              color="#294aa5"
-              ><CopyDocument
-            /></el-icon>
+            <span class="api-key-content-header-left-title api-key-content-header-left-title-color">{{ item.id }}</span>
+            <el-icon size="15" @click="() => copyEnd(item.id)" class="recharge-content-address-icon" color="#294aa5">
+              <CopyDocument />
+            </el-icon>
           </div>
         </div>
 
         <div class="api-key-content-header-body">
           <div class="api-key-content-header-body-item">
             <span class="api-key-content-header-body-item-key">今日租用:</span>
-            <span class="api-key-content-header-body-item-value"
-              >0 能量 / 消耗 0 TRX</span
-            >
+            <span class="api-key-content-header-body-item-value">{{ item.rentalEnergy }} 能量 / 消耗 {{ item.usedAmount }}
+              TRX</span>
           </div>
 
           <div class="api-key-content-header-body-item">
-            <span class="api-key-content-header-body-item-key">今日租用:</span>
-            <span class="api-key-content-header-body-item-value"
-              >0 能量 / 消耗 0 TRX</span
-            >
+            <span class="api-key-content-header-body-item-key">昨日租用:</span>
+            <span class="api-key-content-header-body-item-value">{{ item.billingEnergy }} 能量 / 消耗 {{ item.sbillingAmount
+            }}
+              TRX</span>
           </div>
         </div>
       </DashBord>
@@ -89,30 +66,9 @@
 import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
 import { createAPIKEY } from "@/utils/utils/utils-ui.js";
-const apiList = ref([
-  {
-    id: 169,
-    user_id: 895,
-    name: "765432",
-    key: "d4f98bf8-59f9-4b95-a824-c94f133f8969",
-    used: 0,
-    quota: 0,
-    qps: 5,
-    energy_surplus: 0,
-    bandwidth_surplus: 0,
-    today_consume_trx_amount: 0,
-    today_energy_value: 0,
-    today_bandwidth_value: 0,
-    yesterday_consume_trx_amount: 0,
-    yesterday_energy_value: 0,
-    yesterday_bandwidth_value: 0,
-    all_consume_trx_amount: 0,
-    all_energy_value: 0,
-    all_bandwidth_value: 0,
-    create_time: 1678441934,
-    status: 1,
-  },
-]);
+import { getApiList } from '@/utils/axios/buyer/index.js'
+import { onMounted } from "vue";
+const apiList = ref([]);
 
 const copyEnd = (msg) => {
   copy({
@@ -137,15 +93,31 @@ const edit = (item) => {
     },
   });
 };
+
+const createApi = () => {
+  createAPIKEY();
+}
+const searchApi = async () => {
+  const data = await getApiList("/tron/user/apikeys/12456");
+  if (data.code === 12000) {
+    apiList.value = data.data;
+  }
+}
+
+onMounted(() => {
+  searchApi();
+})
 </script>
 <style scoped>
 .api-key {
   text-align: end;
   padding: 16px 0;
 }
+
 .api-key-content {
   margin-top: 20px;
 }
+
 .api-key-content-header {
   height: 38px;
   display: flex;
@@ -154,26 +126,32 @@ const edit = (item) => {
   align-items: center;
   box-sizing: border-box;
 }
+
 .api-key-content-header-left {
   font-size: 16px;
   height: 100%;
   line-height: 38px;
 }
+
 .api-key-content-header-left-title {
   margin-right: 15px;
 }
+
 .api-key-content-header-left-edit {
   font-size: 14px;
   color: #294aa5;
   cursor: pointer;
 }
+
 .recharge-content-address-icon {
   cursor: pointer;
 }
+
 .api-key-content-header-left-title-color {
   color: #707582;
   font-size: 15px;
 }
+
 .api-key-content-header-body {
   width: 100%;
   background: #f4f8ff;
@@ -187,17 +165,20 @@ const edit = (item) => {
   flex-direction: column;
   justify-content: center;
 }
+
 .api-key-content-header-body-item {
   height: 32px;
   padding: 10px 0;
   font-size: 15px;
 }
+
 .api-key-content-header-body-item-key {
   text-align: right;
   width: 80px;
   height: 32px;
   color: black;
 }
+
 .api-key-content-header-body-item-value {
   margin-left: 15px;
   color: #266ef1;

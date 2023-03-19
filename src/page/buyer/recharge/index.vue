@@ -73,16 +73,20 @@ const addMoney = async () => {
     method: "tron_requestAccounts",
   });
   if (!isRead) return;
-  console.log(isRead);
-  const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
-  const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
-    "TFoTX1MtKuG97pUo3crNXjdZLY6fS77777",
-    1,
-    base58Key
-  );
-  const signedTxn = await tronWeb.trx.sign(unsignedTxn);
-  var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
-  console.log(broastTx);
+  tronWeb.trx.signMessage("111").then((res) => {
+    console.log(res);
+  });
+
+  // console.log(isRead);
+  // const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
+  // const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
+  //   "TFoTX1MtKuG97pUo3crNXjdZLY6fS77777",
+  //   1,
+  //   base58Key
+  // );
+  // const signedTxn = await tronWeb.trx.sign(unsignedTxn);
+  // var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
+  // console.log(broastTx);
 };
 
 onMounted(async () => {});

@@ -28,113 +28,22 @@
       </div>
     </div>
     <div class="home-right">
-      <div class="home-right-wrapper">
-        <div class="home-right-wrapper-header">
-          <span class="home-right-wrapper-header-l"> {{ title(0) }} / </span>
-          <span class="home-right-wrapper-header-r">
-            {{ rightTitle }}
-          </span>
-        </div>
-
-        <div class="home-wrapper-user">
-          <GlobalIzation></GlobalIzation>
-
-          <el-dropdown class="el-dropdown-link" trigger="click">
-            <div class="home-wrapper-user">
-              <DefaultAvatar
-                class="home-wrapper-user-avatar"
-                width="36"
-                height="36"
-              ></DefaultAvatar>
-              <div class="home-wrapper-user-no">
-                <span class="home-wrapper-user-no-name">
-                  554125225@qq.com
-                  <el-icon class="home-left-button-icon">
-                    <ArrowDown />
-                  </el-icon>
-                </span>
-                <span class="home-wrapper-user-no-amount"
-                  >余额：53.436533 TRX</span
-                >
-              </div>
-            </div>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>
-                  <div class="home-wrapper-user-item">
-                    <el-icon color="rgb(47, 76, 159)">
-                      <Setting />
-                    </el-icon>
-                    <span>修改密码</span>
-                  </div>
-                </el-dropdown-item>
-                <el-dropdown-item class="home-wrapper-user-item">
-                  <div class="home-wrapper-user-item">
-                    <el-icon color="rgb(47, 76, 159)">
-                      <WalletFilled />
-                    </el-icon>
-                    资金账变
-                  </div>
-                </el-dropdown-item>
-                <el-dropdown-item class="home-wrapper-user-item">
-                  <div class="home-wrapper-user-item">
-                    <el-icon color="rgb(47, 76, 159)">
-                      <Postcard />
-                    </el-icon>
-                    用户信息
-                  </div>
-                </el-dropdown-item>
-                <el-dropdown-item class="home-wrapper-user-item">
-                  <div class="home-wrapper-user-item">
-                    <el-icon color="rgb(47, 76, 159)">
-                      <Star />
-                    </el-icon>
-                    我的推荐
-                  </div>
-                </el-dropdown-item>
-                <el-dropdown-item class="home-wrapper-user-item">
-                  <div class="home-wrapper-user-item">
-                    <el-icon color="rgb(47, 76, 159)">
-                      <Switch />
-                    </el-icon>
-                    切换{{ rightTitle }}
-                  </div>
-                </el-dropdown-item>
-                <el-dropdown-item class="home-wrapper-user-item">
-                  <div class="home-wrapper-user-item">
-                    <el-icon color="rgb(47, 76, 159)">
-                      <SwitchButton />
-                    </el-icon>
-                    退出登录
-                  </div>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
-      </div>
+      <DashbordTitle></DashbordTitle>
       <router-view></router-view>
-
-      <!-- <router-view v-slot="{ Component }">
-                <Transition name="slide-up">
-                    <component :is="Component" />
-                </Transition>
-            </router-view> -->
     </div>
   </div>
 </template>
 <script setup>
 import Logo from "@/components/logo.vue";
-import GlobalIzation from "@/components/GlobalIzation.vue";
-import DefaultAvatar from "@/icons/default-avatar.svg?component";
-import { useRouter,useRoute } from "vue-router";
+import DashbordTitle from "./dashbord-title.vue";
+import { useRouter, useRoute } from "vue-router";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
 
-const rightTitle = ref('');
+const rightTitle = ref("");
 
-watch(route,() => {
+watch(route, () => {
   store.getters.menuList.map((v) => {
     if (v.isActive) {
       rightTitle.value = v.title;

@@ -1,16 +1,16 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
-import path, { resolve } from 'path'
-import Icons from 'unplugin-icons/vite'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import AutoImport from "unplugin-auto-import/vite";
+import path, { resolve } from "path";
+import Icons from "unplugin-icons/vite";
 // 引入viteMockServe
-import { viteMockServe } from 'vite-plugin-mock'
-import viteCompression from 'vite-plugin-compression'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import IconsResolver from 'unplugin-icons/resolver'
-import { svg4VuePlugin } from 'vite-plugin-svg4vue'
-const pathSrc = path.resolve(__dirname, 'src')
+import { viteMockServe } from "vite-plugin-mock";
+import viteCompression from "vite-plugin-compression";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import IconsResolver from "unplugin-icons/resolver";
+import { svg4VuePlugin } from "vite-plugin-svg4vue";
+const pathSrc = path.resolve(__dirname, "src");
 
 import {
   createStyleImportPlugin,
@@ -18,8 +18,8 @@ import {
   VantResolve,
   ElementPlusResolve,
   NutuiResolve,
-  AntdResolve
-} from 'vite-plugin-style-import'
+  AntdResolve,
+} from "vite-plugin-style-import";
 
 export default ({ mode }) => {
   return defineConfig({
@@ -28,9 +28,9 @@ export default ({ mode }) => {
       preprocessorOptions: {
         less: {
           charset: false,
-          additionalData: '@import "./src/assets/style/global.less";'
-        }
-      }
+          additionalData: '@import "./src/assets/style/global.less";',
+        },
+      },
     },
     plugins: [
       vue(),
@@ -62,17 +62,17 @@ export default ({ mode }) => {
 
           NutuiResolve(),
 
-          AntdResolve()
+          AntdResolve(),
         ],
 
         // 自定义规则
-        libs: []
+        libs: [],
       }),
 
       AutoImport({
         // Auto import functions from Vue, e.g. ref, reactive, toRef...
         // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
-        imports: ['vue', 'vue-router', 'vuex'],
+        imports: ["vue", "vue-router", "vuex"],
 
         // Auto import functions from Element Plus, e.g. ElMessage, ElMessageBox... (with style)
         // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
@@ -82,11 +82,11 @@ export default ({ mode }) => {
           // Auto import icon components
           // 自动导入图标组件
           IconsResolver({
-            prefix: 'Icon'
-          })
+            prefix: "Icon",
+          }),
         ],
 
-        dts: path.resolve(pathSrc, 'auto-imports.d.ts')
+        dts: path.resolve(pathSrc, "auto-imports.d.ts"),
       }),
 
       Components({
@@ -94,39 +94,39 @@ export default ({ mode }) => {
           // Auto register icon components
           // 自动注册图标组件
           IconsResolver({
-            enabledCollections: ['ep']
+            enabledCollections: ["ep"],
           }),
           // Auto register Element Plus components
           // 自动导入 Element Plus 组件
-          ElementPlusResolver()
+          ElementPlusResolver(),
         ],
 
-        dts: path.resolve(pathSrc, 'components.d.ts')
+        dts: path.resolve(pathSrc, "components.d.ts"),
       }),
 
       Icons({
-        autoInstall: true
+        autoInstall: true,
       }),
 
       viteMockServe({
         logger: false,
-        mockPath: './mock/',
-        supportTs: false
-      })
+        mockPath: "mock",
+        supportTs: false,
+      }),
     ],
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src'),
-        '@store': resolve(__dirname, 'src/store')
-      }
+        "@": resolve(__dirname, "src"),
+        "@store": resolve(__dirname, "src/store"),
+      },
     },
 
     build: {
-      outDir: 'tron-web',
+      outDir: "tron-web",
       sourcemap: true,
       chunkSizeWarningLimit: 800,
-      assetsDir: './assets',
-      emptyOutDir: false
+      assetsDir: "./assets",
+      emptyOutDir: false,
       // rollupOptions: {
       //   input: entrances,
       //   output: {
@@ -139,7 +139,7 @@ export default ({ mode }) => {
 
     server: {
       port: 3000, //启动端口
-      host: '0.0.0.0',
+      host: "0.0.0.0",
       open: true, // 自动打开
       proxy: {
         // "/dapi": {
@@ -147,7 +147,7 @@ export default ({ mode }) => {
         //   changeOrigin: true,
         //   rewrite: path => path.replace(/^\/dapi/, ""),
         // },
-      }
-    }
-  })
-}
+      },
+    },
+  });
+};

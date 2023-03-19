@@ -1,144 +1,205 @@
 <template>
-    <el-form :model="form" inline class="sale-record sale-record-search">
-        <el-form-item label="订单号">
-        <el-input v-model="form.name" />
-        </el-form-item>
-        <el-form-item label="接收">
-        <el-input v-model="form.name" />
-        </el-form-item>
-        <el-form-item label="时间">
-        <el-date-picker
-            v-model="form.date"
-            type="datetimerange"
-            range-separator="To"
-            start-placeholder="Start date"
-            end-placeholder="End date"
-        />
-        </el-form-item>
-        <el-form-item label="Api Key">
-        <el-select
-            empty="11111"
-            v-model="form.region"
-            placeholder="please select your zone"
-        >
-            <el-option v-for="i in apiKey" :label="i.label" :value="i.value" />
-            <div slot="empty">
-            <el-empty description="description" />
-            </div>
-        </el-select>
-        </el-form-item>
-        <el-form-item>
-        <el-button>重置</el-button>
-        <el-button type="primary" color="#294aa5">查询</el-button>
-        </el-form-item>
-    </el-form>
-    <div class="sale-record sale-record-table">
-        <el-radio-group v-model="form.type" class="sale-record-group">
-            <el-radio-button label="top">全部</el-radio-button>
-            <el-radio-button label="right">待质押</el-radio-button>
-            <el-radio-button label="bottom">质押中</el-radio-button>
-            <el-radio-button label="left">即将结束</el-radio-button>
-            <el-radio-button label="bottom">已完成</el-radio-button>
-            <el-radio-button label="left">未生效</el-radio-button>
-        </el-radio-group>
-        <el-table :data="tableData" stripe class="sale-record-table-list">
-            <el-table-column prop="order_no" label="订单号" width="220"/>
-            <el-table-column prop="receive_address" label="接收" width="180"/>
-            <el-table-column prop="min_amount" label="租用量" width="120"/>
-            <el-table-column prop="frozen_resource_value" label="已完成租用量" width="120"/>
-            <el-table-column prop="pay_action" label="租用时长" width="120"/>
-            <el-table-column prop="freeze_time" label="支付时间" width="180"/>
-            <el-table-column prop="freeze_time" label="质押时间"  width="180"/>
-            <el-table-column prop="freeze_time" label="到期时间"  width="180"/>
-            <el-table-column prop="pay_amount" label="支付金额" width="120"/>
-            <el-table-column prop="pay_status" label="状态" width="120"/>
-            <el-table-column prop="date" label="更多操作" width="120"/>
-        </el-table>
-        <div class="sale-record-table-pagination">
-            <el-pagination layout="prev, pager, next" :total="50" />
-        </div>
-        
+  <el-form :model="form" inline class="sale-record sale-record-search">
+    <el-form-item label="订单号">
+      <el-input v-model="form.orderNo" />
+    </el-form-item>
+    <el-form-item label="接收">
+      <el-input v-model="form.toAddress" />
+    </el-form-item>
+    <el-form-item label="时间">
+      <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
+        end-placeholder="End date" />
+    </el-form-item>
+    <el-form-item label="Api Key">
+      <el-select empty="11111" v-model="form.region" placeholder="please select your zone">
+        <el-option v-for="i in apiKey" :label="i.label" :value="i.value" />
+      </el-select>
+    </el-form-item>
+    <el-form-item>
+      <el-button @click="reset">重置</el-button>
+      <el-button type="primary" color="#294aa5" @click="seach">查询</el-button>
+    </el-form-item>
+  </el-form>
+  <div class="sale-record sale-record-table">
+    <el-radio-group v-model="form.type" class="sale-record-group">
+      <el-radio-button label="top">全部</el-radio-button>
+      <el-radio-button label="right">待质押</el-radio-button>
+      <el-radio-button label="bottom">质押中</el-radio-button>
+      <el-radio-button label="left">即将结束</el-radio-button>
+      <el-radio-button label="bottom">已完成</el-radio-button>
+      <el-radio-button label="left">未生效</el-radio-button>
+    </el-radio-group>
+
+    <el-table :data="tableData" stripe class="sale-record-table-list">
+      <el-table-column prop="orderNo" label="订单号" width="220" />
+      <el-table-column prop="toAddress" label="接收" width="180" />
+      <el-table-column prop="rentalQuantity" label="租用量" width="120" />
+      <el-table-column prop="doneRentalQuantity" label="已完成租用量" width="120" />
+      <el-table-column prop="rentalDays" label="租用时长" width="120" />
+      <el-table-column prop="payDate" label="支付时间" width="180" />
+      <el-table-column prop="stakeDate" label="质押时间" width="180" />
+      <el-table-column prop="freeze_time" label="到期时间" width="180" />
+      <el-table-column prop="payAmount" label="支付金额" width="120" />
+      <el-table-column prop="orderStatus" label="状态" width="120" />
+      <el-table-column prop="date" label="更多操作" width="220" fixed="right">
+        <template #default="scope">
+          <el-button link type="primary" size="small" @click="details(scope)">订单详情</el-button>
+          <el-button link type="primary" size="small" @click="gotoNew(scope.row.aaa)">质押详情</el-button>
+          <el-button link type="primary" size="small" @click="gotoNew(scope.row.aaa)">解压详情</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="sale-record-table-pagination">
+      <el-pagination layout="prev, pager, next" :total="50" />
     </div>
+
+    <el-dialog v-model="dialogTableVisible" append-to-body center :title="`订单号:${detailsValue.orderNo}`">
+      <div class="custom-modal-centent">
+        <div class="modal-content">
+          <div class="detail">
+            <div>用户：<span class="text">375149089@qq.com</span></div>
+            <div>
+              钱包地址:
+              <a class="jump-a" target="_blank"
+                :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq</a>
+            </div>
+            <div>
+              <div>TRX余额：<span class="text">0</span></div>
+            </div>
+          </div>
+          <div class="detail">
+            <div>
+              交易哈希：
+              <span class="text" style="padding: 0px 5px">-</span>
+            </div>
+            <div>
+              apiKey：
+              <span class="text" style="padding: 0px 5px">-</span>
+            </div>
+            <div>
+              接收：
+              <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
+                detailsValue.toAddress }}</a>
+            </div>
+            <div>
+              租用量：<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
+                <use xlink:href="#icon-seller-selling-energy"></use>
+              </svg><span class="text">{{ detailsValue.rentalQuantity }}</span>
+            </div>
+            <div>
+              已完成租用量：<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
+                <use xlink:href="#icon-seller-selling-energy"></use>
+              </svg><span class="text">{{ detailsValue.doneRentalQuantity }}</span>
+            </div>
+            <div>
+              租用时长：<span class="text">{{ detailsValue.rentalDays }} <span style="padding: 0px 2px">天</span></span>
+            </div>
+            <div>支付金额： <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
+            <div>
+              支付时间：
+              <span class="text">{{ detailsValue.payDate }}</span>
+            </div>
+            <div>
+              质押时间：
+              <span class="text">{{ detailsValue.stakeDate }}</span>
+            </div>
+            <div>
+              到期时间：
+              <span class="text">{{ detailsValue.expiredDate }}</span>
+            </div>
+            <div class="flex">
+              <span>状态：</span>
+              <div style="
+                          display: inline-block;
+                          width: fit-content;
+                          padding: 1px 7px;
+                          margin: 0px;
+                          background: rgb(255, 255, 255);
+                          border: 1px solid rgb(191, 191, 191);
+                          border-radius: 3px;
+                          font-size: 12px;
+                          color: rgb(191, 191, 191);
+                        ">
+                已完成
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script setup>
+import { getRentals } from "@/utils/axios/buyer/index.js";
 const form = reactive({
   date: [],
-  type:"top"
+  type: "top",
 });
 const apiKey = ref([]);
-const tableData = ref([
-  {
-    order_no: "2301151573104199689100",
-    order_num: 1,
-    order_type: 1,
-    api_key: "75c3b3b7-cd41-48c5-b0f2-3a236b10a620",
-    resource_type: 1,
-    receive_address: "TBKkub****a3Amvd",
-    price_in_sun: 85,
-    min_amount: 14650,
-    min_payout: 2.801813,
-    min_freeze: 644,
-    max_amount: 14650,
-    max_payout: 2.801813,
-    max_freeze: 644,
-    freeze_time: "2023-01-15 14:47:31",
-    unfreeze_time: 1674024459,
-    expire_time: 1674024452,
-    create_time: 1673765251,
-    resource_value: 14650,
-    resource_split_value: 0,
-    frozen_resource_value: 14650,
-    rent_duration: 3,
-    rent_expire_time: 1674024452,
-    frozen_balance: 644,
-    frozen_duration: 3,
-    frozen_tx_id:
-      "11bf439e8808750b1dfe81671c60e9b3de41cb40981472ca016f064bcd825ca4",
-    unfreeze_tx_id:
-      "66a98f86a4bfc3be4648c5df797c8321fa7f4b19639eccdf1ef5695de1874ac6",
-    settle_amount: 2.801813,
-    settle_address: "TN4idXszFtuSdnsjfGw9TzWHeMeYupV3dx",
-    pay_action: 3,
-    pay_address: "",
-    pay_time: 1673765251,
-    pay_tx_id: "",
-    pay_symbol: "TRX",
-    pay_amount: 3.73575,
-    pay_status: 2,
-    is_split: 0,
-    cancel_tx_id: "",
-    refund_tx_id: "",
-    status: 9,
-    api: {
-      id: 91,
-      user_id: 232,
-      name: "ceshi",
-      key: "75c3b3b7-cd41-48c5-b0f2-3a236b10a620",
-      used: 0,
-      quota: 0,
-      qps: 5,
-      energy_surplus: 0,
-      bandwidth_surplus: 0,
-      today_consume_trx_amount: 0,
-      today_energy_value: 0,
-      today_bandwidth_value: 0,
-      yesterday_consume_trx_amount: 0,
-      yesterday_energy_value: 0,
-      yesterday_bandwidth_value: 0,
-      all_consume_trx_amount: 3.73575,
-      all_energy_value: 14650,
-      all_bandwidth_value: 0,
-      create_time: 1672118368,
-      status: 1,
-    },
-  },
-]);
+const tableData = ref([]);
+const dialogTableVisible = ref(false);
+const detailsValue = reactive({});
+const details = (v) => {
+  Object.assign(detailsValue, v.row);
+  dialogTableVisible.value = true;
+};
+const gotoNew = (url) => {
+  window.open(`https://tronscan.org/#/transaction/${url}`, '_blank');
+}
+
+const seach = async () => {
+  const data = await getRentals("/tron/user/rentals/12456");
+  tableData.value = data.data;
+}
+
+const reset = () => {
+  Object.keys(form).map(v => {
+    form[v] = '';
+  })
+  form.date = [];
+}
+
+
+onMounted(async () => {
+  seach();
+});
 </script>
 <style scoped>
-.test{
-    display: flex;
-    flex-direction: column;
+.modal-content {}
+
+.text {
+  font-size: 14px;
+  font-family: PingFang SC, PingFang SC-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #121c41;
 }
+
+.jump-a {
+  color: #294aa5;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.detail {
+  padding: 10px;
+  border: 1px dashed transparent;
+  background: linear-gradient(white, white) padding-box,
+    repeating-linear-gradient(-45deg, #ccc 0, #ccc 0.3em, white 0, white 0.5em);
+}
+
+.detail div {
+  margin: 0.4em 0;
+}
+
+.test {
+  display: flex;
+  flex-direction: column;
+}
+
 .sale-record {
   width: 100%;
   box-sizing: border-box;
@@ -146,6 +207,7 @@ const tableData = ref([
   border: 1px solid #c8d0df !important;
   border-radius: 2px;
 }
+
 .sale-record-search {
   padding: 12px 10px 0;
   display: flex;
@@ -153,17 +215,20 @@ const tableData = ref([
   align-items: center;
   margin-bottom: 16px;
 }
-.sale-record-table{
-    height: 85%;
-    padding: 6px;
+
+.sale-record-table {
+  height: 85%;
+  padding: 6px;
 }
-.sale-record-group{
-    margin-bottom: 14px;
+
+.sale-record-group {
+  margin-bottom: 14px;
 }
-.sale-record-table-list{
-}
-.sale-record-table-pagination{
-    margin-top: 10px;
-    width: 100%;
+
+.sale-record-table-list {}
+
+.sale-record-table-pagination {
+  margin-top: 10px;
+  width: 100%;
 }
 </style>

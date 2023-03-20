@@ -42,7 +42,43 @@ const buyerMenuList = [
     isActive:false,
   },
 ];
-const sellerMenuList = [];
+const sellerMenuList = [
+    {
+        id: 1,
+        title: "管理面板",
+        route: "/seller/dashboard",
+        img: "Folder",
+        isActive:true,
+      },
+      {
+        id: 2,
+        title: "出售订单",
+        route: "/seller/order",
+        img: "Notebook",
+        isActive:false,
+      },
+      {
+        id: 3,
+        title: "出售设置",
+        route: "/seller/auto-sell",
+        img: "WalletFilled",
+        isActive:false,
+      },
+      {
+        id: 4,
+        title: "授权操作明细",
+        route: "/seller/auth-operation",
+        img: "OfficeBuilding",
+        isActive:false,
+      },
+      {
+        id: 5,
+        title: "使用帮助",
+        route: "/seller/help",
+        img: "QuestionFilled",
+        isActive:false,
+      },
+];
 
 
 export default {
@@ -53,7 +89,8 @@ export default {
     menuList: () => {
       const fullPath = window.location.pathname;
       const isBuyer = fullPath.indexOf('buyer/');
-      if(isBuyer){
+      console.log('isBuyer',isBuyer);
+      if(isBuyer != -1){
         return buyerMenuList.map(v=>{
             return {
                 ...v,

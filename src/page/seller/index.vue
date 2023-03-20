@@ -1,5 +1,5 @@
 <template>
-  <div class="home" aria-expanded="false">
+ <div class="home" aria-expanded="false">
     <div class="home-left">
       <router-link to="/" class="home-left-logo">
         <Logo></Logo>
@@ -33,9 +33,10 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import Logo from "@/components/logo.vue";
-import DashbordTitle from "./dashbord-title.vue";
+import DashbordTitle from "../buyer/dashbord-title.vue";
 import { useRouter, useRoute } from "vue-router";
 const store = useStore();
 const router = useRouter();
@@ -70,6 +71,7 @@ const changMenuType = () => {
   }
 };
 </script>
+
 <style scoped>
 .home-wrapper-user-item {
   height: 24px;
@@ -248,16 +250,4 @@ const changMenuType = () => {
   color: #294aa5;
 }
 
-/* .slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.5s ease-out;
-}
-
-.slide-up-enter-from {
-  opacity: 0;
-}
-
-.slide-up-leave-to {
-  display: none;
-} */
 </style>

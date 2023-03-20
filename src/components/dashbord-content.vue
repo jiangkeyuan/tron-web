@@ -16,5 +16,6 @@
     background: #fff;
     border-radius: 5px!important;
     border: 1px solid #c8d0df!important;
+    margin-bottom: 10px;
 }
 </style>

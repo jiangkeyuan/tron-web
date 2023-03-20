@@ -148,6 +148,54 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/seller",
+    component: () => import("../page/seller/index.vue"),
+    children: [
+        {
+            path: "dashboard",
+            components: {
+              helper: () => import("../page/seller/dashbord/index.vue"),
+              default: () => import("../page/seller/dashbord/index.vue"),
+            },
+        },
+        {
+            path: "order",
+            components: {
+                helper: () => import("../page/seller/order/index.vue"),
+                default: () => import("../page/seller/order/index.vue"),
+              },            
+        },
+        {
+            path: "auto-sell",
+            components: {
+                helper: () => import("../page/seller/auto-sell/index.vue"),
+                default: () => import("../page/seller/auto-sell/index.vue"),
+              },            
+        },
+        {
+            path: "auth-operation",
+            components: {
+                helper: () => import("../page/seller/auth-operation/index.vue"),
+                default: () => import("../page/seller/auth-operation/index.vue"),
+              },            
+        },
+        {
+            path: "help",
+            components: {
+                helper: () => import("../page/seller/help/index.vue"),
+                default: () => import("../page/seller/help/index.vue"),
+              },            
+        },
+        {
+            path: "help/how-auto-sell",
+            components: {
+                helper: () => import("../page/seller/help/how-auto-sell/index.vue"),
+                default: () => import("../page/seller/help/how-auto-sell/index.vue"),
+              },            
+        }
+    ]
+  }
 ];
 
 const router = createRouter({

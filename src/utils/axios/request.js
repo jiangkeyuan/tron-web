@@ -5,19 +5,19 @@ const service = axios.create({
   timeout: 30000, // 设置请求超时时间
 });
 let loading = "";
-console.log(process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === "development") {
   service.defaults.baseURL = "http://8.218.135.189:8080/";
 } else {
-  alert("生产环境");
 }
 
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "access_token"
-    )}`;
+    if (localStorage.getItem("token") && !config.headers["Authorization"]) {
+      config.headers["Authorization"] = localStorage.getItem("token");
+      config.headers["interfaceVersion"] = "1.0";
+    }
     return config;
   },
   (error) => {

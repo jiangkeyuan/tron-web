@@ -73,6 +73,8 @@ import LoginForm from "./components/login-form.vue";
 import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js';
 import { usersRegister, userActivave, userLogin } from '@/utils/axios/login/index.js';
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const userInfo = reactive({
   email: "",
   passWord: "",
@@ -89,7 +91,8 @@ const login = async () => {
     if (e) {
       const data = await userLogin(userInfo);
       if (data.code === 12000 || data.code === 14009) {
-
+        window.localStorage.setItem('token', data.data.token);
+        router.push('/buyer/dashboard')
       } else {
         loginFormRef.value.getCode(type.value || 0);
         ElMessage.error(data.msg);

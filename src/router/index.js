@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import { getParamsNew } from "@/utils/utils/index.js";
 const routes = [
   {
     path: "/",
@@ -55,18 +55,26 @@ const routes = [
     component: () => import("../page/login/index.vue"),
   },
   {
-    path: "/buyer",
+    path: "/console",
     component: () => import("../page/buyer/index.vue"),
+    redirect: (to, from) => {
+      const redirect = getParamsNew("redirect");
+      if (!redirect) {
+        return { path: "/console/seller/dashboard" };
+      } else {
+        return { path: redirect };
+      }
+    },
     children: [
       {
-        path: "dashboard",
+        path: "buyer/dashboard",
         components: {
           helper: () => import("../page/buyer/dashbord/index.vue"),
           default: () => import("../page/buyer/dashbord/index.vue"),
         },
       },
       {
-        path: "sale-record",
+        path: "buyer/sale-record",
         components: {
           helper: () => import("../page/buyer/sale-record/index.vue"),
           default: () => import("../page/buyer/sale-record/index.vue"),
@@ -87,7 +95,7 @@ const routes = [
         },
       },
       {
-        path: "recharge",
+        path: "buyer/recharge",
         components: {
           helper: () => import("../page/buyer/recharge/index.vue"),
           default: () => import("../page/buyer/recharge/index.vue"),
@@ -95,7 +103,7 @@ const routes = [
       },
 
       {
-        path: "recharge-log",
+        path: "buyer/recharge-log",
         components: {
           helper: () => import("../page/buyer/recharge-log/index.vue"),
           default: () => import("../page/buyer/recharge-log/index.vue"),
@@ -103,7 +111,7 @@ const routes = [
       },
 
       {
-        path: "manual-lease",
+        path: "buyer/manual-lease",
         components: {
           helper: () => import("../page/buyer/manual-lease/index.vue"),
           default: () => import("../page/buyer/manual-lease/index.vue"),
@@ -111,7 +119,7 @@ const routes = [
       },
 
       {
-        path: "api-key",
+        path: "buyer/api-key",
         components: {
           helper: () => import("../page/buyer/api-key/index.vue"),
           default: () => import("../page/buyer/api-key/index.vue"),
@@ -119,83 +127,78 @@ const routes = [
       },
 
       {
-        path: "help",
+        path: "buyer/help",
         components: {
           helper: () => import("../page/buyer/help/index.vue"),
           default: () => import("../page/buyer/help/index.vue"),
         },
       },
       {
-        path: "help/withdraw",
+        path: "buyer/help/withdraw",
         components: {
           helper: () => import("../page/buyer/help/with-draw/index.vue"),
           default: () => import("../page/buyer/help/with-draw/index.vue"),
         },
       },
       {
-        path: "help/set-api-key",
+        path: "buyer/help/set-api-key",
         components: {
           helper: () => import("../page/buyer/help/set-api-key/index.vue"),
           default: () => import("../page/buyer/help/set-api-key/index.vue"),
         },
       },
       {
-        path: "help/recharge",
+        path: "buyer/help/recharge",
         components: {
           helper: () => import("../page/buyer/help/recharge/index.vue"),
           default: () => import("../page/buyer/help/recharge/index.vue"),
         },
       },
+
+      {
+        path: "seller/dashboard",
+        components: {
+          helper: () => import("../page/seller/dashbord/index.vue"),
+          default: () => import("../page/seller/dashbord/index.vue"),
+        },
+      },
+      {
+        path: "seller/order",
+        components: {
+          helper: () => import("../page/seller/order/index.vue"),
+          default: () => import("../page/seller/order/index.vue"),
+        },
+      },
+      {
+        path: "seller/auto-sell",
+        components: {
+          helper: () => import("../page/seller/auto-sell/index.vue"),
+          default: () => import("../page/seller/auto-sell/index.vue"),
+        },
+      },
+      {
+        path: "seller/auth-operation",
+        components: {
+          helper: () => import("../page/seller/auth-operation/index.vue"),
+          default: () => import("../page/seller/auth-operation/index.vue"),
+        },
+      },
+      {
+        path: "seller/help",
+        components: {
+          helper: () => import("../page/seller/help/index.vue"),
+          default: () => import("../page/seller/help/index.vue"),
+        },
+      },
+      {
+        path: "seller/help/how-auto-sell",
+        components: {
+          helper: () => import("../page/seller/help/how-auto-sell/index.vue"),
+          default: () => import("../page/seller/help/how-auto-sell/index.vue"),
+        },
+      },
     ],
   },
-  {
-    path: "/seller",
-    component: () => import("../page/seller/index.vue"),
-    children: [
-        {
-            path: "dashboard",
-            components: {
-              helper: () => import("../page/seller/dashbord/index.vue"),
-              default: () => import("../page/seller/dashbord/index.vue"),
-            },
-        },
-        {
-            path: "order",
-            components: {
-                helper: () => import("../page/seller/order/index.vue"),
-                default: () => import("../page/seller/order/index.vue"),
-              },            
-        },
-        {
-            path: "auto-sell",
-            components: {
-                helper: () => import("../page/seller/auto-sell/index.vue"),
-                default: () => import("../page/seller/auto-sell/index.vue"),
-              },            
-        },
-        {
-            path: "auth-operation",
-            components: {
-                helper: () => import("../page/seller/auth-operation/index.vue"),
-                default: () => import("../page/seller/auth-operation/index.vue"),
-              },            
-        },
-        {
-            path: "help",
-            components: {
-                helper: () => import("../page/seller/help/index.vue"),
-                default: () => import("../page/seller/help/index.vue"),
-              },            
-        },
-        {
-            path: "help/how-auto-sell",
-            components: {
-                helper: () => import("../page/seller/help/how-auto-sell/index.vue"),
-                default: () => import("../page/seller/help/how-auto-sell/index.vue"),
-              },            
-        }
-    ]
-  }
 ];
 
 const router = createRouter({

@@ -62,10 +62,10 @@ const title = (t) => {
 const changMenuType = () => {
   if (menuType.value === 0) {
     //切换买家版本
-    router.push('/seller/dashboard');
+    router.push('/console/seller/dashboard');
     store.commit("changeMenuType", 1);
   } else {
-    router.push("/buyer/dashboard");
+    router.push("/console/buyer/dashboard");
     store.commit("changeMenuType", 0);
   }
 };
@@ -220,7 +220,7 @@ const changMenuType = () => {
 }
 
 .home {
-  width: 100vw;
+  /* width: 100vw; */
   height: 100vh;
   display: flex;
   flex-direction: row;

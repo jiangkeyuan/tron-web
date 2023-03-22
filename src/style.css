@@ -152,4 +152,13 @@ a:hover {
     right: 25px;
 }
 
+mark {
+    padding: 0.2em;
+    background-color: #feffe6;
+}
+
+.el-form--inline .el-form-item {
+    margin-bottom: 0;
+}
+
 /*初始化结束*************************************************************** */

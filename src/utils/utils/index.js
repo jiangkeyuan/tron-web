@@ -116,3 +116,30 @@ export let copyValue = {
             return ele.innerHTML;
     }
 }
+
+export function getParamsNew(key) {
+	var temData = new URLSearchParams(window.location.search);
+	return temData.get(key)
+}
+
+ 
+//方法
+/**
+ * @param { String } uri 当前地址栏的url
+ * @param { String } key 添加的key值
+ * @param { String } value 添加的value值
+ * @return { String } 添加之后的url
+ */
+export function updateQueryStringParameter(uri, key, value) {
+	if(!value) {
+		return uri;
+	}
+	var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+	var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+	if (uri.match(re)) {
+		return uri.replace(re, '$1' + key + "=" + value + '$2');
+	}
+	else {
+		return uri + separator + key + "=" + value;
+	}
+}

@@ -5,6 +5,13 @@ const service = axios.create({
   timeout: 30000, // 设置请求超时时间
 });
 let loading = "";
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === "development") {
+  service.defaults.baseURL = "http://8.218.135.189:8080/";
+} else {
+  alert("生产环境");
+}
+
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
@@ -29,7 +36,7 @@ service.interceptors.response.use(
   },
   (error) => {
     ElMessage.error(error.message);
-    loading.close();
+    // loading.close();
     return Promise.reject(error);
   }
 );

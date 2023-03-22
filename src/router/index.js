@@ -53,6 +53,7 @@ const routes = [
   {
     path: "/auth/login",
     component: () => import("../page/login/index.vue"),
+    
   },
   {
     path: "/console",

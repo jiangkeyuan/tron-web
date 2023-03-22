@@ -14,3 +14,7 @@ export const userActivave = (activateCode) => {
 export const userLogin = (params) => {
   return service.post("/tron/users/login", params);
 };
+
+export const changePassWordRequest = (params) => {
+  return service.patch("/tron/users/changePwd", params);
+};

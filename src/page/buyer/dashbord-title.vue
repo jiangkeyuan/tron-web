@@ -12,11 +12,7 @@
 
       <el-dropdown class="el-dropdown-link" trigger="click">
         <div class="home-wrapper-user">
-          <DefaultAvatar
-            class="home-wrapper-user-avatar"
-            width="36"
-            height="36"
-          ></DefaultAvatar>
+          <DefaultAvatar class="home-wrapper-user-avatar" width="36" height="36"></DefaultAvatar>
           <div class="home-wrapper-user-no">
             <span class="home-wrapper-user-no-name">
               554125225@qq.com
@@ -38,10 +34,7 @@
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item">
-              <div
-                class="home-wrapper-user-item"
-                @click="gotoFund('/common/fund-change')"
-              >
+              <div class="home-wrapper-user-item" @click="gotoFund('/common/fund-change')">
                 <el-icon color="rgb(47, 76, 159)">
                   <WalletFilled />
                 </el-icon>
@@ -49,10 +42,7 @@
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item">
-              <div
-                class="home-wrapper-user-item"
-                @click="gotoFund('/common/user-info')"
-              >
+              <div class="home-wrapper-user-item" @click="gotoFund('/common/user-info')">
                 <el-icon color="rgb(47, 76, 159)">
                   <Postcard />
                 </el-icon>
@@ -88,49 +78,21 @@
       </el-dropdown>
     </div>
 
-    <el-dialog
-      width="500"
-      v-model="dialogFormVisible"
-      title="修改密码"
-      center
-      destroy-on-close
-      append-to-body
-    >
-      <el-form :model="form" size="">
-        <el-form-item>
-          <el-input
-            v-model="form.name"
-            autocomplete="off"
-            type="password"
-            show-password
-            placeholder="请输入旧密码"
-          />
+    <el-dialog width="500" v-model="dialogFormVisible" title="修改密码" center destroy-on-close append-to-body>
+      <el-form :model="form" size="" ref="ruleFormRef" :rules="rules">
+        <el-form-item prop="passWord">
+          <el-input v-model="form.passWord" autocomplete="off" type="password" show-password placeholder="请输入旧密码" />
         </el-form-item>
-        <el-form-item>
-          <el-input
-            v-model="form.name"
-            autocomplete="off"
-            type="password"
-            show-password
-            placeholder="请输入新密码"
-          />
+        <el-form-item prop="newPwd">
+          <el-input v-model="form.newPwd" autocomplete="off" type="password" show-password placeholder="请输入新密码" />
         </el-form-item>
-        <el-form-item>
-          <el-input
-            v-model="form.name"
-            autocomplete="off"
-            type="password"
-            show-password
-            placeholder="请再输入新密码"
-          />
+        <el-form-item prop="checkNewPassWord">
+          <el-input v-model="form.checkNewPassWord" autocomplete="off" type="password" show-password
+            placeholder="请再输入新密码" />
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button
-          class="dialog-footer"
-          type="primary"
-          @click="dialogFormVisible = false"
-        >
+        <el-button class="dialog-footer" type="primary" @click="changePassWordConfirm(ruleFormRef)">
           Confirm
         </el-button>
       </template>
@@ -140,6 +102,8 @@
 <script setup>
 import GlobalIzation from "@/components/GlobalIzation.vue";
 import DefaultAvatar from "@/icons/default-avatar.svg?component";
+import { changePassWordRequest } from '@/utils/axios/login/index.js';
+import { ElMessage } from "element-plus";
 import { useRouter, useRoute } from "vue-router";
 const store = useStore();
 const router = useRouter();
@@ -147,10 +111,53 @@ const route = useRoute();
 const rightTitle = ref("");
 const dialogFormVisible = ref(false);
 const form = reactive({});
+const ruleFormRef = ref('');
+
+const checkPassWord = (rule, v, callback) => {
+  if (v !== form.newPwd) {
+    callback(new Error("两次输入的密码不一致！"))
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive({
+  passWord: [
+    { required: true, message: '请输入密码！', trigger: ['blur', 'change'] },
+    { required: true, min: 8, message: '请输入大于8位数的密码！', trigger: ['blur', 'change'] },
+  ],
+  newPwd: [
+    { required: true, message: '请输入新密码！', trigger: ['blur', 'change'] },
+    { required: true, min: 8, message: '请输入大于8位数的密码！', trigger: ['blur', 'change'] },
+  ],
+
+  checkNewPassWord: [
+    { required: true, message: '请输入二次密码！', trigger: ['blur', 'change'] },
+    { required: true, validator: checkPassWord, trigger: ['blur', 'change'] },
+  ]
+
+})
 
 const changePassWord = () => {
   dialogFormVisible.value = true;
 };
+
+const changePassWordConfirm = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      const data = await changePassWordRequest(form);
+      if (data.code === 12000) {
+        router.push('/auth/login');
+      } else {
+        ElMessage.error(data.msg);
+      }
+      console.log(data);
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
 
 const gotoFund = (route) => {
   router.push(route);
@@ -177,6 +184,7 @@ const title = (t) => {
   width: 100%;
   height: 40px;
 }
+
 .home-wrapper-user-item {
   height: 24px;
   display: flex;

@@ -1,9 +1,8 @@
-import service from '../request';
+import service from "../request";
+export const getFinishedOrders = (params) => {
+  return service({
+    url: '/tron/finished/orders',
+    params
+  });
+};
 
-const test = async (data)=>{
-    return await service.get('http://127.0.0.1:8090/bunny-web3-service/web3/v1/cust/nfts/qty');
-}
-
-export {
-    test
-}

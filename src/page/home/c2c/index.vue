@@ -3,7 +3,9 @@
     <div class="c2c-content">
       <div class="container">
         <div class="wrapper">
-          <i class="img">1</i>
+          <i class="img">
+            <el-icon><Bell /></el-icon>
+          </i>
           <span class="content">
             <el-carousel
               height="2em"
@@ -28,7 +30,7 @@
                   购买
                 </span>
                 <div class="center"></div>
-                <span class="seller">
+                <span class="seller" @click="search">
                   <i class="img"></i>
                   出售
                 </span>
@@ -58,22 +60,19 @@
             <el-tabs type="border-card" class="demo-tabs">
               <el-tab-pane label="自助交易">
                 <el-table :data="tableData" style="width: 100%">
-                  <el-table-column prop="date" label="收入" width="180" />
-                  <el-table-column prop="name" label="最低收入" width="180" />
+                  <el-table-column prop="date" label="收入" />
+                  <el-table-column prop="name" label="最低收入" />
                   <el-table-column prop="address" label="冻结时间" />
-                  <el-table-column fixed="right" label="操作" width="120">
+                  <el-table-column fixed="right" label="操作" >
                     <template #default>
-                      <el-button
-                        link
-                        type="primary"
-                        size="small"
+                      <el-button link type="primary" size="small"
                         >出售</el-button
                       >
                     </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
-              <el-tab-pane label="快捷交易" style="text-align: center;">
+              <el-tab-pane label="快捷交易" style="text-align: center">
                 <el-link type="primary">正在跳转至快捷交易界面</el-link>
               </el-tab-pane>
             </el-tabs>
@@ -81,28 +80,52 @@
         </div>
       </div>
       <div class="history-order-container">
-          <div class="custom-round-tab">
+        <div class="custom-round-tab">
           <div class="tablist">
             <el-tabs type="border-card" class="demo-tabs">
-              <el-tab-pane label="自助交易">
+              <el-tab-pane label="最近完成">
                 <el-table :data="tableData" style="width: 100%">
-                  <el-table-column prop="date" label="收入" width="180" />
-                  <el-table-column prop="name" label="最低收入" width="180" />
-                  <el-table-column prop="address" label="冻结时间" />
-                  <el-table-column fixed="right" label="操作" width="120">
+                  <el-table-column prop="name" label="订单信息" />
+                  <el-table-column prop="date" label="收入" />
+                  <el-table-column prop="address" label="时间" />
+                  <el-table-column fixed="right" label="操作" >
                     <template #default>
-                      <el-button
-                        link
-                        type="primary"
-                        size="small"
+                      <el-button link type="primary" size="small"
                         >出售</el-button
                       >
                     </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
-              <el-tab-pane label="快捷交易" style="text-align: center;">
-                <el-link type="primary">正在跳转至快捷交易界面</el-link>
+              <el-tab-pane label="质押列表">
+                <el-table :data="tableData" style="width: 100%">
+                  <el-table-column prop="date" label="冻结对象" />
+                  <el-table-column prop="name" label="资源" />
+                  <el-table-column prop="address" label="冻结金额" />
+                  <el-table-column prop="address" label="截止时间" />
+                  <el-table-column fixed="right" label="操作" >
+                    <template #default>
+                      <el-button link type="primary" size="small"
+                        >出售</el-button
+                      >
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane label="购买订单">
+                <el-table :data="tableData" style="width: 100%">
+                  <el-table-column prop="date" label="订单信息" />
+                  <el-table-column prop="name" label="接收地址" />
+                  <el-table-column prop="address" label="时间" />
+                  <el-table-column prop="address" label="状态" />
+                  <el-table-column fixed="right" label="操作" >
+                    <template #default>
+                      <el-button link type="primary" size="small"
+                        >出售</el-button
+                      >
+                    </template>
+                  </el-table-column>
+                </el-table>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -111,10 +134,12 @@
       <api-box class="api"></api-box>
     </div>
   </div>
+  <!-- <TronLinkPcPopupWrapper :show="true"></TronLinkPcPopupWrapper> -->
 </template>
 
 <script setup>
-import { Calendar, Histogram } from '@element-plus/icons-vue'
+import { Calendar, Histogram, Bell } from '@element-plus/icons-vue'
+import { getFinishedOrders } from '@/utils/axios/home/index.js'
 const value = ref('Option2')
 const options = [
   {
@@ -160,19 +185,18 @@ const systemMsg = reactive([
   {
     id: 1,
     title:
-      '2月17日更新：下单可购买超1亿能量；显示订单完成进度；出售可自定义资源数量！'
-  },
-  {
-    id: 2,
-    title:
-      '2月17日更新：下单可购买超1亿能量；显示订单完成进度；出售可自定义资源数量！'
-  },
-  {
-    id: 3,
-    title:
-      '2月17日更新：下单可购买超1亿能量；显示订单完成进度；出售可自定义资源数量！'
+      '尊敬的卖家：波场stake2.0升级即将到来，届时授权权限将需要改变，为了更好的通知您升级时间，以及更好的协助您完成新权限授权，请您联系telegram在线客服获取最新信息与帮助！'
   }
 ])
+const search = async () => {
+  console.log('666666666666')
+  // const data = await getFinishedOrders({
+  //     tets: 1
+  // })
+}
+onMounted(() => {
+  //   search();
+})
 </script>
 
 <style lang="less" scoped>
@@ -248,12 +272,12 @@ const systemMsg = reactive([
     }
   }
 }
-.history-order-container{
-    margin-top: 50px;
-    padding: 0 50px;
+.history-order-container {
+  margin-top: 50px;
+  padding: 0 50px;
 }
 .api {
-    margin-top: 60px;
+  margin-top: 60px;
 }
 </style>
 <style lang="less">

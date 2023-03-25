@@ -2,7 +2,7 @@
   <Header @itemClick="itemClick"></Header>
   <main class="main">
     <router-view></router-view>
-    <a class="tg-robot-wrapper tg-robot" href="" target="_blank">
+    <a class="tg-robot-wrapper tg-robot hide" href="" target="_blank">
       <img src="@/assets/logo/logo.svg" alt="" class="icon" />
       <p class="title">TG机器人</p>
       <p class="features" style="margin-bottom: 5px">能量 | 兑换</p>
@@ -13,7 +13,7 @@
        
     </div> -->
     <el-backtop class="to-top" :right="25" bottom="" />
-    <a class="customer-wrapper customer" href="http://" target="_blank">
+    <a class="customer-wrapper customer hide" href="http://" target="_blank">
       <img src="@/assets/logo/logo.svg" alt="" class="icon" />
       <p class="title">在线客服</p>
     </a>

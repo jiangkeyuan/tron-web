@@ -1,5 +1,31 @@
 <template>
-  <DashbordContent> 666 </DashbordContent>
+  <DashbordContent>
+    <div class="statistics-panel">
+        <div class="statistics-root">
+            <div class="item">
+                <div class="flex">
+                    <div class="item-tltle">
+                        <span class="font total">
+                            <div class="red">
+                                123
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div>
+                        <div>
+                            <span class="font">
+                                
+                            </span>
+                        </div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </DashbordContent>
   <DashbordContent>
     <div class="vben-basic-table-title">最新订单</div>
     <el-table :data="tableData" stripe style="width: 100%">

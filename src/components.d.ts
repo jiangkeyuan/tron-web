@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    '副本': typeof import('./components/recommend-popup-wrapper - 副本.vue')['default']
     ApiBox: typeof import('./components/api-box.vue')['default']
     CooperationPopupWrapper: typeof import('./components/cooperation-popup-wrapper.vue')['default']
     DashbordContent: typeof import('./components/dashbord-content.vue')['default']
@@ -23,13 +24,13 @@ declare module '@vue/runtime-core' {
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
-    ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElLink: typeof import('element-plus/es')['ElLink']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
@@ -50,6 +51,8 @@ declare module '@vue/runtime-core' {
     RecommendPopupWrapper: typeof import('./components/recommend-popup-wrapper.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TronLinkPcPopupWrapper: typeof import('./components/tron-link-pc-popup-wrapper.vue')['default']
+    SellEnergyPopupWrapper: typeof import('./components/sell-energy-popup-wrapper.vue')['default']
+    SellPopupWrapper: typeof import('./components/sell-popup-wrapper.vue')['default']
+    TronLinkPcPopupWrapper: typeof import('./components/tron-link/tron-link-pc-popup-wrapper.vue')['default']
   }
 }

@@ -1,35 +1,40 @@
 <template>
   <DashbordContent>
     <div class="statistics-panel">
-        <div class="statistics-root">
-            <div class="item">
-                <div class="flex">
-                    <div class="item-tltle">
-                        <span class="font total">
-                            <div class="red">
-                                123
-                            </div>
-                        </span>
-                    </div>
-                </div>
-                <div class="flex">
-                    <div>
-                        <div>
-                            <span class="font">
-                                
-                            </span>
-                        </div>
-                        <div></div>
-                    </div>
-                </div>
+      <div class="statistics-root">
+        <div class="item" v-for="(index) in 8" :key="index">
+          <div class="flex">
+            <div class="item-tltle">
+              收益利润
+              <span class="font total"
+                >(累计收益：<span class="red">26,827.34147</span>TRX)
+              </span>
             </div>
+            <div class="font icon-question">2</div>
+          </div>
+          <div class="flex">
+            <div>
+              <div>
+                <span class="font"> 今日 </span>
+                <span class="font text">0</span>
+                <span class="font min-font">TRX</span>
+              </div>
+              <div>
+                <span class="font"> 今日 </span>
+                <span class="font text">0</span>
+                <span class="font min-font">TRX</span>
+              </div>
+            </div>
+            <div class="icon">1</div>
+          </div>
         </div>
+      </div>
     </div>
   </DashbordContent>
   <DashbordContent>
     <div class="vben-basic-table-title">最新订单</div>
     <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="date" label="Date" >
+      <el-table-column prop="date" label="Date">
         <template #header>
           <div>
             质押时间
@@ -44,9 +49,9 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="结算金额"/>
+      <el-table-column prop="name" label="结算金额" />
       <el-table-column prop="address" label="资源" />
-      <el-table-column prop="date" label="Date" >
+      <el-table-column prop="date" label="Date">
         <template #header>
           <div>
             到期时间
@@ -116,5 +121,71 @@ const tableData = [
 <style lang="less" scoped>
 .vben-basic-table-title {
   font-size: 16px;
+}
+.statistics-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 0;
+  .statistics-root {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    background: #ffffff;
+    // border-radius: 4px;
+    // padding: 20px;
+    .item {
+      padding: 20px;
+      background: #f4f8ff;
+      border-radius: 10px;
+    }
+    .item-tltle {
+      font-size: 15px;
+      font-family: PingFang SC, PingFang SC-Medium;
+      font-weight: 500;
+      text-align: left;
+      color: #121c41;
+    }
+  }
+}
+.flex {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.font {
+  font-size: 14px;
+  font-family: PingFang SC, PingFang SC-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #707582;
+}
+.text {
+  color: #121c41;
+  margin: 0 4px 0 8px;
+}
+.min-font {
+  display: inline-block;
+  font-size: 12px;
+  transform: scale(0.86);
+  color: #989fae;
+}
+.total {
+  font-size: 13px;
+  font-weight: 600;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.icon-question {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.red {
+  color: #e30000;
 }
 </style>

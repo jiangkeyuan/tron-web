@@ -20,6 +20,61 @@
           </span>
         </div>
       </div>
+
+      <div class="wallet-container">
+        <div class="wallet-content">
+          <div class="wallet item">
+            <div class="header">
+              <span class="c2c_address"
+                >TTbQQMGYapeXV9qiHjoHV6uVWL48HDHYfm</span
+              >
+              <i class="img symbol"
+                ><el-icon><StarFilled /></el-icon
+              ></i>
+            </div>
+            <div class="body">
+              <ul class="pc-wallet-item">
+                <li>可用：<span>1</span>TRX</li>
+                <li>冻结：<span>1</span>TRX</li>
+                <li>全部：<span>1</span>TRX</li>
+              </ul>
+              <i class="img"
+                ><el-icon><FolderRemove /></el-icon
+              ></i>
+            </div>
+          </div>
+          <div class="energy item">
+            <div class="header">
+              <span class="c2c_address">能量</span>
+              <div>0 <em>/0</em></div>
+            </div>
+            <div class="body">
+              <ul class="pc-wallet-item">
+                <li>发　送：<span>1</span>TRX</li>
+                <li>已收到：<span>1</span>TRX</li>
+              </ul>
+              <i class="img"
+                ><el-icon><Lightning /></el-icon
+              ></i>
+            </div>
+          </div>
+          <div class="bw item">
+            <div class="header">
+              <span class="c2c_address">带宽</span>
+              <div>0 <em>/0</em></div>
+            </div>
+            <div class="body">
+              <ul class="pc-wallet-item">
+                <li>发　送：<span>1</span>TRX</li>
+                <li>已收到：<span>1</span>TRX</li>
+              </ul>
+              <i class="img"
+                ><el-icon><Odometer /></el-icon
+              ></i>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="current-order-container">
         <div class="custom-round-tab">
           <div class="tablist">
@@ -59,13 +114,61 @@
             </div>
             <el-tabs type="border-card" class="demo-tabs">
               <el-tab-pane label="自助交易">
-                <el-table :data="tableData" style="width: 100%">
-                  <el-table-column prop="date" label="收入" />
-                  <el-table-column prop="name" label="最低收入" />
-                  <el-table-column prop="address" label="冻结时间" />
-                  <el-table-column fixed="right" label="操作" >
-                    <template #default>
-                      <el-button link type="primary" size="small"
+                <el-table :data="manualOrders" style="width: 100%">
+                  <el-table-column prop="benifitAmount" label="收入"
+                    ><template #default="scope">
+                      <div class="max_payout-column">
+                        <div class="payout">
+                          {{ scope.row.benifitAmount }} <i>TRX</i>
+                        </div>
+                        <div class="freeze">
+                          质押: {{ scope.row.stakeAmount }} TRX
+                        </div>
+                        <div class="amount">
+                          能量: {{ scope.row.energyQuantity }}
+                        </div>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="leastBenifitAmount" label="最低收入"
+                    ><template #default="scope">
+                      <div class="max_payout-column">
+                        <div class="payout">
+                          {{ scope.row.leastBenifitAmount }} <i>TRX</i>
+                        </div>
+                        <div class="freeze">
+                          质押: {{ scope.row.leastStakeAmount }} TRX
+                        </div>
+                        <div class="amount">
+                          能量: {{ scope.row.leastEnergyQuantity }}
+                        </div>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="buyPrice" label="单价（价格/天）"
+                    ><template #default="scope">
+                      <div class="max_payout-column">
+                        <div class="payout">
+                          {{ scope.row.buyPrice }} <i>sun</i>
+                        </div>
+                        <div class="freeze">
+                          年化率: {{ scope.row.annualizedPercent }} %
+                        </div>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="rentalDays" label="冻结时间"
+                    ><template #default="scope">
+                      {{ scope.row.rentalDays }} <span>天</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column fixed="right" label="操作">
+                    <template #default="scope">
+                      <el-button
+                        link
+                        type="primary"
+                        size="small"
+                        @click="handleSell(scope.row)"
                         >出售</el-button
                       >
                     </template>
@@ -88,7 +191,7 @@
                   <el-table-column prop="name" label="订单信息" />
                   <el-table-column prop="date" label="收入" />
                   <el-table-column prop="address" label="时间" />
-                  <el-table-column fixed="right" label="操作" >
+                  <el-table-column fixed="right" label="操作">
                     <template #default>
                       <el-button link type="primary" size="small"
                         >出售</el-button
@@ -103,7 +206,7 @@
                   <el-table-column prop="name" label="资源" />
                   <el-table-column prop="address" label="冻结金额" />
                   <el-table-column prop="address" label="截止时间" />
-                  <el-table-column fixed="right" label="操作" >
+                  <el-table-column fixed="right" label="操作">
                     <template #default>
                       <el-button link type="primary" size="small"
                         >出售</el-button
@@ -118,7 +221,7 @@
                   <el-table-column prop="name" label="接收地址" />
                   <el-table-column prop="address" label="时间" />
                   <el-table-column prop="address" label="状态" />
-                  <el-table-column fixed="right" label="操作" >
+                  <el-table-column fixed="right" label="操作">
                     <template #default>
                       <el-button link type="primary" size="small"
                         >出售</el-button
@@ -135,12 +238,28 @@
     </div>
   </div>
   <!-- <TronLinkPcPopupWrapper :show="true"></TronLinkPcPopupWrapper> -->
+  <SellEnergyPopupWrapper :show="showSellEnergyPopup" @close="closeSellEnergyPopup"></SellEnergyPopupWrapper>
 </template>
 
 <script setup>
-import { Calendar, Histogram, Bell } from '@element-plus/icons-vue'
-import { getFinishedOrders } from '@/utils/axios/home/index.js'
+import TronLink from '@/components/tron-link/index.js'
+import {
+  Calendar,
+  Histogram,
+  Bell,
+  Odometer,
+  FolderRemove,
+  Lightning,
+  StarFilled
+} from '@element-plus/icons-vue'
+import {
+  getFinishedOrders,
+  getManualOrders,
+  sellManualOrders
+} from '@/utils/axios/home/index.js'
 const value = ref('Option2')
+const manualOrders = ref([])
+const showSellEnergyPopup = ref(false)
 const options = [
   {
     value: 'Option1',
@@ -188,14 +307,33 @@ const systemMsg = reactive([
       '尊敬的卖家：波场stake2.0升级即将到来，届时授权权限将需要改变，为了更好的通知您升级时间，以及更好的协助您完成新权限授权，请您联系telegram在线客服获取最新信息与帮助！'
   }
 ])
-const search = async () => {
-  console.log('666666666666')
-  // const data = await getFinishedOrders({
-  //     tets: 1
-  // })
+
+const queryManualOrders = async () => {
+  //   await TronLink()
+  console.log('999999999999999999999999999999999999')
+  const data = await getManualOrders()
+  console.log('data', data)
+  if (data.code == 12000) {
+    manualOrders.value = data.data
+  }
+}
+// 出售
+const handleSell = async row => {
+  console.log('row', row.orderId)
+  await TronLink()
+  console.log('-----------------------')
+  //   const data = await sellManualOrders()
+  //   if (data.code == 12000) {
+  //     // manualOrders.value = data.data
+  //     console.log(data.data);
+  //   }
+  showSellEnergyPopup.value = true
+}
+const closeSellEnergyPopup = () =>{
+    showSellEnergyPopup.value = false
 }
 onMounted(() => {
-  //   search();
+    queryManualOrders()
 })
 </script>
 
@@ -228,6 +366,66 @@ onMounted(() => {
       flex: 1;
       overflow: hidden;
       line-height: 2em;
+    }
+  }
+}
+.wallet-container {
+  margin: 30px 0;
+  padding: 0 50px;
+  em {
+    font-style: normal;
+  }
+  .wallet-content {
+    display: flex;
+    .item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      margin-right: 15px;
+      border: 1px solid #c8d0df;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px #00000014;
+      width: 33%;
+      &:last-child {
+        margin-right: 0;
+      }
+      .header {
+        margin: 0 -24px;
+        padding: 0 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f4f8ff;
+        font-size: 16px;
+        height: 55px;
+        overflow-x: overlay;
+        em {
+          font-size: 14px;
+          color: #707582;
+        }
+        .symbol {
+          color: red;
+        }
+      }
+      .body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 24px;
+        .pc-wallet-item {
+          display: block;
+        }
+        ul {
+          margin-bottom: 0;
+          font-size: 14px;
+          color: #707582;
+        }
+        .img {
+          align-self: end;
+          color: #c8d0df;
+        }
+      }
     }
   }
 }
@@ -278,6 +476,23 @@ onMounted(() => {
 }
 .api {
   margin-top: 60px;
+}
+.max_payout-column {
+  .payout {
+    font-size: 22px;
+    i {
+      font-style: normal;
+      font-size: 0.7em;
+    }
+  }
+  .freeze {
+    font-size: 12px;
+    // display: inline-block;
+  }
+  .amount {
+    font-size: 12px;
+    display: inline-block;
+  }
 }
 </style>
 <style lang="less">

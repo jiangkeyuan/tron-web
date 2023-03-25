@@ -92,7 +92,7 @@ const login = async () => {
       const data = await userLogin(userInfo);
       if (data.code === 12000 || data.code === 14009) {
         window.localStorage.setItem('token', data.data.token);
-        router.push('/buyer/dashboard')
+        router.push('/console')
       } else {
         loginFormRef.value.getCode(type.value || 0);
         ElMessage.error(data.msg);

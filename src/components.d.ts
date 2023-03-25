@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    '副本': typeof import('./components/recommend-popup-wrapper - 副本.vue')['default']
     ApiBox: typeof import('./components/api-box.vue')['default']
     CooperationPopupWrapper: typeof import('./components/cooperation-popup-wrapper.vue')['default']
     DashbordContent: typeof import('./components/dashbord-content.vue')['default']
@@ -14,20 +15,15 @@ declare module '@vue/runtime-core' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
     ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
-    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
-    ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
-    ElCol: typeof import('element-plus/es')['ElCol']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
-    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
-    ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElLink: typeof import('element-plus/es')['ElLink']
@@ -46,7 +42,6 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
-    ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Footer: typeof import('./components/Footer.vue')['default']
     GlobalIzation: typeof import('./components/GlobalIzation.vue')['default']
@@ -56,5 +51,8 @@ declare module '@vue/runtime-core' {
     RecommendPopupWrapper: typeof import('./components/recommend-popup-wrapper.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SellEnergyPopupWrapper: typeof import('./components/sell-energy-popup-wrapper.vue')['default']
+    SellPopupWrapper: typeof import('./components/sell-popup-wrapper.vue')['default']
+    TronLinkPcPopupWrapper: typeof import('./components/tron-link/tron-link-pc-popup-wrapper.vue')['default']
   }
 }

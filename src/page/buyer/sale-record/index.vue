@@ -50,7 +50,8 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination layout="prev, pager, next" :total="50" />
+      <el-pagination v-model:current-page='form.pageIndex' :page-size="form.pageSize" layout="prev, pager, next"
+        :total="form.totalCount" />
     </div>
 
     <el-dialog v-model="dialogTableVisible" append-to-body center :title="`订单号:${detailsValue.orderNo}`">
@@ -110,16 +111,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                          display: inline-block;
-                          width: fit-content;
-                          padding: 1px 7px;
-                          margin: 0px;
-                          background: rgb(255, 255, 255);
-                          border: 1px solid rgb(191, 191, 191);
-                          border-radius: 3px;
-                          font-size: 12px;
-                          color: rgb(191, 191, 191);
-                        ">
+                                                      display: inline-block;
+                                                      width: fit-content;
+                                                      padding: 1px 7px;
+                                                      margin: 0px;
+                                                      background: rgb(255, 255, 255);
+                                                      border: 1px solid rgb(191, 191, 191);
+                                                      border-radius: 3px;
+                                                      font-size: 12px;
+                                                      color: rgb(191, 191, 191);
+                                                    ">
                 已完成
               </div>
             </div>
@@ -134,6 +135,9 @@ import { getRentals } from "@/utils/axios/buyer/index.js";
 const form = reactive({
   date: [],
   type: "top",
+  pageIndex: 1,
+  pageSize: 20,
+  totalCount: 0
 });
 const apiKey = ref([]);
 const tableData = ref([]);
@@ -148,8 +152,8 @@ const gotoNew = (url) => {
 }
 
 const seach = async () => {
-  const data = await getRentals("/tron/user/rentals/12456");
-  tableData.value = data.data;
+  const data = await getRentals("/auth/user/rentals", form);
+  tableData.value = data.data.data;
 }
 
 const reset = () => {
@@ -209,7 +213,7 @@ onMounted(async () => {
 }
 
 .sale-record-search {
-  padding: 12px 10px 0;
+  padding: 12px 10px;
   display: flex;
   flex-direction: row;
   align-items: center;

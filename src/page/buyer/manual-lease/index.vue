@@ -40,7 +40,7 @@ const buy = async () => {
   if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }
   if (!form.rentalDays) { ElMessage.error('请输入租用天数'); return; }
   if (!form.receiveAddress) { ElMessage.error('请输入接收地址'); return; }
-  const data = await manaulBuy('/tron/user/manaul/buy', { ...form });
+  const data = await manaulBuy('/auth/user/manaul/buy', { ...form });
 }
 </script>
 <style scoped>

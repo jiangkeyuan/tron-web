@@ -12,7 +12,7 @@
     </el-form-item>
     <el-form-item label="Api Key">
       <el-select empty="11111" v-model="form.region" placeholder="please select your zone">
-        <el-option v-for="i in apiKey" :label="i.label" :value="i.value" />
+        <el-option v-for="i in apiKeyList" :label="i.label" :value="i.value" />
       </el-select>
     </el-form-item>
     <el-form-item>
@@ -21,13 +21,13 @@
     </el-form-item>
   </el-form>
   <div class="sale-record sale-record-table">
-    <el-radio-group v-model="form.type" class="sale-record-group">
-      <el-radio-button label="top">全部</el-radio-button>
-      <el-radio-button label="right">待质押</el-radio-button>
-      <el-radio-button label="bottom">质押中</el-radio-button>
-      <el-radio-button label="left">即将结束</el-radio-button>
-      <el-radio-button label="bottom">已完成</el-radio-button>
-      <el-radio-button label="left">未生效</el-radio-button>
+    <el-radio-group v-model="form.orderStatus" class="sale-record-group">
+      <el-radio-button label="">全部</el-radio-button>
+      <el-radio-button label="WAIT_DELEGATE">待代理</el-radio-button>
+      <el-radio-button label="DELEGATEING">代理中</el-radio-button>
+      <el-radio-button label="ALMOST_DONE">即将结束</el-radio-button>
+      <el-radio-button label="DONE">已完成</el-radio-button>
+      <el-radio-button label="UNAVAILABLE">未生效</el-radio-button>
     </el-radio-group>
 
     <el-table :data="tableData" stripe class="sale-record-table-list">
@@ -36,16 +36,16 @@
       <el-table-column prop="rentalQuantity" label="租用量" width="120" />
       <el-table-column prop="doneRentalQuantity" label="已完成租用量" width="120" />
       <el-table-column prop="rentalDays" label="租用时长" width="120" />
-      <el-table-column prop="payDate" label="支付时间" width="180" />
-      <el-table-column prop="stakeDate" label="质押时间" width="180" />
-      <el-table-column prop="freeze_time" label="到期时间" width="180" />
+      <el-table-column prop="payDate" label="支付时间" width="180" :formatter="(row) => filterDate(row.payDate)" />
+      <el-table-column prop="delegateDate" label="代理时间" width="180" :formatter="(row) => filterDate(row.delegateDate)" />
+      <el-table-column prop="expiredDate" label="到期时间" width="180" :formatter="(row) => filterDate(row.expiredDate)" />
       <el-table-column prop="payAmount" label="支付金额" width="120" />
-      <el-table-column prop="orderStatus" label="状态" width="120" />
+      <el-table-column prop="orderStatus" label="状态" width="120" :formatter="(row) => filterStatus(row.orderStatus)" />
       <el-table-column prop="date" label="更多操作" width="220" fixed="right">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="details(scope)">订单详情</el-button>
-          <el-button link type="primary" size="small" @click="gotoNew(scope.row.aaa)">质押详情</el-button>
-          <el-button link type="primary" size="small" @click="gotoNew(scope.row.aaa)">解压详情</el-button>
+          <el-button v-if="scope.row.transactionHash" link type="primary" size="small"
+            @click="gotoNew(scope.row.transactionHash)">代理详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,30 +98,30 @@
             <div>支付金额： <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
             <div>
               支付时间：
-              <span class="text">{{ detailsValue.payDate }}</span>
+              <span class="text">{{ filterDate(detailsValue.payDate) }}</span>
             </div>
             <div>
-              质押时间：
-              <span class="text">{{ detailsValue.stakeDate }}</span>
+              代理时间：
+              <span class="text">{{ filterDate(detailsValue.stakeDate) }}</span>
             </div>
             <div>
               到期时间：
-              <span class="text">{{ detailsValue.expiredDate }}</span>
+              <span class="text">{{ filterDate(detailsValue.expiredDate) }}</span>
             </div>
             <div class="flex">
               <span>状态：</span>
               <div style="
-                                                      display: inline-block;
-                                                      width: fit-content;
-                                                      padding: 1px 7px;
-                                                      margin: 0px;
-                                                      background: rgb(255, 255, 255);
-                                                      border: 1px solid rgb(191, 191, 191);
-                                                      border-radius: 3px;
-                                                      font-size: 12px;
-                                                      color: rgb(191, 191, 191);
-                                                    ">
-                已完成
+                            display: inline-block;
+                            width: fit-content;
+                            padding: 1px 7px;
+                            margin: 0px;
+                            background: rgb(255, 255, 255);
+                            border: 1px solid rgb(191, 191, 191);
+                            border-radius: 3px;
+                            font-size: 12px;
+                            color: rgb(191, 191, 191);
+                          ">
+                {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
           </div>
@@ -131,15 +131,16 @@
   </div>
 </template>
 <script setup>
-import { getRentals } from "@/utils/axios/buyer/index.js";
+import { getRentals, getApiList } from "@/utils/axios/buyer/index.js";
+import { filterDate } from '@/utils/utils/date.js';
 const form = reactive({
   date: [],
-  type: "top",
+  orderStatus: "",
   pageIndex: 1,
   pageSize: 20,
   totalCount: 0
 });
-const apiKey = ref([]);
+const apiKeyList = ref([]);
 const tableData = ref([]);
 const dialogTableVisible = ref(false);
 const detailsValue = reactive({});
@@ -152,8 +153,31 @@ const gotoNew = (url) => {
 }
 
 const seach = async () => {
-  const data = await getRentals("/auth/user/rentals", form);
+  if (form.date && form.date.length > 0) {
+    form.startTime = form.date[0]
+    form.endTime = form.date[1]
+  } else {
+    form.date = [];
+  }
+  const data = await getRentals("/tron/user/rentals", form);
   tableData.value = data.data.data;
+}
+
+const filterStatus = (status) => {
+  switch (status) {
+    case "WAIT_DELEGATE":
+      return "等待代理"
+    case "DELEGATEING":
+      return "代理中"
+    case "ALMOST_DONE":
+      return "即将结束"
+    case "DONE":
+      return "已经完成"
+    case "UNAVAILABLE":
+      return "未生效"
+    default:
+      return '';
+  }
 }
 
 const reset = () => {

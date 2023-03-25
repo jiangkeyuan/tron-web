@@ -8,7 +8,7 @@ export const generateVerifyCode = (routeValue) => {
 };
 
 export const userActivave = (activateCode) => {
-  return service.post(`/auth/activate?activateCode=${activateCode}`);
+  return service.get(`/auth/activate?activateCode=${activateCode}`);
 };
 
 export const userLogin = (params) => {

@@ -1,6 +1,6 @@
 <template>
   <div class="api-key">
-    <el-button class="api-key-button" type="primary" v-if="apiList.length !== 0" @click="createAPIKEY">创建API密钥</el-button>
+    <el-button class="api-key-button" type="primary" v-if="apiList.length !== 0" @click="createApi">创建API密钥</el-button>
 
     <div class="api-key-content" v-if="apiList.length === 0">
       <DashBord>
@@ -32,11 +32,12 @@
       <DashBord>
         <div class="api-key-content-header">
           <div class="api-key-content-header-left">
-            <span class="api-key-content-header-left-title">{{ item.value }}</span>
+            <span class="api-key-content-header-left-title">{{ item.keyName }}</span>
             <span class="api-key-content-header-left-edit" @click="() => edit(item)">编辑</span>
           </div>
           <div class="api-key-content-header-left">
-            <span class="api-key-content-header-left-title api-key-content-header-left-title-color">{{ item.id }}</span>
+            <span class="api-key-content-header-left-title api-key-content-header-left-title-color">{{ item.apiKey
+            }}</span>
             <el-icon size="15" @click="() => copyEnd(item.id)" class="recharge-content-address-icon" color="#294aa5">
               <CopyDocument />
             </el-icon>
@@ -66,8 +67,9 @@
 import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
 import { createAPIKEY } from "@/utils/utils/utils-ui.js";
-import { getApiList } from '@/utils/axios/buyer/index.js'
+import { getApiList, addApiList, updateApiList } from '@/utils/axios/buyer/index.js'
 import { onMounted } from "vue";
+import { ElMessage } from "element-plus";
 const apiList = ref([]);
 
 const copyEnd = (msg) => {
@@ -85,9 +87,19 @@ const edit = (item) => {
     inputErrorMessage: "Invalid Email",
     inputPlaceholder: "请输入内容",
     showCancelButton: false,
-    inputValue: item.name,
-    beforeClose: (a, b, done) => {
+    inputValue: item.keyName,
+    beforeClose: async (a, b, done) => {
       if (a === "confirm") {
+        const data = await updateApiList({
+          keyName: b.inputValue,
+          id: item.id
+        });
+        ElMessage.success(data.msg);
+        if (data.code === 12000) {
+          searchApi();
+          done();
+        }
+      } else {
         done();
       }
     },
@@ -95,10 +107,16 @@ const edit = (item) => {
 };
 
 const createApi = () => {
-  createAPIKEY();
+  if (apiList.value.length >= 3) {
+    ElMessage.error('API KEYS最多只能三条')
+    return;
+  }
+  createAPIKEY(() => {
+    searchApi();
+  });
 }
 const searchApi = async () => {
-  const data = await getApiList("/tron/user/apikeys/12456");
+  const data = await getApiList("/tron/user/apikeys");
   if (data.code === 12000) {
     apiList.value = data.data;
   }

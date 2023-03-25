@@ -11,7 +11,7 @@
           </el-input>
           <span class="maual-lease-item-energy-text">
             大约需要支付
-            <span class="maual-lease-item-energy-text-num">4.933333333324445e+57</span>
+            <span class="maual-lease-item-energy-text-num">{{ rentalEnergynum }}</span>
             TRX
           </span>
         </div>
@@ -23,7 +23,7 @@
         <el-input v-model="form.receiveAddress" placeholder="必须输入接受地址" />
       </el-form-item>
       <el-form-item class="maual-lease-item">
-        <el-button type="primary" @click="buy">租 用</el-button>
+        <el-button type="primary" @click="() => buy()">租 用</el-button>
         <el-button link type="primary">批量租赁</el-button>
       </el-form-item>
     </el-form>
@@ -31,16 +31,29 @@
 </template>
 <script setup>
 import { manaulBuy } from '@/utils/axios/buyer/index';
+import { ElMessage } from 'element-plus';
 const form = reactive({
   receiveAddress: '',
   rentalDays: 3,
   rentalEnergyQuantity: ''
 });
+
+let rentalEnergynum = ref(null);
+
+watch([() => form.rentalEnergyQuantity, () => form.rentalDays], (n, o) => {
+  console.log(n)
+  const rate = +n[0] >= 50000 ? 115 : 120;
+  rentalEnergynum.value = +n[0] * rate * n[1] / 1000000
+})
+
 const buy = async () => {
   if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }
   if (!form.rentalDays) { ElMessage.error('请输入租用天数'); return; }
   if (!form.receiveAddress) { ElMessage.error('请输入接收地址'); return; }
-  const data = await manaulBuy('/auth/user/manaul/buy', { ...form });
+  const data = await manaulBuy('/tron/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });
+  ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg);
+  const store = useStore();
+  store.dispatch('getUserInfoAction');
 }
 </script>
 <style scoped>

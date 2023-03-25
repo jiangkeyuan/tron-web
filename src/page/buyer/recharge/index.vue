@@ -1,28 +1,17 @@
 <template>
   <div class="recharge">
     <DashBord>
-      <div class="recharge-content-history" @click="gotoRechargeLog">
+      <div class="recharge-content-history" @click="() => gotoRechargeLog()">
         充值记录
       </div>
       <el-tabs v-model="activeName">
         <el-tab-pane label="DAPP" name="first">
           <div class="recharge-content">
-            <el-input
-              v-model="rechargeAmount"
-              size="large"
-              class="recharge-content-input"
-            >
+            <el-input v-model="rechargeAmount" size="large" class="recharge-content-input">
               <template #append>TRX</template>
             </el-input>
-            <el-button
-              @click="addMoney"
-              type="primary"
-              class="recharge-content-button"
-              >充 值</el-button
-            >
-            <span class="recharge-content-text"
-              >充值实时到账,用不完的余额也可随时提取</span
-            >
+            <el-button @click="addMoney" type="primary" class="recharge-content-button">充 值</el-button>
+            <span class="recharge-content-text">充值实时到账,用不完的余额也可随时提取</span>
           </div>
         </el-tab-pane>
         <el-tab-pane label="转账充值" name="second">
@@ -30,24 +19,19 @@
             <span>平台钱包地址</span>
             <div class="recharge-content-address">
               <span>{{ rechargeAdress }}</span>
-              <el-icon
-                @click="copyEnd"
-                class="recharge-content-address-icon"
-                color="#294aa5"
-                ><CopyDocument
-              /></el-icon>
+              <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#294aa5">
+                <CopyDocument />
+              </el-icon>
             </div>
             <div class="recharge-content-two-text">
               <span>*</span>
               <span class="recharge-content-two-text-child">
-                请使用波场浏览器或手机钱包进行转账</span
-              >
+                请使用波场浏览器或手机钱包进行转账</span>
             </div>
             <div class="recharge-content-two-text">
               <span>*</span>
               <span class="recharge-content-two-text-child">
-                请核对钱包地址后再转账,若转账后没查到充值金额,可联系客服找回</span
-              >
+                请核对钱包地址后再转账,若转账后没查到充值金额,可联系客服找回</span>
             </div>
             <div class="recharge-content-two-text">
               <span>*</span>
@@ -63,9 +47,12 @@
 import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
 import { useRouter } from "vue-router";
+import { md5 } from "@/utils/utils/md5.js";
+import { dappRecharge } from '@/utils/axios/buyer/index';
 const router = useRouter();
 const activeName = ref("first");
 const rechargeAmount = ref("");
+const store = useStore();
 const rechargeAdress = ref("TFoTX1MtKuG97pUo3crNXjdZLY6fS77777");
 
 const addMoney = async () => {
@@ -73,23 +60,29 @@ const addMoney = async () => {
     method: "tron_requestAccounts",
   });
   if (!isRead) return;
-  tronWeb.trx.signMessage("111").then((res) => {
-    console.log(res);
-  });
-
-  // console.log(isRead);
-  // const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
-  // const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
-  //   "TFoTX1MtKuG97pUo3crNXjdZLY6fS77777",
-  //   1,
-  //   base58Key
-  // );
-  // const signedTxn = await tronWeb.trx.sign(unsignedTxn);
-  // var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
-  // console.log(broastTx);
+  // tronWeb.trx.signMessage("111").then((res) => {
+  //   console.log(res);
+  // });
+  const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
+  const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
+    "TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq",
+    rechargeAmount.value * 1000000,
+    base58Key
+  );
+  const signedTxn = await tronWeb.trx.sign(unsignedTxn);
+  var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
+  const data = await dappRecharge({ transactionHash: broastTx.txid, signedTransactionHash: "x8SY39r6SOyHcycsYvSWT0WqYXg0uGvZ" })
+  if (data.code === 12000) {
+    ElMessage.success(data.msg);
+    store.dispatch('getUserInfoAction');
+  } else {
+    ElMessage.error(data.msg);
+  }
 };
 
-onMounted(async () => {});
+onMounted(async () => {
+  console.log(md5(11111, 'x8SY39r6SOyHcycsYvSWT0WqYXg0uGvZ'));
+});
 
 const copyEnd = () => {
   copy({
@@ -101,28 +94,35 @@ const copyEnd = () => {
 };
 
 const gotoRechargeLog = () => {
-  router.push("/buyer/recharge-log");
+  router.push("/console/buyer/recharge-log");
 };
 </script>
 <style scoped>
 .recharge {
   position: relative;
+  background: red;
 }
+
 .recharge-content-history {
   cursor: pointer;
   position: absolute;
   right: 40px;
   top: 20px;
+  display: inline-block;
   color: #294aa5;
+  background: red;
   transition: color 0.3s;
 }
+
 .recharge-content-two-text-child {
   color: #000000d9;
 }
+
 .recharge-content-two-text {
   color: red;
   margin-top: 10px;
 }
+
 .recharge-content {
   width: 100%;
   background: #f2f6ff;
@@ -132,17 +132,21 @@ const gotoRechargeLog = () => {
   display: flex;
   flex-direction: column;
 }
+
 .recharge-content-input {
   width: 500px;
 }
+
 .recharge-content-button {
   width: 160px;
   height: 40px;
   margin: 15px 0;
 }
+
 .recharge-content-text {
   font-size: 14px;
 }
+
 .recharge-content-address {
   height: 48px;
   width: 450px;
@@ -161,6 +165,7 @@ const gotoRechargeLog = () => {
   transition: all 0.3s;
   align-items: center;
 }
+
 .recharge-content-address-icon {
   cursor: pointer;
 }

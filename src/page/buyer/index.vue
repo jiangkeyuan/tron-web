@@ -5,15 +5,10 @@
         <Logo></Logo>
       </router-link>
       <ul class="home-left-menu">
-        <router-link
-          :to="item.route"
-          :class="[
-            { 'home-left-menu-li-active': item.isActive },
-            'home-left-menu-li',
-          ]"
-          v-for="item in store.getters.menuList"
-          :key="item.router"
-        >
+        <router-link :to="item.route" :class="[
+          { 'home-left-menu-li-active': item.isActive },
+          'home-left-menu-li',
+        ]" v-for="item in store.getters.menuList" :key="item.router">
           <el-icon class="home-left-menu-li-icon">
             <component :is="item.img"></component>
           </el-icon>
@@ -56,7 +51,7 @@ const menuType = computed(() => {
 });
 
 const title = (t) => {
-  return menuType.value === t ? "卖家版" : "买家版";
+  return store.state.menuList.menuType === t ? "卖家版" : "买家版";
 };
 
 const changMenuType = () => {
@@ -69,6 +64,11 @@ const changMenuType = () => {
     store.commit("changeMenuType", 0);
   }
 };
+onMounted(() => {
+  if (route.fullPath.includes('/buyer/')) {
+    store.commit("changeMenuType", 0);
+  }
+})
 </script>
 <style scoped>
 .home-wrapper-user-item {

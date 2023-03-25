@@ -82,7 +82,7 @@ const sellerMenuList = [
 
 export default {
   state: {
-    menuType: 0, //0 是卖家 1是买家
+    menuType: 1, //0 是卖家 1是买家
   },
   getters: {
     menuList: () => {

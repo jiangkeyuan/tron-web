@@ -15,12 +15,12 @@
           <DefaultAvatar class="home-wrapper-user-avatar" width="36" height="36"></DefaultAvatar>
           <div class="home-wrapper-user-no">
             <span class="home-wrapper-user-no-name">
-              554125225@qq.com
+              {{ store.state.userInfo.userInfo.email }}
               <el-icon class="home-left-button-icon">
                 <ArrowDown />
               </el-icon>
             </span>
-            <span class="home-wrapper-user-no-amount">余额：53.436533 TRX</span>
+            <span class="home-wrapper-user-no-amount">余额：{{ store.state.userInfo.userInfo.availableBalance }} TRX</span>
           </div>
         </div>
         <template #dropdown>
@@ -178,6 +178,10 @@ const menuType = computed(() => {
 const title = (t) => {
   return menuType.value === t ? "卖家版" : "买家版";
 };
+
+onMounted(() => {
+  store.dispatch('getUserInfoAction');
+})
 </script>
 <style scoped>
 .dialog-footer {

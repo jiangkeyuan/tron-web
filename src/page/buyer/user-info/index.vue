@@ -37,7 +37,8 @@
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+</script>
 <style scoped>
 .login-method {
   display: grid;
@@ -45,6 +46,7 @@
   gap: 10px 60px;
   align-items: center;
 }
+
 h1 {
   font-size: 16px;
   font-family: PingFang SC, PingFang SC-Regular;
@@ -52,23 +54,27 @@ h1 {
   text-align: left;
   color: #121c41;
 }
+
 .tips {
   font-size: 12px;
   color: #989fae;
   margin-bottom: 15px;
   margin-top: 8px;
 }
+
 .btn {
   display: inline-block;
   cursor: pointer;
   color: #266ef1 !important;
 }
+
 .content-line {
   width: 1px;
   height: 38px;
   margin: 0 70px;
   border: 1px solid #e3ecfc;
 }
+
 .user-content {
   background: #fff;
   border-radius: 10px;
@@ -80,16 +86,19 @@ h1 {
   text-align: left;
   color: #121c41;
 }
+
 .user-content-one {
   display: flex;
   flex-direction: row;
   margin-top: 5px;
 }
+
 .basic-info {
   display: grid;
   grid-template-columns: repeat(2, auto);
   gap: 8px 60px;
 }
+
 .font {
   font-size: 14px;
   font-family: PingFang SC, PingFang SC-Regular;
@@ -97,7 +106,7 @@ h1 {
   text-align: left;
   color: #707582;
 }
+
 .text {
   color: #121c41;
-}
-</style>
+}</style>

@@ -7,14 +7,15 @@ export const getFinishedOrders = (params) => {
 };
 export const getManualOrders = (params) => {
   return service({
-    url: "/auth/manual/orders",
+    url: "/index/manual/orders",
     params,
   });
 };
-export const sellManualOrders = (params) => {
+export const sellManualOrders = (data) => {
   return service({
-    url: "/auth/manual/sell",
-    params,
+    url: "/index/manual/sell",
+    method: 'POST',
+    data,
   });
 };
 

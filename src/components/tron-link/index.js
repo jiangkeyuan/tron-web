@@ -2,13 +2,16 @@ import { createApp } from 'vue'
 import TronLinkPopup from './tron-link-pc-popup-wrapper.vue'
 import { ElMessage } from 'element-plus'
 export default function TronLink (options = {}) {
-  return new Promise((resolve, reject) => {
-    const isLoginTron = false;
-    if (!window.tronLink || !isLoginTron) {
+  return new Promise(async(resolve, reject) => {
+    const isRead = await window.tronLink.request({
+        method: "tron_requestAccounts",
+      });
+    const isLoginTron = isRead;
+    if (!window.tronLink || isLoginTron == '') {
         if(!window.tronLink) {
             ElMessage.error('请安装 TronLink 钱包')
         }
-        if(!isLoginTron) {
+        if(isLoginTron == '') {
             ElMessage.error('请登录 TronLink 钱包')
         }
       const mountNode = document.createElement('div')

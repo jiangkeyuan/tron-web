@@ -56,14 +56,14 @@
             <template #title>能量交易</template>
             <el-menu-item index="2-1">
               <div class="link">
-                  <div class="sub-link_title">自助交易</div>
-                  <p class="intro">灵活选择 价格优惠</p>
+                <div class="sub-link_title">自助交易</div>
+                <p class="intro">灵活选择 价格优惠</p>
               </div>
             </el-menu-item>
             <el-menu-item index="2-2">
               <div class="link">
-                  <div class="sub-link_title">快捷交易</div>
-                  <p class="intro">租期更长 快速成交</p>
+                <div class="sub-link_title">快捷交易</div>
+                <p class="intro">租期更长 快速成交</p>
               </div>
             </el-menu-item>
           </el-sub-menu>
@@ -79,7 +79,11 @@
       <a class="service-wrapper">
         <img src="@/assets/logo/logo.svg" alt="" class="img" />
       </a>
-      <a href="/" class="user-wrapper">登录/注册</a>
+      <a href="javascript:;" class="user-wrapper" @click="login">
+        <span class="account">
+          {{ store.state.userInfo.userInfo.email || '登录/注册' }}
+        </span>
+      </a>
       <div class="lang-wrapper">
         <div class="current-lang">
           <span>简体中文</span>
@@ -99,13 +103,24 @@
 
 <script setup>
 import { ref, defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
+const store = useStore()
+const router = useRouter()
 const activeIndex = ref('1')
 const activeIndex2 = ref('1')
 const emit = defineEmits(['itemClick'])
 const handleSelect = (key, keyPath) => {
   emit('itemClick', { key, keyPath })
 }
-onMounted(() => {})
+const login = () => {
+  if (store.state.userInfo.userInfo.email) {
+    return router.push('/console')
+  }
+  router.push('/auth/login')
+}
+onMounted(() => {
+  store.dispatch('getUserInfoAction')
+})
 </script>
 
 <style lang="less" scoped>
@@ -165,6 +180,12 @@ onMounted(() => {})
       border: 1.5px solid #fff;
       border-radius: 30px;
       color: #fff;
+      .account {
+        width: 60px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
     .lang-wrapper {
       --sub-nav-offset: 10px;

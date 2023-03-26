@@ -18,3 +18,7 @@ export const userLogin = (params) => {
 export const changePassWordRequest = (params) => {
   return service.patch("/users/changePwd", params);
 };
+
+export const tronNonce = (params) => {
+  return service.post("/auth/tron_nonce", params);
+};

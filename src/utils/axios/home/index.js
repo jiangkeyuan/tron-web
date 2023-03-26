@@ -1,7 +1,7 @@
 import service from "../request";
 export const getFinishedOrders = (params) => {
   return service({
-    url: "/tron/finished/orders",
+    url: "/buyer/finished/orders",
     params,
   });
 };

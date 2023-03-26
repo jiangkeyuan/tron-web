@@ -13,17 +13,17 @@ export const getApiList = async (url) => {
 };
 
 export const addApiList = async (params) => {
-  return await service.post("/tron/user/apikey/add", params);
+  return await service.post("/buyer/user/apikey/add", params);
 };
 
 export const updateApiList = async (params) => {
-  return await service.post("/tron/user/apikey/update", params);
+  return await service.post("/buyer/user/apikey/update", params);
 };
 
 export const dappRecharge = async (params) => {
-  return await service.post("/tron/user/dapp/recharge", params);
+  return await service.post("/buyer/user/dapp/recharge", params);
 };
 
 export const rechargesLog = async (params) => {
-  return await service.post("/tron/user/recharges", params);
+  return await service.post("/buyer/user/recharges", params);
 };

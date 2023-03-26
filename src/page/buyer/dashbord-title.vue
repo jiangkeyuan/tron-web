@@ -1,7 +1,7 @@
 <template>
   <div class="home-right-wrapper">
     <div class="home-right-wrapper-header">
-      <span class="home-right-wrapper-header-l"> {{ title(0) }} / </span>
+      <span class="home-right-wrapper-header-l"> {{ leftTitle }} / </span>
       <span class="home-right-wrapper-header-r">
         {{ rightTitle }}
       </span>
@@ -108,10 +108,25 @@ import { useRouter, useRoute } from "vue-router";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
-const rightTitle = ref("");
 const dialogFormVisible = ref(false);
 const form = reactive({});
 const ruleFormRef = ref('');
+const title = () => {
+  return route.fullPath.includes('/buyer') ? "买家版" : "卖家版"
+};
+
+const rightTitleFunc = () => {
+  let name = "";
+  store.getters.menuList.map((v) => {
+    if (v.isActive) {
+      name = v.title;
+    }
+  });
+
+  return name;
+}
+const rightTitle = ref(rightTitleFunc() || '管理面板');
+const leftTitle = ref(title());
 
 const checkPassWord = (rule, v, callback) => {
   if (v !== form.newPwd) {
@@ -164,20 +179,13 @@ const gotoFund = (route) => {
 };
 
 watch(route, () => {
-  store.getters.menuList.map((v) => {
-    if (v.isActive) {
-      rightTitle.value = v.title;
-    }
-  });
+  rightTitle.value = rightTitleFunc();
+  leftTitle.value = title();
 });
 
 const menuType = computed(() => {
   return store.state.menuList.menuType;
 });
-
-const title = (t) => {
-  return menuType.value === t ? "卖家版" : "买家版";
-};
 
 onMounted(() => {
   store.dispatch('getUserInfoAction');

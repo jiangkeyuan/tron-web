@@ -116,7 +116,7 @@ const createApi = () => {
   });
 }
 const searchApi = async () => {
-  const data = await getApiList("/tron/user/apikeys");
+  const data = await getApiList("/buyer/user/apikeys");
   if (data.code === 12000) {
     apiList.value = data.data;
   }

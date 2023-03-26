@@ -19,7 +19,7 @@
         <el-icon class="home-left-button-icon">
           <ShoppingCart />
         </el-icon>
-        <span class="home-left-button-text"> 切换{{ title(1) }}</span>
+        <span class="home-left-button-text"> 切换{{ title(0) }}</span>
       </div>
     </div>
     <div class="home-right">
@@ -66,7 +66,7 @@ const changMenuType = () => {
 };
 onMounted(() => {
   if (route.fullPath.includes('/buyer/')) {
-    store.commit("changeMenuType", 0);
+    store.commit("changeMenuType", 1);
   }
 })
 </script>

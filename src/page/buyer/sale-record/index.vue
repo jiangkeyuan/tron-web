@@ -111,16 +111,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                            display: inline-block;
-                            width: fit-content;
-                            padding: 1px 7px;
-                            margin: 0px;
-                            background: rgb(255, 255, 255);
-                            border: 1px solid rgb(191, 191, 191);
-                            border-radius: 3px;
-                            font-size: 12px;
-                            color: rgb(191, 191, 191);
-                          ">
+                              display: inline-block;
+                              width: fit-content;
+                              padding: 1px 7px;
+                              margin: 0px;
+                              background: rgb(255, 255, 255);
+                              border: 1px solid rgb(191, 191, 191);
+                              border-radius: 3px;
+                              font-size: 12px;
+                              color: rgb(191, 191, 191);
+                            ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
@@ -159,7 +159,7 @@ const seach = async () => {
   } else {
     form.date = [];
   }
-  const data = await getRentals("/tron/user/rentals", form);
+  const data = await getRentals("/buyer/user/rentals", form);
   tableData.value = data.data.data;
 }
 

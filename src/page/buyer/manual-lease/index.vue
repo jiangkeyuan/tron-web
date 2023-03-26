@@ -32,6 +32,7 @@
 <script setup>
 import { manaulBuy } from '@/utils/axios/buyer/index';
 import { ElMessage } from 'element-plus';
+const store = useStore();
 const form = reactive({
   receiveAddress: '',
   rentalDays: 3,
@@ -50,10 +51,9 @@ const buy = async () => {
   if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }
   if (!form.rentalDays) { ElMessage.error('请输入租用天数'); return; }
   if (!form.receiveAddress) { ElMessage.error('请输入接收地址'); return; }
-  const data = await manaulBuy('/tron/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });
-  ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg);
-  const store = useStore();
+  const data = await manaulBuy('/buyer/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });
   store.dispatch('getUserInfoAction');
+  ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg);
 }
 </script>
 <style scoped>

@@ -1,45 +1,47 @@
 <template>
   <div class="recharge">
     <DashBord>
-      <div class="recharge-content-history" @click="() => gotoRechargeLog()">
-        充值记录
+      <div class="recharge">
+        <div class="recharge-content-history" @click="() => gotoRechargeLog()">
+          充值记录
+        </div>
+        <el-tabs v-model="activeName">
+          <el-tab-pane label="DAPP" name="first">
+            <div class="recharge-content">
+              <el-input v-model="rechargeAmount" size="large" class="recharge-content-input">
+                <template #append>TRX</template>
+              </el-input>
+              <el-button @click="addMoney" type="primary" class="recharge-content-button">充 值</el-button>
+              <span class="recharge-content-text">充值实时到账,用不完的余额也可随时提取</span>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="转账充值" name="second">
+            <div class="recharge-content">
+              <span>平台钱包地址</span>
+              <div class="recharge-content-address">
+                <span>{{ rechargeAdress }}</span>
+                <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#294aa5">
+                  <CopyDocument />
+                </el-icon>
+              </div>
+              <div class="recharge-content-two-text">
+                <span>*</span>
+                <span class="recharge-content-two-text-child">
+                  请使用波场浏览器或手机钱包进行转账</span>
+              </div>
+              <div class="recharge-content-two-text">
+                <span>*</span>
+                <span class="recharge-content-two-text-child">
+                  请核对钱包地址后再转账,若转账后没查到充值金额,可联系客服找回</span>
+              </div>
+              <div class="recharge-content-two-text">
+                <span>*</span>
+                <span> 必须使用账号绑定的钱包地址转账充值才可以正常入账</span>
+              </div>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
       </div>
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="DAPP" name="first">
-          <div class="recharge-content">
-            <el-input v-model="rechargeAmount" size="large" class="recharge-content-input">
-              <template #append>TRX</template>
-            </el-input>
-            <el-button @click="addMoney" type="primary" class="recharge-content-button">充 值</el-button>
-            <span class="recharge-content-text">充值实时到账,用不完的余额也可随时提取</span>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="转账充值" name="second">
-          <div class="recharge-content">
-            <span>平台钱包地址</span>
-            <div class="recharge-content-address">
-              <span>{{ rechargeAdress }}</span>
-              <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#294aa5">
-                <CopyDocument />
-              </el-icon>
-            </div>
-            <div class="recharge-content-two-text">
-              <span>*</span>
-              <span class="recharge-content-two-text-child">
-                请使用波场浏览器或手机钱包进行转账</span>
-            </div>
-            <div class="recharge-content-two-text">
-              <span>*</span>
-              <span class="recharge-content-two-text-child">
-                请核对钱包地址后再转账,若转账后没查到充值金额,可联系客服找回</span>
-            </div>
-            <div class="recharge-content-two-text">
-              <span>*</span>
-              <span> 必须使用账号绑定的钱包地址转账充值才可以正常入账</span>
-            </div>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
     </DashBord>
   </div>
 </template>
@@ -56,13 +58,17 @@ const store = useStore();
 const rechargeAdress = ref("TFoTX1MtKuG97pUo3crNXjdZLY6fS77777");
 
 const addMoney = async () => {
+  console.log(window.tronLink)
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
+  console.log(isRead)
   if (!isRead) return;
   // tronWeb.trx.signMessage("111").then((res) => {
   //   console.log(res);
   // });
+  console.log(window.tronLink);
+  console.log(window.tronLink.tronWeb.getBalance);
   const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
   const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
     "TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq",
@@ -100,17 +106,16 @@ const gotoRechargeLog = () => {
 <style scoped>
 .recharge {
   position: relative;
-  background: red;
 }
 
 .recharge-content-history {
   cursor: pointer;
   position: absolute;
   right: 40px;
-  top: 20px;
+  top: 0;
+  z-index: 99;
   display: inline-block;
   color: #294aa5;
-  background: red;
   transition: color 0.3s;
 }
 

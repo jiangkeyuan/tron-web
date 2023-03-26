@@ -41,7 +41,7 @@
               @click="() => changeType('2')">忘记密码?</el-button>
           </div>
           <el-divider>或使用以下方式快速登录</el-divider>
-          <div class="login-content-other-login-text-button">
+          <div class="login-content-other-login-text-button" @click="() => tron_login()">
             <img width="20" src="@//assets/login/tron-link-logo.svg" />
             <span>TronLink</span>
           </div>
@@ -64,6 +64,17 @@
         </div>
       </LoginForm>
     </div>
+
+    <el-dialog append-to-body v-model="dialogTableVisible" width="450">
+      <div class="custom-modal-centent">
+        <img class="tron-link-logo" src="@/assets/login/tron-link-logo.svg" width="80" alt="图片加载失败">
+        <div class="sign-title">验证所有权</div>
+        <div class="sign-text">您即将收到签名请求，签名是免费的，不会发送交易</div>
+        <el-button @click="tron_register" type="primary" color="#294aa5" class="login-content-button">发送请求</el-button>
+      </div>
+    </el-dialog>
+
+
   </div>
 </template>
 <script setup>
@@ -71,10 +82,12 @@ import Logo from "@/components/logo.vue";
 import GlobalIzation from "@/components/GlobalIzation.vue";
 import LoginForm from "./components/login-form.vue";
 import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js';
-import { usersRegister, userActivave, userLogin } from '@/utils/axios/login/index.js';
+import { usersRegister, userActivave, userLogin, tronNonce } from '@/utils/axios/login/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import TronWeb from "tronweb";
 const router = useRouter();
+const dialogTableVisible = ref(false);
 const userInfo = reactive({
   email: "",
   passWord: "",
@@ -100,6 +113,55 @@ const login = async () => {
     }
   });
 }
+
+const tron_login = async () => {
+  dialogTableVisible.value = true;
+
+}
+
+const tron_register = async () => {
+  // const isReads = await window.tronLink.request({
+  //   method: "TronWeb.trx.getBalance",
+  // });
+  // console.log(isReads)
+  // return;
+  const isRead = await window.tronLink.request({
+    method: "tron_requestAccounts",
+  });
+  console.log(isRead)
+  if (!isRead) {
+    ElMessage.error('未连接到钱包');
+    return;
+  };
+  console.log(window.tronLink);
+  console.log(window.tronLink.tronWeb.getBalance);
+  const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
+  const data = await tronNonce({ walletAddress: base58Key })
+  dialogTableVisible.value = false
+  console.log(data);
+  if (data.code === 12000) {
+    const nonce_certificate = data.data.nonce_certificate
+    tronWeb.trx.signMessage(nonce_certificate).then(async (res) => {
+      console.log(res, 'xxxxx');
+      if (res) {
+        const data = await userLogin({
+          walletAddress: base58Key,
+          nonce_certificate: nonce_certificate
+        });
+        if (data.code === 12000 || data.code === 14009) {
+          window.localStorage.setItem('token', data.data.token);
+          router.push('/console')
+        } else {
+          ElMessage.error(data.msg);
+        }
+      }
+    });
+  } else {
+    ElMessage.error(data.msg)
+  }
+
+}
+
 const changeType = (t) => {
   var newurl = updateQueryStringParameter(window.location.href, 'type', t);
   //向当前url添加参数，没有历史记录
@@ -152,6 +214,28 @@ onMounted(async () => {
 })
 </script>
 <style scoped>
+.sign-title {
+  font-size: 18px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.sign-text {
+  margin-bottom: 30px;
+}
+
+.tron-link-logo {
+  width: 80px;
+  height: 80px;
+}
+
+.custom-modal-centent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .verify-account-bg {
   width: 120px;
   margin-top: 40px;

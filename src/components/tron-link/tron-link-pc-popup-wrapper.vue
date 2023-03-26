@@ -42,16 +42,17 @@ const handleClose = () => {
   props.remove()
 }
 const handleLinkTron = async () => {
-  if (!window.tronLink) {
-    return ElMessage({
-      message: '请安装 TronLink 钱包',
-      type: 'warning'
-    })
-  }
-//   console.log('请安装 TronLink 钱包')
+  console.log('请连接 TronLink 钱包')
   const isRead = await window.tronLink.request({
-    method: "tron_requestAccounts",
-  });
+    method: 'tron_requestAccounts'
+  })
+  console.log('isRead', isRead)
+  if (isRead == '') {
+    return ElMessage.error('请登录 TronLink 钱包')
+  }
+  if (isRead.code == 200) {
+    props.remove()
+  }
 }
 </script>
 

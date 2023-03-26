@@ -21,13 +21,11 @@
         </div>
       </div>
 
-      <div class="wallet-container">
+      <div class="wallet-container" v-if="address">
         <div class="wallet-content">
           <div class="wallet item">
             <div class="header">
-              <span class="c2c_address"
-                >TTbQQMGYapeXV9qiHjoHV6uVWL48HDHYfm</span
-              >
+              <span class="c2c_address">{{ address }}</span>
               <i class="img symbol"
                 ><el-icon><StarFilled /></el-icon
               ></i>
@@ -194,7 +192,7 @@
                   <el-table-column fixed="right" label="操作">
                     <template #default>
                       <el-button link type="primary" size="small"
-                        >出售</el-button
+                        >交易哈希</el-button
                       >
                     </template>
                   </el-table-column>
@@ -238,7 +236,11 @@
     </div>
   </div>
   <!-- <TronLinkPcPopupWrapper :show="true"></TronLinkPcPopupWrapper> -->
-  <SellEnergyPopupWrapper :show="showSellEnergyPopup" @close="closeSellEnergyPopup"></SellEnergyPopupWrapper>
+  <SellEnergyPopupWrapper
+    :show="showSellEnergyPopup"
+    @close="closeSellEnergyPopup"
+    :rowData="rowData"
+  ></SellEnergyPopupWrapper>
 </template>
 
 <script setup>
@@ -257,8 +259,11 @@ import {
   getManualOrders,
   sellManualOrders
 } from '@/utils/axios/home/index.js'
+import { reactive } from 'vue'
 const value = ref('Option2')
 const manualOrders = ref([])
+const rowData = reactive({})
+const address = ref('')
 const showSellEnergyPopup = ref(false)
 const options = [
   {
@@ -320,20 +325,32 @@ const queryManualOrders = async () => {
 // 出售
 const handleSell = async row => {
   console.log('row', row.orderId)
+  Object.assign(rowData, row)
   await TronLink()
-  console.log('-----------------------')
-  //   const data = await sellManualOrders()
-  //   if (data.code == 12000) {
-  //     // manualOrders.value = data.data
-  //     console.log(data.data);
-  //   }
   showSellEnergyPopup.value = true
 }
-const closeSellEnergyPopup = () =>{
-    showSellEnergyPopup.value = false
+const search = async () => {
+  await TronLink()
+  //   showSellEnergyPopup.value = true
+
+  console.log('999999999999999999999996666666666666')
+}
+
+const closeSellEnergyPopup = () => {
+  showSellEnergyPopup.value = false
 }
 onMounted(() => {
-    queryManualOrders()
+  address.value = window.tronWeb?.defaultAddress?.base58
+  queryManualOrders()
+  window.addEventListener('message', function (e) {
+    if (e.data.message && e.data.message.action == 'tabReply') {
+      if (e.data.message.data?.data?.address) {
+        address.value = e.data.message.data.data.address
+      } else {
+        address.value = ''
+      }
+    }
+  })
 })
 </script>
 

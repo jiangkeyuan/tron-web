@@ -22,11 +22,42 @@
     </el-form>
   </DashbordContent>
   <DashbordContent>
+    <el-radio-group v-model="radio2">
+      <el-radio-button :label="0">全部</el-radio-button>
+      <el-radio-button :label="1">质押中</el-radio-button>
+      <el-radio-button :label="2">即将结束</el-radio-button>
+      <el-radio-button :label="3">已完成</el-radio-button>
+    </el-radio-group>
     <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="date" label="时间"> </el-table-column>
-      <el-table-column prop="name" label="类型" />
-      <el-table-column prop="address" label="金额" />
-      <el-table-column prop="address" label="交易哈希" />
+      <el-table-column prop="date" label="订单号"> </el-table-column>
+      <el-table-column prop="name" label="质押时间" />
+      <el-table-column prop="address" label="钱包" />
+      <el-table-column prop="address" label="结算金额" />
+      <el-table-column prop="address" label="单价" />
+      <el-table-column prop="address" label="质押" />
+      <el-table-column prop="address" label="到期时间">
+        <template #header>
+          <div>
+            到期时间
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="香港时间"
+              placement="right"
+            >
+              <el-icon><WarningFilled /></el-icon>
+            </el-tooltip>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="address" label="订单状态" />
+      <el-table-column prop="address" label="操作">
+        <template #default>
+          <el-button link type="primary" size="small">
+            质押详情</el-button>
+            <el-button link type="primary" size="small">解押详情</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </DashbordContent>
 </template>
@@ -36,6 +67,11 @@ const formInline = reactive({
   user: '',
   region: ''
 })
+const radio2 = ref(0)
+
+const handleClick = (tab, event) => {
+  console.log(tab, event)
+}
 const value1 = ref('')
 const tableData = [
   {
@@ -64,6 +100,4 @@ const onSubmit = () => {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

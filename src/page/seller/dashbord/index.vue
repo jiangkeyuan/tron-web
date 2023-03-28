@@ -10,7 +10,9 @@
                 >(累计收益：<span class="red">26,827.34147</span>TRX)
               </span>
             </div>
-            <div class="font icon-question">2</div>
+            <div class="font icon-question">
+                <Tips content="收益利润=订单收益+投票收益"></Tips>
+            </div>
           </div>
           <div class="flex">
             <div>
@@ -94,6 +96,7 @@
 
 <script setup>
 import { WarningFilled } from '@element-plus/icons-vue'
+import Tips from './tips.vue'
 const tableData = [
   {
     date: '2016-05-03',

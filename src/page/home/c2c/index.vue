@@ -78,7 +78,7 @@
           <div class="tablist">
             <div class="right-extra">
               <div class="btns">
-                <span class="buy">
+                <span class="buy" @click="handleBuy">
                   <i class="img"></i>
                   购买
                 </span>
@@ -241,10 +241,12 @@
     @close="closeSellEnergyPopup"
     :rowData="rowData"
   ></SellEnergyPopupWrapper>
+  <BuyPopup :show="showBuyPopup" @close="closeBuyPopup"></BuyPopup>
 </template>
 
 <script setup>
 import TronLink from '@/components/tron-link/index.js'
+import BuyPopup from './buy-popup.vue'
 import {
   Calendar,
   Histogram,
@@ -264,6 +266,7 @@ const value = ref('Option2')
 const manualOrders = ref([])
 const rowData = reactive({})
 const address = ref('')
+const showBuyPopup = ref(false)
 const showSellEnergyPopup = ref(false)
 const options = [
   {
@@ -312,7 +315,12 @@ const systemMsg = reactive([
       '尊敬的卖家：波场stake2.0升级即将到来，届时授权权限将需要改变，为了更好的通知您升级时间，以及更好的协助您完成新权限授权，请您联系telegram在线客服获取最新信息与帮助！'
   }
 ])
-
+const handleBuy = () => {
+    showBuyPopup.value = true
+}
+const closeBuyPopup = () => {
+    showBuyPopup.value = false
+}
 const queryManualOrders = async () => {
   //   await TronLink()
   console.log('999999999999999999999999999999999999')

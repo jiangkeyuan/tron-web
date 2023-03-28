@@ -357,9 +357,6 @@ const getBalance = async () => {
     margin-left: 5px;
   }
 }
-.anticon {
-  cursor: pointer;
-}
 .dialog-footer {
   width: 100%;
   margin-top: 20px;

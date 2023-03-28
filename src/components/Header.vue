@@ -181,7 +181,7 @@ onMounted(() => {
       border-radius: 30px;
       color: #fff;
       .account {
-        width: 60px;
+        width: 70px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;

@@ -164,4 +164,8 @@ mark {
 .hide {
     display: none !important;
 }
+
+.anticon {
+    cursor: pointer;
+  }
 /*初始化结束*************************************************************** */

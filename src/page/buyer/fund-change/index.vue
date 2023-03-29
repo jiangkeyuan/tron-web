@@ -7,20 +7,11 @@
       <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item label="时间">
-      <el-date-picker
-        v-model="form.date"
-        type="datetimerange"
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
-      />
+      <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
+        end-placeholder="End date" />
     </el-form-item>
     <el-form-item label="类型">
-      <el-select
-        empty="11111"
-        v-model="form.region"
-        placeholder="please select your zone"
-      >
+      <el-select empty="11111" v-model="form.region" placeholder="please select your zone">
         <el-option v-for="i in apiKey" :label="i.label" :value="i.value" />
         <div slot="empty">
           <el-empty description="description" />
@@ -123,6 +114,7 @@ const tableData = ref([
   display: flex;
   flex-direction: column;
 }
+
 .sale-record {
   width: 100%;
   box-sizing: border-box;
@@ -130,22 +122,26 @@ const tableData = ref([
   border: 1px solid #c8d0df !important;
   border-radius: 2px;
 }
+
 .sale-record-search {
-  padding: 12px 10px 0;
+  padding: 12px 10px 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 16px;
 }
+
 .sale-record-table {
   height: 85%;
   padding: 6px;
 }
+
 .sale-record-group {
   margin-bottom: 14px;
 }
-.sale-record-table-list {
-}
+
+.sale-record-table-list {}
+
 .sale-record-table-pagination {
   margin-top: 10px;
   width: 100%;

@@ -23,6 +23,7 @@
 import { generateVerifyCode } from '@/utils/axios/login/index.js';
 import { setEmail } from '@/utils/axios/buyer/index.js';
 import { onMounted } from 'vue';
+import { ElMessage } from 'element-plus';
 const innerVisible = ref(true);
 const value = reactive({})
 const verifyCode = ref('');
@@ -38,6 +39,12 @@ const getCode = async () => {
 }
 
 const bindEmails = async () => {
+  if (!value.email) {
+    return ElMessage.error('邮箱未填写')
+  }
+  if (!value.verifyCode) {
+    return ElMessage.error('验证码未填写')
+  }
   const data = await setEmail({ ...value, Authorization: localStorage.getItem('token') })
   if (data.code === 12000) {
     innerVisible.value = false;

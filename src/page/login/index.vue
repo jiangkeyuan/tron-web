@@ -12,7 +12,7 @@
         <div class="login-form-main-t1">验证您的账户</div>
         <div class="login-form-main-t2">我们已经发了一封验证邮件给 <a>{{ userInfo.email || getParamsNew('email') }}</a></div>
         <div class="login-form-main-t3">请检查您的邮箱，并点击链接验证你的账户</div>
-        <a class="login-form-main-t4">若未收到？点击再次发送</a>
+        <a class="login-form-main-t4" @click="againResiter">若未收到？点击再次发送</a>
         <el-button type="primary" color="#294aa5" class="login-form" @click="() => changeType('0')" round>返回登录</el-button>
       </div>
 
@@ -21,11 +21,13 @@
           <SuccessFilled v-if='isActivave'></SuccessFilled>
           <WarnTriangleFilled v-else></WarnTriangleFilled>
         </div>
-        <div class="login-form-main-t1">{{ !isActivave ? '注册失败' : '注册成功' }}</div>
+        <div class="login-form-main-t1" v-if="registerType == 0">注册中</div>
+        <div class="login-form-main-t1" v-if="registerType == 1">注册失败</div>
+        <div class="login-form-main-t1" v-if="registerType == 2">注册成功</div>
         <div class="login-form-main-t2">
           您的账号
           <a>{{ userInfo.email || getParamsNew('email') }}</a>
-          {{ !isActivave ? '注册失败' : '注册成功' }}
+          {{ registerType === 0 ? '注册中' : registerType === 1 ? '注册失败' : '注册成功' }}
         </div>
 
         <a class="login-form-main-t4"></a>
@@ -62,6 +64,12 @@
             <el-button class="login-content-button" @click="() => changeType('0')">返回</el-button>
           </div>
         </div>
+        <div v-if="type === '5'" class="login-content-login-text-other">
+          <div>
+            <el-button type="primary" color="#294aa5" class="login-content-button"
+              @click="handleSetemailVerify">确认绑定</el-button>
+          </div>
+        </div>
       </LoginForm>
     </div>
 
@@ -82,11 +90,11 @@ import Logo from "@/components/logo.vue";
 import GlobalIzation from "@/components/GlobalIzation.vue";
 import LoginForm from "./components/login-form.vue";
 import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js';
-import { usersRegister, userActivave, userLogin, tronNonce } from '@/utils/axios/login/index.js';
+import { usersRegister, userActivave, userLogin, tronNonce, setemailVerify, sendEmails } from '@/utils/axios/login/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-import TronWeb from "tronweb";
 const router = useRouter();
+const registerType = ref(0);
 const dialogTableVisible = ref(false);
 const userInfo = reactive({
   email: "",
@@ -97,6 +105,28 @@ const userInfo = reactive({
 let type = ref(getParamsNew('type') || '0');// 0是登陆 1 是注册 2 是忘记密码 3是激活中 4 是激活成功
 let loginFormRef = ref();
 const isActivave = ref(false);
+
+const againResiter = async () => {
+  const data = await sendEmails({
+    email: getParamsNew('email'),
+    verifyCode: 'YZkT'
+  })
+
+  ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg)
+}
+
+const handleSetemailVerify = async () => {
+  const data = await setemailVerify({
+    verifyCode: getParamsNew('verifyCode'),
+    email: userInfo.email
+  })
+  if (data.code === 12000) {
+    window.localStorage.setItem('token', data.data.token);
+    router.push('/console')
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
 
 const login = async () => {
 
@@ -128,13 +158,10 @@ const tron_register = async () => {
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
-  console.log(isRead)
   if (!isRead) {
     ElMessage.error('未连接到钱包');
     return;
   };
-  console.log(window.tronLink);
-  console.log(window.tronLink.tronWeb.getBalance);
   const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
   const data = await tronNonce({ walletAddress: base58Key })
   dialogTableVisible.value = false
@@ -182,7 +209,7 @@ const changeType = (t) => {
 }
 
 const clearRules = () => {
-  loginFormRef.value.clearRules();
+  loginFormRef.value && loginFormRef.value.clearRules();
 }
 
 
@@ -190,7 +217,7 @@ const register = () => {
   loginFormRef.value.submitForm(async (e, f) => {
     if (e) {
       const data = await usersRegister(userInfo);
-      if (data.code === 12000 || data.code === 14009) {
+      if (data.code === 12000 || data.code === 14011) {
         changeType('3');
       } else {
         loginFormRef.value.getCode(type.value);
@@ -202,14 +229,21 @@ const register = () => {
 
 onMounted(async () => {
   if (type.value === '4') {
+    registerType.value = 1;
     const data = await userActivave(getParamsNew('activateCode'))
 
     if (data.code === 12000) {
+      registerType.value = 2;
       isActivave.value = true;
     } else {
+      registerType = 1;
       isActivave.value = false;
       ElMessage.error(data.msg);
     }
+  }
+
+  if (type.value === '5') {
+    userInfo.email = getParamsNew('email')
   }
 })
 </script>

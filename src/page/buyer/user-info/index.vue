@@ -35,17 +35,24 @@
       <div class="font">Tron钱包地址</div>
       <div class="font">绑定钱包地址，充值自动识别入账</div>
       <div class="font text">{{ userInfo.walletAddress }} TRX</div>
-      <div class="btn font" v-if="userInfo.walletAddress">换绑</div>
-      <div class="btn font" v-else>绑定</div>
+      <div class="btn font" @click="handleBind">绑定</div>
     </div>
+    <div v-if="showBind">
+      <BindEmailsInput></BindEmailsInput>
+    </div>
+
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import BindEmailsInput from '../../../components/bind-emails-input.vue';
 
 const store = useStore();
 const userInfo = reactive(store.state.userInfo.userInfo)
+const showBind = ref(false);
 
+const handleBind = () => {
+  showBind.value = true;
+}
 
 onMounted(() => {
   if (!userInfo.email) {

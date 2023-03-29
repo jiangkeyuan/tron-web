@@ -8,6 +8,8 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ApiBox: typeof import('./components/api-box.vue')['default']
+    BindEmails: typeof import('./components/bind-emails.vue')['default']
+    BindEmailsInput: typeof import('./components/bind-emails-input.vue')['default']
     CooperationPopupWrapper: typeof import('./components/cooperation-popup-wrapper.vue')['default']
     DashbordContent: typeof import('./components/dashbord-content.vue')['default']
     Desc: typeof import('./components/desc.vue')['default']

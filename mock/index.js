@@ -67,4 +67,28 @@ export default [
       };
     },
   },
+  {
+    url: "/users/info",
+    method: "get",
+    response: (r) => {
+      return {
+        status: true,
+        code: 12000,
+        msg: "操作成功",
+        data: {
+          userName: null,
+          email: "1679549502@qq.com",
+          mobile: null,
+          state: 1,
+          availableBalance: null,
+          walletAddress: null,
+          roles: "BUYER",
+          permissionId: null,
+          createDate: "2023-03-21T14:25:29.000+00:00",
+          activateDate: "2023-03-21T14:25:48.000+00:00",
+          lastUpdateDate: "2023-03-21T14:25:48.000+00:00",
+        },
+      };
+    },
+  },
 ];

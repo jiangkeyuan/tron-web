@@ -5,40 +5,49 @@
         {{ filterName(props.type) }}
       </h2>
       <el-form-item class="login-content-right-input" prop="email">
-        <el-input class="login-content-right-input-l" v-model.trim="value.email" placeholder="请输入您的邮箱地址">
+        <div v-if="props.type === '5'" class="mb-10">绑定邮箱</div>
+        <el-input class="login-content-right-input-l" :disabled='props.type === "5"' v-model.trim="value.email"
+          placeholder="请输入您的邮箱地址">
           <template #prefix>
             <img src="@/assets/login/login-user.svg" alt="" />
           </template>
         </el-input>
       </el-form-item>
       <Transition :duration="550" name="slide-up">
-        <el-form-item v-if="props.type !== '2'" class="login-content-right-input" prop="passWord" :rules="[
-          { required: true, message: '请输入密码！', trigger: ['blur', 'change'] },
-          { required: true, min: 8, message: '请输入大于8位数的密码！', trigger: ['blur', 'change'] },
-        ]">
-          <el-input class="login-content-right-input-l" v-model.trim="value.passWord" type="password"
-            placeholder="请输入您的密码" show-password>
-            <template #prefix>
-              <img src="@/assets/login/login-password.svg" alt="" color="red" />
-            </template>
-          </el-input>
-        </el-form-item>
+        <div>
+          <div v-if="props.type === '5'" class="mb-10">密码</div>
+          <el-form-item v-if="props.type !== '2'" class="login-content-right-input" prop="passWord" :rules="[
+            { required: true, message: '请输入密码！', trigger: ['blur', 'change'] },
+            { required: true, min: 8, message: '请输入大于8位数的密码！', trigger: ['blur', 'change'] },
+          ]">
+            <el-input class="login-content-right-input-l" v-model.trim="value.passWord" type="password"
+              placeholder="请输入您的密码" show-password>
+              <template #prefix>
+                <img src="@/assets/login/login-password.svg" alt="" color="red" />
+              </template>
+            </el-input>
+          </el-form-item>
+        </div>
       </Transition>
       <Transition :duration="550" name="slide-up">
-        <el-form-item v-if="props.type === '1'" prop="confirmPassword" class="login-content-right-input" :rules="[
-          { required: true, message: '请输入二次密码！', trigger: ['blur', 'change'] },
-          { required: true, validator: checkPassWord, trigger: ['blur', 'change'] },
-        ]">
-          <el-input clearable class="login-content-right-input-l" v-model.trim="value.confirmPassword" type="password"
-            placeholder="确认密码" show-password>
-            <template #prefix>
-              <img src="@/assets/login/login-password.svg" alt="" color="red" />
-            </template>
-          </el-input>
-        </el-form-item>
+        <div>
+          <div v-if="props.type === '5'" class="mb-10">确认密码</div>
+          <el-form-item v-if="props.type === '1' || props.type === '5'" prop="confirmPassword"
+            class="login-content-right-input" :rules="[
+              { required: true, message: '请输入二次密码！', trigger: ['blur', 'change'] },
+              { required: true, validator: checkPassWord, trigger: ['blur', 'change'] },
+            ]">
+            <el-input clearable class="login-content-right-input-l" v-model.trim="value.confirmPassword" type="password"
+              placeholder="确认密码" show-password>
+              <template #prefix>
+                <img src="@/assets/login/login-password.svg" alt="" color="red" />
+              </template>
+            </el-input>
+          </el-form-item>
+        </div>
       </Transition>
 
-      <el-form-item class="login-content-right-input login-content-right-c" prop="verifyCode">
+      <el-form-item class="login-content-right-input login-content-right-c" prop="verifyCode" v-if="props.type !== '5'">
         <el-input class="login-content-right-input-l login-content-right-input-code" v-model="value.verifyCode"
           placeholder="请输入验证码">
           <template #prefix>
@@ -123,6 +132,8 @@ const filterName = (type) => {
       return '注册'
     case '2':
       return '忘记密码'
+    case '5':
+      return '绑定邮箱'
     default:
       return '登陆'
   }
@@ -151,6 +162,10 @@ defineExpose({
 })
 </script>
 <style scoped>
+.mb-10 {
+  margin-bottom: 10px;
+}
+
 .mb-20 {
   margin-bottom: 15px;
 }

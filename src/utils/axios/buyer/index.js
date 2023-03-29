@@ -27,3 +27,7 @@ export const dappRecharge = async (params) => {
 export const rechargesLog = async (params) => {
   return await service.post("/buyer/user/recharges", params);
 };
+
+export const setEmail = async (params) => {
+  return await service.post("/users/setemail", params);
+};

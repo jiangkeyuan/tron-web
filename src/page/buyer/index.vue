@@ -27,14 +27,19 @@
       <router-view></router-view>
     </div>
   </div>
+  <div>
+    <BindEmails v-if="showEmailsDialog"></BindEmails>
+  </div>
 </template>
 <script setup>
 import Logo from "@/components/logo.vue";
 import DashbordTitle from "./dashbord-title.vue";
 import { useRouter, useRoute } from "vue-router";
+import BindEmails from "../../components/bind-emails.vue";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
+const showEmailsDialog = ref(false);
 
 const rightTitle = ref("");
 
@@ -45,6 +50,15 @@ watch(route, () => {
     }
   });
 });
+
+watch(() => store.state.userInfo.userInfo, (o, n) => {
+  const dateTime = new Date().getTime();
+  const oneDay = 24 * 60 * 60 * 1000;
+  const localTime = localStorage.getItem('date') || 0;
+  if (!o.email && localTime + oneDay < dateTime) {
+    showEmailsDialog.value = true;
+  }
+})
 
 const menuType = computed(() => {
   return store.state.menuList.menuType;

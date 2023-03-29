@@ -22,3 +22,11 @@ export const changePassWordRequest = (params) => {
 export const tronNonce = (params) => {
   return service.post("/auth/tron_nonce", params);
 };
+
+export const sendEmails = async (params) => {
+  return await service.post("/auth/sendEmail", params);
+};
+
+export const setemailVerify = async (params) => {
+  return await service.post("/auth/setemailverify", params);
+};

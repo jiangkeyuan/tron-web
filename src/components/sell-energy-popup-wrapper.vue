@@ -267,9 +267,13 @@ const handleSell = async () => {
       receiveAddress: addr,
       transactionHash: txId
     })
-    if (data.code == 12000) {
-      handleClose()
+    if (data.code !== 12000) {
+        ElMessage.error(data.msg)
     }
+    if(data.code == 12000) {
+        ElMessage.success('出售成功')
+    }
+    handleClose()
     console.log('data------', data)
     btnText.value = '出售'
     loading.value = false
@@ -292,8 +296,10 @@ const getBalance = async () => {
   console.log('--------------------------6', defaultAddress.value)
   const data = await window.tronWeb.trx.getBalance(defaultAddress.value)
   console.log('data-------------------------', data)
-  balance.value = data / 1000000
+  balance.value = tronWeb.fromSun(data)
 }
+
+getBalance()
 </script>
 
 <style lang="less" scoped>

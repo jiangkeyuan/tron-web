@@ -1,8 +1,7 @@
 import service from "../request";
-export const getFinishedOrders = (params) => {
+export const getFinishedOrders = () => {
   return service({
-    url: "/buyer/finished/orders",
-    params,
+    url: "/index/finished/orders",
   });
 };
 export const getManualOrders = (params) => {
@@ -22,3 +21,7 @@ export const sellManualOrders = (data) => {
 export const getUserInfo = async () => {
   return await service.get("/users/info");
 };
+
+export const getWitness = async (address) => {
+    return await service.get(`/index/witness/${address}`)
+}

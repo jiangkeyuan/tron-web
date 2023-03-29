@@ -94,6 +94,7 @@
                 size="large"
                 plain
                 :icon="Histogram"
+                @click="handleVote"
                 >投票</el-button
               >
               <el-select
@@ -124,21 +125,6 @@
                         </div>
                         <div class="amount">
                           能量: {{ scope.row.energyQuantity }}
-                        </div>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column prop="leastBenifitAmount" label="最低收入"
-                    ><template #default="scope">
-                      <div class="max_payout-column">
-                        <div class="payout">
-                          {{ scope.row.leastBenifitAmount }} <i>TRX</i>
-                        </div>
-                        <div class="freeze">
-                          质押: {{ scope.row.leastStakeAmount }} TRX
-                        </div>
-                        <div class="amount">
-                          能量: {{ scope.row.leastEnergyQuantity }}
                         </div>
                       </div>
                     </template>
@@ -242,11 +228,16 @@
     :rowData="rowData"
   ></SellEnergyPopupWrapper>
   <BuyPopup :show="showBuyPopup" @close="closeBuyPopup"></BuyPopup>
+  <WithessPopup
+    :show="showWithessPopup"
+    @close="closeWithessPopup"
+  ></WithessPopup>
 </template>
 
 <script setup>
 import TronLink from '@/components/tron-link/index.js'
 import BuyPopup from './buy-popup.vue'
+import WithessPopup from './witness-popup.vue'
 import {
   Calendar,
   Histogram,
@@ -267,6 +258,8 @@ const manualOrders = ref([])
 const rowData = reactive({})
 const address = ref('')
 const showBuyPopup = ref(false)
+const showWithessPopup = ref(false)
+// showWithessPopup
 const showSellEnergyPopup = ref(false)
 const options = [
   {
@@ -316,10 +309,10 @@ const systemMsg = reactive([
   }
 ])
 const handleBuy = () => {
-    showBuyPopup.value = true
+  showBuyPopup.value = true
 }
 const closeBuyPopup = () => {
-    showBuyPopup.value = false
+  showBuyPopup.value = false
 }
 const queryManualOrders = async () => {
   //   await TronLink()
@@ -329,6 +322,17 @@ const queryManualOrders = async () => {
   if (data.code == 12000) {
     manualOrders.value = data.data
   }
+}
+const queryFinishedOrders = async () => {
+    const data = await getFinishedOrders()
+    console.log('data',data);
+}
+// 投票
+const handleVote = async () => {
+  showWithessPopup.value = true
+}
+const closeWithessPopup = () => {
+  showWithessPopup.value = false
 }
 // 出售
 const handleSell = async row => {
@@ -348,8 +352,8 @@ const closeSellEnergyPopup = () => {
   showSellEnergyPopup.value = false
 }
 onMounted(() => {
-  address.value = window.tronWeb?.defaultAddress?.base58
   queryManualOrders()
+  queryFinishedOrders()
   window.addEventListener('message', function (e) {
     if (e.data.message && e.data.message.action == 'tabReply') {
       if (e.data.message.data?.data?.address) {
@@ -360,6 +364,8 @@ onMounted(() => {
     }
   })
 })
+
+address.value = window.tronWeb?.defaultAddress?.base58
 </script>
 
 <style lang="less" scoped>

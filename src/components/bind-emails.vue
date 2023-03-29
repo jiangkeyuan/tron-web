@@ -7,19 +7,23 @@
     </div>
     <p class="bind-emails-tips" @click="tips">跳过，以后再设置</p>
     <div v-if="showEmailsDialog">
-      <Bind-emails-input @callBack="showInput"></Bind-emails-input>
+      <Bind-emails-input :callBack="showInput"></Bind-emails-input>
     </div>
   </el-dialog>
 </template>
 <script setup>
 const dialogTableVisible = ref(true);
 const showEmailsDialog = ref(false);
+const props = defineProps({
+  callback: Function
+})
 const tips = () => {
   localStorage.setItem('date', new Date().getTime())
   dialogTableVisible.value = false;
 }
 
 const showInput = () => {
+  console.log(1);
   showEmailsDialog.value = false;
   dialogTableVisible.value = false
 }

@@ -6,7 +6,7 @@
         <div class="today-wrap-right">
           <h5>今日租用</h5>
           <div class="today-wrap-right-num">
-            0
+            {{ buyerObj.todayRentalEnergy }}
             <span class="today-wrap-right-text">能量</span>
           </div>
         </div>
@@ -17,7 +17,7 @@
         <div class="today-wrap-right">
           <h5>昨日租用</h5>
           <div class="today-wrap-right-num">
-            0
+            {{ buyerObj.yesterRentalEenrgy }}
             <span class="today-wrap-right-text">能量</span>
           </div>
         </div>
@@ -27,13 +27,10 @@
       <div class="dashbord-top-right-content">
         <h5 class="dashbord-top-right-content-top">账号可租量</h5>
         <div class="dashbord-top-right-content-num-kk">
-          <span class="dashbord-top-right-content-num">10,417</span>
+          <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy }}</span>
           能量
         </div>
-        <div
-          class="dashbord-top-right-content-button"
-          @click="router.push('/buyer/recharge')"
-        >
+        <div class="dashbord-top-right-content-button" @click="router.push('/buyer/recharge')">
           充值
         </div>
       </div>
@@ -42,7 +39,7 @@
         <h5 class="dashbord-top-right-content-top">API密钥</h5>
         <div class="dashbord-top-right-content-num-kk apikeys">
           <div>
-            <span class="dashbord-top-right-content-num">3</span>
+            <span class="dashbord-top-right-content-num">{{ buyerObj.apiKeyCount }}</span>
             /3
           </div>
           <div @click="gotoApiKeys">设置</div>
@@ -69,16 +66,10 @@ import HelpItems from "../help/help-items.vue";
 import * as echarts from "echarts";
 import { useRouter } from "vue-router";
 import { createAPIKEY } from "@/utils/utils/utils-ui.js";
+import { bunyerIndex } from '@/utils/axios/buyer/index';
 const router = useRouter();
-const data = ref([
-  {
-    value: 1048,
-    name: "Search Engine",
-    itemStyle: { color: "#84c8b4" },
-  },
-  { value: 735, name: "Direct", itemStyle: { color: "#8488f7" } },
-  { value: 580, name: "Email", itemStyle: { color: "#5e98d6" } },
-]);
+const buyerObj = reactive({});
+
 const gotoApiKeys = () => {
   router.push("/buyer/api-key");
 };
@@ -87,8 +78,22 @@ const creatAPI = () => {
   createAPIKEY();
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const { data } = await bunyerIndex();
+  const colors = ["#84c8b4", "#8488f7", "#5e98d6"];
+  Object.assign(buyerObj, data);
+  data.apiInfos = data.apiInfos.map((v, i) => {
+    if (v.apiKey.length > 6) {
+      v.name = v.apiKey.substring(0, 6) + '...';
+    } else {
+      v.name = v.apiKey
+    }
+    v.value = v.rentalEnergy
+    v.color = colors[i]
+    return v;
+  })
   var chartDom = document.getElementById("echarts");
+
   var myChart = echarts.init(chartDom);
   var option;
 
@@ -102,21 +107,22 @@ onMounted(() => {
       top: "center",
       formatter: function (name) {
         // 添加
-        let total = 0;
-        let target;
-        for (let i = 0; i < data.length; i++) {
-          total += data[i].value;
-          if (data[i].name === name) {
-            target = data[i].value;
+        let rentalEnergy = 0;
+        let usedTrx;
+        for (let i = 0; i < data.apiInfos.length; i++) {
+          if (data.apiInfos[i].name === name) {
+            rentalEnergy = data.apiInfos[i].rentalEnergy
+            usedTrx = data.apiInfos[i].usedTrx
           }
         }
         var arr = [
           "{a|" + name + "}",
-          "{b|" + ((target / total) * 100).toFixed(2) + "%}",
-          "{c|" + target + "}",
+          "{b|" + rentalEnergy + " Energy}",
+          "{c|" + usedTrx + " Trx}",
         ];
         return arr.join("  ");
       },
+      ellipsis: true,
       textStyle: {
         // 添加
         height: 60,
@@ -125,12 +131,12 @@ onMounted(() => {
         rich: {
           a: {
             fontSize: 15,
-            width: 110,
+            width: 70,
+            marginLeft: 10
           },
           b: {
             fontSize: 15,
-            width: 70,
-            color: "#c1c1c1",
+            width: 150,
           },
           c: {
             fontSize: 15,
@@ -140,7 +146,7 @@ onMounted(() => {
     },
     series: [
       {
-        name: "serices0",
+        // name: "serices0",
         type: "pie",
         radius: ["55%", "70%"],
         center: ["30%", "50%"],
@@ -159,7 +165,7 @@ onMounted(() => {
         labelLine: {
           show: false,
         },
-        data: data.value,
+        data: data.apiInfos,
       },
     ],
   };
@@ -175,20 +181,25 @@ onMounted(() => {
   justify-content: space-between;
   cursor: pointer;
 }
+
 .divide-lines {
   border-left: 1.5px #c8d0df dashed;
   height: 120px;
 }
+
 .divide-line {
   border-left: 1.5px rgba(255, 255, 255, 0.5) dashed;
   height: 120px;
 }
+
 .today-wrap-right-num {
   font-size: 22px;
 }
+
 .today-wrap-right-text {
   font-size: 14px;
 }
+
 .today-wrap-right {
   display: flex;
   flex-direction: column;
@@ -196,16 +207,19 @@ onMounted(() => {
   height: 74px;
   margin-left: 10px;
 }
+
 .today-wrap {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
 .histogram {
   display: flex;
   align-items: flex-end;
   height: 74px;
 }
+
 .histogram::after {
   content: "";
   display: block;
@@ -214,6 +228,7 @@ onMounted(() => {
   background: linear-gradient(0deg, #2a47ab, #f4f8ff);
   border-radius: 5px;
 }
+
 .histogram::before {
   content: "";
   display: block;
@@ -223,14 +238,17 @@ onMounted(() => {
   background: linear-gradient(0deg, #2a47ab, #f4f8ff);
   border-radius: 5px;
 }
+
 h5 {
   color: white;
 }
+
 .dashbord {
   display: flex;
   flex-direction: row;
   flex-flow: wrap;
 }
+
 .dashbord-top-left {
   width: 49.5%;
   height: 160px;
@@ -242,6 +260,7 @@ h5 {
   justify-content: space-around;
   align-items: center;
 }
+
 .dashbord-top-right {
   height: 160px;
   border-radius: 5px;
@@ -255,21 +274,26 @@ h5 {
   justify-content: space-around;
   align-items: center;
 }
+
 .dashbord-top-right-content {
   display: flex;
   flex-direction: column;
   width: 160px;
 }
+
 .dashbord-top-right-content-top {
   color: #121c41;
 }
+
 .dashbord-top-right-content-num {
   font-size: 22px;
   color: #2a47ab;
 }
+
 .dashbord-top-right-content-num-kk {
   margin: 5px 0;
 }
+
 .dashbord-top-right-content-button {
   border-color: #294aa5;
   background: #294aa5;
@@ -282,13 +306,16 @@ h5 {
   line-height: 24px;
   cursor: pointer;
 }
+
 .dashbord-bottom-right-value {
   padding-left: 24px;
 }
+
 .dashbord-top-right-content-button:hover {
   background: #294aa5;
   opacity: 0.8;
 }
+
 .dashbord-bottom-left {
   width: 49.5%;
   height: 444px;
@@ -297,6 +324,7 @@ h5 {
   margin-top: 10px;
   border-radius: 5px;
 }
+
 .dashbord-bottom-right-title {
   display: inline-block;
   flex: 1;
@@ -312,6 +340,7 @@ h5 {
   padding-left: 24px;
   box-sizing: border-box;
 }
+
 .dashbord-bottom-right {
   height: 444px;
   border-radius: 5px;
@@ -322,6 +351,7 @@ h5 {
   margin-left: 1%;
   margin-top: 10px;
 }
+
 .dashbord-bottom-left-header {
   padding: 0 24px;
   height: 57px;
@@ -330,6 +360,7 @@ h5 {
   font-weight: 500;
   font-size: 16px;
 }
+
 .dashbord-bottom-left-content {
   padding: 24px;
   height: 340px;

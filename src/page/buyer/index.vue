@@ -27,8 +27,8 @@
       <router-view></router-view>
     </div>
   </div>
-  <div>
-    <BindEmails v-if="showEmailsDialog"></BindEmails>
+  <div v-if="showEmailsDialog">
+    <BindEmails></BindEmails>
   </div>
 </template>
 <script setup>
@@ -36,6 +36,7 @@ import Logo from "@/components/logo.vue";
 import DashbordTitle from "./dashbord-title.vue";
 import { useRouter, useRoute } from "vue-router";
 import BindEmails from "../../components/bind-emails.vue";
+import { signMessage, connectedWallet } from '@/utils/utils/tron.js';
 const store = useStore();
 const router = useRouter();
 const route = useRoute();

@@ -108,28 +108,32 @@ const isActivave = ref(false);
 
 const againResiter = async () => {
   const data = await sendEmails({
-    email: getParamsNew('email'),
-    verifyCode: 'YZkT'
+    email: getParamsNew('email')
   })
 
   ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg)
 }
 
 const handleSetemailVerify = async () => {
-  const data = await setemailVerify({
-    verifyCode: getParamsNew('verifyCode'),
-    email: userInfo.email
-  })
-  if (data.code === 12000) {
-    window.localStorage.setItem('token', data.data.token);
-    router.push('/console')
-  } else {
-    ElMessage.error(data.msg)
-  }
+
+  loginFormRef.value.submitForm(async (e, f) => {
+    if (e) {
+      const data = await setemailVerify({
+        verifyCode: getParamsNew('verifyCode'),
+        email: userInfo.email,
+        passWord: userInfo.passWord
+      })
+      if (data.code === 12000) {
+        ElMessage.success(data.msg);
+        changeType('0')
+      } else {
+        ElMessage.error(data.msg)
+      }
+    }
+  });
 }
 
 const login = async () => {
-
   loginFormRef.value.submitForm(async (e, f) => {
     if (e) {
       const data = await userLogin(userInfo);

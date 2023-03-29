@@ -31,3 +31,7 @@ export const rechargesLog = async (params) => {
 export const setEmail = async (params) => {
   return await service.post("/users/setemail", params);
 };
+
+export const bunyerIndex = async () => {
+  return await service.get("/buyer/index");
+};

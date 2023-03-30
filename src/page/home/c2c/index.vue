@@ -169,31 +169,53 @@
       <div class="history-order-container">
         <div class="custom-round-tab">
           <div class="tablist">
-            <el-tabs type="border-card" class="demo-tabs">
+            <el-tabs
+              type="border-card"
+              class="demo-tabs"
+              @tab-change="changeTab"
+            >
               <el-tab-pane label="最近完成">
-                <el-table :data="tableData" style="width: 100%">
-                  <el-table-column prop="name" label="订单信息" />
-                  <el-table-column prop="date" label="收入" />
-                  <el-table-column prop="address" label="时间" />
+                <el-table :data="finishedOrders" style="width: 100%">
+                  <el-table-column prop="name" label="订单信息">
+                    <template #default="scope">
+                      <span>能量：{{ scope.row.energyQuantity }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="benifitAmount" label="收入">
+                    <template #default="scope">
+                      <span>{{ scope.row.benifitAmount }} RTX</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="delegateDate" label="时间" />
                   <el-table-column fixed="right" label="操作">
-                    <template #default>
-                      <el-button link type="primary" size="small"
-                        >交易哈希</el-button
+                    <template #default="scope">
+                      <el-link
+                        type="primary"
+                        :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                        target="_blank"
+                        >交易哈希</el-link
                       >
                     </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
               <el-tab-pane label="质押列表">
-                <el-table :data="tableData" style="width: 100%">
-                  <el-table-column prop="date" label="冻结对象" />
-                  <el-table-column prop="name" label="资源" />
-                  <el-table-column prop="address" label="冻结金额" />
-                  <el-table-column prop="address" label="截止时间" />
+                <el-table :data="stakes" style="width: 100%">
+                  <el-table-column prop="walletAddress" label="冻结对象" />
+                  <el-table-column prop="resource" label="资源" />
+                  <el-table-column prop="statkeAmount" label="冻结金额" >
+                        <template #default="scope">
+                      <span>{{ scope.row.statkeAmount }} RTX</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="expiredDate" label="截止时间" />
                   <el-table-column fixed="right" label="操作">
-                    <template #default>
-                      <el-button link type="primary" size="small"
-                        >出售</el-button
+                    <template #default="scope">
+                      <el-link
+                        type="primary"
+                        :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                        target="_blank"
+                        >交易哈希</el-link
                       >
                     </template>
                   </el-table-column>
@@ -250,11 +272,14 @@ import {
 import {
   getFinishedOrders,
   getManualOrders,
-  sellManualOrders
+  sellManualOrders,
+  getStakes
 } from '@/utils/axios/home/index.js'
 import { reactive } from 'vue'
 const value = ref('Option2')
 const manualOrders = ref([])
+const finishedOrders = ref([])
+const stakes = ref([])
 const rowData = reactive({})
 const address = ref('')
 const showBuyPopup = ref(false)
@@ -314,6 +339,7 @@ const handleBuy = () => {
 const closeBuyPopup = () => {
   showBuyPopup.value = false
 }
+// 自助交易
 const queryManualOrders = async () => {
   //   await TronLink()
   console.log('999999999999999999999999999999999999')
@@ -323,9 +349,21 @@ const queryManualOrders = async () => {
     manualOrders.value = data.data
   }
 }
+// 最近完成
 const queryFinishedOrders = async () => {
-    const data = await getFinishedOrders()
-    console.log('data',data);
+  const data = await getFinishedOrders()
+  console.log('data', data)
+  if (data.code == 12000) {
+    finishedOrders.value = data.data
+  }
+}
+// 质押列表
+const queryStakes = async () => {
+  const data = await getStakes()
+  console.log('data', data)
+  if (data.code == 12000) {
+    stakes.value = data.data
+  }
 }
 // 投票
 const handleVote = async () => {
@@ -350,6 +388,20 @@ const search = async () => {
 
 const closeSellEnergyPopup = () => {
   showSellEnergyPopup.value = false
+}
+
+const changeTab = val => {
+  console.log('changeTab', val)
+  switch (val) {
+    case '0':
+        queryFinishedOrders()
+      break
+    case '1':
+        queryStakes()
+      break
+    default:
+      break
+  }
 }
 onMounted(() => {
   queryManualOrders()

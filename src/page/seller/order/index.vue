@@ -1,41 +1,72 @@
 <template>
   <DashbordContent>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="订单号">
-        <el-input v-model="formInline.user" placeholder="请输入订单号" />
+    <el-form
+      :inline="true"
+      ref="ruleFormRef"
+      :model="form"
+      class="demo-form-inline"
+    >
+      <el-form-item label="订单号" prop="orderNo">
+        <el-input v-model="form.orderNo" placeholder="请输入订单号" />
       </el-form-item>
-      <el-form-item label="接收">
-        <el-input v-model="formInline.user" placeholder="请输入地址" />
+      <el-form-item label="接收" prop="toAddress">
+        <el-input v-model="form.toAddress" placeholder="请输入地址" />
       </el-form-item>
-      <el-form-item label="时间">
+      <el-form-item label="时间" prop="date">
         <el-date-picker
-          v-model="value1"
+          v-model="form.date"
           type="daterange"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
         />
       </el-form-item>
       <el-form-item>
-        <el-button>重置</el-button>
+        <el-button @click="resetForm">重置</el-button>
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
     </el-form>
   </DashbordContent>
   <DashbordContent>
-    <el-radio-group v-model="radio2">
-      <el-radio-button :label="0">全部</el-radio-button>
-      <el-radio-button :label="1">质押中</el-radio-button>
-      <el-radio-button :label="2">即将结束</el-radio-button>
-      <el-radio-button :label="3">已完成</el-radio-button>
+    <el-radio-group v-model="form.orderStatus" @change="changeStatus">
+      <el-radio-button label="">全部</el-radio-button>
+      <el-radio-button label="DELEGATEING">代理中</el-radio-button>
+      <el-radio-button label="ALMOST_DONE">即将结束</el-radio-button>
+      <el-radio-button label="DONE">已完成</el-radio-button>
     </el-radio-group>
-    <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="date" label="订单号"> </el-table-column>
-      <el-table-column prop="name" label="质押时间" />
-      <el-table-column prop="address" label="钱包" />
-      <el-table-column prop="address" label="结算金额" />
-      <el-table-column prop="address" label="单价" />
-      <el-table-column prop="address" label="质押" />
-      <el-table-column prop="address" label="到期时间">
+    <el-table :data="userSells" stripe style="width: 100%">
+      <el-table-column prop="orderNo" label="订单号"> </el-table-column>
+      <el-table-column prop="delegateDate" label="质押时间"  :formatter="(row) => filterDate(row.delegateDate)" />
+      <el-table-column prop="fromAddress" label="钱包">
+        <template #default="scope">
+          <div class="text-overflow">
+            <span>收款：</span>
+            <el-link
+              href="https://element-plus.org"
+              target="_blank"
+              type="primary"
+              >{{ scope.row.fromAddress }}</el-link
+            >
+          </div>
+          <div class="text-overflow">
+            <span>接收：</span>
+            <el-link
+              href="https://element-plus.org"
+              target="_blank"
+              type="primary"
+              >{{ scope.row.toAddress }}</el-link
+            >
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="benifitAmount" label="结算金额" />
+      <el-table-column prop="sellPrice" label="单价" />
+      <el-table-column prop="address" label="质押">
+        <template #default="scope">
+          <div>金额：{{ scope.row.stakeAmount }}</div>
+          <div>能量：{{ scope.row.lendEnergy }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="expiredDate" label="到期时间" :formatter="(row) => filterDate(row.expiredDate)" >
         <template #header>
           <div>
             到期时间
@@ -50,22 +81,45 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="address" label="订单状态" />
+      <el-table-column prop="orderStatus" label="订单状态" :formatter="(row) => filterStatus(row.orderStatus)"/>
       <el-table-column prop="address" label="操作">
-        <template #default>
-          <el-button link type="primary" size="small">
-            质押详情</el-button>
-            <el-button link type="primary" size="small">解押详情</el-button>
+        <template #default="scope">
+          <el-link
+            type="primary"
+            :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+            target="_blank"
+            >质押详情</el-link
+          >
+          <div></div>
+          <el-link
+            type="primary"
+            :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+            target="_blank"
+            >解压详情</el-link
+          >
         </template>
       </el-table-column>
     </el-table>
+    <div class="sale-record-table-pagination">
+      <!-- <el-pagination v-model:current-page='form.pageIndex' :page-size="form.pageSize" layout="prev, pager, next"
+        :total="form.totalCount" /> -->
+    </div>
   </DashbordContent>
 </template>
 
 <script setup>
-const formInline = reactive({
-  user: '',
-  region: ''
+import { filterDate } from '@/utils/utils/date.js';
+import { getUserSells } from '@/utils/axios/seller/index.js'
+const form = reactive({
+  orderNo: '',
+  toAddress: '',
+  startTime: '',
+  endTime: '',
+  orderStatus: '',
+  date: [],
+  pageIndex: 1,
+  pageSize: 20,
+  totalCount: 0
 })
 const radio2 = ref(0)
 
@@ -73,31 +127,83 @@ const handleClick = (tab, event) => {
   console.log(tab, event)
 }
 const value1 = ref('')
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  }
-]
+const userSells = ref([])
 const onSubmit = () => {
   console.log('submit!')
+  queryUserSells()
 }
+const queryUserSells = async () => {
+  if (form.date && form.date.length > 0) {
+    form.startTime = form.date[0]
+    form.endTime = form.date[1]
+  } else {
+    form.date = []
+  }
+  const data = await getUserSells(form)
+  console.log(data)
+  if (data.code === 12000) {
+    // ElMessage.success(data.msg);
+    // userSells.value = data.data
+    userSells.value = [
+  {
+    id: 8,
+    userId: 19,
+    buyerRentalId: 1,
+    orderNo: 20230329230410169,
+    delegateDate: '2023-03-29 23:03:34.0',
+    fromAddress: 'TTbQQMGYapeXV9qiHjoHV6uVWL48HDHYfm',
+    lendEnergy: 10000,
+    delegateAmount: '5.00',
+    benifitAmount: '27.00',
+    stakeAmount: null,
+    expiredDate: '2023-04-01 23:03:34.0',
+    toAddress: 'THdgueo2XA3LyTbfrVPPQ4XzHuyNz8K73P',
+    sellPrice: 120,
+    orderStatus: 'DELEGATEING',
+    transactionHash:
+      '31a8b54109c3cc4f0d44610b3fc577c4cf9a5d378e6a2163e44307e0684f3a4c',
+    createDate: '2023-03-30 21:41:55.0',
+    lastUpdateDate: null,
+    deleteDate: null
+  }
+]
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
+const filterStatus = (status) => {
+  switch (status) {
+    case "DELEGATEING":
+      return "代理中"
+    case "ALMOST_DONE":
+      return "即将结束"
+    case "DONE":
+      return "已经完成"
+    default:
+      return '';
+  }
+}
+const changeStatus = () => {
+    queryUserSells()
+}
+const resetForm = () => {
+  Object.keys(form).map(v => {
+    form[v] = ''
+  })
+  form.date = []
+}
+onMounted(async () => {
+  queryUserSells();
+});
 </script>
 
-<style></style>
+<style>
+.text-overflow {
+  display: block;
+  width: 31em;
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

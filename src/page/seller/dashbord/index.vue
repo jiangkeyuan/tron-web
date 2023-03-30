@@ -35,8 +35,8 @@
   </DashbordContent>
   <DashbordContent>
     <div class="vben-basic-table-title">最新订单</div>
-    <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="date" label="Date">
+    <el-table :data="latestSells" stripe style="width: 100%">
+      <el-table-column prop="delegateDate" label="Date">
         <template #header>
           <div>
             质押时间
@@ -51,9 +51,9 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="结算金额" />
-      <el-table-column prop="address" label="资源" />
-      <el-table-column prop="date" label="Date">
+      <el-table-column prop="benifitAmount" label="结算金额" />
+      <el-table-column prop="delegateAmount" label="代理金额" />
+      <el-table-column prop="expiredDate" label="Date">
         <template #header>
           <div>
             到期时间
@@ -72,8 +72,8 @@
   </DashbordContent>
   <DashbordContent>
     <div class="vben-basic-table-title">即将结束订单</div>
-    <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="date" label="Date">
+    <el-table :data="almostSells" stripe style="width: 100%">
+      <el-table-column prop="expiredDate" label="Date">
         <template #header>
           <div>
             到期时间
@@ -88,37 +88,43 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="质押金额" />
-      <el-table-column prop="address" label="资源" />
+      <el-table-column prop="delegateAmount" label="质押金额" />
+      <el-table-column prop="lendEnergy" label="资源" />
     </el-table>
   </DashbordContent>
 </template>
 
 <script setup>
+import { getLatestSells, getAlmostSells } from '@/utils/axios/seller/index.js'
 import { WarningFilled } from '@element-plus/icons-vue'
+import { ref } from 'vue'
 import Tips from './tips.vue'
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
+const latestSells = ref([])
+const almostSells = ref([])
+// 最新订单
+const queryLatestSells = async () => {
+  const data = await  getLatestSells()
+  console.log(data);
+    if (data.code === 12000) {
+    // ElMessage.success(data.msg);
+    latestSells.value = data.data
+  } else {
+    ElMessage.error(data.msg);
   }
-]
+}
+// 即将结束订单
+const queryAlmostSells = async () => {
+  const data = await  getAlmostSells()
+  console.log(data);
+    if (data.code === 12000) {
+    // ElMessage.success(data.msg);
+    almostSells.value = data.data
+  } else {
+    ElMessage.error(data.msg);
+  }
+}
+queryLatestSells()
+queryAlmostSells()
 </script>
 
 <style lang="less" scoped>

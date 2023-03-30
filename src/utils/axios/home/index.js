@@ -25,3 +25,7 @@ export const getUserInfo = async () => {
 export const getWitness = async (address) => {
     return await service.get(`/index/witness/${address}`)
 }
+
+export const getStakes = async () => {
+    return await service.get(`/index/stakes`)
+}

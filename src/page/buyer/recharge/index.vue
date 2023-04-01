@@ -8,11 +8,35 @@
         <el-tabs v-model="activeName">
           <el-tab-pane label="DAPP" name="first">
             <div class="recharge-content">
-              <el-input v-model="rechargeAmount" size="large" class="recharge-content-input">
-                <template #append>TRX</template>
-              </el-input>
-              <el-button @click="addMoney" type="primary" class="recharge-content-button">充 值</el-button>
-              <span class="recharge-content-text">充值实时到账,用不完的余额也可随时提取</span>
+              <div class="recharge-content" v-if="store.state.userInfo.userInfo.walletAddress">
+                <el-input placeholder="请输入充值TRX币额" v-model="rechargeAmount" size="large" class="recharge-content-input">
+                  <template #append>TRX</template>
+                </el-input>
+                <el-button @click="addMoney" type="primary" class="recharge-content-button">充 值</el-button>
+                <span class="recharge-content-text">充值实时到账,用不完的余额也可随时提取</span>
+              </div>
+              <div v-else>
+                <div v-if="isConnectedWallet()">
+                  <div class="recharge-content">
+                    <el-input :value="walletAddress()" disabled size="large" class="recharge-content-input" />
+                    <el-button @click="() => bindWalletHandle()" type="primary" class="recharge-content-button">
+                      绑 定</el-button>
+                    <span class="recharge-content-text">绑定钱包地址</span>
+                  </div>
+                </div>
+                <div v-else>
+                  <div class="tron-link-btn">
+                    <img class="tron-link-logo" src="@/assets/login/tron-link-logo.svg" width="80" alt="图片加载失败">
+                    <span>波场钱包</span>
+                  </div>
+
+                  <div class="tips" data-v-045b4c20="">1、还没有钱包？</div>
+                  <div class="download tips" data-v-045b4c20=""><a target="_blank"
+                      href="https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec"
+                      data-v-045b4c20="">2、安装TronLink钱包</a></div>
+                  <div class="tips" data-v-045b4c20="">3、一个账户只能绑定一个钱包。一旦一个钱包被绑定,它就不能被解除绑定或与另一个账户绑定</div>
+                </div>
+              </div>
             </div>
           </el-tab-pane>
           <el-tab-pane label="转账充值" name="second">
@@ -50,30 +74,42 @@ import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
 import { useRouter } from "vue-router";
 import { md5 } from "@/utils/utils/md5.js";
-import { dappRecharge } from '@/utils/axios/buyer/index';
+import { isConnectedWallet, walletAddress } from '@/utils/utils/tron.js';
+import { dappRecharge, bindWallets } from '@/utils/axios/buyer/index';
+import { ElMessage } from "element-plus";
 const router = useRouter();
 const activeName = ref("first");
 const rechargeAmount = ref("");
 const store = useStore();
 const rechargeAdress = ref("TFoTX1MtKuG97pUo3crNXjdZLY6fS77777");
 
+const bindWalletHandle = async () => {
+  const data = await bindWallets({
+    walletAddress: walletAddress()
+  })
+
+  if (data.code === 12000) {
+    ElMessage.success('绑定成功')
+    store.dispatch('getUserInfoAction')
+  } else {
+    ElMessage.error(data.msg);
+  }
+}
+
 const addMoney = async () => {
-  console.log(window.tronLink)
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
   console.log(isRead)
   if (!isRead) return;
-  // tronWeb.trx.signMessage("111").then((res) => {
-  //   console.log(res);
-  // });
-  console.log(window.tronLink);
-  console.log(window.tronLink.tronWeb.getBalance);
-  const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
+  if (walletAddress !== store.state.userInfo.userInfo.walletAddress) {
+    ElMessage.error('钱包地址与绑定地址不匹配，请使用绑定的钱包充值')
+    return;
+  }
   const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
     "TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq",
-    rechargeAmount.value * 1000000,
-    base58Key
+    tronWeb.toSun(rechargeAmount.value),
+    walletAddress
   );
   const signedTxn = await tronWeb.trx.sign(unsignedTxn);
   var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
@@ -104,6 +140,27 @@ const gotoRechargeLog = () => {
 };
 </script>
 <style scoped>
+.tron-link-btn {
+  width: 280px;
+  height: 58px;
+  border: 1px solid #c8d0df;
+  border-radius: 6px;
+  margin-bottom: 1em;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.tron-link-btn>img {
+  width: 30px;
+}
+
+.tron-link-btn>span {
+  margin-left: 10px;
+}
+
 .recharge {
   position: relative;
 }

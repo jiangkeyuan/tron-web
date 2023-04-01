@@ -19,6 +19,16 @@
           </el-icon>
           <span class="home-left-menu-li-title">{{ item.title }}</span>
         </router-link>
+
+        <router-link v-if="showManager" to="/console/manager" :class="[
+          { 'home-left-menu-li-active': route.fullPath.includes('/console/manager') },
+          'home-left-menu-li',
+        ]">
+          <el-icon class="home-left-menu-li-icon">
+            <component is="Setting"></component>
+          </el-icon>
+          <span class="home-left-menu-li-title">系统配置</span>
+        </router-link>
       </ul>
       <div class="home-left-button" @click="changMenuType">
         <el-icon class="home-left-button-icon">
@@ -50,6 +60,8 @@ const showEmailsDialog = ref(false)
 
 const rightTitle = ref('')
 
+const showManager = ref(false);
+
 watch(route, () => {
   store.getters.menuList.map(v => {
     if (v.isActive) {
@@ -67,8 +79,13 @@ watch(
     if (!o.email && localTime + oneDay < dateTime) {
       showEmailsDialog.value = true
     }
+
+  if (o.roles === 'admin') {
+    showManager.value = true
+  } else {
+    showManager.value = false
   }
-)
+})
 
 const menuType = computed(() => {
   return store.state.menuList.menuType

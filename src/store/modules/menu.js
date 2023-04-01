@@ -82,25 +82,25 @@ const sellerMenuList = [
 
 export default {
   state: {
-    menuType: 1, //0 是卖家 1是买家
+    menuType: localStorage.getItem("menuType") || 1, //0 是卖家 1是买家
   },
   getters: {
-    menuList: () => {
-      const fullPath = window.location.pathname;
+    menuList: (state) => {
+      const fullPath = window.location.hash;
+      console.log(state);
       const isBuyer = fullPath.indexOf("buyer/");
-      console.log("isBuyer", isBuyer);
-      if (isBuyer != -1) {
+      if (state.menuType == 0) {
         return buyerMenuList.map((v) => {
           return {
             ...v,
-            isActive: v.route === fullPath,
+            isActive: v.route === fullPath.replace("#", ""),
           };
         });
       } else {
         return sellerMenuList.map((v) => {
           return {
             ...v,
-            isActive: v.route === fullPath,
+            isActive: v.route === fullPath.replace("#", ""),
           };
         });
       }
@@ -108,6 +108,7 @@ export default {
   },
   mutations: {
     changeMenuType: (state, t) => {
+      localStorage.setItem("menuType", t);
       state.menuType = t;
     },
   },

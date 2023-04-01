@@ -1,13 +1,14 @@
 import service from "../request";
 export const getFinishedOrders = () => {
   return service({
-    url: "/index/finished/orders",
+    url: "/index/normal/finished/orders",
   });
 };
-export const getManualOrders = (params) => {
+export const getManualOrders = (data) => {
   return service({
     url: "/index/manual/orders",
-    params,
+    method: 'POST',
+    data,
   });
 };
 export const sellManualOrders = (data) => {
@@ -28,4 +29,11 @@ export const getWitness = async (address) => {
 
 export const getStakes = async () => {
     return await service.get(`/index/stakes`)
+}
+
+export const getQuickFinishedOrders = async () => {
+    return await service.get(`/index/quick/finished/orders`)
+}
+export const getQuickOrders = async (address) => {
+    return await service.get(`/index/quick/orders/${address}`)
 }

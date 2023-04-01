@@ -81,7 +81,7 @@
       </a>
       <a href="javascript:;" class="user-wrapper" @click="login">
         <span class="account">
-          {{ store.state.userInfo.userInfo.email || '登录/注册' }}
+          {{ store.state?.userInfo?.userInfo?.email || '登录/注册' }}
         </span>
       </a>
       <div class="lang-wrapper">

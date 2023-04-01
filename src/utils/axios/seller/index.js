@@ -14,3 +14,34 @@ export const getUserSells = async data => {
     data
   })
 }
+
+export const getPermission = async data => {
+    return await service({
+      url: '/seller/user/authorize/permission',
+      method: 'post',
+      data
+    })
+}
+
+export const getOperation = async data => {
+    return await service({
+      url: '/seller/user/authorize/operation',
+      method: 'post',
+      data
+    })
+}
+
+
+export const getSellConfig = async () => {
+    return await service({
+      url: '/seller/user/sell/config',
+      method: 'get'
+    })
+}
+export const saveSellConfig = async (data) => {
+    return await service({
+      url: '/seller/user/sell/config',
+      method: 'post',
+      data
+    })
+}

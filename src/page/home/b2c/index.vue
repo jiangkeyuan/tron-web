@@ -31,98 +31,197 @@
         </div>
         <div class="rental-operation">
           <div class="header">
-            <div class="title">转账租赁</div>
-            <el-radio-group v-model="radio2">
-              <el-radio-button label="1" border>转账租凭</el-radio-button>
-              <el-radio-button label="2" border>DAPP租赁</el-radio-button>
+            <div class="title">{{ leaseRadio }}</div>
+            <el-radio-group v-model="leaseRadio">
+              <el-radio-button label="转账租凭" border
+                >转账租凭</el-radio-button
+              >
+              <el-radio-button label="DAPP租赁" border
+                >DAPP租赁</el-radio-button
+              >
             </el-radio-group>
           </div>
-          <div class="project-panel">
-            <div class="input-panel rentVal">
-              <div class="title">租用量（单笔1~138.5908万）</div>
-              <div class="input">
-                <el-input
-                  v-model="input"
-                  clearable
-                  placeholder="请输入需要租用的数量"
-                  min="10000"
-                  max="1408730"
-                  suffix-icon="Search"
-                  :formatter="onFormatter"
-                  :parser="onParser"
-                />
-              </div>
-              <div class="rent-value-shortcut">
-                <div class="item">50万</div>
-                <div class="item">100万</div>
-                <div class="item">500万</div>
-                <div class="item">1000万</div>
-                <div class="item">最大</div>
-              </div>
-            </div>
-            <div class="notice noticepc"></div>
-            <div class="input-panel rentDay">
-              <div class="title">租用天数默认为3天</div>
-            </div>
-            <div class="announcements">
-              <div>1、转账租赁最小支持金额5.25TRX/0.33USDT</div>
-              <div>2、若转账大于可租能量，将扣除1%手续费后原路退回</div>
-              <div>
-                3、平台默认转账钱包为接收能量地址，若需自定义接收地址，请在转账时备注接收地址
-                <span class="example-title">示例教程</span>
-              </div>
-            </div>
-          </div>
-          <div class="pay-panel">
-            <div class="header">
-              <div class="title">支付</div>
-            </div>
-            <div class="cashier">
-              <div class="address">
-                <div class="address-title">平台地址：</div>
-                <div class="copy-board">
-                  <span class="copy-btn-wrapper">
-                    <div class="btn">
-                      <span>TALy13AV6qCj5UmYwn1vUYHxGPBBWAAAAA</span>
-                      <i class="icon"></i>
-                    </div>
-                  </span>
+          <template v-if="leaseRadio == '转账租凭'">
+            <div class="project-panel">
+              <div class="input-panel rentVal">
+                <div class="title">租用量（单笔1~138.5908万）</div>
+                <div class="input">
+                  <el-input
+                    v-model="input"
+                    clearable
+                    placeholder="请输入需要租用的数量"
+                    min="10000"
+                    max="1408730"
+                    suffix-icon="Search"
+                    :formatter="onFormatter"
+                    :parser="onParser"
+                  />
+                </div>
+                <div class="rent-value-shortcut">
+                  <div class="item">50万</div>
+                  <div class="item">100万</div>
+                  <div class="item">500万</div>
+                  <div class="item">1000万</div>
+                  <div class="item">最大</div>
                 </div>
               </div>
-              <div class="amount-box">
-                <div class="amount-content">
-                  <div class="amount">
-                    <span>需转账金额</span>
-                    <span>
-                      <em>443.430540</em>
-                      TRX
+              <div class="notice noticepc"></div>
+              <div class="input-panel rentDay">
+                <div class="title">租用天数默认为3天</div>
+              </div>
+              <div class="announcements">
+                <div>1、转账租赁最小支持金额5.25TRX/0.33USDT</div>
+                <div>2、若转账大于可租能量，将扣除1%手续费后原路退回</div>
+                <div>
+                  3、平台默认转账钱包为接收能量地址，若需自定义接收地址，请在转账时备注接收地址
+                  <span class="example-title">示例教程</span>
+                </div>
+              </div>
+            </div>
+            <div class="pay-panel">
+              <div class="header">
+                <div class="title">支付</div>
+              </div>
+              <div class="cashier">
+                <div class="address">
+                  <div class="address-title">平台地址：</div>
+                  <div class="copy-board">
+                    <span class="copy-btn-wrapper">
+                      <div class="btn">
+                        <span>TALy13AV6qCj5UmYwn1vUYHxGPBBWAAAAA</span>
+                        <i class="icon"></i>
+                      </div>
                     </span>
                   </div>
-                  <div class="info">
-                    <div>
-                      价格/天：
-                      <span>105</span>
-                      sun,
+                </div>
+                <div class="amount-box">
+                  <div class="amount-content">
+                    <div class="amount">
+                      <span>需转账金额</span>
+                      <span>
+                        <em>443.430540</em>
+                        TRX
+                      </span>
                     </div>
-                    <div>
-                      较3天烧毁省
-                      <span>75</span>
-                      % ≈
-                      <span>1330.29TRX</span>
+                    <div class="info">
+                      <div>
+                        价格/天：
+                        <span>105</span>
+                        sun,
+                      </div>
+                      <div>
+                        较3天烧毁省
+                        <span>75</span>
+                        % ≈
+                        <span>1330.29TRX</span>
+                      </div>
+                    </div>
+                  </div>
+                  <img
+                    src="@/assets/home/content-qr-code.png"
+                    alt="二维码加载失败，请检查网络后刷新重试"
+                    class="content-qr-code"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <el-button color="#294aa5" class="btn-block"
+                >复制金额，去转账</el-button
+              >
+            </div>
+          </template>
+          <template v-if="leaseRadio == 'DAPP租赁'">
+            <div class="project-panel">
+              <div class="input-panel wallet-address">
+                TTbQQMGYapeXV9qiHjoHV6uVWL48HDHYfm
+              </div>
+              <div class="input-panel rentVal">
+                <div class="title">租用量</div>
+                <div class="input">
+                  <el-input
+                    v-model="capacity"
+                    clearable
+                    placeholder="请输入需要租用的数量"
+                    min="10000"
+                    max="1408730"
+                    suffix-icon="Search"
+                    :formatter="onFormatter"
+                    :parser="onParser"
+                  />
+                </div>
+                <div class="rent-value-shortcut">
+                  <div class="item" data-num="500000">50万</div>
+                  <div class="item" data-num="1000000">100万</div>
+                  <div class="item" data-num="5000000">500万</div>
+                  <div class="item" data-num="10000000">1000万</div>
+                </div>
+              </div>
+              <div class="notice noticepc"></div>
+              <div class="input-panel rentDay">
+                <div class="title">租用天数默认为3天</div>
+              </div>
+              <div class="address">
+                <div class="input-panel receive-address">
+                  <div class="title">
+                    <span>接收方</span>
+                    <div class="unaddress">
+                      <!-- <span>移除接收方</span> -->
+                    </div>
+                  </div>
+                  <div class="input">
+                    <el-input
+                      v-model="input"
+                      clearable
+                      placeholder="不填写默认为当前账户地址"
+                      min="10000"
+                      max="1408730"
+                      suffix-icon="Search"
+                      :formatter="onFormatter"
+                      :parser="onParser"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pay-panel">
+              <div class="header">
+                <div class="title">支付</div>
+              </div>
+              <div class="cashier">
+                <div class="amount-box">
+                  <div class="amount-content">
+                    <div class="amount">
+                      <span>需转账金额</span>
+                      <span>
+                        <em>443.430540</em>
+                        TRX
+                      </span>
+                    </div>
+                    <div class="info">
+                      <div>
+                        价格/天：
+                        <span>110</span>
+                        sun,
+                      </div>
+                      <div>
+                        较3天烧毁省
+                        <span>74</span>
+                        % ≈
+                        <span>930.00TRX</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <img
-                  src="@/assets/home/content-qr-code.png"
-                  alt="二维码加载失败，请检查网络后刷新重试"
-                  class="content-qr-code"
-                />
               </div>
             </div>
-          </div>
-          <div class="footer">
-            <el-button color="#294aa5" class="btn-block">复制金额，去转账</el-button>
-          </div>
+            <div class="footer">
+              <el-checkbox v-model="clause" style="margin-bottom: 20px"
+                >为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox
+              >
+              <el-button color="#294aa5" class="btn-block">支付</el-button>
+            </div>
+          </template>
         </div>
       </div>
       <div class="statistics-content stc-display">
@@ -164,23 +263,73 @@
         <div class="rent-log-panel">
           <div class="rent-log-title">
             <div class="switch-panel">
-              <el-radio-group v-model="radio2">
+              <el-radio-group v-model="radio" @change="radioChange">
                 <el-radio-button label="1" border>大家在租</el-radio-button>
                 <el-radio-button label="2" border>我的租用</el-radio-button>
               </el-radio-group>
             </div>
           </div>
-          <div class="table">
+          <!-- 大家在租 -->
+          <div class="table" v-if="radio == '1'">
             <el-table
-              :data="tableData"
+              :data="finishedOrdersList"
               :row-class-name="tableRowClassName"
               style="width: 100%"
             >
-              <el-table-column prop="date" label="交易哈希" />
-              <el-table-column prop="name" label="租用地址" width="280" />
-              <el-table-column prop="address" label="租用资源" />
-              <el-table-column prop="address" label="租用时长" />
-              <el-table-column prop="address" label="日期" />
+              <el-table-column prop="transactionHash" label="交易哈希">
+                <template #default="{ row }">
+                  <el-link
+                    :href="`https://tronscan.org/#/address/${row.transactionHash}`"
+                    target="_blank"
+                    type="primary"
+                    >TxHash</el-link
+                  >
+                </template>
+              </el-table-column>
+              <el-table-column prop="toAddress" label="租用地址" width="280" />
+              <el-table-column prop="rentalQuantity" label="租用资源">
+                <template #default="{ row }">
+                  <div>{{ row.rentalQuantity }} 能量</div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="rentalDays" label="租用时长">
+                <template #default="{ row }">
+                  <div>{{ row.rentalDays }} 天</div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="delegateDate"
+                label="日期"
+                :formatter="row => filterDate(row.delegateDate)"
+              />
+            </el-table>
+          </div>
+          <div class="table" v-if="radio == '2'">
+            <el-table
+              :data="ordersList"
+              :row-class-name="tableRowClassName"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="payDate"
+                label="支付时间"
+                :formatter="row => filterDate(row.payDate)"
+              />
+              <el-table-column
+                prop="orderStatus"
+                label="订单状态"
+                :formatter="row => filterStatus(row.orderStatus)"
+              />
+              <el-table-column prop="orderNo" label="订单号" />
+              <el-table-column prop="toAddress" label="接收地址" />
+              <el-table-column prop="rentalQuantity" label="租用数量" />
+              <el-table-column prop="rentalDays" label="租用时长" />
+              <el-table-column
+                prop="expiredDate"
+                label="到期时间"
+                :formatter="row => filterDate(row.expiredDate)"
+              />
+              <el-table-column prop="payAmount" label="支付金额" />
             </el-table>
           </div>
         </div>
@@ -191,30 +340,35 @@
 </template>
 
 <script setup>
+import { filterDate } from '@/utils/utils/date.js'
 import { Calendar, Search } from '@element-plus/icons-vue'
-const radio2 = ref('1')
+import {
+  getQuickFinishedOrders,
+  getQuickOrders
+} from '@/utils/axios/home/index.js'
+import { ref } from 'vue'
+const radio = ref('1')
 const input = ref('')
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  }
+const leaseRadio = ref('DAPP租赁')
+const clause = ref(true)
+const capacity = ref('')
+const shortcutList = [
+    {
+        label: '50万',
+        value: 500000
+    },
+    {
+        label: '100万',
+        value: 1000000
+    },
+    {
+        label: '500万',
+        value: 5000000
+    },
+    {
+        label: '1000万',
+        value: 10000000
+    }
 ]
 const tableRowClassName = ({ row, rowIndex }) => {
   if (rowIndex % 2 == 0) {
@@ -228,6 +382,57 @@ const onFormatter = value => {
 const onParser = value => {
   return value.replace(/\$\s?|(,*)/g, '')
 }
+
+// 大家的租用地址
+const radioChange = value => {
+  console.log(value)
+  switch (value) {
+    case '1':
+      queryQuickFinishedOrders()
+      break
+    case '2':
+      queryQuickOrders()
+      break
+
+    default:
+      break
+  }
+}
+const finishedOrdersList = ref([])
+const queryQuickFinishedOrders = async () => {
+  const data = await getQuickFinishedOrders()
+  console.log('data', data)
+  finishedOrdersList.value = data.data
+}
+// 我的租用地址
+const address = ref('')
+const ordersList = ref([])
+const queryQuickOrders = async () => {
+  if (!address.value) return
+  const data = await getQuickOrders(address.value)
+  console.log('data', data)
+  ordersList.value = data.data
+}
+const filterStatus = status => {
+  switch (status) {
+    case 'WAIT_DELEGATE':
+      return '等待代理'
+    case 'DELEGATEING':
+      return '代理中'
+    case 'ALMOST_DONE':
+      return '即将结束'
+    case 'DONE':
+      return '已经完成'
+    case 'UNAVAILABLE':
+      return '未生效'
+    default:
+      return ''
+  }
+}
+onMounted(() => {
+  queryQuickFinishedOrders()
+})
+address.value = window.tronWeb?.defaultAddress?.base58
 </script>
 
 <style lang="less" scoped>
@@ -348,6 +553,21 @@ const onParser = value => {
           margin: 25px -10px 0;
           position: relative;
         }
+      }
+      .wallet-address {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      .receive-address {
+        margin-top: 20px;
+      }
+      .unaddress {
+        color: #26a17b;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
       }
       .rentDay {
         padding: 20px;

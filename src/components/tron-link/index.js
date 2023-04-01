@@ -3,7 +3,7 @@ import TronLinkPopup from './tron-link-pc-popup-wrapper.vue'
 import { ElMessage } from 'element-plus'
 export default function TronLink (options = {}) {
   return new Promise(async(resolve, reject) => {
-    const isRead = await window.tronLink.request({
+    const isRead = await window.tronLink?.request({
         method: "tron_requestAccounts",
       });
     const isLoginTron = isRead;

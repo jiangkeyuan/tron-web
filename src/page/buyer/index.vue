@@ -61,11 +61,15 @@ const rightTitle = ref('')
 const showManager = ref(false)
 
 watch(route, () => {
+    console.log('routerouterouterouterouterouterouteroute');
   store.getters.menuList.map(v => {
     if (v.isActive) {
       rightTitle.value = v.title
     }
   })
+   
+   const permissionId = store.state.userInfo?.userInfo?.permissionId
+    noPermissionId(permissionId)
 })
 
 watch(

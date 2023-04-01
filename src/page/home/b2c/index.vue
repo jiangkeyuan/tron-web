@@ -137,10 +137,10 @@
                 TTbQQMGYapeXV9qiHjoHV6uVWL48HDHYfm
               </div>
               <div class="input-panel rentVal">
-                <div class="title">租用量（单笔1~138.5908万）</div>
+                <div class="title">租用量</div>
                 <div class="input">
                   <el-input
-                    v-model="input"
+                    v-model="capacity"
                     clearable
                     placeholder="请输入需要租用的数量"
                     min="10000"
@@ -151,23 +151,36 @@
                   />
                 </div>
                 <div class="rent-value-shortcut">
-                  <div class="item">50万</div>
-                  <div class="item">100万</div>
-                  <div class="item">500万</div>
-                  <div class="item">1000万</div>
-                  <div class="item">最大</div>
+                  <div class="item" data-num="500000">50万</div>
+                  <div class="item" data-num="1000000">100万</div>
+                  <div class="item" data-num="5000000">500万</div>
+                  <div class="item" data-num="10000000">1000万</div>
                 </div>
               </div>
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
                 <div class="title">租用天数默认为3天</div>
               </div>
-              <div class="announcements">
-                <div>1、转账租赁最小支持金额5.25TRX/0.33USDT</div>
-                <div>2、若转账大于可租能量，将扣除1%手续费后原路退回</div>
-                <div>
-                  3、平台默认转账钱包为接收能量地址，若需自定义接收地址，请在转账时备注接收地址
-                  <span class="example-title">示例教程</span>
+              <div class="address">
+                <div class="input-panel receive-address">
+                  <div class="title">
+                    <span>接收方</span>
+                    <div class="unaddress">
+                      <!-- <span>移除接收方</span> -->
+                    </div>
+                  </div>
+                  <div class="input">
+                    <el-input
+                      v-model="input"
+                      clearable
+                      placeholder="不填写默认为当前账户地址"
+                      min="10000"
+                      max="1408730"
+                      suffix-icon="Search"
+                      :formatter="onFormatter"
+                      :parser="onParser"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,17 +189,6 @@
                 <div class="title">支付</div>
               </div>
               <div class="cashier">
-                <div class="address">
-                  <div class="address-title">平台地址：</div>
-                  <div class="copy-board">
-                    <span class="copy-btn-wrapper">
-                      <div class="btn">
-                        <span>TALy13AV6qCj5UmYwn1vUYHxGPBBWAAAAA</span>
-                        <i class="icon"></i>
-                      </div>
-                    </span>
-                  </div>
-                </div>
                 <div class="amount-box">
                   <div class="amount-content">
                     <div class="amount">
@@ -199,29 +201,25 @@
                     <div class="info">
                       <div>
                         价格/天：
-                        <span>105</span>
+                        <span>110</span>
                         sun,
                       </div>
                       <div>
                         较3天烧毁省
-                        <span>75</span>
+                        <span>74</span>
                         % ≈
-                        <span>1330.29TRX</span>
+                        <span>930.00TRX</span>
                       </div>
                     </div>
                   </div>
-                  <img
-                    src="@/assets/home/content-qr-code.png"
-                    alt="二维码加载失败，请检查网络后刷新重试"
-                    class="content-qr-code"
-                  />
                 </div>
               </div>
             </div>
             <div class="footer">
-              <el-button color="#294aa5" class="btn-block"
-                >复制金额，去转账</el-button
+              <el-checkbox v-model="clause" style="margin-bottom: 20px"
+                >为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox
               >
+              <el-button color="#294aa5" class="btn-block">支付</el-button>
             </div>
           </template>
         </div>
@@ -352,6 +350,26 @@ import { ref } from 'vue'
 const radio = ref('1')
 const input = ref('')
 const leaseRadio = ref('DAPP租赁')
+const clause = ref(true)
+const capacity = ref('')
+const shortcutList = [
+    {
+        label: '50万',
+        value: 500000
+    },
+    {
+        label: '100万',
+        value: 1000000
+    },
+    {
+        label: '500万',
+        value: 5000000
+    },
+    {
+        label: '1000万',
+        value: 10000000
+    }
+]
 const tableRowClassName = ({ row, rowIndex }) => {
   if (rowIndex % 2 == 0) {
     return 'warning-row'
@@ -541,6 +559,15 @@ address.value = window.tronWeb?.defaultAddress?.base58
         align-items: center;
         padding: 15px;
         margin-bottom: 15px;
+      }
+      .receive-address {
+        margin-top: 20px;
+      }
+      .unaddress {
+        color: #26a17b;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
       }
       .rentDay {
         padding: 20px;

@@ -17,7 +17,9 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+
+</script>
 
 <style lang="less" scoped>
 .api-box {

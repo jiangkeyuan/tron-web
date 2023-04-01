@@ -5,10 +5,15 @@
         <Logo></Logo>
       </router-link>
       <ul class="home-left-menu">
-        <router-link :to="item.route" :class="[
-          { 'home-left-menu-li-active': item.isActive },
-          'home-left-menu-li',
-        ]" v-for="item in store.getters.menuList" :key="item.router">
+        <router-link
+          :to="item.route"
+          :class="[
+            { 'home-left-menu-li-active': item.isActive },
+            'home-left-menu-li'
+          ]"
+          v-for="item in store.getters.menuList"
+          :key="item.router"
+        >
           <el-icon class="home-left-menu-li-icon">
             <component :is="item.img"></component>
           </el-icon>
@@ -32,56 +37,69 @@
   </div>
 </template>
 <script setup>
-import Logo from "@/components/logo.vue";
-import DashbordTitle from "./dashbord-title.vue";
-import { useRouter, useRoute } from "vue-router";
-import BindEmails from "../../components/bind-emails.vue";
-import { signMessage, connectedWallet } from '@/utils/utils/tron.js';
-const store = useStore();
-const router = useRouter();
-const route = useRoute();
-const showEmailsDialog = ref(false);
+import Logo from '@/components/logo.vue'
+import DashbordTitle from './dashbord-title.vue'
+import { useRouter, useRoute } from 'vue-router'
+import BindEmails from '../../components/bind-emails.vue'
+import { signMessage, connectedWallet } from '@/utils/utils/tron.js'
+import { computed } from 'vue'
+const store = useStore()
+const router = useRouter()
+const route = useRoute()
+const showEmailsDialog = ref(false)
 
-const rightTitle = ref("");
+const rightTitle = ref('')
 
 watch(route, () => {
-  store.getters.menuList.map((v) => {
+  store.getters.menuList.map(v => {
     if (v.isActive) {
-      rightTitle.value = v.title;
+      rightTitle.value = v.title
     }
-  });
-});
-
-watch(() => store.state.userInfo.userInfo, (o, n) => {
-  const dateTime = new Date().getTime();
-  const oneDay = 24 * 60 * 60 * 1000;
-  const localTime = localStorage.getItem('date') || 0;
-  if (!o.email && localTime + oneDay < dateTime) {
-    showEmailsDialog.value = true;
-  }
+  })
 })
 
-const menuType = computed(() => {
-  return store.state.menuList.menuType;
-});
+watch(
+  () => store.state.userInfo.userInfo,
+  (o, n) => {
+    const dateTime = new Date().getTime()
+    const oneDay = 24 * 60 * 60 * 1000
+    const localTime = localStorage.getItem('date') || 0
+    if (!o.email && localTime + oneDay < dateTime) {
+      showEmailsDialog.value = true
+    }
+  }
+)
 
-const title = (t) => {
-  return store.state.menuList.menuType === t ? "卖家版" : "买家版";
-};
+const menuType = computed(() => {
+  return store.state.menuList.menuType
+})
+
+const permissionId = computed(() => {
+  return store.state.userInfo.userInfo.permissionId
+})
+const title = t => {
+  return store.state.menuList.menuType === t ? '卖家版' : '买家版'
+}
 
 const changMenuType = () => {
   if (menuType.value === 0) {
     //切换买家版本
-    router.push('/console/seller/dashboard');
-    store.commit("changeMenuType", 1);
+    router.push('/console/seller/dashboard')
+    store.commit('changeMenuType', 1)
   } else {
-    router.push("/console/buyer/dashboard");
-    store.commit("changeMenuType", 0);
+    router.push('/console/buyer/dashboard')
+    store.commit('changeMenuType', 0)
   }
-};
+}
 onMounted(() => {
   if (route.fullPath.includes('/buyer/')) {
-    store.commit("changeMenuType", 1);
+    store.commit('changeMenuType', 1)
+  }
+  console.log('router-----------', route)
+  if (route.fullPath.includes('seller') && route.name != 'guide') {
+    if (!permissionId.value) {
+      router.push('/console/seller/guide')
+    }
   }
 })
 </script>
@@ -195,7 +213,7 @@ onMounted(() => {
   bottom: 0;
   display: block;
   width: 2px;
-  content: "";
+  content: '';
   background-color: #294aa5;
 }
 

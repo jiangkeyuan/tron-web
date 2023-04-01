@@ -98,10 +98,11 @@
                 >投票</el-button
               >
               <el-select
-                v-model="value"
+                v-model="form.order"
                 class="m-2"
                 placeholder="Select"
                 size="large"
+                @change="onChange"
               >
                 <el-option
                   v-for="item in options"
@@ -158,6 +159,9 @@
                     </template>
                   </el-table-column>
                 </el-table>
+               <div>
+                 <el-pagination layout="prev, pager, next" hide-on-single-page :total="totalCount" @current-change="currentChange"/>
+               </div>
               </el-tab-pane>
               <el-tab-pane label="快捷交易" style="text-align: center">
                 <el-link type="primary">正在跳转至快捷交易界面</el-link>
@@ -286,21 +290,27 @@ const showBuyPopup = ref(false)
 const showWithessPopup = ref(false)
 // showWithessPopup
 const showSellEnergyPopup = ref(false)
+const form = reactive({
+     order: 'createDate',
+     pageIndex: 2,
+     pageSize: 10
+})
+const totalCount = ref(0)
 const options = [
   {
-    value: 'Option1',
+    value: 'createDate',
     label: '最新'
   },
   {
-    value: 'Option2',
+    value: 'price',
     label: '单价最高'
   },
   {
-    value: 'Option3',
+    value: 'payAmount',
     label: '收入最高'
   },
   {
-    value: 'Option4',
+    value: 'rentalQuantity',
     label: '能量最高'
   }
 ]
@@ -333,21 +343,32 @@ const systemMsg = reactive([
       '尊敬的卖家：波场stake2.0升级即将到来，届时授权权限将需要改变，为了更好的通知您升级时间，以及更好的协助您完成新权限授权，请您联系telegram在线客服获取最新信息与帮助！'
   }
 ])
-const handleBuy = () => {
+// 购买
+const handleBuy = async () => {
+    await TronLink()
   showBuyPopup.value = true
 }
 const closeBuyPopup = () => {
   showBuyPopup.value = false
 }
 // 自助交易
+const onChange = () => {
+    queryManualOrders()
+}
 const queryManualOrders = async () => {
   //   await TronLink()
   console.log('999999999999999999999999999999999999')
-  const data = await getManualOrders()
+  const data = await getManualOrders(form)
   console.log('data', data)
   if (data.code == 12000) {
-    manualOrders.value = data.data
+    manualOrders.value = data.data.data
+    totalCount.value = data.data.totalCount
   }
+}
+const currentChange = (value) => {
+    console.log(value);
+    form.pageIndex = value
+    queryManualOrders()
 }
 // 最近完成
 const queryFinishedOrders = async () => {
@@ -367,6 +388,7 @@ const queryStakes = async () => {
 }
 // 投票
 const handleVote = async () => {
+     await TronLink()
   showWithessPopup.value = true
 }
 const closeWithessPopup = () => {

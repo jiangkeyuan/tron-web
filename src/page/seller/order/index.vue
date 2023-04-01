@@ -41,7 +41,7 @@
           <div class="text-overflow">
             <span>收款：</span>
             <el-link
-              href="https://element-plus.org"
+              :href="`https://tronscan.org/#/address/${scope.row.fromAddress}`"
               target="_blank"
               type="primary"
               >{{ scope.row.fromAddress }}</el-link
@@ -50,7 +50,7 @@
           <div class="text-overflow">
             <span>接收：</span>
             <el-link
-              href="https://element-plus.org"
+              :href="`https://tronscan.org/#/address/${scope.row.toAddress}`"
               target="_blank"
               type="primary"
               >{{ scope.row.toAddress }}</el-link
@@ -140,33 +140,9 @@ const queryUserSells = async () => {
     form.date = []
   }
   const data = await getUserSells(form)
-  console.log(data)
   if (data.code === 12000) {
-    // ElMessage.success(data.msg);
-    // userSells.value = data.data
-    userSells.value = [
-  {
-    id: 8,
-    userId: 19,
-    buyerRentalId: 1,
-    orderNo: 20230329230410169,
-    delegateDate: '2023-03-29 23:03:34.0',
-    fromAddress: 'TTbQQMGYapeXV9qiHjoHV6uVWL48HDHYfm',
-    lendEnergy: 10000,
-    delegateAmount: '5.00',
-    benifitAmount: '27.00',
-    stakeAmount: null,
-    expiredDate: '2023-04-01 23:03:34.0',
-    toAddress: 'THdgueo2XA3LyTbfrVPPQ4XzHuyNz8K73P',
-    sellPrice: 120,
-    orderStatus: 'DELEGATEING',
-    transactionHash:
-      '31a8b54109c3cc4f0d44610b3fc577c4cf9a5d378e6a2163e44307e0684f3a4c',
-    createDate: '2023-03-30 21:41:55.0',
-    lastUpdateDate: null,
-    deleteDate: null
-  }
-]
+      console.log(data)
+    userSells.value = data.data.data;
   } else {
     ElMessage.error(data.msg)
   }
@@ -190,7 +166,10 @@ const resetForm = () => {
   Object.keys(form).map(v => {
     form[v] = ''
   })
-  form.date = []
+  form.date = [];
+    form.pageIndex = 1 
+  form.pageSize = 15
+  queryUserSells()
 }
 onMounted(async () => {
   queryUserSells();

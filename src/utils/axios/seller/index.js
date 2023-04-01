@@ -45,3 +45,9 @@ export const saveSellConfig = async (data) => {
       data
     })
 }
+
+export const getNothing = async () => {
+    return await service({
+      url: '/seller/nothing'
+    })
+}

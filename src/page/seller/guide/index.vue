@@ -91,7 +91,7 @@
 </template>
 
 <script setup>
-import { getPermission } from '@/utils/axios/seller/index.js'
+import { getPermission, getNothing } from '@/utils/axios/seller/index.js'
 import { copy } from '@/utils/utils/index.js'
 import { ref } from 'vue'
 import HowAutoSell from '../help/how-auto-sell/page.vue'
@@ -140,6 +140,9 @@ const close = () => {
   courseVideoVisible.value = false
   videoSrc.value = ''
 }
+onMounted(() => {
+    getNothing()
+})
 </script>
 
 <style lang="less" scoped>

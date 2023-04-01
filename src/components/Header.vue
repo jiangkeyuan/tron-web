@@ -113,7 +113,7 @@ const handleSelect = (key, keyPath) => {
   emit('itemClick', { key, keyPath })
 }
 const login = () => {
-  if (store.state?.userInfo?.userInfo?.email) {
+  if (store.state.userInfo?.userInfo?.email) {
     return router.push('/console')
   }
   router.push('/auth/login')

@@ -15,12 +15,12 @@
           <DefaultAvatar class="home-wrapper-user-avatar" width="36" height="36"></DefaultAvatar>
           <div class="home-wrapper-user-no">
             <span class="home-wrapper-user-no-name">
-              {{ store.state.userInfo.userInfo.email }}
+              {{ store.state.userInfo?.userInfo?.email }}
               <el-icon class="home-left-button-icon">
                 <ArrowDown />
               </el-icon>
             </span>
-            <span class="home-wrapper-user-no-amount">余额：{{ store.state.userInfo.userInfo.availableBalance }} TRX</span>
+            <span class="home-wrapper-user-no-amount">余额：{{ store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
           </div>
         </div>
         <template #dropdown>

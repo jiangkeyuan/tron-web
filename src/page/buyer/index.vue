@@ -5,32 +5,23 @@
         <Logo></Logo>
       </router-link>
       <ul class="home-left-menu">
-        <router-link
-          :to="item.route"
-          :class="[
-            { 'home-left-menu-li-active': item.isActive },
-            'home-left-menu-li'
-          ]"
-          v-for="item in store.getters.menuList"
-          :key="item.router"
-        >
+        <router-link :to="item.route" :class="[
+          { 'home-left-menu-li-active': item.isActive },
+          'home-left-menu-li'
+        ]" v-for="item in store.getters.menuList" :key="item.router">
           <el-icon class="home-left-menu-li-icon">
             <component :is="item.img"></component>
           </el-icon>
           <span class="home-left-menu-li-title">{{ item.title }}</span>
         </router-link>
 
-        <router-link
-          v-if="showManager"
-          to="/console/manager"
-          :class="[
-            {
-              'home-left-menu-li-active':
-                route.fullPath.includes('/console/manager')
-            },
-            'home-left-menu-li'
-          ]"
-        >
+        <router-link v-if="showManager" to="/console/manager" :class="[
+          {
+            'home-left-menu-li-active':
+              route.fullPath.includes('/console/manager')
+          },
+          'home-left-menu-li'
+        ]">
           <el-icon class="home-left-menu-li-icon">
             <component is="Setting"></component>
           </el-icon>
@@ -80,17 +71,17 @@ watch(route, () => {
 watch(
   () => store.state.userInfo.userInfo,
   (o, n) => {
-    
-    noPermissionId(o.permissionId)
+
+    noPermissionId(o?.permissionId)
 
     const dateTime = new Date().getTime()
     const oneDay = 24 * 60 * 60 * 1000
     const localTime = localStorage.getItem('date') || 0
-    if (!o.email && localTime + oneDay < dateTime) {
+    if (!(o?.email) && localTime + oneDay < dateTime) {
       showEmailsDialog.value = true
     }
 
-    if (o.roles === 'admin') {
+    if (o?.roles.includes('admin')) {
       showManager.value = true
     } else {
       showManager.value = false
@@ -126,8 +117,8 @@ onMounted(() => {
   }
 })
 
-const noPermissionId = (permissionId) => {
-    console.log('permissionId',permissionId);
+const noPermissionId = (permissionId = '') => {
+  console.log('permissionId', permissionId);
   if (route.fullPath.includes('seller') && route.name != 'guide') {
     if (!permissionId) {
       router.push('/console/seller/guide')

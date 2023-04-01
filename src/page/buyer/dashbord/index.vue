@@ -6,7 +6,7 @@
         <div class="today-wrap-right">
           <h5>今日租用</h5>
           <div class="today-wrap-right-num">
-            {{ buyerObj.todayRentalEnergy }}
+            {{ buyerObj.todayRentalEnergy || 0 }}
             <span class="today-wrap-right-text">能量</span>
           </div>
         </div>
@@ -17,7 +17,7 @@
         <div class="today-wrap-right">
           <h5>昨日租用</h5>
           <div class="today-wrap-right-num">
-            {{ buyerObj.yesterRentalEenrgy }}
+            {{ buyerObj.yesterRentalEenrgy || 0 }}
             <span class="today-wrap-right-text">能量</span>
           </div>
         </div>
@@ -27,7 +27,7 @@
       <div class="dashbord-top-right-content">
         <h5 class="dashbord-top-right-content-top">账号可租量</h5>
         <div class="dashbord-top-right-content-num-kk">
-          <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy }}</span>
+          <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy || 0 }}</span>
           能量
         </div>
         <div class="dashbord-top-right-content-button" @click="router.push('/buyer/recharge')">
@@ -39,7 +39,7 @@
         <h5 class="dashbord-top-right-content-top">API密钥</h5>
         <div class="dashbord-top-right-content-num-kk apikeys">
           <div>
-            <span class="dashbord-top-right-content-num">{{ buyerObj.apiKeyCount }}</span>
+            <span class="dashbord-top-right-content-num">{{ buyerObj.apiKeyCount || 0 }}</span>
             /3
           </div>
           <div @click="gotoApiKeys">设置</div>
@@ -82,7 +82,7 @@ onMounted(async () => {
   const { data } = await bunyerIndex();
   const colors = ["#84c8b4", "#8488f7", "#5e98d6"];
   Object.assign(buyerObj, data);
-  data.apiInfos = data.apiInfos.map((v, i) => {
+  data.apiInfos = (data.apiInfos || []).map((v, i) => {
     if (v.apiKey.length > 6) {
       v.name = v.apiKey.substring(0, 6) + '...';
     } else {

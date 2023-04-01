@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === "development") {
   service.defaults.baseURL = "http://api.ziliaoguanjia.cn/";
   //   service.defaults.baseURL = "http://192.168.1.131:8080/";
   // service.defaults.baseURL = "http://192.168.1.47:8080/";
-//   service.defaults.baseURL = "http://192.168.1.163:8080/";
+  //   service.defaults.baseURL = "http://192.168.1.163:8080/";
 } else {
   service.defaults.baseURL = "http://api.ziliaoguanjia.cn/";
 }
@@ -46,7 +46,8 @@ service.interceptors.response.use(
     const dataAxios = response.data;
     // loading.close();
     // 这个状态码是和后端约定的
-    if (dataAxios.code === 12001 && response.config.url !== "/users/info") {
+    console.log(router.currentRoute);
+    if (dataAxios.code === 14006 && response.config.url !== "/users/info") {
       //掉登
       ElMessage.error("请重新登陆");
       localStorage.setItem("token", "");

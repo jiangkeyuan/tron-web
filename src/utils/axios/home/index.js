@@ -23,8 +23,8 @@ export const getUserInfo = async () => {
   return await service.get("/users/info");
 };
 
-export const logout = async () => {
-  return await service.get("/users/logout");
+export const logout = async ({}) => {
+  return await service.post("/users/logout", {});
 };
 
 export const getWitness = async (address) => {

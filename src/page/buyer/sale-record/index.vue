@@ -56,14 +56,14 @@
       <div class="custom-modal-centent">
         <div class="modal-content">
           <div class="detail">
-            <div>用户：<span class="text">{{ store.state.userInfo.userInfo.email }}</span></div>
+            <div>用户：<span class="text">{{ store.state.userInfo?.userInfo?.email }}</span></div>
             <div>
               钱包地址:
               <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
-                store.state.userInfo.userInfo.walletAddress }}</a>
+                store.state.userInfo?.userInfo?.walletAddress }}</a>
             </div>
             <div>
-              <div>TRX余额：<span class="text">{{ store.state.userInfo.userInfo.availableBalance }}</span></div>
+              <div>TRX余额：<span class="text">{{ store.state.userInfo?.userInfo?.availableBalance }}</span></div>
             </div>
           </div>
           <div class="detail">

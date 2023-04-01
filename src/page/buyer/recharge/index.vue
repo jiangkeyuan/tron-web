@@ -8,7 +8,7 @@
         <el-tabs v-model="activeName">
           <el-tab-pane label="DAPP" name="first">
             <div class="recharge-content">
-              <div class="recharge-content" v-if="store.state.userInfo.userInfo.walletAddress">
+              <div class="recharge-content" v-if="store.state.userInfo?.userInfo?.walletAddress">
                 <el-input placeholder="请输入充值TRX币额" v-model="rechargeAmount" size="large" class="recharge-content-input">
                   <template #append>TRX</template>
                 </el-input>
@@ -102,7 +102,7 @@ const addMoney = async () => {
   });
   console.log(isRead)
   if (!isRead) return;
-  if (walletAddress !== store.state.userInfo.userInfo.walletAddress) {
+  if (walletAddress !== store.state.userInfo?.userInfo?.walletAddress) {
     ElMessage.error('钱包地址与绑定地址不匹配，请使用绑定的钱包充值')
     return;
   }

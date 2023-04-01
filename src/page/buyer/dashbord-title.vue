@@ -1,7 +1,7 @@
 <template>
   <div class="home-right-wrapper">
     <div class="home-right-wrapper-header">
-      <span class="home-right-wrapper-header-l"> {{ leftTitle }} / </span>
+      <span class="home-right-wrapper-header-l"> {{ store.state.menuList.menuType == 0 ? "买家版" : "卖家版" }} / </span>
       <span class="home-right-wrapper-header-r">
         {{ rightTitle }}
       </span>
@@ -49,24 +49,24 @@
                 用户信息
               </div>
             </el-dropdown-item>
-            <el-dropdown-item class="home-wrapper-user-item">
+            <!-- <el-dropdown-item class="home-wrapper-user-item">
               <div class="home-wrapper-user-item">
                 <el-icon color="rgb(47, 76, 159)">
                   <Star />
                 </el-icon>
                 我的推荐
               </div>
-            </el-dropdown-item>
+            </el-dropdown-item> -->
             <el-dropdown-item class="home-wrapper-user-item">
               <div class="home-wrapper-user-item" @click="changeMenutype">
                 <el-icon color="rgb(47, 76, 159)">
                   <Switch />
                 </el-icon>
-                切换{{ leftTitle }}
+                切换{{ store.state.menuList.menuType == 1 ? "买家版" : "卖家版" }}
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item">
-              <div class="home-wrapper-user-item">
+              <div class="home-wrapper-user-item" @click="logoutUser">
                 <el-icon color="rgb(47, 76, 159)">
                   <SwitchButton />
                 </el-icon>
@@ -103,6 +103,7 @@
 import GlobalIzation from "@/components/GlobalIzation.vue";
 import DefaultAvatar from "@/icons/default-avatar.svg?component";
 import { changePassWordRequest } from '@/utils/axios/login/index.js';
+import { logout } from '@/utils/axios/home/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter, useRoute } from "vue-router";
 const store = useStore();
@@ -112,8 +113,18 @@ const dialogFormVisible = ref(false);
 const form = reactive({});
 const ruleFormRef = ref('');
 const title = () => {
-  return route.fullPath.includes('/buyer') ? "买家版" : "卖家版"
+  return store.state.menuType == 0 ? "买家版" : "卖家版"
 };
+
+const logoutUser = async () => {
+  const data = await logout({});
+  if (data.code === 12000) {
+    router.push('/auth/login');
+    localStorage.setItem('token', '');
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
 
 const changeMenutype = () => {
   if (store.state.menuList.menuType === 0) {

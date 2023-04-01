@@ -1,5 +1,6 @@
-import { ElLoading } from "element-plus";
+import { ElLoading, ElMessage } from "element-plus";
 import axios from "axios";
+import router from "@/router/index";
 
 const service = axios.create({
   baseURL: "/",
@@ -45,6 +46,12 @@ service.interceptors.response.use(
     const dataAxios = response.data;
     // loading.close();
     // 这个状态码是和后端约定的
+    if (dataAxios.code === 12001 && response.config.url !== "/users/info") {
+      //掉登
+      ElMessage.error("请重新登陆");
+      localStorage.setItem("token", "");
+      router.push("/auth/login");
+    }
     return dataAxios;
   },
   (error) => {

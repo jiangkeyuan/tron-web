@@ -20,10 +20,17 @@
           <span class="home-left-menu-li-title">{{ item.title }}</span>
         </router-link>
 
-        <router-link v-if="showManager" to="/console/manager" :class="[
-          { 'home-left-menu-li-active': route.fullPath.includes('/console/manager') },
-          'home-left-menu-li',
-        ]">
+        <router-link
+          v-if="showManager"
+          to="/console/manager"
+          :class="[
+            {
+              'home-left-menu-li-active':
+                route.fullPath.includes('/console/manager')
+            },
+            'home-left-menu-li'
+          ]"
+        >
           <el-icon class="home-left-menu-li-icon">
             <component is="Setting"></component>
           </el-icon>
@@ -60,7 +67,7 @@ const showEmailsDialog = ref(false)
 
 const rightTitle = ref('')
 
-const showManager = ref(false);
+const showManager = ref(false)
 
 watch(route, () => {
   store.getters.menuList.map(v => {
@@ -73,6 +80,9 @@ watch(route, () => {
 watch(
   () => store.state.userInfo.userInfo,
   (o, n) => {
+    
+    noPermissionId(o.permissionId)
+
     const dateTime = new Date().getTime()
     const oneDay = 24 * 60 * 60 * 1000
     const localTime = localStorage.getItem('date') || 0
@@ -80,12 +90,14 @@ watch(
       showEmailsDialog.value = true
     }
 
-  if (o.roles === 'admin') {
-    showManager.value = true
-  } else {
-    showManager.value = false
+    if (o.roles === 'admin') {
+      showManager.value = true
+    } else {
+      showManager.value = false
+    }
+
   }
-})
+)
 
 const menuType = computed(() => {
   return store.state.menuList.menuType
@@ -112,13 +124,16 @@ onMounted(() => {
   if (route.fullPath.includes('/buyer/')) {
     store.commit('changeMenuType', 1)
   }
-  console.log('router-----------', route)
+})
+
+const noPermissionId = (permissionId) => {
+    console.log('permissionId',permissionId);
   if (route.fullPath.includes('seller') && route.name != 'guide') {
-    if (!permissionId.value) {
+    if (!permissionId) {
       router.push('/console/seller/guide')
     }
   }
-})
+}
 </script>
 <style scoped>
 .home-wrapper-user-item {

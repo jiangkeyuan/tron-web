@@ -58,11 +58,11 @@
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item">
-              <div class="home-wrapper-user-item">
+              <div class="home-wrapper-user-item" @click="changeMenutype">
                 <el-icon color="rgb(47, 76, 159)">
                   <Switch />
                 </el-icon>
-                切换{{ rightTitle }}
+                切换{{ leftTitle }}
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item">
@@ -114,6 +114,17 @@ const ruleFormRef = ref('');
 const title = () => {
   return route.fullPath.includes('/buyer') ? "买家版" : "卖家版"
 };
+
+const changeMenutype = () => {
+  if (store.state.menuList.menuType === 0) {
+    //切换买家版本
+    router.push('/console/seller/dashboard');
+    store.commit("changeMenuType", 1);
+  } else {
+    router.push("/console/buyer/dashboard");
+    store.commit("changeMenuType", 0);
+  }
+}
 
 const rightTitleFunc = () => {
   let name = "";

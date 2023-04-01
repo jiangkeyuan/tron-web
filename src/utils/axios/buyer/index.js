@@ -15,6 +15,9 @@ export const getApiList = async (url) => {
 export const addApiList = async (params) => {
   return await service.post("/buyer/user/apikey/add", params);
 };
+export const delApiList = async (params) => {
+  return await service.post("/buyer/user/apikey/del", params);
+};
 
 export const updateApiList = async (params) => {
   return await service.post("/buyer/user/apikey/update", params);
@@ -34,4 +37,12 @@ export const setEmail = async (params) => {
 
 export const bunyerIndex = async () => {
   return await service.get("/buyer/index");
+};
+
+export const bindWallets = async (params) => {
+  return await service.post("buyer/user/dapp/bind", params);
+};
+
+export const orderSubmit = async (params) => {
+  return await service.post("buyer/order/submit", params);
 };

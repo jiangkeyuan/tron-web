@@ -7,10 +7,11 @@ const service = axios.create({
 });
 
 if (process.env.NODE_ENV === "development") {
-  service.defaults.baseURL = "http://8.218.135.189:8080/";
-  //   service.defaults.baseURL = "http://192.168.1.131:8080/";
+  service.defaults.baseURL = "http://8.218.135.189:8081/";
+  // service.defaults.baseURL = "http://192.168.31.80:8080/";
   // service.defaults.baseURL = "http://192.168.1.47:8080/";
 } else {
+  service.defaults.baseURL = "http://127.0.0.1:8081/";
 }
 
 let loading = "";

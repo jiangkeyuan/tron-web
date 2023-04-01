@@ -1,0 +1,2 @@
+import{c0 as t}from"./index.e46ffe7a.js";const a="/assets/login-user.ea0ab668.svg",r="/assets/login-code.9f76847b.svg",n=s=>t.post("/auth/register",s),o=s=>t.post(`/auth/captcha/${s}`,{}),c=s=>t.get(`/auth/activate?activateCode=${s}`),i=s=>t.post("/auth/login",s),u=s=>t.patch("/users/changePwd",s),g=s=>t.post("/auth/tron_nonce",s),p=async s=>await t.post("/auth/sendEmail",s),h=async s=>await t.post("/auth/setemailverify",s);export{a as _,r as a,h as b,i as c,n as d,u as e,o as g,p as s,g as t,c as u};
+//# sourceMappingURL=index.3505c538.js.map

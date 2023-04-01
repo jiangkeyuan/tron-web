@@ -33,12 +33,13 @@
         <div class="api-key-content-header">
           <div class="api-key-content-header-left">
             <span class="api-key-content-header-left-title">{{ item.keyName }}</span>
-            <span class="api-key-content-header-left-edit" @click="() => edit(item)">编辑</span>
+            <span class="api-key-content-header-left-edit" @click="() => edit(item)">编辑 </span>
+            <span class="api-key-content-header-left-edit" @click="() => deleteApikey(item)"> 删除</span>
           </div>
           <div class="api-key-content-header-left">
             <span class="api-key-content-header-left-title api-key-content-header-left-title-color">{{ item.apiKey
             }}</span>
-            <el-icon size="15" @click="() => copyEnd(item.id)" class="recharge-content-address-icon" color="#294aa5">
+            <el-icon size="15" @click="() => copyEnd(item.apiKey)" class="recharge-content-address-icon" color="#294aa5">
               <CopyDocument />
             </el-icon>
           </div>
@@ -47,14 +48,15 @@
         <div class="api-key-content-header-body">
           <div class="api-key-content-header-body-item">
             <span class="api-key-content-header-body-item-key">今日租用:</span>
-            <span class="api-key-content-header-body-item-value">{{ item.rentalEnergy }} 能量 / 消耗 {{ item.usedAmount }}
+            <span class="api-key-content-header-body-item-value">{{ item.rentalEnergy || 0 }} 能量 / 消耗 {{ item.usedAmount
+              || 0 }}
               TRX</span>
           </div>
 
           <div class="api-key-content-header-body-item">
             <span class="api-key-content-header-body-item-key">昨日租用:</span>
-            <span class="api-key-content-header-body-item-value">{{ item.billingEnergy }} 能量 / 消耗 {{ item.sbillingAmount
-            }}
+            <span class="api-key-content-header-body-item-value">{{ item.billingEnergy || 0 }} 能量 / 消耗 {{
+              item.sbillingAmount || 0 }}
               TRX</span>
           </div>
         </div>
@@ -67,7 +69,7 @@
 import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
 import { createAPIKEY } from "@/utils/utils/utils-ui.js";
-import { getApiList, addApiList, updateApiList } from '@/utils/axios/buyer/index.js'
+import { getApiList, addApiList, updateApiList, delApiList } from '@/utils/axios/buyer/index.js'
 import { onMounted } from "vue";
 import { ElMessage } from "element-plus";
 const apiList = ref([]);
@@ -81,9 +83,37 @@ const copyEnd = (msg) => {
   });
 };
 
+const deleteApikey = (item) => {
+  ElMessageBox.confirm(
+    '是否删除当前的API KEY',
+    '警告',
+    {
+      confirmButtonText: '好的',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+      const data = await delApiList({ apikey: item.apiKey })
+      if (data.code == 12000) {
+        searchApi();
+        ElMessage({
+          type: 'success',
+          message: '删除成功',
+        })
+      } else {
+        ElMessage({
+          type: 'error',
+          message: data.msg
+        })
+      }
+
+    })
+}
+
 const edit = (item) => {
   ElMessageBox.prompt("", "请输入Key的名称，以便区分统计", {
-    confirmButtonText: "创建KEY",
+    confirmButtonText: "确定",
     inputErrorMessage: "Invalid Email",
     inputPlaceholder: "请输入内容",
     showCancelButton: false,

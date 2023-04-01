@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="innerVisible" width="30%" append-to-body title="绑定邮箱">
+  <el-dialog v-model="innerVisible" width="30%" append-to-body title="绑定邮箱" @close="closeDialog">
     <el-form-item>
       <el-input class="login-content-right-input-l" v-model.trim="value.email" placeholder="请输入您的邮箱地址">
         <template #prefix>
@@ -27,8 +27,15 @@ import { ElMessage } from 'element-plus';
 const innerVisible = ref(true);
 const value = reactive({})
 const verifyCode = ref('');
+const store = useStore();
 const props = defineProps({
-  callBack: Function
+  callBack: Function,
+  showBind: Boolean,
+  close: Function
+})
+
+watch(() => props.showBind, (o, n) => {
+  console.log(o, n)
 })
 
 const getCode = async () => {
@@ -36,6 +43,10 @@ const getCode = async () => {
   if (data.code === 12000) {
     verifyCode.value = 'data:image/png;base64,' + data.data.imageBase64;
   }
+}
+
+const closeDialog = () => {
+  props.close && props.close()
 }
 
 const bindEmails = async () => {
@@ -47,7 +58,7 @@ const bindEmails = async () => {
   }
   const data = await setEmail({ ...value, Authorization: localStorage.getItem('token') })
   if (data.code === 12000) {
-    innerVisible.value = false;
+    store.dispatch('getUserInfoAction');
     props.callBack && props.callBack()
   } else {
     getCode();

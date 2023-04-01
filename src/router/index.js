@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import { getParamsNew } from "@/utils/utils/index.js";
 const routes = [
   {
@@ -50,10 +50,14 @@ const routes = [
       },
     ],
   },
+
   {
     path: "/auth/login",
     component: () => import("../page/login/index.vue"),
-    
+  },
+  {
+    path: "/open/batch",
+    component: () => import("../page/batch/index.vue"),
   },
   {
     path: "/console",
@@ -67,6 +71,13 @@ const routes = [
       }
     },
     children: [
+      {
+        path: "manager",
+        components: {
+          helper: () => import("../page/manager/index.vue"),
+          default: () => import("../page/manager/index.vue"),
+        },
+      },
       {
         path: "buyer/dashboard",
         components: {
@@ -203,7 +214,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   scrollBehavior: () => ({ y: 0 }),
   routes: routes,
 });

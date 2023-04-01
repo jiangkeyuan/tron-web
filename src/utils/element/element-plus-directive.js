@@ -17,6 +17,9 @@ import {
   CopyDocument,
   SuccessFilled,
   WarnTriangleFilled,
+  WarningFilled,
+  Plus,
+  Edit,
 } from "@element-plus/icons-vue";
 /**
  * 按需导入 Element Plus 组件
@@ -31,6 +34,7 @@ export default {
     const icon = [
       WarnTriangleFilled,
       SuccessFilled,
+      WarningFilled,
       Folder,
       Share,
       Notebook,
@@ -46,6 +50,8 @@ export default {
       Switch,
       SwitchButton,
       CopyDocument,
+      Plus,
+      Edit,
     ];
     icon.map((v) => {
       app.component(v.name, v);

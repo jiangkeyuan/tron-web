@@ -24,7 +24,7 @@
       </el-form-item>
       <el-form-item class="maual-lease-item">
         <el-button type="primary" @click="() => buy()">租 用</el-button>
-        <el-button link type="primary">批量租赁</el-button>
+        <el-button link type="primary" @click=openBatch>批量租赁</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -54,6 +54,10 @@ const buy = async () => {
   const data = await manaulBuy('/buyer/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });
   store.dispatch('getUserInfoAction');
   ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg);
+}
+
+const openBatch = () => {
+  window.open(`${location.origin}/#/open/batch`, '_blank');
 }
 </script>
 <style scoped>

@@ -4,17 +4,17 @@
     <div class="user-content-one">
       <div class="basic-info">
         <div class="font">账户名称</div>
-        <div class="font text">{{ userInfo.userName || userInfo.email }}</div>
+        <div class="font text">{{ store.state.userInfo.userInfo.userName || store.state.userInfo.userInfo.email }}</div>
         <div class="font">绑定钱包</div>
         <div class="font text">
-          {{ userInfo.walletAddress }}
+          {{ store.state.userInfo.userInfo.walletAddress }}
         </div>
       </div>
       <div class="content-line"></div>
       <div class="basic-info">
         <div class="font">可用余额</div>
         <div class="font text">
-          {{ userInfo.availableBalance }}
+          {{ store.state.userInfo.userInfo.availableBalance }}
           <span style="margin: 0px 20px 0px 8px"> TRX </span>
           <div class="font btn" style="margin-right: 20px">充值</div>
           <div class="font btn">提币</div>
@@ -30,32 +30,57 @@
     <div class="login-method">
       <div class="font">邮箱</div>
       <div class="font">支持账号密码登录，可找回账号</div>
-      <div class="font text">{{ userInfo.email }}</div>
-      <div class="btn font">修改密码</div>
+      <div class="font text">{{ store.state.userInfo.userInfo.email }}</div>
+      <div class="btn font" @click="handleBind" v-if="!store.state.userInfo.userInfo.email">绑定邮箱</div>
+      <div v-else></div>
       <div class="font">Tron钱包地址</div>
       <div class="font">绑定钱包地址，充值自动识别入账</div>
-      <div class="font text">{{ userInfo.walletAddress }} TRX</div>
-      <div class="btn font" @click="handleBind">绑定</div>
+      <div class="font text">{{ store.state.userInfo.userInfo.walletAddress }}</div>
+      <div class="btn font" @click="handleBindAdress" v-if="!store.state.userInfo.userInfo.walletAddress">绑定</div>
     </div>
     <div v-if="showBind">
-      <BindEmailsInput></BindEmailsInput>
+      <BindEmailsInput @close='showBind = false'></BindEmailsInput>
     </div>
 
   </div>
 </template>
 <script setup>
 import BindEmailsInput from '../../../components/bind-emails-input.vue';
+import { isConnectedWallet, walletAddress, connectedWallet } from '@/utils/utils/tron.js';
+import { bindWallets } from '@/utils/axios/buyer/index';
 
 const store = useStore();
-const userInfo = reactive(store.state.userInfo.userInfo)
 const showBind = ref(false);
 
 const handleBind = () => {
   showBind.value = true;
 }
 
+const handleBindAdress = () => {
+  if (isConnectedWallet()) {
+    bind()
+  } else {
+    connectedWallet().then(res => {
+      bind()
+    })
+  }
+}
+
+const bind = async () => {
+  const data = await bindWallets({
+    walletAddress: walletAddress()
+  })
+
+  if (data.code === 12000) {
+    ElMessage.success('绑定成功')
+    store.dispatch('getUserInfoAction')
+  } else {
+    ElMessage.error(data.msg);
+  }
+}
+
 onMounted(() => {
-  if (!userInfo.email) {
+  if (!store.state.userInfo.userInfo.email) {
     store.dispatch('getUserInfoAction');
   }
 })

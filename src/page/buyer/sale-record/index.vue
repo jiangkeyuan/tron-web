@@ -11,9 +11,7 @@
         end-placeholder="End date" />
     </el-form-item>
     <el-form-item label="Api Key">
-      <el-select empty="11111" v-model="form.region" placeholder="please select your zone">
-        <el-option v-for="i in apiKeyList" :label="i.label" :value="i.value" />
-      </el-select>
+      <el-input v-model="form.apikey" />
     </el-form-item>
     <el-form-item>
       <el-button @click="reset">重置</el-button>
@@ -21,7 +19,7 @@
     </el-form-item>
   </el-form>
   <div class="sale-record sale-record-table">
-    <el-radio-group v-model="form.orderStatus" class="sale-record-group">
+    <el-radio-group v-model="form.orderStatus" class="sale-record-group" @change="seach">
       <el-radio-button label="">全部</el-radio-button>
       <el-radio-button label="WAIT_DELEGATE">待代理</el-radio-button>
       <el-radio-button label="DELEGATEING">代理中</el-radio-button>
@@ -58,24 +56,24 @@
       <div class="custom-modal-centent">
         <div class="modal-content">
           <div class="detail">
-            <div>用户：<span class="text">375149089@qq.com</span></div>
+            <div>用户：<span class="text">{{ store.state.userInfo.userInfo.email }}</span></div>
             <div>
               钱包地址:
-              <a class="jump-a" target="_blank"
-                :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq</a>
+              <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
+                store.state.userInfo.userInfo.walletAddress }}</a>
             </div>
             <div>
-              <div>TRX余额：<span class="text">0</span></div>
+              <div>TRX余额：<span class="text">{{ store.state.userInfo.userInfo.availableBalance }}</span></div>
             </div>
           </div>
           <div class="detail">
             <div>
               交易哈希：
-              <span class="text" style="padding: 0px 5px">-</span>
+              <span class="text" style="padding: 0px 5px">{{ detailsValue.transactionHash || '-' }}</span>
             </div>
             <div>
               apiKey：
-              <span class="text" style="padding: 0px 5px">-</span>
+              <span class="text" style="padding: 0px 5px">{{ detailsValue.apiKey || '-' }}</span>
             </div>
             <div>
               接收：
@@ -133,6 +131,7 @@
 <script setup>
 import { getRentals, getApiList } from "@/utils/axios/buyer/index.js";
 import { filterDate } from '@/utils/utils/date.js';
+import { ElMessage } from "element-plus";
 const form = reactive({
   date: [],
   orderStatus: "",
@@ -141,6 +140,7 @@ const form = reactive({
   totalCount: 0
 });
 const apiKeyList = ref([]);
+const store = useStore();
 const tableData = ref([]);
 const dialogTableVisible = ref(false);
 const detailsValue = reactive({});
@@ -160,7 +160,12 @@ const seach = async () => {
     form.date = [];
   }
   const data = await getRentals("/buyer/user/rentals", form);
-  tableData.value = data.data.data;
+  if (data.code == 12000) {
+    tableData.value = data.data.data;
+  } else {
+    ElMessage.error(data.mas)
+  }
+
 }
 
 const filterStatus = (status) => {
@@ -185,6 +190,8 @@ const reset = () => {
     form[v] = '';
   })
   form.date = [];
+
+  seach();
 }
 
 

@@ -99,7 +99,7 @@ const currentChange = () => {
 }
 
 const reset = () => {
-  forms.systemVal = '';
+  forms.systemKey = '';
   forms.pageIndex = 1;
   seach();
 }

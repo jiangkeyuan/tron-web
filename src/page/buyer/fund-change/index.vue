@@ -147,6 +147,8 @@ const search = () => {
 
 .sale-record-table {
   padding: 6px;
+  box-sizing: border-box;
+  min-height: 85%;
 }
 
 .sale-record-group {

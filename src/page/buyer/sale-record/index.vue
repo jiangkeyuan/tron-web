@@ -109,16 +109,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                                                                  display: inline-block;
-                                                                  width: fit-content;
-                                                                  padding: 1px 7px;
-                                                                  margin: 0px;
-                                                                  background: rgb(255, 255, 255);
-                                                                  border: 1px solid rgb(191, 191, 191);
-                                                                  border-radius: 3px;
-                                                                  font-size: 12px;
-                                                                  color: rgb(191, 191, 191);
-                                                                ">
+                                                                            display: inline-block;
+                                                                            width: fit-content;
+                                                                            padding: 1px 7px;
+                                                                            margin: 0px;
+                                                                            background: rgb(255, 255, 255);
+                                                                            border: 1px solid rgb(191, 191, 191);
+                                                                            border-radius: 3px;
+                                                                            font-size: 12px;
+                                                                            color: rgb(191, 191, 191);
+                                                                          ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
@@ -150,7 +150,7 @@ const details = (v) => {
   dialogTableVisible.value = true;
 };
 const gotoNew = (url) => {
-  window.open(`https://tronscan.org/#/transaction/${url}`, '_blank');
+  window.open(`https://nile.tronscan.org/#/transaction/${url}`, '_blank');
 }
 
 const currentChange = () => {
@@ -260,7 +260,8 @@ onMounted(async () => {
 
 .sale-record-table {
   padding: 6px;
-  overflow: auto;
+  box-sizing: border-box;
+  min-height: 85%;
 }
 
 .sale-record-group {

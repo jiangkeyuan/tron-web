@@ -46,3 +46,7 @@ export const bindWallets = async (params) => {
 export const orderSubmit = async (params) => {
   return await service.post("buyer/order/submit", params);
 };
+
+export const getPlatformRechargeAddress = async () => {
+  return await service.get("buyer/platformRechargeAddress");
+};

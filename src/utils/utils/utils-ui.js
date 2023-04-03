@@ -12,8 +12,8 @@ export const createAPIKEY = (callback) => {
         });
         ElMessage.success(data.msg);
         if (data.code === 12000) {
-          done();
           callback();
+          done();
         }
       } else {
         done();

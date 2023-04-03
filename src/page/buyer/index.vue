@@ -85,7 +85,7 @@ watch(
       showEmailsDialog.value = true
     }
 
-    if (o?.roles.includes('admin')) {
+    if (o?.roles?.toUpperCase().includes('ADMIN')) {
       showManager.value = true
     } else {
       showManager.value = false

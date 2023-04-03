@@ -1,3 +1,10 @@
+const errorList = [
+  {
+    key: "class org.tron.core.exception.ContractValidateException : Validate TransferContract error, balance is not sufficient.",
+    value: "余额不足",
+  },
+];
+
 // 钱包是否下载
 export const isWalletDownloaded = () => window?.tronWeb;
 
@@ -73,6 +80,16 @@ export const signMessage = async (value) => {
   });
 };
 
+// 波场错误
+export const tronErrorList = (str) => {
+  console.log(str);
+  const a = errorList.filter((v) => v.key === str);
+  if (a.length) {
+    return a[0].value;
+  } else {
+    return "波场异常";
+  }
+};
 // 转账 钱包充值
 
 // 售出

@@ -75,10 +75,12 @@ const gotoApiKeys = () => {
 };
 
 const creatAPI = () => {
-  createAPIKEY();
+  createAPIKEY(() => {
+    search();
+  });
 };
 
-onMounted(async () => {
+const search = async () => {
   const datas = await bunyerIndex();
   const colors = ["#84c8b4", "#8488f7", "#5e98d6"];
   Object.assign(buyerObj, datas.data || {});
@@ -96,6 +98,10 @@ onMounted(async () => {
   } else {
     buyerObj.apiInfos = []
   }
+}
+
+onMounted(async () => {
+  await search()
   var chartDom = document.getElementById("echarts");
 
   var myChart = echarts.init(chartDom);

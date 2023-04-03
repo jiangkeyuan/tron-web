@@ -74,15 +74,15 @@ import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
 import { useRouter } from "vue-router";
 import { md5 } from "@/utils/utils/md5.js";
-import { isConnectedWallet, walletAddress } from '@/utils/utils/tron.js';
-import { dappRecharge, bindWallets } from '@/utils/axios/buyer/index';
+import { isConnectedWallet, walletAddress, tronErrorList } from '@/utils/utils/tron.js';
+import { dappRecharge, bindWallets, getPlatformRechargeAddress } from '@/utils/axios/buyer/index';
 import { ElMessage } from "element-plus";
 const router = useRouter();
 const activeName = ref("first");
 const rechargeAmount = ref("");
 const fullscreenLoading = ref(false);
 const store = useStore();
-const rechargeAdress = ref("TFoTX1MtKuG97pUo3crNXjdZLY6fS77777");
+const rechargeAdress = ref("");
 
 const bindWalletHandle = async () => {
   fullscreenLoading.value = true;
@@ -113,6 +113,12 @@ const addMoney = async () => {
     return;
   }
   try {
+    console.log(walletAddress());
+    const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
+      rechargeAdress.value,
+      tronWeb.toSun(rechargeAmount.value),
+      walletAddress()
+    );
     const signedTxn = await tronWeb.trx.sign(unsignedTxn);
     var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
     const data = await dappRecharge({ transactionHash: broastTx.txid, signedTransactionHash: "x8SY39r6SOyHcycsYvSWT0WqYXg0uGvZ" })
@@ -125,16 +131,17 @@ const addMoney = async () => {
     }
   } catch (error) {
     fullscreenLoading.value = false;
+    ElMessage.error(tronErrorList(error + ''));
   }
-  const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
-    "TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq",
-    tronWeb.toSun(rechargeAmount.value),
-    walletAddress()
-  );
 };
 
 onMounted(async () => {
-  console.log(md5(11111, 'x8SY39r6SOyHcycsYvSWT0WqYXg0uGvZ'));
+  const data = await getPlatformRechargeAddress()
+  if (data.code === 12000) {
+    rechargeAdress.value = data.data.data;
+  } else {
+    ElMessage.error(data.msg);
+  }
 });
 
 const copyEnd = () => {

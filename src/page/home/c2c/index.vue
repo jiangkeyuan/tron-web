@@ -326,6 +326,7 @@ import {
 } from '@/utils/axios/home/index.js'
 import {  walletAddress } from '@/utils/utils/tron.js';
 import { reactive } from 'vue'
+const router = useRouter()
 const value = ref('Option2')
 const manualOrders = ref([])
 const finishedOrders = ref([])
@@ -455,7 +456,19 @@ const search = async () => {
   sellPopup.value = true
   console.log('999999999999999999999996666666666666')
 }
-
+const changeManualOrder = (val) => {
+    console.log(val);
+    switch (val) {
+    case '0':
+      queryManualOrders()
+      break
+    case '1':
+      router.push('/b2c')
+      break
+    default:
+      break
+  }
+}
 const closeSellEnergyPopup = () => {
   showSellEnergyPopup.value = false
 }

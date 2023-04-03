@@ -250,14 +250,14 @@ const handleSell = async () => {
   try {
     const transaction =
       await window.tronWeb.transactionBuilder.delegateResource(
-        5000000,
+        props.rowData.energyQuantity,
         receiver_address.value,
         'ENERGY',
         addr,
         true
       )
 
-    console.log(transaction)
+    console.log('transaction',transaction)
     const signedTxn = await tronWeb.trx.sign(transaction)
     const broastTx = await tronWeb.trx.sendRawTransaction(signedTxn)
     console.log('broastTx', broastTx)
@@ -280,7 +280,8 @@ const handleSell = async () => {
   } catch (error) {
      btnText.value = '出售'
     loading.value = false
-    console.log('----------',error);
+    console.error('----------',error);
+    ElMessage.error(error)
   }
 }
 onMounted(() => {

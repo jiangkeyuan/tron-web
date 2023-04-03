@@ -59,6 +59,7 @@ const bindEmails = async () => {
   const data = await setEmail({ ...value, Authorization: localStorage.getItem('token') })
   if (data.code === 12000) {
     store.dispatch('getUserInfoAction');
+    ElMessage.error(data.msg)
     props.callBack && props.callBack()
   } else {
     getCode();

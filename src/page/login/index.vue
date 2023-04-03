@@ -240,7 +240,7 @@ onMounted(async () => {
       registerType.value = 2;
       isActivave.value = true;
     } else {
-      registerType = 1;
+      registerType.value = 1;
       isActivave.value = false;
       ElMessage.error(data.msg);
     }

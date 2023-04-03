@@ -4,7 +4,8 @@
     <div class="user-content-one">
       <div class="basic-info">
         <div class="font">账户名称</div>
-        <div class="font text">{{ store.state.userInfo?.userInfo?.userName || store.state.userInfo?.userInfo?.email }}</div>
+        <div class="font text">{{ store.state.userInfo?.userInfo?.userName || store.state.userInfo?.userInfo?.email }}
+        </div>
         <div class="font">绑定钱包</div>
         <div class="font text">
           {{ store.state.userInfo?.userInfo?.walletAddress }}
@@ -16,7 +17,7 @@
         <div class="font text">
           {{ store.state.userInfo?.userInfo?.availableBalance }}
           <span style="margin: 0px 20px 0px 8px"> TRX </span>
-          <div class="font btn" style="margin-right: 20px">充值</div>
+          <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">充值</div>
           <div class="font btn">提币</div>
         </div>
         <div class="font">注册时间</div>
@@ -48,12 +49,19 @@
 import BindEmailsInput from '../../../components/bind-emails-input.vue';
 import { isConnectedWallet, walletAddress, connectedWallet } from '@/utils/utils/tron.js';
 import { bindWallets } from '@/utils/axios/buyer/index';
+import { useRouter } from "vue-router";
 
 const store = useStore();
+const router = useRouter();
 const showBind = ref(false);
 
 const handleBind = () => {
   showBind.value = true;
+}
+
+const pushRecharge = () => {
+  store.commit("changeMenuType", 0);
+  router.push('/console/buyer/recharge')
 }
 
 const handleBindAdress = () => {

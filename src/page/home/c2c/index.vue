@@ -61,7 +61,7 @@
               ></i>
             </div>
           </div>
-          <div class="bw item">
+          <!-- <div class="bw item">
             <div class="header">
               <span class="c2c_address">带宽</span>
               <div>0 <em>/0</em></div>
@@ -76,7 +76,7 @@
                   <Odometer /> </el-icon
               ></i>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="current-order-container">
@@ -554,7 +554,7 @@ onMounted(() => {
       border: 1px solid #c8d0df;
       border-radius: 10px;
       box-shadow: 0 3px 10px #00000014;
-      width: 33%;
+      width: 50%;
 
       &:last-child {
         margin-right: 0;

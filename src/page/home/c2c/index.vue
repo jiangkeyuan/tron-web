@@ -118,7 +118,8 @@
                 />
               </el-select>
             </div>
-            <el-tabs type="border-card" class="demo-tabs">
+            <el-tabs type="border-card" class="demo-tabs" 
+              @tab-change="changeManualOrder">
               <el-tab-pane label="自助交易">
                 <el-table :data="manualOrders" style="width: 100%">
                   <el-table-column prop="benifitAmount" label="收入"

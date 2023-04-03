@@ -244,14 +244,14 @@ const handleClose = () => {
 const handleSell = async () => {
   loading.value = true
   btnText.value = '质押中'
-  console.log('receiver_address', receiver_address.value)
+  console.log('receiver_address', props.rowData.receiveAddress)
   const addr = address.value || defaultAddress.value
   console.log('addr', addr)
   try {
     const transaction =
       await window.tronWeb.transactionBuilder.delegateResource(
         props.rowData.energyQuantity,
-        receiver_address.value,
+        props.rowData.receiveAddress,
         'ENERGY',
         addr,
         true

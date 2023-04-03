@@ -281,6 +281,9 @@ const handleSell = async () => {
      btnText.value = '出售'
     loading.value = false
     console.error('----------',error);
+    if(error.includes('frozenBalance must be less than accountBalance')) {
+        return ElMessage.error('余额不足')
+    }
     ElMessage.error(error)
   }
 }

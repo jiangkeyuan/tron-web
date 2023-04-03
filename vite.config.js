@@ -126,7 +126,7 @@ export default ({ mode }) => {
       sourcemap: true,
       chunkSizeWarningLimit: 800,
       assetsDir: "./assets",
-      emptyOutDir: false,
+      emptyOutDir: true,
       // rollupOptions: {
       //   input: entrances,
       //   output: {

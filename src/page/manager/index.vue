@@ -37,8 +37,8 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination @current-change="currentChange" layout="prev, pager, next" v-model:current-page="form.pageIndex"
-        :total="forms.totalCount" />
+      <el-pagination @current-change="currentChange" layout="prev, pager, next" v-model:current-page='form.pageIndex'
+        v-model:page-size="form.pageSize" :total="forms.totalCount" />
     </div>
   </el-card>
 
@@ -177,6 +177,9 @@ onMounted(() => {
 .sale-record-table-pagination {
   margin-top: 10px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .sale-record-search {

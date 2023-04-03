@@ -93,7 +93,7 @@
       </el-form>
       <template #footer>
         <el-button class="dialog-footer" type="primary" @click="changePassWordConfirm(ruleFormRef)">
-          Confirm
+          修改密码
         </el-button>
       </template>
     </el-dialog>
@@ -184,12 +184,15 @@ const changePassWordConfirm = async (formEl) => {
   await formEl.validate(async (valid, fields) => {
     if (valid) {
       const data = await changePassWordRequest(form);
+
       if (data.code === 12000) {
-        router.push('/auth/login');
+        ElMessage.success(data.msg);
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 3000)
       } else {
         ElMessage.error(data.msg);
       }
-      console.log(data);
     } else {
       console.log('error submit!', fields)
     }

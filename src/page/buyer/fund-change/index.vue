@@ -1,37 +1,38 @@
 <template>
-  <el-form :model="form" inline class="sale-record sale-record-search">
-    <el-form-item label="最小金额">
-      <el-input v-model="form.name" />
-    </el-form-item>
-    <el-form-item label="最大金额">
-      <el-input v-model="form.name" />
-    </el-form-item>
-    <el-form-item label="时间">
-      <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
-        end-placeholder="End date" />
-    </el-form-item>
-    <el-form-item label="类型">
-      <el-select empty="11111" v-model="form.region" placeholder="please select your zone">
-        <el-option v-for="i in apiKey" :label="i.label" :value="i.value" />
-        <div slot="empty">
-          <el-empty description="description" />
-        </div>
-      </el-select>
-    </el-form-item>
-    <el-form-item>
+  <div class="recharge-log">
+    <el-form :model="form" inline class="sale-record sale-record-search">
+      <el-form-item label="最小金额">
+        <el-input v-model="form.name" />
+      </el-form-item>
+      <el-form-item label="最大金额">
+        <el-input v-model="form.name" />
+      </el-form-item>
+      <el-form-item label="时间">
+        <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
+          end-placeholder="End date" />
+      </el-form-item>
+      <el-form-item label="类型">
+        <el-select empty="11111" v-model="form.region" placeholder="please select your zone">
+          <el-option v-for="i in apiKey" :label="i.label" :value="i.value" />
+          <div slot="empty">
+            <el-empty description="description" />
+          </div>
+        </el-select>
+      </el-form-item>
       <el-button>重置</el-button>
       <el-button type="primary" color="#294aa5">查询</el-button>
-    </el-form-item>
-  </el-form>
-  <div class="sale-record sale-record-table">
-    <el-table :data="tableData" stripe class="sale-record-table-list">
-      <el-table-column prop="order_no" label="发生时间" width="220" />
-      <el-table-column prop="receive_address" label="类型" />
-      <el-table-column prop="min_amount" label="入账金额" />
-      <el-table-column prop="date" label="交易哈希"> 查看 </el-table-column>
-    </el-table>
-    <div class="sale-record-table-pagination">
-      <el-pagination layout="prev, pager, next" :total="50" />
+    </el-form>
+    <div class="sale-record-table">
+      <el-table :data="tableData" stripe class="sale-record-table-list">
+        <el-table-column prop="order_no" label="发生时间" width="220" />
+        <el-table-column prop="receive_address" label="类型" />
+        <el-table-column prop="min_amount" label="入账金额" />
+        <el-table-column prop="date" label="交易哈希"> 查看 </el-table-column>
+      </el-table>
+      <div class="sale-record-table-pagination">
+        <el-pagination layout="prev, pager, next" v-model:current-page='form.pageIndex' v-model:page-size="form.pageSize"
+          :total="form.totalCount" @current-change="search" />
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +40,9 @@
 const form = reactive({
   date: [],
   type: "top",
+  totalCount: 0,
+  pageIndex: 1,
+  pageSize: 10
 });
 const apiKey = ref([]);
 const tableData = ref([
@@ -108,8 +112,18 @@ const tableData = ref([
     },
   },
 ]);
+
+const search = () => {
+
+}
 </script>
 <style scoped>
+.recharge-log {
+  background: white;
+  padding: 6px;
+  height: 90%;
+}
+
 .test {
   display: flex;
   flex-direction: column;
@@ -132,7 +146,6 @@ const tableData = ref([
 }
 
 .sale-record-table {
-  height: 85%;
   padding: 6px;
 }
 
@@ -145,6 +158,10 @@ const tableData = ref([
 .sale-record-table-pagination {
   margin-top: 10px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 20px;
 }
 </style>
 s

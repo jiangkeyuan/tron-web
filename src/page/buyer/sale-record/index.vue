@@ -48,8 +48,8 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination v-model:current-page='form.pageIndex' :page-size="form.pageSize" layout="prev, pager, next"
-        :total="form.totalCount" />
+      <el-pagination v-model:current-page='form.pageIndex' @current-change="() => currentChange()"
+        v-model:page-size="form.pageSize" layout="prev, pager, next" :total="form.totalCount" />
     </div>
 
     <el-dialog v-model="dialogTableVisible" append-to-body center :title="`订单号:${detailsValue.orderNo}`">
@@ -109,16 +109,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                              display: inline-block;
-                              width: fit-content;
-                              padding: 1px 7px;
-                              margin: 0px;
-                              background: rgb(255, 255, 255);
-                              border: 1px solid rgb(191, 191, 191);
-                              border-radius: 3px;
-                              font-size: 12px;
-                              color: rgb(191, 191, 191);
-                            ">
+                                                        display: inline-block;
+                                                        width: fit-content;
+                                                        padding: 1px 7px;
+                                                        margin: 0px;
+                                                        background: rgb(255, 255, 255);
+                                                        border: 1px solid rgb(191, 191, 191);
+                                                        border-radius: 3px;
+                                                        font-size: 12px;
+                                                        color: rgb(191, 191, 191);
+                                                      ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
@@ -136,7 +136,7 @@ const form = reactive({
   date: [],
   orderStatus: "",
   pageIndex: 1,
-  pageSize: 20,
+  pageSize: 10,
   totalCount: 0
 });
 const apiKeyList = ref([]);
@@ -150,6 +150,10 @@ const details = (v) => {
 };
 const gotoNew = (url) => {
   window.open(`https://tronscan.org/#/transaction/${url}`, '_blank');
+}
+
+const currentChange = () => {
+  seach();
 }
 
 const seach = async () => {
@@ -252,8 +256,8 @@ onMounted(async () => {
 }
 
 .sale-record-table {
-  height: 85%;
   padding: 6px;
+  overflow: scroll;
 }
 
 .sale-record-group {
@@ -265,5 +269,9 @@ onMounted(async () => {
 .sale-record-table-pagination {
   margin-top: 10px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 20px;
 }
 </style>

@@ -100,16 +100,15 @@ const addMoney = async () => {
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
-  console.log(isRead)
   if (!isRead) return;
-  if (walletAddress !== store.state.userInfo?.userInfo?.walletAddress) {
+  if (walletAddress() !== store.state.userInfo?.userInfo?.walletAddress) {
     ElMessage.error('钱包地址与绑定地址不匹配，请使用绑定的钱包充值')
     return;
   }
   const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
     "TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq",
     tronWeb.toSun(rechargeAmount.value),
-    walletAddress
+    walletAddress()
   );
   const signedTxn = await tronWeb.trx.sign(unsignedTxn);
   var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);

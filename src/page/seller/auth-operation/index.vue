@@ -2,27 +2,12 @@
   <DashbordContent>
     <el-form :inline="true" :model="form" class="demo-form-inline">
       <el-form-item label="类型">
-        <el-select
-          v-model="form.operateType"
-          class="m-2"
-          placeholder="全部"
-          @change="queryOperation"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="form.operateType" class="m-2" placeholder="全部" @change="queryOperation">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="时间">
-        <el-date-picker
-          v-model="form.date"
-          type="daterange"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-        />
+        <el-date-picker v-model="form.date" type="daterange" start-placeholder="开始时间" end-placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
         <el-button @click="resetForm">重置</el-button>
@@ -32,38 +17,20 @@
   </DashbordContent>
   <DashbordContent>
     <el-table :data="operationList" stripe style="width: 100%">
-      <el-table-column
-        prop="createDate"
-        label="时间"
-        :formatter="row => filterDate(row.createDate)"
-      />
-      <el-table-column
-        prop="type"
-        label="类型"
-        :formatter="row => filterStatus(row.type)"
-      />
+      <el-table-column prop="createDate" label="时间" :formatter="row => filterDate(row.createDate)" />
+      <el-table-column prop="type" label="类型" :formatter="row => filterStatus(row.type)" />
       <el-table-column prop="amount" label="金额" />
       <el-table-column prop="transactionHash" label="交易哈希">
         <template #default="scope">
-          <el-link
-            type="primary"
-            :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
-            target="_blank"
-            >交易哈希</el-link
-          >
+          <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+            target="_blank">交易哈希</el-link>
         </template>
       </el-table-column>
     </el-table>
     <div class="pagination">
-      <el-pagination
-        v-model:current-page="form.pageIndex"
-        v-model:page-size="form.pageSize"
-        :small="small"
-        layout="prev, pager, next, jumper"
-        :total="totalCount"
-        @current-change="handleCurrentChange"
-        hide-on-single-pageS
-      />
+      <el-pagination v-model:current-page="form.pageIndex" v-model:page-size="form.pageSize" :small="small"
+        layout="prev, pager, next, jumper" :total="totalCount" @current-change="handleCurrentChange"
+        hide-on-single-pageS />
     </div>
   </DashbordContent>
 </template>
@@ -115,8 +82,8 @@ const resetForm = () => {
     form[v] = ''
   })
   form.date = []
-  form.pageIndex = 1 
-  form.pageSize = 15
+  form.pageIndex = 1
+  form.pageSize = 10
   queryOperation()
 }
 const queryOperation = async () => {
@@ -143,8 +110,8 @@ const filterStatus = status => {
   return label.label
 }
 const handleCurrentChange = (value) => {
-    form.pageIndex = value
-    queryOperation()
+  form.pageIndex = value
+  queryOperation()
 }
 onMounted(() => {
   queryOperation()

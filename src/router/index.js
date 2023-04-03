@@ -66,7 +66,7 @@ const routes = [
     redirect: (to, from) => {
       const redirect = getParamsNew("redirect");
       if (!redirect) {
-        return { path: "/console/seller/dashboard" };
+        return { path: "/console/buyer/dashboard" };
       } else {
         return { path: redirect };
       }

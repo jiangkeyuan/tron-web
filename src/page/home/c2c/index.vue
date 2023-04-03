@@ -4,15 +4,12 @@
       <div class="container">
         <div class="wrapper">
           <i class="img">
-            <el-icon><Bell /></el-icon>
+            <el-icon>
+              <Bell />
+            </el-icon>
           </i>
           <span class="content">
-            <el-carousel
-              height="2em"
-              direction="vertical"
-              indicator-position="none"
-              :autoplay="true"
-            >
+            <el-carousel height="2em" direction="vertical" indicator-position="none" :autoplay="true">
               <el-carousel-item v-for="item in systemMsg" :key="item.id">
                 {{ item.title }}
               </el-carousel-item>
@@ -26,9 +23,9 @@
           <div class="wallet item">
             <div class="header">
               <span class="c2c_address">{{ address }}</span>
-              <i class="img symbol"
-                ><el-icon><StarFilled /></el-icon
-              ></i>
+              <i class="img symbol"><el-icon>
+                  <StarFilled />
+                </el-icon></i>
             </div>
             <div class="body">
               <ul class="pc-wallet-item">
@@ -36,9 +33,9 @@
                 <li>冻结：<span>1</span>TRX</li>
                 <li>全部：<span>1</span>TRX</li>
               </ul>
-              <i class="img"
-                ><el-icon><FolderRemove /></el-icon
-              ></i>
+              <i class="img"><el-icon>
+                  <FolderRemove />
+                </el-icon></i>
             </div>
           </div>
           <div class="energy item">
@@ -51,9 +48,9 @@
                 <li>发　送：<span>1</span>TRX</li>
                 <li>已收到：<span>1</span>TRX</li>
               </ul>
-              <i class="img"
-                ><el-icon><Lightning /></el-icon
-              ></i>
+              <i class="img"><el-icon>
+                  <Lightning />
+                </el-icon></i>
             </div>
           </div>
           <div class="bw item">
@@ -66,9 +63,9 @@
                 <li>发　送：<span>1</span>TRX</li>
                 <li>已收到：<span>1</span>TRX</li>
               </ul>
-              <i class="img"
-                ><el-icon><Odometer /></el-icon
-              ></i>
+              <i class="img"><el-icon>
+                  <Odometer />
+                </el-icon></i>
             </div>
           </div>
         </div>
@@ -88,35 +85,16 @@
                   出售
                 </span>
               </div>
-              <el-button
-                class="btn-vote"
-                type="primary"
-                size="large"
-                plain
-                :icon="Histogram"
-                @click="handleVote"
-                >投票</el-button
-              >
-              <el-select
-                v-model="form.order"
-                class="m-2"
-                placeholder="Select"
-                size="large"
-                @change="onChange"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+              <el-button class="btn-vote" type="primary" size="large" plain :icon="Histogram"
+                @click="handleVote">投票</el-button>
+              <el-select v-model="form.order" class="m-2" placeholder="Select" size="large" @change="onChange">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </div>
             <el-tabs type="border-card" class="demo-tabs">
               <el-tab-pane label="自助交易">
                 <el-table :data="manualOrders" style="width: 100%">
-                  <el-table-column prop="benifitAmount" label="收入"
-                    ><template #default="scope">
+                  <el-table-column prop="benifitAmount" label="收入"><template #default="scope">
                       <div class="max_payout-column">
                         <div class="payout">
                           {{ scope.row.benifitAmount }} <i>TRX</i>
@@ -130,8 +108,7 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="buyPrice" label="单价（价格/天）"
-                    ><template #default="scope">
+                  <el-table-column prop="buyPrice" label="单价（价格/天）"><template #default="scope">
                       <div class="max_payout-column">
                         <div class="payout">
                           {{ scope.row.buyPrice }} <i>sun</i>
@@ -142,26 +119,21 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="rentalDays" label="冻结时间"
-                    ><template #default="scope">
+                  <el-table-column prop="rentalDays" label="冻结时间"><template #default="scope">
                       {{ scope.row.rentalDays }} <span>天</span>
                     </template>
                   </el-table-column>
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-button
-                        link
-                        type="primary"
-                        size="small"
-                        @click="handleSell(scope.row)"
-                        >出售</el-button
-                      >
+                      <el-button link type="primary" size="small" @click="handleSell(scope.row)">出售</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
-               <div>
-                 <el-pagination layout="prev, pager, next" hide-on-single-page :total="totalCount" @current-change="currentChange"/>
-               </div>
+                <div class="ctc-pagination">
+                  <el-pagination layout="prev, pager, next" v-model:current-page='form.pageIndex'
+                    v-model:page-size="form.pageSize" hide-on-single-page :total="totalCount"
+                    @current-change="currentChange" />
+                </div>
               </el-tab-pane>
               <el-tab-pane label="快捷交易" style="text-align: center">
                 <el-link type="primary">正在跳转至快捷交易界面</el-link>
@@ -173,11 +145,7 @@
       <div class="history-order-container">
         <div class="custom-round-tab">
           <div class="tablist">
-            <el-tabs
-              type="border-card"
-              class="demo-tabs"
-              @tab-change="changeTab"
-            >
+            <el-tabs type="border-card" class="demo-tabs" @tab-change="changeTab">
               <el-tab-pane label="最近完成">
                 <el-table :data="finishedOrders" style="width: 100%">
                   <el-table-column prop="name" label="订单信息">
@@ -193,12 +161,8 @@
                   <el-table-column prop="delegateDate" label="时间" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link
-                        type="primary"
-                        :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
-                        target="_blank"
-                        >交易哈希</el-link
-                      >
+                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                        target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -207,20 +171,16 @@
                 <el-table :data="stakes" style="width: 100%">
                   <el-table-column prop="walletAddress" label="冻结对象" />
                   <el-table-column prop="resource" label="资源" />
-                  <el-table-column prop="statkeAmount" label="冻结金额" >
-                        <template #default="scope">
+                  <el-table-column prop="statkeAmount" label="冻结金额">
+                    <template #default="scope">
                       <span>{{ scope.row.statkeAmount }} RTX</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="expiredDate" label="截止时间" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link
-                        type="primary"
-                        :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
-                        target="_blank"
-                        >交易哈希</el-link
-                      >
+                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                        target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -233,9 +193,7 @@
                   <el-table-column prop="address" label="状态" />
                   <el-table-column fixed="right" label="操作">
                     <template #default>
-                      <el-button link type="primary" size="small"
-                        >出售</el-button
-                      >
+                      <el-button link type="primary" size="small">出售</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -248,16 +206,10 @@
     </div>
   </div>
   <!-- <TronLinkPcPopupWrapper :show="true"></TronLinkPcPopupWrapper> -->
-  <SellEnergyPopupWrapper
-    :show="showSellEnergyPopup"
-    @close="closeSellEnergyPopup"
-    :rowData="rowData"
-  ></SellEnergyPopupWrapper>
+  <SellEnergyPopupWrapper :show="showSellEnergyPopup" @close="closeSellEnergyPopup" :rowData="rowData">
+  </SellEnergyPopupWrapper>
   <BuyPopup :show="showBuyPopup" @close="closeBuyPopup"></BuyPopup>
-  <WithessPopup
-    :show="showWithessPopup"
-    @close="closeWithessPopup"
-  ></WithessPopup>
+  <WithessPopup :show="showWithessPopup" @close="closeWithessPopup"></WithessPopup>
 </template>
 
 <script setup>
@@ -291,9 +243,9 @@ const showWithessPopup = ref(false)
 // showWithessPopup
 const showSellEnergyPopup = ref(false)
 const form = reactive({
-     order: 'createDate',
-     pageIndex: 2,
-     pageSize: 10
+  order: 'createDate',
+  pageIndex: 1,
+  pageSize: 10
 })
 const totalCount = ref(0)
 const options = [
@@ -345,7 +297,7 @@ const systemMsg = reactive([
 ])
 // 购买
 const handleBuy = async () => {
-    await TronLink()
+  await TronLink()
   showBuyPopup.value = true
 }
 const closeBuyPopup = () => {
@@ -353,7 +305,7 @@ const closeBuyPopup = () => {
 }
 // 自助交易
 const onChange = () => {
-    queryManualOrders()
+  queryManualOrders()
 }
 const queryManualOrders = async () => {
   //   await TronLink()
@@ -366,9 +318,9 @@ const queryManualOrders = async () => {
   }
 }
 const currentChange = (value) => {
-    console.log(value);
-    form.pageIndex = value
-    queryManualOrders()
+  console.log(value);
+  form.pageIndex = value
+  queryManualOrders()
 }
 // 最近完成
 const queryFinishedOrders = async () => {
@@ -388,7 +340,7 @@ const queryStakes = async () => {
 }
 // 投票
 const handleVote = async () => {
-     await TronLink()
+  await TronLink()
   showWithessPopup.value = true
 }
 const closeWithessPopup = () => {
@@ -416,10 +368,10 @@ const changeTab = val => {
   console.log('changeTab', val)
   switch (val) {
     case '0':
-        queryFinishedOrders()
+      queryFinishedOrders()
       break
     case '1':
-        queryStakes()
+      queryStakes()
       break
     default:
       break
@@ -443,19 +395,30 @@ address.value = window.tronWeb?.defaultAddress?.base58
 </script>
 
 <style lang="less" scoped>
+.ctc-pagination {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .c2c-container {
   display: flex;
   flex-direction: column;
   padding-bottom: 30px;
 }
+
 .c2c-content {
   margin: auto;
   width: 100%;
   max-width: 1400px;
 }
+
 .container {
   margin: 42px 0;
   padding: 0 50px;
+
   .wrapper {
     border-radius: 3px;
     background-color: #e3edfe;
@@ -464,9 +427,11 @@ address.value = window.tronWeb?.defaultAddress?.base58
     display: flex;
     align-items: center;
     padding-left: 20px;
+
     .img {
       margin-right: 15px;
     }
+
     .content {
       flex: 1;
       overflow: hidden;
@@ -474,14 +439,18 @@ address.value = window.tronWeb?.defaultAddress?.base58
     }
   }
 }
+
 .wallet-container {
   margin: 30px 0;
   padding: 0 50px;
+
   em {
     font-style: normal;
   }
+
   .wallet-content {
     display: flex;
+
     .item {
       display: flex;
       flex-direction: column;
@@ -492,9 +461,11 @@ address.value = window.tronWeb?.defaultAddress?.base58
       border-radius: 10px;
       box-shadow: 0 3px 10px #00000014;
       width: 33%;
+
       &:last-child {
         margin-right: 0;
       }
+
       .header {
         margin: 0 -24px;
         padding: 0 24px;
@@ -505,27 +476,33 @@ address.value = window.tronWeb?.defaultAddress?.base58
         font-size: 16px;
         height: 55px;
         overflow-x: overlay;
+
         em {
           font-size: 14px;
           color: #707582;
         }
+
         .symbol {
           color: red;
         }
       }
+
       .body {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-top: 24px;
+
         .pc-wallet-item {
           display: block;
         }
+
         ul {
           margin-bottom: 0;
           font-size: 14px;
           color: #707582;
         }
+
         .img {
           align-self: end;
           color: #c8d0df;
@@ -534,18 +511,22 @@ address.value = window.tronWeb?.defaultAddress?.base58
     }
   }
 }
+
 .current-order-container {
   padding: 0 50px;
+
   .custom-round-tab {
     --button-gap: 40px;
     --radius: calc(var(--button-gap) / 2);
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.1));
   }
+
   .right-extra {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 22px;
+
     .btns {
       font-weight: 550;
       display: flex;
@@ -555,45 +536,55 @@ address.value = window.tronWeb?.defaultAddress?.base58
       color: #fff;
       font-size: 14px;
       cursor: pointer;
+
       .buy,
       .seller {
         display: flex;
         align-items: center;
         padding: 10px 16px;
+
         .img {
           height: 20px;
         }
       }
+
       .center {
         width: 1px;
         height: 16px;
         background-color: #3365bc80;
       }
     }
+
     .btn-vote {
       margin: 0 14px;
     }
   }
 }
+
 .history-order-container {
   margin-top: 50px;
   padding: 0 50px;
 }
+
 .api {
   margin-top: 60px;
 }
+
 .max_payout-column {
   .payout {
     font-size: 22px;
+
     i {
       font-style: normal;
       font-size: 0.7em;
     }
   }
+
   .freeze {
     font-size: 12px;
     // display: inline-block;
   }
+
   .amount {
     font-size: 12px;
     display: inline-block;

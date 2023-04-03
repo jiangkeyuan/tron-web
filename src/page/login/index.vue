@@ -27,7 +27,7 @@
         <div class="login-form-main-t2">
           您的账号
           <a>{{ userInfo.email || getParamsNew('email') }}</a>
-          {{ registerType === 0 ? '注册中' : registerType === 1 ? '注册失败' : '注册成功' }}
+          {{ registerType == 0 ? '注册中' : registerType == 1 ? '注册失败' : '注册成功' }}
         </div>
 
         <a class="login-form-main-t4"></a>
@@ -140,6 +140,8 @@ const login = async () => {
       if (data.code === 12000 || data.code === 14009) {
         window.localStorage.setItem('token', data.data.token);
         router.push('/console')
+      } else if (data.code == 14011) {
+        changeType('3');
       } else {
         loginFormRef.value.getCode(type.value || 0);
         ElMessage.error(data.msg);
@@ -208,7 +210,7 @@ const changeType = (t) => {
   type.value = t;
   nextTick(() => {
     clearRules();
-    loginFormRef.value.getCode(t);
+    loginFormRef?.value?.getCode(t);
   })
 }
 

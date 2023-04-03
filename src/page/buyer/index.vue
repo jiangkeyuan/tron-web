@@ -61,15 +61,15 @@ const rightTitle = ref('')
 const showManager = ref(false)
 
 watch(route, () => {
-    console.log('routerouterouterouterouterouterouteroute');
+  console.log('routerouterouterouterouterouterouteroute');
   store.getters.menuList.map(v => {
     if (v.isActive) {
       rightTitle.value = v.title
     }
   })
-   
-   const permissionId = store.state.userInfo?.userInfo?.permissionId
-    noPermissionId(permissionId)
+
+  const permissionId = store.state.userInfo?.userInfo?.permissionId
+  noPermissionId(permissionId)
 })
 
 watch(
@@ -117,7 +117,7 @@ const changMenuType = () => {
 }
 onMounted(() => {
   if (route.fullPath.includes('/buyer/')) {
-    store.commit('changeMenuType', 1)
+    store.commit('changeMenuType', 0)
   }
 })
 
@@ -250,6 +250,8 @@ const noPermissionId = (permissionId = '') => {
   background: #f0f2f5;
   z-index: 1;
   padding: 0 16px 0;
+  margin-left: 240px;
+  overflow: scroll;
 }
 
 .home-left-menu-li-icon {
@@ -295,6 +297,7 @@ const noPermissionId = (permissionId = '') => {
   display: flex;
   flex-direction: column;
   z-index: 10;
+  position: fixed;
   /* justify-content: center; */
 }
 

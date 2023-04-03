@@ -79,19 +79,23 @@ const creatAPI = () => {
 };
 
 onMounted(async () => {
-  const { data } = await bunyerIndex();
+  const datas = await bunyerIndex();
   const colors = ["#84c8b4", "#8488f7", "#5e98d6"];
-  Object.assign(buyerObj, data);
-  data.apiInfos = (data.apiInfos || []).map((v, i) => {
-    if (v.apiKey.length > 6) {
-      v.name = v.apiKey.substring(0, 6) + '...';
-    } else {
-      v.name = v.apiKey
-    }
-    v.value = v.rentalEnergy
-    v.color = colors[i]
-    return v;
-  })
+  Object.assign(buyerObj, datas.data || {});
+  if (datas.code === 12000) {
+    buyerObjapiInfos = (buyerObj?.apiInfos || []).map((v, i) => {
+      if (v.apiKey.length > 6) {
+        v.name = v.apiKey.substring(0, 6) + '...';
+      } else {
+        v.name = v.apiKey
+      }
+      v.value = v.rentalEnergy
+      v.color = colors[i]
+      return v;
+    })
+  } else {
+    buyerObj.apiInfos = []
+  }
   var chartDom = document.getElementById("echarts");
 
   var myChart = echarts.init(chartDom);
@@ -109,10 +113,10 @@ onMounted(async () => {
         // 添加
         let rentalEnergy = 0;
         let usedTrx;
-        for (let i = 0; i < data.apiInfos.length; i++) {
-          if (data.apiInfos[i].name === name) {
-            rentalEnergy = data.apiInfos[i].rentalEnergy
-            usedTrx = data.apiInfos[i].usedTrx
+        for (let i = 0; i < buyerObj.apiInfos.length; i++) {
+          if (buyerObj.apiInfos[i].name === name) {
+            rentalEnergy = buyerObj.apiInfos[i].rentalEnergy
+            usedTrx = buyerObj.apiInfos[i].usedTrx
           }
         }
         var arr = [
@@ -165,7 +169,7 @@ onMounted(async () => {
         labelLine: {
           show: false,
         },
-        data: data.apiInfos,
+        data: buyerObj.apiInfos,
       },
     ],
   };

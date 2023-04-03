@@ -71,7 +71,7 @@
           <el-menu-item index="4">推荐奖励</el-menu-item>
           <el-menu-item index="5">平台公告</el-menu-item>
           <el-menu-item index="6">
-            <a href="/#faq">常见问题</a>
+            <a href="javascript:;">常见问题</a>
           </el-menu-item>
           <el-menu-item index="7">商务合作</el-menu-item>
         </el-menu>

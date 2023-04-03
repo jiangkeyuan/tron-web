@@ -3,7 +3,7 @@
      <h1>平台公告</h1>
       <ul class="list">
         <li>
-          <a href="/announcement/detail" class="item">
+          <a href="#/announcement/detail" class="item">
             <h2 class="title">全新TG自助服务机器人公测上线</h2>
             <time class="date">2022/12/29</time>
             <p class="brief">能量租用 | TRX\USDT兑换 | 钱包查询 | 交易监控</p>

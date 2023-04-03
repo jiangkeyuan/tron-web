@@ -52,6 +52,9 @@ const itemClick = ({ key }) => {
     case '5':
       router.push('/announcement')
       break
+    case '6':
+      goPoint('faq')
+      break
     case '7':
       cooperationDialogVisible.value = true
       break
@@ -64,6 +67,15 @@ const recommendDialogClose = () => {
 }
 const cooperationDialogClose = () => {
   cooperationDialogVisible.value = false
+}
+const goPoint = event => {
+  const id = '#' + event
+  console.log('id', id)
+  document.querySelector(id).scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+    inline: 'nearest'
+  })
 }
 onMounted(() => {})
 </script>
@@ -122,9 +134,31 @@ onMounted(() => {})
   }
 }
 </style>
-<style>
+<style lang="less">
 :global(.el-dialog__header) {
   padding: 0;
   margin: 0;
+}
+.sell-popup {
+  > div {
+    background-color: #f6f6f6;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 30px;
+    .join-button {
+      width: 50%;
+      color: #2a47ab;
+      height: 40px;
+      padding: 6.4px 15px;
+      font-size: 16px;
+      border-radius: 2px;
+      border: 1px solid #d9d9d9;
+      background: #fff;
+      white-space: nowrap;
+      text-align: center;
+      margin: 5px 0;
+    }
+  }
 }
 </style>

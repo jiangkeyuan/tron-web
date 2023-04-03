@@ -58,11 +58,7 @@
                   />
                 </div>
                 <div class="rent-value-shortcut">
-                  <div class="item">50万</div>
-                  <div class="item">100万</div>
-                  <div class="item">500万</div>
-                  <div class="item">1000万</div>
-                  <div class="item">最大</div>
+                  <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">{{item.label}}</div>
                 </div>
               </div>
               <div class="notice noticepc"></div>
@@ -146,15 +142,11 @@
                     min="10000"
                     max="1408730"
                     suffix-icon="Search"
-                    :formatter="onFormatter"
-                    :parser="onParser"
+                    @input="onInput"
                   />
                 </div>
                 <div class="rent-value-shortcut">
-                  <div class="item" data-num="500000">50万</div>
-                  <div class="item" data-num="1000000">100万</div>
-                  <div class="item" data-num="5000000">500万</div>
-                  <div class="item" data-num="10000000">1000万</div>
+                   <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">{{item.label}}</div>
                 </div>
               </div>
               <div class="notice noticepc"></div>
@@ -171,14 +163,12 @@
                   </div>
                   <div class="input">
                     <el-input
-                      v-model="input"
+                      v-model="address"
                       clearable
                       placeholder="不填写默认为当前账户地址"
                       min="10000"
                       max="1408730"
                       suffix-icon="Search"
-                      :formatter="onFormatter"
-                      :parser="onParser"
                     />
                   </div>
                 </div>
@@ -194,7 +184,7 @@
                     <div class="amount">
                       <span>需转账金额</span>
                       <span>
-                        <em>443.430540</em>
+                        <em>{{amount}}</em>
                         TRX
                       </span>
                     </div>
@@ -341,6 +331,7 @@
 
 <script setup>
 import { filterDate } from '@/utils/utils/date.js'
+import {  walletAddress } from '@/utils/utils/tron.js';
 import { Calendar, Search } from '@element-plus/icons-vue'
 import {
   getQuickFinishedOrders,
@@ -352,6 +343,7 @@ const input = ref('')
 const leaseRadio = ref('DAPP租赁')
 const clause = ref(true)
 const capacity = ref('')
+const amount = ref('')
 const shortcutList = [
     {
         label: '50万',
@@ -405,7 +397,7 @@ const queryQuickFinishedOrders = async () => {
   finishedOrdersList.value = data.data
 }
 // 我的租用地址
-const address = ref('')
+const address = ref(walletAddress())
 const ordersList = ref([])
 const queryQuickOrders = async () => {
   if (!address.value) return
@@ -429,10 +421,19 @@ const filterStatus = status => {
       return ''
   }
 }
+const onClick = (val) => {
+    console.log(val);
+    capacity.value = Number(capacity.value) + Number(val)
+    amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+}
+const onInput = (val) => {
+    capacity.value = val
+    amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+}
 onMounted(() => {
   queryQuickFinishedOrders()
 })
-address.value = window.tronWeb?.defaultAddress?.base58
+
 </script>
 
 <style lang="less" scoped>

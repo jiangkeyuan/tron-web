@@ -1,29 +1,18 @@
 <template>
-  <el-dialog
-    v-model="props.show"
-    title="投票领取 TRX 奖励"
-    width="550px"
-    center
-    :before-close="handleClose"
-    class="popup"
-  >
+  <el-dialog v-model="props.show" title="投票领取 TRX 奖励" width="550px" center :before-close="handleClose" class="popup">
     <div class="content">
       <div class="vote-info">
         <span>可投票数：{{ witnessObj.canVoteCount }}</span>
         <span>总投票数：{{ witnessObj.totalVote }}</span>
-        
-        {{canVoteCount}}
+
+        {{ canVoteCount }}
       </div>
       <span class="freeze-info">
         您冻结了 {{ witnessObj.totalVote }} TRX，获得了
         {{ witnessObj.canVoteCount }} 票
       </span>
       <ul class="infinite-list">
-        <li
-          v-for="(item, index) in witnessList"
-          :key="index"
-          class="infinite-list-item"
-        >
+        <li v-for="(item, index) in witnessList" :key="index" class="infinite-list-item">
           <div class="vote-type">
             <span>{{ index + 1 }}、{{ item.accountName || item.url }}</span>
             <span>年化收益率 {{ item.annualizedPercent }} %</span>
@@ -31,15 +20,8 @@
           <div class="value">
             <span>{{ item.voteCount }} 票</span>
             <div class="input-value">
-              <el-input
-                v-model="item.vote_count"
-                placeholder=""
-                @blur="onBlur($event, item)"
-                style="width: 90px"
-              />
-              <el-button type="primary" text="primary" @click="allVote(item)"
-                >全部</el-button
-              >
+              <el-input v-model="item.vote_count" placeholder="" @blur="onBlur($event, item)" style="width: 90px" />
+              <el-button type="primary" text="primary" @click="allVote(item)">全部</el-button>
             </div>
           </div>
         </li>
@@ -83,8 +65,8 @@ const allVote = item => {
   const sum = canVoteCount.value - num
 }
 const onBlur = ($event, item) => {
-    const num = item.vote_count == '' ? 0 : item.vote_count
-    const sum = canVoteCount.value - num
+  const num = item.vote_count == '' ? 0 : item.vote_count
+  const sum = canVoteCount.value - num
 }
 const computeVoteCount = (current, canVoteCount) => {
   witnessList.value
@@ -202,19 +184,22 @@ queryWitness()
       background-color: #f6f6f6;
       padding: 15px 30px;
     }
+
     .freeze-info {
       display: inline-block;
       color: #2d78cd;
       margin: 20px 0;
     }
+
     .infinite-list {
       height: 40vh;
       padding: 0;
       margin: 0;
       list-style: none;
       background-color: #f6f6f6;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
+
     .infinite-list .infinite-list-item {
       padding: 10px 20px;
       color: var(--el-color-primary);
@@ -223,21 +208,26 @@ queryWitness()
       align-items: center;
       justify-content: space-between;
       color: #000000d9;
+
       .vote-type {
         display: flex;
         flex-direction: column;
+
         span {
           margin: 5px 0;
+
           &:nth-child(2) {
             margin-left: 28px;
           }
         }
       }
+
       .value {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
         flex: 1;
+
         .input-value {
           display: flex;
           align-items: center;
@@ -245,15 +235,18 @@ queryWitness()
         }
       }
     }
-    .infinite-list .infinite-list-item + .list-item {
+
+    .infinite-list .infinite-list-item+.list-item {
       margin-top: 10px;
     }
   }
+
   .dialog-footer {
     width: 100%;
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+
     .btn {
       width: 47%;
       border-radius: 6px;

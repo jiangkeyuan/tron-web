@@ -1,4 +1,4 @@
-import { ElLoading, ElMessage } from "element-plus";
+import { ElMessage } from "element-plus";
 import axios from "axios";
 import router from "@/router/index";
 
@@ -22,15 +22,7 @@ service.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("token") && !config.headers["Authorization"]) {
       config.headers["Authorization"] = localStorage.getItem("token");
-      // config.headers["interfaceVersion"] = "1.0";
     }
-    // loading = ElLoading.service({
-    //   lock: true,
-    //   text: "Loading",
-    //   body: true,
-    //   spinner: "el-icon-loading",
-    //   background: "rgba(0, 0, 0, 0.7)",
-    // });
     return config;
   },
   (error) => {
@@ -46,7 +38,6 @@ service.interceptors.response.use(
     const dataAxios = response.data;
     // loading.close();
     // 这个状态码是和后端约定的
-    console.log(router.currentRoute);
     if (dataAxios.code === 14006 && response.config.url !== "/users/info") {
       //掉登
       ElMessage.error("请重新登陆");

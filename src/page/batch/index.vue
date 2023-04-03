@@ -27,12 +27,13 @@
     <el-input disabled v-model="receiveAddressSuccess" placeholder="此处会显示已发送成功的钱包地址..." rows="10"
       type="textarea"></el-input>
 
-    <el-button type="primary" @click="submit" class="outer-btn">开始新的请求</el-button>
+    <el-button type="primary" @click="submit" class="outer-btn" :loading='loading'>开始新的请求</el-button>
   </div>
 </template>
 <script setup>
 import { orderSubmit } from "@/utils/axios/buyer/index.js";
 import { ElMessage } from "element-plus";
+const loading = ref(false);
 const form = reactive({
   rentalDays: 3
 })
@@ -49,7 +50,7 @@ const submit = async () => {
     ElMessage.error('请输入接收方地址');
     return;
   }
-  receiveAddressSuccess.value = "";
+  loading.value = true;
 
   if (receiveAddressList.length === 0) {
     receiveAddressList = form.receiveAddress.split(/[\s]/);
@@ -61,6 +62,7 @@ const submit = async () => {
 const getList = async (receiveAddressList) => {
   if (receiveAddressList.length === 0) {
     ElMessage.success('操作成功')
+    loading.value = false;
     return;
   }
 
@@ -76,6 +78,7 @@ const getList = async (receiveAddressList) => {
     receiveAddressSuccess.value += data.data.toAddress + ','
     getList(receiveAddressList)
   } else {
+    loading.value = false;
     ElMessage.error(`${receiveAddress}:${data.msg}`);
   }
 }

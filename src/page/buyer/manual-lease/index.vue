@@ -1,8 +1,8 @@
 <template>
-  <div class="maual-lease">
+  <div class="maual-lease" v-loading.fullscreen.lock="fullscreenLoading">
     <el-form :model="form" label-width="200px" label-position="left">
       <el-form-item label="可用余额:" class="maual-lease-item">
-        <span>165.880744 TRX</span>
+        <span>{{ store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
       </el-form-item>
       <el-form-item label="租用量:">
         <div class="maual-lease-item-energy">
@@ -17,7 +17,7 @@
         </div>
       </el-form-item>
       <el-form-item label="租用天数:" class="maual-lease-item">
-        <el-input-number class="el-input-number" v-model="form.rentalDays" :min="3" placeholder="请输入租用天数" />
+        <el-input-number disabled class="el-input-number" v-model="form.rentalDays" :min="3" placeholder="请输入租用天数" />
       </el-form-item>
       <el-form-item label="接收地址:" class="maual-lease-item">
         <el-input v-model="form.receiveAddress" placeholder="必须输入接受地址" />
@@ -33,6 +33,7 @@
 import { manaulBuy } from '@/utils/axios/buyer/index';
 import { ElMessage } from 'element-plus';
 const store = useStore();
+const fullscreenLoading = ref(false);
 const form = reactive({
   receiveAddress: '',
   rentalDays: 3,
@@ -42,7 +43,6 @@ const form = reactive({
 let rentalEnergynum = ref(null);
 
 watch([() => form.rentalEnergyQuantity, () => form.rentalDays], (n, o) => {
-  console.log(n)
   const rate = +n[0] >= 50000 ? 115 : 120;
   rentalEnergynum.value = +n[0] * rate * n[1] / 1000000
 })
@@ -51,8 +51,10 @@ const buy = async () => {
   if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }
   if (!form.rentalDays) { ElMessage.error('请输入租用天数'); return; }
   if (!form.receiveAddress) { ElMessage.error('请输入接收地址'); return; }
+  fullscreenLoading.value = true;
   const data = await manaulBuy('/buyer/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });
   store.dispatch('getUserInfoAction');
+  fullscreenLoading.value = false;
   ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg);
 }
 

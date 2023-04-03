@@ -1,6 +1,6 @@
 <template>
   <div class="recharge">
-    <DashBord>
+    <DashBord v-loading.fullscreen.lock="fullscreenLoading">
       <div class="recharge">
         <div class="recharge-content-history" @click="() => gotoRechargeLog()">
           充值记录
@@ -80,14 +80,16 @@ import { ElMessage } from "element-plus";
 const router = useRouter();
 const activeName = ref("first");
 const rechargeAmount = ref("");
+const fullscreenLoading = ref(false);
 const store = useStore();
 const rechargeAdress = ref("TFoTX1MtKuG97pUo3crNXjdZLY6fS77777");
 
 const bindWalletHandle = async () => {
+  fullscreenLoading.value = true;
   const data = await bindWallets({
     walletAddress: walletAddress()
   })
-
+  fullscreenLoading.value = false;
   if (data.code === 12000) {
     ElMessage.success('绑定成功')
     store.dispatch('getUserInfoAction')
@@ -97,28 +99,38 @@ const bindWalletHandle = async () => {
 }
 
 const addMoney = async () => {
+  fullscreenLoading.value = true;
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
-  if (!isRead) return;
+  if (!isRead) {
+    fullscreenLoading.value = false;
+    return;
+  };
   if (walletAddress() !== store.state.userInfo?.userInfo?.walletAddress) {
+    fullscreenLoading.value = false;
     ElMessage.error('钱包地址与绑定地址不匹配，请使用绑定的钱包充值')
     return;
+  }
+  try {
+    const signedTxn = await tronWeb.trx.sign(unsignedTxn);
+    var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
+    const data = await dappRecharge({ transactionHash: broastTx.txid, signedTransactionHash: "x8SY39r6SOyHcycsYvSWT0WqYXg0uGvZ" })
+    fullscreenLoading.value = false;
+    if (data.code === 12000) {
+      ElMessage.success(data.msg);
+      store.dispatch('getUserInfoAction');
+    } else {
+      ElMessage.error(data.msg);
+    }
+  } catch (error) {
+    fullscreenLoading.value = false;
   }
   const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
     "TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq",
     tronWeb.toSun(rechargeAmount.value),
     walletAddress()
   );
-  const signedTxn = await tronWeb.trx.sign(unsignedTxn);
-  var broastTx = await tronWeb.trx.sendRawTransaction(signedTxn);
-  const data = await dappRecharge({ transactionHash: broastTx.txid, signedTransactionHash: "x8SY39r6SOyHcycsYvSWT0WqYXg0uGvZ" })
-  if (data.code === 12000) {
-    ElMessage.success(data.msg);
-    store.dispatch('getUserInfoAction');
-  } else {
-    ElMessage.error(data.msg);
-  }
 };
 
 onMounted(async () => {

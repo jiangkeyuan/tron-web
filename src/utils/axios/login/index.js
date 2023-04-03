@@ -4,7 +4,7 @@ export const usersRegister = (params) => {
 };
 
 export const generateVerifyCode = (routeValue) => {
-  return service.post(`/auth/captcha/${routeValue}`, {});
+  return service.get(`/auth/captcha/${routeValue}`);
 };
 
 export const userActivave = (activateCode) => {

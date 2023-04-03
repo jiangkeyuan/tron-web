@@ -83,7 +83,7 @@ onMounted(async () => {
   const colors = ["#84c8b4", "#8488f7", "#5e98d6"];
   Object.assign(buyerObj, datas.data || {});
   if (datas.code === 12000) {
-    buyerObjapiInfos = (buyerObj?.apiInfos || []).map((v, i) => {
+    buyerObj.apiInfos = (buyerObj?.apiInfos || []).map((v, i) => {
       if (v.apiKey.length > 6) {
         v.name = v.apiKey.substring(0, 6) + '...';
       } else {

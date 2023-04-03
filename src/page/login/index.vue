@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login" v-loading.fullscreen.lock="fullscreenLoading">
     <div class="login-header">
       <Logo></Logo>
       <GlobalIzation :isLogin="true"></GlobalIzation>
@@ -96,6 +96,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const registerType = ref(0);
 const dialogTableVisible = ref(false);
+const fullscreenLoading = ref(false);
 const userInfo = reactive({
   email: "",
   passWord: "",
@@ -136,7 +137,9 @@ const handleSetemailVerify = async () => {
 const login = async () => {
   loginFormRef.value.submitForm(async (e, f) => {
     if (e) {
+      fullscreenLoading.value = true
       const data = await userLogin(userInfo);
+      fullscreenLoading.value = false;
       if (data.code === 12000 || data.code === 14009) {
         window.localStorage.setItem('token', data.data.token);
         router.push('/console')
@@ -161,38 +164,50 @@ const tron_register = async () => {
   // });
   // console.log(isReads)
   // return;
+  fullscreenLoading.value = true;
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
+  console.log(isRead);
   if (!isRead) {
     ElMessage.error('未连接到钱包');
+    fullscreenLoading.value = false;
     return;
   };
-  const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
-  const data = await tronNonce({ walletAddress: base58Key })
-  dialogTableVisible.value = false
-  console.log(data);
-  if (data.code === 12000) {
-    const nonce_certificate = data.data.nonce_certificate
-    tronWeb.trx.signMessage(nonce_certificate).then(async (res) => {
-      console.log(res, 'xxxxx');
-      if (res) {
-        const data = await userLogin({
-          walletAddress: base58Key,
-          nonce_certificate: nonce_certificate
-        });
-        if (data.code === 12000 || data.code === 14009) {
-          window.localStorage.setItem('token', data.data.token);
-          router.push('/console')
+  if (isRead.code == 200) {
+    fullscreenLoading.value = true;
+    const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
+    const data = await tronNonce({ walletAddress: base58Key })
+    dialogTableVisible.value = false
+    console.log(data);
+    if (data.code === 12000) {
+      const nonce_certificate = data.data.nonce_certificate
+      tronWeb.trx.signMessage(nonce_certificate).then(async (res) => {
+        console.log(res, 'xxxxx');
+        if (res) {
+          const data = await userLogin({
+            walletAddress: base58Key,
+            nonce_certificate: nonce_certificate
+          });
+          fullscreenLoading.value = false;
+          if (data.code === 12000 || data.code === 14009) {
+            window.localStorage.setItem('token', data.data.token);
+            router.push('/console')
+          } else {
+            ElMessage.error(data.msg);
+          }
         } else {
-          ElMessage.error(data.msg);
+          fullscreenLoading.value = false;
         }
-      }
-    });
+      });
+    } else {
+      fullscreenLoading.value = false;
+      ElMessage.error(data.msg)
+    }
   } else {
-    ElMessage.error(data.msg)
+    fullscreenLoading.value = false;
+    ElMessage.error(isRead.message)
   }
-
 }
 
 const changeType = (t) => {
@@ -222,7 +237,9 @@ const clearRules = () => {
 const register = () => {
   loginFormRef.value.submitForm(async (e, f) => {
     if (e) {
+      fullscreenLoading.value = true;
       const data = await usersRegister(userInfo);
+      fullscreenLoading.value = false;
       if (data.code === 12000 || data.code === 14011) {
         changeType('3');
       } else {

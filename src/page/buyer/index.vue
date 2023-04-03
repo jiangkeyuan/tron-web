@@ -251,7 +251,7 @@ const noPermissionId = (permissionId = '') => {
   z-index: 1;
   padding: 0 16px 0;
   margin-left: 240px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .home-left-menu-li-icon {

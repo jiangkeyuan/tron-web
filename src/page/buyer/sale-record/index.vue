@@ -28,7 +28,7 @@
       <el-radio-button label="UNAVAILABLE">未生效</el-radio-button>
     </el-radio-group>
 
-    <el-table :data="tableData" stripe class="sale-record-table-list">
+    <el-table :data="tableData" stripe class="sale-record-table-list" v-loading="fullscreenLoading">
       <el-table-column prop="orderNo" label="订单号" width="220" />
       <el-table-column prop="toAddress" label="接收" width="180" />
       <el-table-column prop="rentalQuantity" label="租用量" width="120" />
@@ -109,16 +109,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                                                        display: inline-block;
-                                                        width: fit-content;
-                                                        padding: 1px 7px;
-                                                        margin: 0px;
-                                                        background: rgb(255, 255, 255);
-                                                        border: 1px solid rgb(191, 191, 191);
-                                                        border-radius: 3px;
-                                                        font-size: 12px;
-                                                        color: rgb(191, 191, 191);
-                                                      ">
+                                                                  display: inline-block;
+                                                                  width: fit-content;
+                                                                  padding: 1px 7px;
+                                                                  margin: 0px;
+                                                                  background: rgb(255, 255, 255);
+                                                                  border: 1px solid rgb(191, 191, 191);
+                                                                  border-radius: 3px;
+                                                                  font-size: 12px;
+                                                                  color: rgb(191, 191, 191);
+                                                                ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
@@ -132,6 +132,7 @@
 import { getRentals, getApiList } from "@/utils/axios/buyer/index.js";
 import { filterDate } from '@/utils/utils/date.js';
 import { ElMessage } from "element-plus";
+const fullscreenLoading = ref(false);
 const form = reactive({
   date: [],
   orderStatus: "",
@@ -157,6 +158,7 @@ const currentChange = () => {
 }
 
 const seach = async () => {
+  fullscreenLoading.value = true;
   if (form.date && form.date.length > 0) {
     form.startTime = form.date[0]
     form.endTime = form.date[1]
@@ -164,6 +166,7 @@ const seach = async () => {
     form.date = [];
   }
   const data = await getRentals("/buyer/user/rentals", form);
+  fullscreenLoading.value = false;
   if (data.code == 12000) {
     tableData.value = data.data.data;
   } else {
@@ -257,7 +260,7 @@ onMounted(async () => {
 
 .sale-record-table {
   padding: 6px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .sale-record-group {

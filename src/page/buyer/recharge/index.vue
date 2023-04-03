@@ -138,7 +138,7 @@ const addMoney = async () => {
 onMounted(async () => {
   const data = await getPlatformRechargeAddress()
   if (data.code === 12000) {
-    rechargeAdress.value = data.data.data;
+    rechargeAdress.value = data.data;
   } else {
     ElMessage.error(data.msg);
   }

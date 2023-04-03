@@ -247,10 +247,12 @@ const handleSell = async () => {
   console.log('receiver_address', props.rowData.receiveAddress)
   const addr = address.value || defaultAddress.value
   console.log('addr', addr)
+  console.log(tronWeb.toSun(props.rowData.stakeAmount));
   try {
     const transaction =
       await window.tronWeb.transactionBuilder.delegateResource(
-        props.rowData.energyQuantity,
+        // props.rowData.energyQuantity,
+        tronWeb?.toSun(props.rowData.stakeAmount),
         props.rowData.receiveAddress,
         'ENERGY',
         addr,
@@ -281,7 +283,7 @@ const handleSell = async () => {
      btnText.value = '出售'
     loading.value = false
     console.error('----------',error);
-    if(error.includes('frozenBalance must be less than accountBalance')) {
+    if(JSON.stringify(error)?.includes('frozenBalance must be less than accountBalance')) {
         return ElMessage.error('余额不足')
     }
     ElMessage.error(error)

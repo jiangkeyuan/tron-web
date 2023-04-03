@@ -97,6 +97,7 @@ import { ref } from 'vue'
 import HowAutoSell from '../help/how-auto-sell/page.vue'
 import { useRouter } from "vue-router";
 const router = useRouter();
+const store = useStore();
 const form = reactive({
   name: 'THdgueo2XA3LyTbfrVPPQ4XzHuyNz8K73P',
   delivery: true

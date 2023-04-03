@@ -27,7 +27,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="pagination">
+    <div class="ctc-pagination pagination">
       <el-pagination v-model:current-page="form.pageIndex" v-model:page-size="form.pageSize" :small="small"
         layout="prev, pager, next, jumper" :total="totalCount" @current-change="handleCurrentChange"
         hide-on-single-pageS />

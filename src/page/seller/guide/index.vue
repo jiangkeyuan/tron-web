@@ -118,6 +118,7 @@ const onSubmit = async () => {
   const data = await getPermission()
     console.log(data)
   if (data.code === 12000) {
+   await store.dispatch('getUserInfoAction')
     console.log('666666666');
     router.push('/console/seller/auth-operation')
   } else {

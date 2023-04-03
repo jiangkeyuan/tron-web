@@ -42,7 +42,7 @@
     </div>
   </el-card>
 
-  <el-dialog v-model="dialogFormVisible" title="系统配置" destroy-on-close>
+  <el-dialog v-model="dialogFormVisible" title="系统配置" append-to-body destroy-on-close>
     <el-form :model="form" label-position="right" label-width="60" ref="ruleFormRef" :rules="rules">
       <el-form-item label="名称:" prop="systemKey">
         <el-input v-model="form.systemKey" autocomplete="off" :disabled='form.type !== "add"' placeholder="请输入名称" />
@@ -151,6 +151,9 @@ const addManagerApi = async (formEl) => {
 
 const addManager = () => {
   form.type = 'add'
+  Object.keys(form).map(v => {
+    form[v] = '';
+  })
   dialogFormVisible.value = true;
 }
 const seach = async () => {

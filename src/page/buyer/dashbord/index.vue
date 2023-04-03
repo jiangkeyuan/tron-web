@@ -86,10 +86,10 @@ const search = async () => {
   Object.assign(buyerObj, datas.data || {});
   if (datas.code === 12000) {
     buyerObj.apiInfos = (buyerObj?.apiInfos || []).map((v, i) => {
-      if (v.apiKey.length > 6) {
-        v.name = v.apiKey.substring(0, 6) + '...';
+      if (v.keyName.length > 6) {
+        v.name = v.keyName.substring(0, 6) + '...';
       } else {
-        v.name = v.apiKey
+        v.name = v.keyName
       }
       v.value = v.rentalEnergy
       v.color = colors[i]

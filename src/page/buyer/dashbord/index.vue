@@ -71,7 +71,7 @@ const router = useRouter();
 const buyerObj = reactive({});
 
 const gotoApiKeys = () => {
-  router.push("/buyer/api-key");
+  router.push("/console/buyer/api-key");
 };
 
 const creatAPI = () => {
@@ -127,7 +127,7 @@ onMounted(async () => {
         }
         var arr = [
           "{a|" + name + "}",
-          "{b|" + rentalEnergy + " Energy}",
+          "{b|" + rentalEnergy + "能量}",
           "{c|" + usedTrx + " Trx}",
         ];
         return arr.join("  ");
@@ -159,7 +159,7 @@ onMounted(async () => {
         // name: "serices0",
         type: "pie",
         radius: ["55%", "70%"],
-        center: ["30%", "50%"],
+        center: ["20%", "50%"],
         avoidLabelOverlap: false,
         label: {
           show: false,

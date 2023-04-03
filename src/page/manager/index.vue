@@ -2,7 +2,7 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <span>API KEYS</span>
+        <span>系统参数</span>
         <el-button type="primary" text @click="() => addManager()">
           <el-icon>
             <Plus />
@@ -150,10 +150,10 @@ const addManagerApi = async (formEl) => {
 }
 
 const addManager = () => {
-  form.type = 'add'
   Object.keys(form).map(v => {
     form[v] = '';
   })
+  form.type = 'add'
   dialogFormVisible.value = true;
 }
 const seach = async () => {

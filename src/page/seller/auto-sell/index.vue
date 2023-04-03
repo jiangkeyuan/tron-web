@@ -179,6 +179,7 @@
 
 <script setup>
 import { getSellConfig, saveSellConfig } from '@/utils/axios/seller/index.js'
+import { awaitFnLoading } from '@/utils/utils/loading.js'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { reactive } from 'vue'
 const sellConfigData = reactive({})
@@ -193,7 +194,7 @@ const onSubmit = async () => {
   }
 }
 const querySellConfig = async () => {
-  const data = await getSellConfig()
+  const data = await awaitFnLoading(getSellConfig)()
   console.log('data', data)
   if (data.code === 12000) {
     Object.assign(sellConfigData, data.data)

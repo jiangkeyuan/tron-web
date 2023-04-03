@@ -80,6 +80,7 @@
 
 <script setup>
 import { filterDate } from '@/utils/utils/date.js';
+import { awaitFnLoading } from '@/utils/utils/loading.js'
 import { getUserSells } from '@/utils/axios/seller/index.js'
 const form = reactive({
   orderNo: '',
@@ -110,7 +111,7 @@ const queryUserSells = async () => {
   } else {
     form.date = []
   }
-  const data = await getUserSells(form)
+  const data = await awaitFnLoading(getUserSells)(form)
   if (data.code === 12000) {
     console.log(data)
     userSells.value = data.data.data;

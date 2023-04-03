@@ -38,6 +38,7 @@
 <script setup>
 import { filterDate } from '@/utils/utils/date.js'
 import { getOperation } from '@/utils/axios/seller/index.js'
+import { awaitFnLoading } from '@/utils/utils/loading.js'
 import { ref } from 'vue'
 const value1 = ref('')
 const value = ref('')
@@ -93,7 +94,7 @@ const queryOperation = async () => {
   } else {
     form.date = []
   }
-  const data = await getOperation(form)
+  const data = await awaitFnLoading(getOperation)(form)
   console.log('data', data)
   if (data.code === 12000) {
     console.log(data)

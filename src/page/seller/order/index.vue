@@ -63,10 +63,10 @@
       <el-table-column prop="orderStatus" label="订单状态" :formatter="(row) => filterStatus(row.orderStatus)" />
       <el-table-column prop="address" label="操作">
         <template #default="scope">
-          <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)"
             target="_blank">质押详情</el-link>
           <div></div>
-          <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)"
             target="_blank">解压详情</el-link>
         </template>
       </el-table-column>
@@ -94,7 +94,9 @@ const form = reactive({
   totalCount: 0
 })
 const radio2 = ref(0)
-
+const gotoNew = (url) => {
+  window.open(`https://nile.tronscan.org/#/transaction/${url}`, '_blank');
+}
 const handleClick = (tab, event) => {
   console.log(tab, event)
 }

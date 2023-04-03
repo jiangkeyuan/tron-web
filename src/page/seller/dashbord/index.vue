@@ -36,7 +36,7 @@
   <DashbordContent>
     <div class="vben-basic-table-title">最新订单</div>
     <el-table :data="latestSells" stripe style="width: 100%">
-      <el-table-column prop="delegateDate" label="Date">
+      <el-table-column prop="delegateDate" label="Date"  :formatter="row => filterDate(row.delegateDate)" >
         <template #header>
           <div>
             质押时间
@@ -53,7 +53,7 @@
       </el-table-column>
       <el-table-column prop="benifitAmount" label="结算金额" />
       <el-table-column prop="delegateAmount" label="代理金额" />
-      <el-table-column prop="expiredDate" label="Date">
+      <el-table-column prop="expiredDate" label="Date"  :formatter="row => filterDate(row.expiredDate)" >
         <template #header>
           <div>
             到期时间
@@ -73,7 +73,7 @@
   <DashbordContent>
     <div class="vben-basic-table-title">即将结束订单</div>
     <el-table :data="almostSells" stripe style="width: 100%">
-      <el-table-column prop="expiredDate" label="Date">
+      <el-table-column prop="expiredDate" label="Date" :formatter="row => filterDate(row.expiredDate)" >
         <template #header>
           <div>
             到期时间
@@ -95,6 +95,7 @@
 </template>
 
 <script setup>
+import { filterDate } from '@/utils/utils/date.js'
 import { getLatestSells, getAlmostSells } from '@/utils/axios/seller/index.js'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'

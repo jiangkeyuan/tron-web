@@ -22,7 +22,7 @@
       <el-table-column prop="amount" label="金额" />
       <el-table-column prop="transactionHash" label="交易哈希">
         <template #default="scope">
-          <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)"
             target="_blank">交易哈希</el-link>
         </template>
       </el-table-column>
@@ -50,6 +50,9 @@ const form = reactive({
   pageIndex: 1,
   pageSize: 10
 })
+const gotoNew = (url) => {
+  window.open(`https://nile.tronscan.org/#/transaction/${url}`, '_blank');
+}
 const totalCount = ref(0)
 const options = [
   {

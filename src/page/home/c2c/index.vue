@@ -309,6 +309,7 @@
 import TronLink from '@/components/tron-link/index.js'
 import BuyPopup from './buy-popup.vue'
 import WithessPopup from './witness-popup.vue'
+import { awaitFnLoading } from '@/utils/utils/loading.js'
 import {
   Calendar,
   Histogram,
@@ -407,7 +408,7 @@ const onChange = () => {
 const queryManualOrders = async () => {
   //   await TronLink()
   console.log('999999999999999999999999999999999999')
-  const data = await getManualOrders(form)
+  const data = await awaitFnLoading(getManualOrders)(form)
   console.log('data', data)
   if (data.code == 12000) {
     manualOrders.value = data.data.data

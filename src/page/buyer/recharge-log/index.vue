@@ -1,6 +1,6 @@
 <template>
   <div class="recharge-log">
-    <el-table :data="tableData" stripe class="recharge-log-table">
+    <el-table :data="tableData" stripe class="recharge-log-table" empty-text="暂无数据">
       <el-table-column prop="order_no" label="充值时间" />
       <el-table-column prop="amount" label="充值金额" />
       <el-table-column prop="amount" label="入账金额" />

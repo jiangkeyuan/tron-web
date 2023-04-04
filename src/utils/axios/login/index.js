@@ -30,3 +30,10 @@ export const sendEmails = async (params) => {
 export const setemailVerify = async (params) => {
   return await service.post("/auth/setemailverify", params);
 };
+export const forgetpwd = async (params) => {
+  return await service.post("/auth/forgetPwd", params);
+};
+
+export const resetPwd = async (params) => {
+  return await service.post("/auth/resetPwd", params);
+};

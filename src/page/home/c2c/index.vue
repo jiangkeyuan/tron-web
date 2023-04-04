@@ -9,12 +9,7 @@
             </el-icon>
           </i>
           <span class="content">
-            <el-carousel
-              height="2em"
-              direction="vertical"
-              indicator-position="none"
-              :autoplay="true"
-            >
+            <el-carousel height="2em" direction="vertical" indicator-position="none" :autoplay="true">
               <el-carousel-item v-for="item in systemMsg" :key="item.id">
                 {{ item.title }}
               </el-carousel-item>
@@ -28,10 +23,9 @@
           <div class="wallet item">
             <div class="header">
               <span class="c2c_address">{{ address }}</span>
-              <i class="img symbol"
-                ><el-icon>
-                  <StarFilled /> </el-icon
-              ></i>
+              <i class="img symbol"><el-icon>
+                  <StarFilled />
+                </el-icon></i>
             </div>
             <div class="body">
               <ul class="pc-wallet-item">
@@ -39,10 +33,9 @@
                 <li>冻结：<span>1</span>TRX</li>
                 <li>全部：<span>1</span>TRX</li>
               </ul>
-              <i class="img"
-                ><el-icon>
-                  <FolderRemove /> </el-icon
-              ></i>
+              <i class="img"><el-icon>
+                  <FolderRemove />
+                </el-icon></i>
             </div>
           </div>
           <div class="energy item">
@@ -55,10 +48,9 @@
                 <li>发　送：<span>1</span>TRX</li>
                 <li>已收到：<span>1</span>TRX</li>
               </ul>
-              <i class="img"
-                ><el-icon>
-                  <Lightning /> </el-icon
-              ></i>
+              <i class="img"><el-icon>
+                  <Lightning />
+                </el-icon></i>
             </div>
           </div>
           <!-- <div class="bw item">
@@ -94,36 +86,16 @@
                   出售
                 </span>
               </div>
-              <el-button
-                class="btn-vote"
-                type="primary"
-                size="large"
-                plain
-                :icon="Histogram"
-                @click="handleVote"
-                >投票</el-button
-              >
-              <el-select
-                v-model="form.order"
-                class="m-2"
-                placeholder="Select"
-                size="large"
-                @change="onChange"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+              <el-button class="btn-vote" type="primary" size="large" plain :icon="Histogram"
+                @click="handleVote">投票</el-button>
+              <el-select v-model="form.order" class="m-2" placeholder="Select" size="large" @change="onChange">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </div>
-            <el-tabs type="border-card" class="demo-tabs" 
-              @tab-change="changeManualOrder">
+            <el-tabs type="border-card" class="demo-tabs" @tab-change="changeManualOrder">
               <el-tab-pane label="自助交易">
-                <el-table :data="manualOrders" style="width: 100%">
-                  <el-table-column prop="benifitAmount" label="收入"
-                    ><template #default="scope">
+                <el-table :data="manualOrders" style="width: 100%" empty-text="暂无数据">
+                  <el-table-column prop="benifitAmount" label="收入"><template #default="scope">
                       <div class="max_payout-column">
                         <div class="payout">
                           {{ scope.row.benifitAmount }} <i>TRX</i>
@@ -137,8 +109,7 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="buyPrice" label="单价（价格/天）"
-                    ><template #default="scope">
+                  <el-table-column prop="buyPrice" label="单价（价格/天）"><template #default="scope">
                       <div class="max_payout-column">
                         <div class="payout">
                           {{ scope.row.buyPrice }} <i>sun</i>
@@ -149,32 +120,20 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="rentalDays" label="冻结时间"
-                    ><template #default="scope">
+                  <el-table-column prop="rentalDays" label="冻结时间"><template #default="scope">
                       {{ scope.row.rentalDays }} <span>天</span>
                     </template>
                   </el-table-column>
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-button
-                        link
-                        type="primary"
-                        size="small"
-                        @click="handleSell(scope.row)"
-                        >出售</el-button
-                      >
+                      <el-button link type="primary" size="small" @click="handleSell(scope.row)">出售</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
                 <div class="ctc-pagination">
-                  <el-pagination
-                    layout="prev, pager, next"
-                    v-model:current-page="form.pageIndex"
-                    v-model:page-size="form.pageSize"
-                    hide-on-single-page
-                    :total="totalCount"
-                    @current-change="currentChange"
-                  />
+                  <el-pagination layout="prev, pager, next" v-model:current-page="form.pageIndex"
+                    v-model:page-size="form.pageSize" hide-on-single-page :total="totalCount"
+                    @current-change="currentChange" />
                 </div>
               </el-tab-pane>
               <el-tab-pane label="快捷交易" style="text-align: center">
@@ -187,13 +146,9 @@
       <div class="history-order-container">
         <div class="custom-round-tab">
           <div class="tablist">
-            <el-tabs
-              type="border-card"
-              class="demo-tabs"
-              @tab-change="changeTab"
-            >
+            <el-tabs type="border-card" class="demo-tabs" @tab-change="changeTab">
               <el-tab-pane label="最近完成">
-                <el-table :data="finishedOrders" style="width: 100%">
+                <el-table :data="finishedOrders" style="width: 100%" empty-text="暂无数据">
                   <el-table-column prop="name" label="订单信息">
                     <template #default="scope">
                       <span>能量：{{ scope.row.energyQuantity }}</span>
@@ -207,18 +162,14 @@
                   <el-table-column prop="delegateDate" label="时间" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link
-                        type="primary"
-                        :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
-                        target="_blank"
-                        >交易哈希</el-link
-                      >
+                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                        target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
               <el-tab-pane label="质押列表">
-                <el-table :data="stakes" style="width: 100%">
+                <el-table :data="stakes" style="width: 100%" empty-text="暂无数据">
                   <el-table-column prop="walletAddress" label="冻结对象" />
                   <el-table-column prop="resource" label="资源" />
                   <el-table-column prop="statkeAmount" label="冻结金额">
@@ -229,12 +180,8 @@
                   <el-table-column prop="expiredDate" label="截止时间" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link
-                        type="primary"
-                        :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
-                        target="_blank"
-                        >交易哈希</el-link
-                      >
+                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                        target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -247,9 +194,7 @@
                   <el-table-column prop="address" label="状态" />
                   <el-table-column fixed="right" label="操作">
                     <template #default>
-                      <el-button link type="primary" size="small"
-                        >出售</el-button
-                      >
+                      <el-button link type="primary" size="small">出售</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -262,43 +207,26 @@
     </div>
   </div>
   <!-- <TronLinkPcPopupWrapper :show="true"></TronLinkPcPopupWrapper> -->
-  <SellEnergyPopupWrapper
-    :show="showSellEnergyPopup"
-    @close="closeSellEnergyPopup"
-    :rowData="rowData"
-  >
+  <SellEnergyPopupWrapper :show="showSellEnergyPopup" @close="closeSellEnergyPopup" :rowData="rowData">
   </SellEnergyPopupWrapper>
   <BuyPopup :show="showBuyPopup" @close="closeBuyPopup"></BuyPopup>
-  <WithessPopup
-    :show="showWithessPopup"
-    @close="closeWithessPopup"
-  ></WithessPopup>
+  <WithessPopup :show="showWithessPopup" @close="closeWithessPopup"></WithessPopup>
   <el-dialog v-model="sellPopup" title="" width="450px" center>
     <div class="sell-popup">
       <div class="join">
-        <span
-          >您可以加入我们VIP卖家全自动化出售能量以获得最高收益，点击下方注册VIP卖家开始加入</span
-        >
-        <a class="join-button" href="/#/console/buyer/dashboard" target="_blank"
-          ><span>注册加入</span></a
-        >
+        <span>您可以加入我们VIP卖家全自动化出售能量以获得最高收益，点击下方注册VIP卖家开始加入</span>
+        <a class="join-button" href="/#/console/buyer/dashboard" target="_blank"><span>注册加入</span></a>
       </div>
       <div class="channel">
-        <span
-          >当有订单时您也可以手动出售能量以获得收入，要获得及时的订单推送，请关注如下频道</span
-        >
+        <span>当有订单时您也可以手动出售能量以获得收入，要获得及时的订单推送，请关注如下频道</span>
         <div class="channel-link">
-          <a href="https://t.me/tronenergymarkets" target="_blank"
-            >TG频道：@TRON ENERGY MARKET</a
-          >
+          <a href="https://t.me/tronenergymarkets" target="_blank">TG频道：@TRON ENERGY MARKET</a>
         </div>
       </div>
       <div class="service">
         <span>如有其他问题，请联系：</span>
         <div class="service-link">
-          <a href="https://t.me/trongascom" target="_blank"
-            >TG客服：@trongascom</a
-          >
+          <a href="https://t.me/trongascom" target="_blank">TG客服：@trongascom</a>
         </div>
       </div>
     </div>
@@ -325,7 +253,7 @@ import {
   sellManualOrders,
   getStakes
 } from '@/utils/axios/home/index.js'
-import {  walletAddress } from '@/utils/utils/tron.js';
+import { walletAddress } from '@/utils/utils/tron.js';
 import { reactive } from 'vue'
 const router = useRouter()
 const value = ref('Option2')
@@ -458,8 +386,8 @@ const search = async () => {
   console.log('999999999999999999999996666666666666')
 }
 const changeManualOrder = (val) => {
-    console.log(val);
-    switch (val) {
+  console.log(val);
+  switch (val) {
     case '0':
       queryManualOrders()
       break

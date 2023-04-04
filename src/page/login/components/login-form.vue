@@ -6,8 +6,8 @@
       </h2>
       <el-form-item class="login-content-right-input" prop="email">
         <div v-if="props.type === '5'" class="mb-10">绑定邮箱</div>
-        <el-input class="login-content-right-input-l" :disabled='props.type === "5"' v-model.trim="value.email"
-          placeholder="请输入您的邮箱地址">
+        <el-input class="login-content-right-input-l" :disabled='props.type === "5" || props.type === "6"'
+          v-model.trim="value.email" placeholder="请输入您的邮箱地址">
           <template #prefix>
             <img src="@/assets/login/login-user.svg" alt="" />
           </template>
@@ -32,7 +32,7 @@
       <Transition :duration="550" name="slide-up">
         <div>
           <div v-if="props.type === '5'" class="mb-10">确认密码</div>
-          <el-form-item v-if="props.type === '1' || props.type === '5'" prop="confirmPassword"
+          <el-form-item v-if="props.type === '1' || props.type === '5' || props.type === '6'" prop="confirmPassword"
             class="login-content-right-input" :rules="[
               { required: true, message: '请输入二次密码！', trigger: ['blur', 'change'] },
               { required: true, validator: checkPassWord, trigger: ['blur', 'change'] },
@@ -114,6 +114,11 @@ const getCode = async (type) => {
     case '1':
       routeValue = 'register'
       break;
+    case '2':
+      routeValue = 'forgetpwd'
+    case '6':
+      routeValue = 'resetpwd'
+      break;
     default:
       routeValue = 'login'
       break;
@@ -134,6 +139,8 @@ const filterName = (type) => {
       return '忘记密码'
     case '5':
       return '绑定邮箱'
+    case '6':
+      return '重置密码'
     default:
       return '登陆'
   }

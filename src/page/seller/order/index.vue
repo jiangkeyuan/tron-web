@@ -23,7 +23,7 @@
       <el-radio-button label="ALMOST_DONE">即将结束</el-radio-button>
       <el-radio-button label="DONE">已完成</el-radio-button>
     </el-radio-group>
-    <el-table :data="userSells" stripe style="width: 100%">
+    <el-table :data="userSells" stripe style="width: 100%" empty-text="暂无数据">
       <el-table-column prop="orderNo" label="订单号"> </el-table-column>
       <el-table-column prop="delegateDate" label="质押时间" :formatter="(row) => filterDate(row.delegateDate)" />
       <el-table-column prop="fromAddress" label="钱包">
@@ -63,11 +63,9 @@
       <el-table-column prop="orderStatus" label="订单状态" :formatter="(row) => filterStatus(row.orderStatus)" />
       <el-table-column prop="address" label="操作">
         <template #default="scope">
-          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)"
-            target="_blank">质押详情</el-link>
+          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)" target="_blank">质押详情</el-link>
           <div></div>
-          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)"
-            target="_blank">解压详情</el-link>
+          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)" target="_blank">解压详情</el-link>
         </template>
       </el-table-column>
     </el-table>

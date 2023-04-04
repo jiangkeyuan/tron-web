@@ -16,14 +16,13 @@
     </el-form>
   </DashbordContent>
   <DashbordContent>
-    <el-table :data="operationList" stripe style="width: 100%">
+    <el-table :data="operationList" stripe style="width: 100%" empty-text="暂无数据">
       <el-table-column prop="createDate" label="时间" :formatter="row => filterDate(row.createDate)" />
       <el-table-column prop="type" label="类型" :formatter="row => filterStatus(row.type)" />
       <el-table-column prop="amount" label="金额" />
       <el-table-column prop="transactionHash" label="交易哈希">
         <template #default="scope">
-          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)"
-            target="_blank">交易哈希</el-link>
+          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)" target="_blank">交易哈希</el-link>
         </template>
       </el-table-column>
     </el-table>

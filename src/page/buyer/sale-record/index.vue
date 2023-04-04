@@ -13,10 +13,8 @@
     <el-form-item label="Api Key">
       <el-input v-model="form.apikey" />
     </el-form-item>
-    <el-form-item>
-      <el-button @click="reset">重置</el-button>
-      <el-button type="primary" color="#294aa5" @click="seach">查询</el-button>
-    </el-form-item>
+    <el-button @click="reset">重置</el-button>
+    <el-button type="primary" color="#294aa5" @click="seach">查询</el-button>
   </el-form>
   <div class="sale-record sale-record-table">
     <el-radio-group v-model="form.orderStatus" class="sale-record-group" @change="seach">
@@ -28,7 +26,7 @@
       <el-radio-button label="UNAVAILABLE">未生效</el-radio-button>
     </el-radio-group>
 
-    <el-table :data="tableData" stripe class="sale-record-table-list" v-loading="fullscreenLoading">
+    <el-table :data="tableData" stripe class="sale-record-table-list" v-loading="fullscreenLoading" empty-text="暂无数据">
       <el-table-column prop="orderNo" label="订单号" width="220" />
       <el-table-column prop="toAddress" label="接收" width="180" />
       <el-table-column prop="rentalQuantity" label="租用量" width="120" />
@@ -109,16 +107,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                                                                            display: inline-block;
-                                                                            width: fit-content;
-                                                                            padding: 1px 7px;
-                                                                            margin: 0px;
-                                                                            background: rgb(255, 255, 255);
-                                                                            border: 1px solid rgb(191, 191, 191);
-                                                                            border-radius: 3px;
-                                                                            font-size: 12px;
-                                                                            color: rgb(191, 191, 191);
-                                                                          ">
+                                                                                display: inline-block;
+                                                                                width: fit-content;
+                                                                                padding: 1px 7px;
+                                                                                margin: 0px;
+                                                                                background: rgb(255, 255, 255);
+                                                                                border: 1px solid rgb(191, 191, 191);
+                                                                                border-radius: 3px;
+                                                                                font-size: 12px;
+                                                                                color: rgb(191, 191, 191);
+                                                                              ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>

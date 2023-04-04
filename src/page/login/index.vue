@@ -58,7 +58,8 @@
         </div>
         <div v-if="type === '2'" class="login-content-login-text-other">
           <div>
-            <el-button type="primary" color="#294aa5" class="login-content-button">发送验证码</el-button>
+            <el-button type="primary" color="#294aa5" class="login-content-button"
+              @click="() => forgetpwds()">发送验证码</el-button>
           </div>
           <div>
             <el-button class="login-content-button" @click="() => changeType('0')">返回</el-button>
@@ -68,6 +69,15 @@
           <div>
             <el-button type="primary" color="#294aa5" class="login-content-button"
               @click="handleSetemailVerify">确认绑定</el-button>
+          </div>
+        </div>
+        <div v-if="type === '6'" class="login-content-login-text-other">
+          <div>
+            <el-button type="primary" color="#294aa5" class="login-content-button"
+              @click="handleResetPwd">确认重置</el-button>
+          </div>
+          <div>
+            <el-button class="login-content-button" @click="() => changeType('0')">返回</el-button>
           </div>
         </div>
       </LoginForm>
@@ -90,7 +100,7 @@ import Logo from "@/components/logo.vue";
 import GlobalIzation from "@/components/GlobalIzation.vue";
 import LoginForm from "./components/login-form.vue";
 import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js';
-import { usersRegister, userActivave, userLogin, tronNonce, setemailVerify, sendEmails } from '@/utils/axios/login/index.js';
+import { usersRegister, userActivave, userLogin, tronNonce, setemailVerify, sendEmails, forgetpwd, resetPwd } from '@/utils/axios/login/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -107,6 +117,34 @@ let type = ref(getParamsNew('type') || '0');// 0是登陆 1 是注册 2 是忘�
 let loginFormRef = ref();
 const isActivave = ref(false);
 
+const forgetpwds = async () => {
+  fullscreenLoading.value = true
+  const data = await forgetPwd({
+    verifyCode: userInfo.verifyCode,
+    email: userInfo.email
+  })
+  fullscreenLoading.value = false;
+  if (data.code === 12000) {
+    ElMessage.success('操作成功，请注意查收邮箱');
+  } else {
+    ElMessage.error(data.msg);
+  }
+}
+
+const handleResetPwd = async () => {
+  fullscreenLoading.value = true;
+  const data = await resetPwd(userInfo);
+  fullscreenLoading.value = false;
+  if (data.code === 12000) {
+    ElMessage.success('重置成功');
+    setTimeout(() => {
+      changeType('0')
+    }, 1000)
+  } else {
+    ElMessage.error(data.msg);
+  }
+}
+
 const againResiter = async () => {
   const data = await sendEmails({
     email: getParamsNew('email')
@@ -119,11 +157,13 @@ const handleSetemailVerify = async () => {
 
   loginFormRef.value.submitForm(async (e, f) => {
     if (e) {
+      fullscreenLoading.value = true
       const data = await setemailVerify({
         verifyCode: getParamsNew('verifyCode'),
         email: userInfo.email,
         passWord: userInfo.passWord
       })
+      fullscreenLoading.value = false;
       if (data.code === 12000) {
         ElMessage.success(data.msg);
         changeType('0')
@@ -252,9 +292,10 @@ const register = () => {
 
 onMounted(async () => {
   if (type.value === '4') {
+    fullscreenLoading.value = true;
     registerType.value = 1;
     const data = await userActivave(getParamsNew('activateCode'))
-
+    fullscreenLoading.value = false;
     if (data.code === 12000) {
       registerType.value = 2;
       isActivave.value = true;

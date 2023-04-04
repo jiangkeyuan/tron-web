@@ -23,7 +23,7 @@
       <el-button type="primary" color="#294aa5">查询</el-button>
     </el-form>
     <div class="sale-record-table">
-      <el-table :data="tableData" stripe class="sale-record-table-list">
+      <el-table :data="tableData" stripe class="sale-record-table-list" empty-text="暂无数据">
         <el-table-column prop="order_no" label="发生时间" width="220" />
         <el-table-column prop="receive_address" label="类型" />
         <el-table-column prop="min_amount" label="入账金额" />

@@ -43,6 +43,10 @@ const search = async () => {
   }
 }
 
+defineExpose({
+  search
+})
+
 onMounted(async () => {
   search();
 })

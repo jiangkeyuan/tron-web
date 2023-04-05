@@ -13,7 +13,7 @@
         <div class="login-form-main-t2">我们已经发了一封验证邮件给 <a>{{ userInfo.email || getParamsNew('email') }}</a></div>
         <div class="login-form-main-t3">请检查您的邮箱，并点击链接验证你的账户</div>
         <a class="login-form-main-t4" @click="againResiter">若未收到？点击再次发送</a>
-        <el-button type="primary" color="#294aa5" class="login-form" @click="() => changeType('0')" round>返回登录</el-button>
+        <el-button type="primary" color="#c53027" class="login-form" @click="() => changeType('0')" round>返回登录</el-button>
       </div>
 
       <div class="login-form-main" v-else-if="type === '4'">
@@ -31,11 +31,11 @@
         </div>
 
         <a class="login-form-main-t4"></a>
-        <el-button type="primary" color="#294aa5" class="login-form" @click="() => changeType('0')" round>返回登录</el-button>
+        <el-button type="primary" color="#c53027" class="login-form" @click="() => changeType('0')" round>返回登录</el-button>
       </div>
       <LoginForm v-else v-model:data.sync="userInfo" :type="type" ref="loginFormRef">
         <div class="login-content-login" v-if="type === '0'">
-          <el-button type="primary" color="#294aa5" class="login-content-button" @click="login">登录</el-button>
+          <el-button type="primary" color="#c53027" class="login-content-button" @click="login">登录</el-button>
           <div class="login-content-login-text">
             <el-button type="primary" text class="login-content-login-text-button"
               @click="() => changeType('1')">注册</el-button>
@@ -50,7 +50,7 @@
         </div>
         <div v-if="type === '1'">
           <div>
-            <el-button @click="register" type="primary" color="#294aa5" class="login-content-button">注册</el-button>
+            <el-button @click="register" type="primary" color="#c53027" class="login-content-button">注册</el-button>
           </div>
           <div>
             <el-button class="login-content-button" @click="() => changeType('0')">返回</el-button>
@@ -58,7 +58,7 @@
         </div>
         <div v-if="type === '2'" class="login-content-login-text-other">
           <div>
-            <el-button type="primary" color="#294aa5" class="login-content-button"
+            <el-button type="primary" color="#c53027" class="login-content-button"
               @click="() => forgetpwds()">发送验证码</el-button>
           </div>
           <div>
@@ -67,13 +67,13 @@
         </div>
         <div v-if="type === '5'" class="login-content-login-text-other">
           <div>
-            <el-button type="primary" color="#294aa5" class="login-content-button"
+            <el-button type="primary" color="#c53027" class="login-content-button"
               @click="handleSetemailVerify">确认绑定</el-button>
           </div>
         </div>
         <div v-if="type === '6'" class="login-content-login-text-other">
           <div>
-            <el-button type="primary" color="#294aa5" class="login-content-button"
+            <el-button type="primary" color="#c53027" class="login-content-button"
               @click="handleResetPwd">确认重置</el-button>
           </div>
           <div>
@@ -88,10 +88,18 @@
         <img class="tron-link-logo" src="@/assets/login/tron-link-logo.svg" width="80" alt="图片加载失败">
         <div class="sign-title">验证所有权</div>
         <div class="sign-text">您即将收到签名请求，签名是免费的，不会发送交易</div>
-        <el-button @click="tron_register" type="primary" color="#294aa5" class="login-content-button">发送请求</el-button>
+        <el-button @click="tron_register" type="primary" color="#c53027" class="login-content-button">发送请求</el-button>
       </div>
     </el-dialog>
 
+    <el-dialog append-to-body title="请输入下方验证码完成验证" v-model="dialogVisibleReset" width="450">
+      <div class="dialogReset">
+        <img :src="verifyCode" @click="() => getCode()" class="resetImage" />
+        <el-input v-model="userInfo.verifyCode" placeholder="请输入验证码" />
+        <el-button @click="() => resetEmailsSearch()" type="primary" color="#c53027"
+          class="reset-content-button">发送</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -100,7 +108,7 @@ import Logo from "@/components/logo.vue";
 import GlobalIzation from "@/components/GlobalIzation.vue";
 import LoginForm from "./components/login-form.vue";
 import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js';
-import { usersRegister, userActivave, userLogin, tronNonce, setemailVerify, sendEmails, forgetpwd, resetPwd } from '@/utils/axios/login/index.js';
+import { usersRegister, userActivave, userLogin, tronNonce, setemailVerify, sendEmails, forgetPwd, resetPwd, generateVerifyCode } from '@/utils/axios/login/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -114,47 +122,71 @@ const userInfo = reactive({
 })
 
 let type = ref(getParamsNew('type') || '0');// 0是登陆 1 是注册 2 是忘记密码 3是激活中 4 是激活成功
-let loginFormRef = ref();
+let loginFormRef = ref('');
 const isActivave = ref(false);
+const dialogVisibleReset = ref(false);
+let verifyCode = ref('');
 
-const forgetpwds = async () => {
+const resetEmailsSearch = async () => {
   fullscreenLoading.value = true
   const data = await forgetPwd({
     verifyCode: userInfo.verifyCode,
-    email: userInfo.email
+    email: userInfo.email || getParamsNew('email')
   })
   fullscreenLoading.value = false;
   if (data.code === 12000) {
     ElMessage.success('操作成功，请注意查收邮箱');
+    window.history.replaceState({
+      path: updateQueryStringParameter(window.location.href, 'reset', 1),
+    }, '', updateQueryStringParameter(window.location.href, 'reset', 1),);
+    changeType('3');
+    dialogVisibleReset.value = false;
   } else {
     ElMessage.error(data.msg);
   }
+}
+
+const forgetpwds = async () => {
+  loginFormRef.value.submitForm(async (e, f) => {
+    if (e) {
+      resetEmailsSearch()
+    }
+  })
 }
 
 const handleResetPwd = async () => {
-  fullscreenLoading.value = true;
-  const data = await resetPwd(userInfo);
-  fullscreenLoading.value = false;
-  if (data.code === 12000) {
-    ElMessage.success('重置成功');
-    setTimeout(() => {
-      changeType('0')
-    }, 1000)
-  } else {
-    ElMessage.error(data.msg);
-  }
+  loginFormRef.value.submitForm(async (e, f) => {
+    if (e) {
+      fullscreenLoading.value = true;
+      const data = await resetPwd({ ...userInfo, certificate: getParamsNew('certificate') });
+      fullscreenLoading.value = false;
+      if (data.code === 12000) {
+        ElMessage.success('重置成功');
+        setTimeout(() => {
+          changeType('0')
+        }, 1000)
+      } else {
+        ElMessage.error(data.msg);
+      }
+    }
+  })
+
 }
 
 const againResiter = async () => {
-  const data = await sendEmails({
-    email: getParamsNew('email')
-  })
+  if (!getParamsNew('reset')) {
+    const data = await sendEmails({
+      email: getParamsNew('email')
+    })
+    ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg)
+  } else {
+    getCode();
+    dialogVisibleReset.value = true;
+  }
 
-  ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg)
 }
 
 const handleSetemailVerify = async () => {
-
   loginFormRef.value.submitForm(async (e, f) => {
     if (e) {
       fullscreenLoading.value = true
@@ -172,6 +204,13 @@ const handleSetemailVerify = async () => {
       }
     }
   });
+}
+
+const getCode = async (type) => {
+  const data = await generateVerifyCode('forgetpwd');
+  if (data.code === 12000) {
+    verifyCode.value = 'data:image/png;base64,' + data.data.imageBase64;
+  }
 }
 
 const login = async () => {
@@ -312,6 +351,22 @@ onMounted(async () => {
 })
 </script>
 <style scoped>
+.dialogReset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resetImage {
+  width: 60%;
+  margin-bottom: 20px;
+}
+
+.reset-content-button {
+  width: 100%;
+  margin-top: 20px;
+}
+
 .sign-title {
   font-size: 18px;
   text-align: center;
@@ -464,7 +519,7 @@ onMounted(async () => {
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  color: #294aa5;
+  color: #c53027;
 }
 
 .login-content-other-login-text-button {
@@ -480,9 +535,9 @@ onMounted(async () => {
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
-  color: #294aa5;
+  color: #c53027;
   margin: auto;
-  border: 1px solid #294aa5;
+  border: 1px solid #c53027;
   border-radius: 6px;
   padding: 5px 0;
 }

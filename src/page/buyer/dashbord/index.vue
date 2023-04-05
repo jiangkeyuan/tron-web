@@ -262,7 +262,7 @@ h5 {
 .dashbord-top-left {
   width: 49.5%;
   height: 160px;
-  background: #294aa5;
+  background: #c53027;
   color: white;
   border-radius: 5px;
   display: flex;
@@ -305,8 +305,8 @@ h5 {
 }
 
 .dashbord-top-right-content-button {
-  border-color: #294aa5;
-  background: #294aa5;
+  border-color: #c53027;
+  background: #c53027;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px #0000000b;
   text-align: center;
@@ -322,7 +322,7 @@ h5 {
 }
 
 .dashbord-top-right-content-button:hover {
-  background: #294aa5;
+  background: #c53027;
   opacity: 0.8;
 }
 

@@ -16,7 +16,7 @@
       </el-input>
       <img class="login-content-right-c-img" alt="" :src="verifyCode" @click="() => getCode()" />
     </el-form-item>
-    <el-button type="primary" color="#294aa5" class="login-content-button" @click="() => bindEmails()">绑定</el-button>
+    <el-button type="primary" color="#c53027" class="login-content-button" @click="() => bindEmails()">绑定</el-button>
   </el-dialog>
 </template>
 <script setup>

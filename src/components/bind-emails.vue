@@ -52,7 +52,7 @@ const showInput = () => {
 }
 
 .bind-emails-3 {
-  color: #294aa5;
+  color: #c53027;
   cursor: pointer;
 }
 

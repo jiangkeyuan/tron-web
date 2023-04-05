@@ -15,11 +15,7 @@
       <div class="means">
         <a href="/" class="mean">
           <div class="mean-content">
-            <img
-              src="@/assets/home/transaction-mean.svg"
-              alt=""
-              class="transaction-img"
-            />
+            <img src="@/assets/home/transaction-mean.svg" alt="" class="transaction-img" />
             <div class="card">
               <div class="card-content">
                 <h3 class="name">
@@ -92,11 +88,7 @@
       <h2 class="title">FAQ</h2>
       <div class="main">
         <ul class="faq-list">
-          <li
-            v-for="(item, index) in helpList"
-            :key="index"
-            @click="toHelp(item.id)"
-          >
+          <li v-for="(item, index) in helpList" :key="index" @click="toHelp(item.id)">
             <a href="javascript:void(0)">{{ item.title }}</a>
           </li>
         </ul>
@@ -151,24 +143,29 @@ const toHelp = id => {
 <style lang="less" scoped>
 .page {
   padding-bottom: 30px;
+
   .section {
     margin-bottom: 100px;
   }
 }
+
 .banner-wrapper {
   --bottom-margin: -110px;
   margin-bottom: var(--bottom-margin);
   background-color: #121e42;
   color: #fff;
+
   .lg-screen {
     margin: 0 auto;
     max-width: 1300px;
     height: 600px;
     overflow: hidden;
+
     .inner {
       position: relative;
       height: calc(100% + var(--bottom-margin));
     }
+
     .bg {
       position: absolute;
       top: 50%;
@@ -186,6 +183,7 @@ const toHelp = id => {
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+
       &:after {
         position: absolute;
         top: 50%;
@@ -194,13 +192,12 @@ const toHelp = id => {
         content: '';
         width: 100%;
         height: 100%;
-        background: radial-gradient(
-          ellipse closest-side at center,
-          #00196b,
-          rgba(255, 255, 255, 0)
-        );
+        background: radial-gradient(ellipse closest-side at center,
+            #00196b,
+            rgba(255, 255, 255, 0));
       }
     }
+
     .d3 {
       position: absolute;
       top: 0;
@@ -208,6 +205,7 @@ const toHelp = id => {
       width: 100%;
       height: 100%;
     }
+
     .name {
       position: absolute;
       top: 50%;
@@ -220,11 +218,13 @@ const toHelp = id => {
     }
   }
 }
+
 .transaction-mean-wrapper {
   margin: 0 auto;
   max-width: 1300px;
   width: calc(100% - 30px);
   background-color: #fff;
+
   h2.title {
     line-height: 55px;
     text-align: center;
@@ -232,9 +232,11 @@ const toHelp = id => {
     font-size: 20px;
     color: #fff;
   }
+
   .means {
     display: flex;
     box-shadow: 0 0 20px #00000012;
+
     .mean {
       --scale: 1;
       --img-width: calc(165px * var(--scale));
@@ -246,13 +248,16 @@ const toHelp = id => {
       transform: scale(1);
       transition: box-shadow 0.2s;
       box-shadow: 0 0 #0000004d;
+
       &:hover {
         box-shadow: 0 0 20px #294aa54d;
       }
+
       .mean-content {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         justify-items: center;
+
         .card {
           .name {
             display: flex;
@@ -260,16 +265,19 @@ const toHelp = id => {
             align-items: center;
             margin-bottom: 20px;
             font-size: calc(32px * var(--scale));
+
             strong {
               font-weight: inherit;
-              color: #294aa5;
+              color: #c53027;
             }
+
             .tip-icon {
               display: block;
               width: 50px;
               height: 1em;
             }
           }
+
           .feature-list {
             margin: 20px 0;
             padding-left: 18px;
@@ -277,19 +285,23 @@ const toHelp = id => {
             font-size: calc(18px * var(--scale));
             color: #000;
             width: 100%;
+
             li {
               margin: 5px 0;
               line-height: 1.4em;
+
               &::marker {
-                color: #294aa5;
+                color: #c53027;
               }
             }
           }
         }
       }
+
       .transaction-img {
         height: calc(240px * var(--scale));
       }
+
       .go-btn {
         display: flex;
         justify-content: center;
@@ -298,7 +310,7 @@ const toHelp = id => {
         padding: 0.6em 1em;
         width: 300px;
         height: 40px;
-        background-color: #294aa5;
+        background-color: #c53027;
         border-radius: 5px;
         color: #fff;
       }
@@ -310,11 +322,13 @@ const toHelp = id => {
   margin: 0 auto;
   max-width: 1300px;
   width: calc(100% - 30px);
+
   h2.title {
     text-align: center;
     font-size: 22px;
     line-height: 70px;
   }
+
   .main {
     margin: 0 auto;
     padding: 50px;
@@ -322,10 +336,12 @@ const toHelp = id => {
     background-color: #fff;
     box-shadow: 0 0 20px #00000012;
   }
+
   .keywords {
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 35px;
+
     .item {
       strong {
         display: block;
@@ -335,12 +351,14 @@ const toHelp = id => {
       }
     }
   }
+
   .intro {
     margin: 35px 0;
     line-height: 1.4em;
     text-align: center;
     color: #707582;
   }
+
   .feature-list {
     -moz-columns: 2;
     columns: 2;
@@ -348,46 +366,54 @@ const toHelp = id => {
     column-rule: 1px dashed #d4ddf1;
     -moz-column-gap: 8em;
     column-gap: 8em;
+
     li {
       margin-left: 22px;
       list-style: disc url('@/assets/home/dart-1.svg');
       margin-bottom: 10px;
       line-height: 1.4em;
+
       &:before {
         content: ' ';
       }
     }
   }
 }
+
 .faq-wrapper {
   margin: 0 auto;
   max-width: 1300px;
   width: calc(100% - 30px);
+
   h2.title {
     text-align: center;
     font-size: 22px;
     line-height: 70px;
   }
+
   .main {
     padding: 30px 50px;
     background-color: #f4f8fe;
     border: 1px dashed #c8d0df;
   }
+
   .faq-list {
     -moz-columns: 3;
     columns: 3;
+
     li {
       margin-left: 20px;
       margin-bottom: 14px;
       line-height: 1.4em;
       list-style: disc url('@/assets/home/doc-s1.svg');
+
       a {
         color: #121c41;
+
         &:hover {
           color: #266ef1;
         }
       }
     }
   }
-}
-</style>
+}</style>

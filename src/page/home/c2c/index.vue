@@ -568,7 +568,7 @@ onMounted(() => {
       font-weight: 550;
       display: flex;
       align-items: center;
-      background-color: #294aa5;
+      background-color: #c53027;
       border-radius: 5px;
       color: #fff;
       font-size: 14px;

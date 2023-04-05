@@ -4,47 +4,31 @@
       <div class="user-data-static">
         <div class="auth-address">
           <span class="label">授权地址</span>
-          <a
-            :href="`https://tronscan.org/#/address/${sellConfigData.walletAddress}`"
-            target="_blank"
-            >{{ sellConfigData.walletAddress }}</a
-          >
+          <a :href="`https://tronscan.org/#/address/${sellConfigData.walletAddress}`" target="_blank">{{
+            sellConfigData.walletAddress }}</a>
         </div>
         <div class="amount-sum">
           <span class="badge">
             <span class="badge-status-dot badge-status-processing"></span>
-            <span class="badge-status-text"
-              >总资产：{{ sellConfigData.totalAmount }}</span
-            >
+            <span class="badge-status-text">总资产：{{ sellConfigData.totalAmount }}</span>
           </span>
           <span class="badge">
             <span class="badge-status-dot badge-status-success"></span>
-            <span class="badge-status-text"
-              >可用：{{ sellConfigData.availableAmount }}</span
-            >
+            <span class="badge-status-text">可用：{{ sellConfigData.availableAmount }}</span>
           </span>
           <span class="badge">
             <span class="badge-status-dot badge-status-error"></span>
-            <span class="badge-status-text"
-              >在押：{{ sellConfigData.stakeAmount }}</span
-            >
+            <span class="badge-status-text">在押：{{ sellConfigData.stakeAmount }}</span>
           </span>
           <span class="badge">
             <span class="badge-status-dot badge-status-default"></span>
-            <span class="badge-status-text"
-              >投票收益：{{ sellConfigData.withdrawAmount }}</span
-            >
+            <span class="badge-status-text">投票收益：{{ sellConfigData.withdrawAmount }}</span>
           </span>
         </div>
         <div class="auth-detail">
           <span class="label"> 授权明细 </span>
-          <el-tag
-            class="ml-2"
-            type="success"
-            v-for="(item, index) in sellConfigData.permissions"
-            :key="index"
-            >{{ item }}</el-tag
-          >
+          <el-tag class="ml-2" type="success" v-for="(item, index) in sellConfigData.permissions" :key="index">{{ item
+          }}</el-tag>
           <!-- <el-tag class="ml-2" type="success">解押</el-tag>
           <el-tag class="ml-2" type="success">投票</el-tag>
           <el-tag class="ml-2" type="success">领取权益</el-tag> -->
@@ -54,11 +38,7 @@
     <DashbordContent>
       <el-form :model="sellConfigData" label-width="160px">
         <el-form-item label="开启自动出售">
-          <el-switch
-            v-model="sellConfigData.autoSell"
-            :active-value="true"
-            :inactive-value="false"
-          />
+          <el-switch v-model="sellConfigData.autoSell" :active-value="true" :inactive-value="false" />
         </el-form-item>
 
         <!-- <el-form-item label="出售资源">
@@ -72,13 +52,10 @@
           <template #label>
             <div>
               能量单价
-              <el-tooltip
-                class="box-item"
-                effect="dark"
-                content="低于该单价不会自动出售"
-                placement="top"
-              >
-                <el-icon><WarningFilled /></el-icon>
+              <el-tooltip class="box-item" effect="dark" content="低于该单价不会自动出售" placement="top">
+                <el-icon>
+                  <WarningFilled />
+                </el-icon>
               </el-tooltip>
             </div>
           </template>
@@ -87,20 +64,14 @@
             <el-radio :label="false">自定义</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item
-          label="自定义能量单价"
-          v-if="!sellConfigData.energeDefaultPrice"
-        >
+        <el-form-item label="自定义能量单价" v-if="!sellConfigData.energeDefaultPrice">
           <template #label>
             <div>
               自定义能量单价
-              <el-tooltip
-                class="box-item"
-                effect="dark"
-                content="低于该单价不会自动出售"
-                placement="top"
-              >
-                <el-icon><WarningFilled /></el-icon>
+              <el-tooltip class="box-item" effect="dark" content="低于该单价不会自动出售" placement="top">
+                <el-icon>
+                  <WarningFilled />
+                </el-icon>
               </el-tooltip>
             </div>
           </template>
@@ -147,13 +118,10 @@
           <template #label>
             <div>
               自动提款
-              <el-tooltip
-                class="box-item"
-                effect="dark"
-                content="香港时间每天00点00分为统一自动支付结算时间"
-                placement="top"
-              >
-                <el-icon><WarningFilled /></el-icon>
+              <el-tooltip class="box-item" effect="dark" content="香港时间每天00点00分为统一自动支付结算时间" placement="top">
+                <el-icon>
+                  <WarningFilled />
+                </el-icon>
               </el-tooltip>
             </div>
           </template>
@@ -163,10 +131,7 @@
             <el-radio label="N">禁用自动提款</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item
-          label="保留金额"
-          v-if="sellConfigData.autoWithdrawAmount == 'P'"
-        >
+        <el-form-item label="保留金额" v-if="sellConfigData.autoWithdrawAmount == 'P'">
           <el-input v-model="sellConfigData.remainAmount" />
         </el-form-item>
         <el-form-item>
@@ -213,18 +178,22 @@ onMounted(() => {
   .user-data-static {
     padding: 0 60px;
 
-    & > div {
+    &>div {
       margin: 15px 0;
     }
+
     .label {
       margin-right: 15px;
     }
+
     .amount-sum {
       .badge {
         margin: 0 10px;
+
         &:first-child {
           margin: 0 10px 0 0;
         }
+
         &-status-dot {
           position: relative;
           top: -1px;
@@ -234,6 +203,7 @@ onMounted(() => {
           vertical-align: middle;
           border-radius: 50%;
         }
+
         &-status-text {
           margin-left: 8px;
           color: #000000d9;
@@ -242,20 +212,24 @@ onMounted(() => {
 
         &-status {
           &-processing {
-            background-color: #294aa5;
+            background-color: #c53027;
           }
+
           &-success {
             background-color: #55d187;
           }
+
           &-error {
             background-color: #ed6f6f;
           }
+
           &-default {
             background-color: #d9d9d9;
           }
         }
       }
     }
+
     .auth-detail {
       .ml-2 {
         margin-right: 0.5em;

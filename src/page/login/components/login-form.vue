@@ -54,20 +54,21 @@
             <img src="@/assets/login/login-code.svg" alt="" />
           </template>
         </el-input>
-        <img class="login-content-right-c-img" alt="" :src="verifyCode" @click="getCode" />
+        <img class="login-content-right-c-img" alt="" :src="verifyCode" @click="() => getCode()" />
       </el-form-item>
     </el-form>
-
     <slot></slot>
   </div>
 </template>
 <script setup>
 import { generateVerifyCode } from '@/utils/axios/login/index.js';
+import { getParamsNew } from '@/utils/utils/index.js';
 const props = defineProps({
   data: {
     default: {},
     type: Object
   },
+  forgetpwds: Function,
   type: String
 });
 
@@ -75,6 +76,7 @@ const emit = defineEmits(['update:data'])
 const ruleFormRef = ref();
 
 const verifyCode = ref('');
+let dialogVisibleReset = ref(false);
 
 const value = reactive(props.data);
 const progress = reactive({
@@ -107,7 +109,8 @@ const submitForm = async (callback) => {
 
 const getCode = async (type) => {
   let routeValue;
-  switch (type || props.type) {
+  console.log(type, props.type, getParamsNew('type'))
+  switch (type || props.type || getParamsNew('type')) {
     case '0':
       routeValue = 'login'
       break;
@@ -116,6 +119,7 @@ const getCode = async (type) => {
       break;
     case '2':
       routeValue = 'forgetpwd'
+      break;
     case '6':
       routeValue = 'resetpwd'
       break;
@@ -123,6 +127,7 @@ const getCode = async (type) => {
       routeValue = 'login'
       break;
   }
+  console.log(routeValue);
   const data = await generateVerifyCode(routeValue);
   if (data.code === 12000) {
     verifyCode.value = 'data:image/png;base64,' + data.data.imageBase64;

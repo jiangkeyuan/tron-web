@@ -261,7 +261,7 @@ onMounted(() => {
   font-size: 12px;
   height: 22px;
   line-height: 22px;
-  color: #294aa5;
+  color: #c53027;
 }
 
 .home-left-button-icon {
@@ -300,7 +300,7 @@ onMounted(() => {
   background: linear-gradient(#ffffff, #f4f8ff);
   border-radius: 40px;
   font-size: 16px;
-  color: #294aa5;
+  color: #c53027;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -313,11 +313,11 @@ onMounted(() => {
   height: 16px;
   display: block;
   margin-right: 4px;
-  color: #294aa5;
+  color: #c53027;
 }
 
 .home-left-menu-li-active {
-  color: #294aa5 !important;
+  color: #c53027 !important;
   background-color: #294aa51a;
 }
 
@@ -332,7 +332,7 @@ onMounted(() => {
   display: block;
   width: 2px;
   content: "";
-  background-color: #294aa5;
+  background-color: #c53027;
 }
 
 .home-right {
@@ -396,7 +396,7 @@ onMounted(() => {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  color: #294aa5;
+  color: #c53027;
 }
 
 /* .slide-up-enter-active,

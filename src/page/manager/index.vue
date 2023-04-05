@@ -16,7 +16,7 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="reset">重置</el-button>
-        <el-button type="primary" color="#294aa5" @click="seach">查询</el-button>
+        <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" @sort-change="sortChange">

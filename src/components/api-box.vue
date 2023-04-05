@@ -28,27 +28,31 @@
   width: calc(100% - 30px);
   text-align: center;
   font-size: 16px;
+
   .title {
     text-align: center;
     font-size: 40px;
     font-weight: 700;
     margin-bottom: 20px;
   }
+
   .text {
     text-align: center;
     color: #707582;
     line-height: 1.4em;
   }
+
   p {
     margin-top: 15px;
   }
+
   a {
-    color: #294aa5;
+    color: #c53027;
   }
+
   .icon {
     height: 30px;
-    color: #294aa5;
+    color: #c53027;
     margin-right: 10px;
   }
-}
-</style>
+}</style>

@@ -23,22 +23,14 @@
             <div>未来2小时内增加：<span>75,854,513</span>energy</div>
             <div>单笔最大可租：<span>355,343</span>energy</div>
           </div>
-          <img
-            src="@/assets/home/swap-bg-spaceman.webp"
-            alt=""
-            class="spaceman-img"
-          />
+          <img src="@/assets/home/swap-bg-spaceman.webp" alt="" class="spaceman-img" />
         </div>
         <div class="rental-operation">
           <div class="header">
             <div class="title">{{ leaseRadio }}</div>
             <el-radio-group v-model="leaseRadio">
-              <el-radio-button label="转账租凭" border
-                >转账租凭</el-radio-button
-              >
-              <el-radio-button label="DAPP租赁" border
-                >DAPP租赁</el-radio-button
-              >
+              <el-radio-button label="转账租凭" border>转账租凭</el-radio-button>
+              <el-radio-button label="DAPP租赁" border>DAPP租赁</el-radio-button>
             </el-radio-group>
           </div>
           <template v-if="leaseRadio == '转账租凭'">
@@ -46,19 +38,12 @@
               <div class="input-panel rentVal">
                 <div class="title">租用量（单笔1~138.5908万）</div>
                 <div class="input">
-                  <el-input
-                    v-model="input"
-                    clearable
-                    placeholder="请输入需要租用的数量"
-                    min="10000"
-                    max="1408730"
-                    suffix-icon="Search"
-                    :formatter="onFormatter"
-                    :parser="onParser"
-                  />
+                  <el-input v-model="input" clearable placeholder="请输入需要租用的数量" min="10000" max="1408730"
+                    suffix-icon="Search" :formatter="onFormatter" :parser="onParser" />
                 </div>
                 <div class="rent-value-shortcut">
-                  <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">{{item.label}}</div>
+                  <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">
+                    {{ item.label }}</div>
                 </div>
               </div>
               <div class="notice noticepc"></div>
@@ -113,18 +98,12 @@
                       </div>
                     </div>
                   </div>
-                  <img
-                    src="@/assets/home/content-qr-code.png"
-                    alt="二维码加载失败，请检查网络后刷新重试"
-                    class="content-qr-code"
-                  />
+                  <img src="@/assets/home/content-qr-code.png" alt="二维码加载失败，请检查网络后刷新重试" class="content-qr-code" />
                 </div>
               </div>
             </div>
             <div class="footer">
-              <el-button color="#294aa5" class="btn-block"
-                >复制金额，去转账</el-button
-              >
+              <el-button color="#c53027" class="btn-block">复制金额，去转账</el-button>
             </div>
           </template>
           <template v-if="leaseRadio == 'DAPP租赁'">
@@ -135,18 +114,12 @@
               <div class="input-panel rentVal">
                 <div class="title">租用量</div>
                 <div class="input">
-                  <el-input
-                    v-model="capacity"
-                    clearable
-                    placeholder="请输入需要租用的数量"
-                    min="10000"
-                    max="1408730"
-                    suffix-icon="Search"
-                    @input="onInput"
-                  />
+                  <el-input v-model="capacity" clearable placeholder="请输入需要租用的数量" min="10000" max="1408730"
+                    suffix-icon="Search" @input="onInput" />
                 </div>
                 <div class="rent-value-shortcut">
-                   <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">{{item.label}}</div>
+                  <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">
+                    {{ item.label }}</div>
                 </div>
               </div>
               <div class="notice noticepc"></div>
@@ -162,14 +135,8 @@
                     </div>
                   </div>
                   <div class="input">
-                    <el-input
-                      v-model="address"
-                      clearable
-                      placeholder="不填写默认为当前账户地址"
-                      min="10000"
-                      max="1408730"
-                      suffix-icon="Search"
-                    />
+                    <el-input v-model="address" clearable placeholder="不填写默认为当前账户地址" min="10000" max="1408730"
+                      suffix-icon="Search" />
                   </div>
                 </div>
               </div>
@@ -184,7 +151,7 @@
                     <div class="amount">
                       <span>需转账金额</span>
                       <span>
-                        <em>{{amount}}</em>
+                        <em>{{ amount }}</em>
                         TRX
                       </span>
                     </div>
@@ -206,10 +173,8 @@
               </div>
             </div>
             <div class="footer">
-              <el-checkbox v-model="clause" style="margin-bottom: 20px"
-                >为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox
-              >
-              <el-button color="#294aa5" class="btn-block">支付</el-button>
+              <el-checkbox v-model="clause" style="margin-bottom: 20px">为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox>
+              <el-button color="#c53027" class="btn-block">支付</el-button>
             </div>
           </template>
         </div>
@@ -261,19 +226,11 @@
           </div>
           <!-- 大家在租 -->
           <div class="table" v-if="radio == '1'">
-            <el-table
-              :data="finishedOrdersList"
-              :row-class-name="tableRowClassName"
-              style="width: 100%"
-            >
+            <el-table :data="finishedOrdersList" :row-class-name="tableRowClassName" style="width: 100%">
               <el-table-column prop="transactionHash" label="交易哈希">
                 <template #default="{ row }">
-                  <el-link
-                    :href="`https://tronscan.org/#/address/${row.transactionHash}`"
-                    target="_blank"
-                    type="primary"
-                    >TxHash</el-link
-                  >
+                  <el-link :href="`https://tronscan.org/#/address/${row.transactionHash}`" target="_blank"
+                    type="primary">TxHash</el-link>
                 </template>
               </el-table-column>
               <el-table-column prop="toAddress" label="租用地址" width="280" />
@@ -287,38 +244,18 @@
                   <div>{{ row.rentalDays }} 天</div>
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="delegateDate"
-                label="日期"
-                :formatter="row => filterDate(row.delegateDate)"
-              />
+              <el-table-column prop="delegateDate" label="日期" :formatter="row => filterDate(row.delegateDate)" />
             </el-table>
           </div>
           <div class="table" v-if="radio == '2'">
-            <el-table
-              :data="ordersList"
-              :row-class-name="tableRowClassName"
-              style="width: 100%"
-            >
-              <el-table-column
-                prop="payDate"
-                label="支付时间"
-                :formatter="row => filterDate(row.payDate)"
-              />
-              <el-table-column
-                prop="orderStatus"
-                label="订单状态"
-                :formatter="row => filterStatus(row.orderStatus)"
-              />
+            <el-table :data="ordersList" :row-class-name="tableRowClassName" style="width: 100%">
+              <el-table-column prop="payDate" label="支付时间" :formatter="row => filterDate(row.payDate)" />
+              <el-table-column prop="orderStatus" label="订单状态" :formatter="row => filterStatus(row.orderStatus)" />
               <el-table-column prop="orderNo" label="订单号" />
               <el-table-column prop="toAddress" label="接收地址" />
               <el-table-column prop="rentalQuantity" label="租用数量" />
               <el-table-column prop="rentalDays" label="租用时长" />
-              <el-table-column
-                prop="expiredDate"
-                label="到期时间"
-                :formatter="row => filterDate(row.expiredDate)"
-              />
+              <el-table-column prop="expiredDate" label="到期时间" :formatter="row => filterDate(row.expiredDate)" />
               <el-table-column prop="payAmount" label="支付金额" />
             </el-table>
           </div>
@@ -331,7 +268,7 @@
 
 <script setup>
 import { filterDate } from '@/utils/utils/date.js'
-import {  walletAddress } from '@/utils/utils/tron.js';
+import { walletAddress } from '@/utils/utils/tron.js';
 import { Calendar, Search } from '@element-plus/icons-vue'
 import {
   getQuickFinishedOrders,
@@ -345,22 +282,22 @@ const clause = ref(true)
 const capacity = ref('')
 const amount = ref('')
 const shortcutList = [
-    {
-        label: '50万',
-        value: 500000
-    },
-    {
-        label: '100万',
-        value: 1000000
-    },
-    {
-        label: '500万',
-        value: 5000000
-    },
-    {
-        label: '1000万',
-        value: 10000000
-    }
+  {
+    label: '50万',
+    value: 500000
+  },
+  {
+    label: '100万',
+    value: 1000000
+  },
+  {
+    label: '500万',
+    value: 5000000
+  },
+  {
+    label: '1000万',
+    value: 10000000
+  }
 ]
 const tableRowClassName = ({ row, rowIndex }) => {
   if (rowIndex % 2 == 0) {
@@ -422,13 +359,13 @@ const filterStatus = status => {
   }
 }
 const onClick = (val) => {
-    console.log(val);
-    capacity.value = Number(capacity.value) + Number(val)
-    amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+  console.log(val);
+  capacity.value = Number(capacity.value) + Number(val)
+  amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
 }
 const onInput = (val) => {
-    capacity.value = val
-    amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+  capacity.value = val
+  amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
 }
 onMounted(() => {
   queryQuickFinishedOrders()
@@ -462,17 +399,20 @@ onMounted(() => {
   background-attachment: fixed;
   background-position: left top, 95% 70%;
 }
+
 .b2c-content {
   max-width: 1300px;
   width: 100%;
   margin: 0px auto;
   position: relative;
 }
+
 .rental-container-v2 {
   position: relative;
   display: flex;
   justify-content: space-between;
   padding: 38px 100px 0px;
+
   .rental-about {
     position: relative;
     flex: 1 1 0%;
@@ -480,14 +420,17 @@ onMounted(() => {
     max-width: 400px;
     margin-right: 40px;
     padding-top: 30px;
+
     h1 {
       margin-bottom: 34px;
       font-size: 30px;
       color: var(--text-primary-color);
     }
+
     .introduce {
       position: relative;
       margin-top: 40px;
+
       ul {
         padding-left: 20px;
         list-style: initial;
@@ -495,6 +438,7 @@ onMounted(() => {
         color: var(--text-lesser-color);
         font-size: 16px;
       }
+
       img {
         width: 40px;
         height: 40px;
@@ -503,6 +447,7 @@ onMounted(() => {
         bottom: 0px;
       }
     }
+
     .info {
       margin-top: 50px;
       padding: 20px;
@@ -510,18 +455,22 @@ onMounted(() => {
       border-radius: 6px;
       background-color: rgb(39, 55, 103);
       color: var(--text-lesser-color);
+
       div {
         margin-bottom: 10px;
+
         &:last-child {
           margin: 0px;
         }
       }
     }
+
     .spaceman-img {
       width: 120%;
       margin: 120px -50px 0px;
     }
   }
+
   .rental-operation {
     padding: 30px;
     border: 1px solid var(--border-primary-color);
@@ -532,98 +481,121 @@ onMounted(() => {
     height: 100%;
     background-color: var(--bg-primary-color);
     color: var(--text-primary-color);
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
+
       .title {
         font-size: 30px;
       }
     }
+
     .project-panel {
       .input-panel {
         padding: 20px 20px 15px;
         border-radius: 6px;
         background-color: var(--bg-lesser-color);
+
         .title {
           display: flex;
           justify-content: space-between;
         }
+
         .input {
           margin: 25px -10px 0;
           position: relative;
         }
       }
+
       .wallet-address {
         display: flex;
         align-items: center;
         padding: 15px;
         margin-bottom: 15px;
       }
+
       .receive-address {
         margin-top: 20px;
       }
+
       .unaddress {
         color: #26a17b;
         cursor: pointer;
         display: flex;
         align-items: center;
       }
+
       .rentDay {
         padding: 20px;
       }
+
       .announcements {
         margin-top: 15px;
         font-size: 14px;
         color: var(--text--secondary-color);
         line-height: 1.4em;
+
         .example-title {
           color: #266ef1;
         }
       }
+
       .notice {
         color: var(--text-notice-color);
         margin: 15px 0;
       }
     }
+
     .pay-panel {
       margin-top: 15px;
       padding: 20px;
       border: 1px dashed var(--border-dashed-color);
       border-radius: 6px;
+
       .header {
         display: flex;
         justify-content: space-between;
         margin-bottom: 0;
+
         .title {
           font-size: 16px;
         }
       }
+
       .cashier {
         .address {
           margin-top: 6px;
           font-size: 12px;
           color: var(--text--secondary-color);
+
           .address-title {
             display: inline;
           }
+
           .copy-board {
             display: inline;
             margin-top: 8px;
+
             span {
               margin-right: 8px;
               cursor: pointer;
             }
+
             .copy-btn-wrapper .icon {
               font-size: 16px;
             }
           }
         }
+
         .amount-box {
           display: flex;
+
           .amount-content {
             flex: 1;
+
             .amount {
               display: flex;
               justify-content: space-between;
@@ -634,6 +606,7 @@ onMounted(() => {
               height: 50px;
               background-color: var(--bg-lesser-color);
               color: var(--text--secondary-color);
+
               em {
                 margin-right: 5px;
                 color: var(--text-primary-color);
@@ -642,6 +615,7 @@ onMounted(() => {
               }
             }
           }
+
           .content-qr-code {
             margin-top: -20px;
             margin-left: 20px;
@@ -649,10 +623,12 @@ onMounted(() => {
             height: 90px;
           }
         }
+
         .info {
           margin-top: 15px;
           color: #26a17b;
           font-size: 14px;
+
           div {
             display: inline-block;
             margin-right: 5px;
@@ -660,8 +636,10 @@ onMounted(() => {
         }
       }
     }
+
     .footer {
       margin-top: 20px;
+
       .btn-block {
         height: 55px;
         border-radius: 6px;
@@ -670,9 +648,11 @@ onMounted(() => {
       }
     }
   }
+
   .rent-value-shortcut {
     margin-top: 15px;
     display: flex;
+
     .item {
       margin-right: 8px;
       border: 1px solid var(--input-shortcut-color);
@@ -685,6 +665,7 @@ onMounted(() => {
     }
   }
 }
+
 .statistics-content {
   margin-top: 70px;
   display: flex;
@@ -694,6 +675,7 @@ onMounted(() => {
   color: #fff;
   width: 100%;
   height: 150px;
+
   .item {
     flex: 1;
     display: flex;
@@ -703,10 +685,12 @@ onMounted(() => {
     width: 100%;
     height: 70px;
     border-right: 1.5px solid #21346c;
+
     .num {
       font-size: 30px;
       font-weight: 700;
     }
+
     .info {
       display: flex;
       align-items: center;
@@ -714,6 +698,7 @@ onMounted(() => {
       font-size: 1rem;
       color: #566897;
     }
+
     .rule {
       font-size: 14px;
       line-height: 1.4em;
@@ -721,42 +706,53 @@ onMounted(() => {
     }
   }
 }
+
 .rent-log-container {
   text-align: center;
   margin: 50px 0;
+
   .rent-log-title {
     margin-bottom: 30px;
   }
+
   .table {
     :deep(.el-table) {
       color: #6f8eca;
+
       .warning-row {
         background-color: #121d44;
       }
+
       .success-row {
         background-color: #15244f;
       }
+
       td.el-table__cell,
       th.el-table__cell.is-leaf {
         border: 0;
       }
+
       th.el-table__cell {
         background-color: #18295c;
       }
+
       thead {
         color: #fff;
       }
+
       .el-table__inner-wrapper {
         &::before {
           background-color: transparent;
         }
       }
-      tbody tr:hover > td {
+
+      tbody tr:hover>td {
         background-color: #273767;
       }
     }
   }
 }
+
 .switch-panel {
   display: inline-flex;
   height: 40px;
@@ -765,15 +761,19 @@ onMounted(() => {
   box-shadow: 0 0 10px #0000001a;
   padding: 1px;
 }
+
 .api {
   margin: 30px auto;
+
   :deep(.title) {
     color: #fff;
   }
 }
+
 .copy-btn-wrapper {
   display: inline-block;
   color: inherit;
+
   .btn {
     display: flex;
     align-items: center;

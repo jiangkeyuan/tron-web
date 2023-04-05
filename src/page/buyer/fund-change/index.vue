@@ -20,7 +20,7 @@
         </el-select>
       </el-form-item>
       <el-button>重置</el-button>
-      <el-button type="primary" color="#294aa5">查询</el-button>
+      <el-button type="primary" color="#c53027">查询</el-button>
     </el-form>
     <div class="sale-record-table">
       <el-table :data="tableData" stripe class="sale-record-table-list" empty-text="暂无数据">

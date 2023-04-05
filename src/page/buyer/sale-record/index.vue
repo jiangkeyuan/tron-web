@@ -14,7 +14,7 @@
       <el-input v-model="form.apikey" />
     </el-form-item>
     <el-button @click="reset">重置</el-button>
-    <el-button type="primary" color="#294aa5" @click="seach">查询</el-button>
+    <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
   </el-form>
   <div class="sale-record sale-record-table">
     <el-radio-group v-model="form.orderStatus" class="sale-record-group" @change="seach">
@@ -107,16 +107,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                                                                                display: inline-block;
-                                                                                width: fit-content;
-                                                                                padding: 1px 7px;
-                                                                                margin: 0px;
-                                                                                background: rgb(255, 255, 255);
-                                                                                border: 1px solid rgb(191, 191, 191);
-                                                                                border-radius: 3px;
-                                                                                font-size: 12px;
-                                                                                color: rgb(191, 191, 191);
-                                                                              ">
+                                                                                  display: inline-block;
+                                                                                  width: fit-content;
+                                                                                  padding: 1px 7px;
+                                                                                  margin: 0px;
+                                                                                  background: rgb(255, 255, 255);
+                                                                                  border: 1px solid rgb(191, 191, 191);
+                                                                                  border-radius: 3px;
+                                                                                  font-size: 12px;
+                                                                                  color: rgb(191, 191, 191);
+                                                                                ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
@@ -216,7 +216,7 @@ onMounted(async () => {
 }
 
 .jump-a {
-  color: #294aa5;
+  color: #c53027;
   text-decoration: none;
   background-color: transparent;
   outline: none;

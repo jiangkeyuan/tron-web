@@ -40,6 +40,6 @@ const gotoHelp = (route) => {
 }
 
 .help:hover {
-  color: #294aa5;
+  color: #c53027;
 }
 </style>

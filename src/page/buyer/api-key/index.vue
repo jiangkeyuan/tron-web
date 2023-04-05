@@ -39,7 +39,7 @@
           <div class="api-key-content-header-left">
             <span class="api-key-content-header-left-title api-key-content-header-left-title-color">{{ item.apiKey
             }}</span>
-            <el-icon size="15" @click="() => copyEnd(item.apiKey)" class="recharge-content-address-icon" color="#294aa5">
+            <el-icon size="15" @click="() => copyEnd(item.apiKey)" class="recharge-content-address-icon" color="#c53027">
               <CopyDocument />
             </el-icon>
           </div>
@@ -187,7 +187,7 @@ onMounted(() => {
 
 .api-key-content-header-left-edit {
   font-size: 14px;
-  color: #294aa5;
+  color: #c53027;
   cursor: pointer;
 }
 

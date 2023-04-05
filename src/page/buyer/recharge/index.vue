@@ -2,10 +2,7 @@
   <div class="recharge">
     <DashBord v-loading.fullscreen.lock="fullscreenLoading">
       <div class="recharge">
-        <div class="recharge-content-history" @click="() => gotoRechargeLog()">
-          充值记录
-        </div>
-        <el-tabs v-model="activeName">
+        <el-tabs v-model="activeName" @tab-click="(e) => searchLog(e)">
           <el-tab-pane label="DAPP" name="first">
             <div class="recharge-content">
               <div class="recharge-content" v-if="store.state.userInfo?.userInfo?.walletAddress">
@@ -44,7 +41,7 @@
               <span>平台钱包地址</span>
               <div class="recharge-content-address">
                 <span>{{ rechargeAdress }}</span>
-                <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#294aa5">
+                <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#c53027">
                   <CopyDocument />
                 </el-icon>
               </div>
@@ -64,6 +61,9 @@
               </div>
             </div>
           </el-tab-pane>
+          <el-tab-pane label="充值记录" name="three">
+            <RechareLog ref="rechareRef"></RechareLog>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </DashBord>
@@ -77,12 +77,20 @@ import { md5 } from "@/utils/utils/md5.js";
 import { isConnectedWallet, walletAddress, tronErrorList } from '@/utils/utils/tron.js';
 import { dappRecharge, bindWallets, getPlatformRechargeAddress } from '@/utils/axios/buyer/index';
 import { ElMessage } from "element-plus";
+import RechareLog from '../recharge-log/index.vue'
 const router = useRouter();
 const activeName = ref("first");
 const rechargeAmount = ref("");
 const fullscreenLoading = ref(false);
 const store = useStore();
 const rechargeAdress = ref("");
+const rechareRef = ref('');
+
+const searchLog = (e) => {
+  if (e.props.name === 'three') {
+    rechareRef.value.search();
+  }
+}
 
 const bindWalletHandle = async () => {
   fullscreenLoading.value = true;
@@ -135,6 +143,12 @@ const addMoney = async () => {
   }
 };
 
+const getUserInfo = () => {
+  if (!document.hidden) {
+    store.dispatch('getUserInfoAction');
+  }
+}
+
 onMounted(async () => {
   const data = await getPlatformRechargeAddress()
   if (data.code === 12000) {
@@ -142,7 +156,13 @@ onMounted(async () => {
   } else {
     ElMessage.error(data.msg);
   }
+
+  window.addEventListener('visibilitychange', getUserInfo)
 });
+
+onUnmounted(() => {
+  window.removeEventListener('visibilitychange', getUserInfo);
+})
 
 const copyEnd = () => {
   copy({
@@ -151,10 +171,6 @@ const copyEnd = () => {
       ElMessage.success("复制成功");
     },
   });
-};
-
-const gotoRechargeLog = () => {
-  router.push("/console/buyer/recharge-log");
 };
 </script>
 <style scoped>
@@ -190,7 +206,7 @@ const gotoRechargeLog = () => {
   top: 0;
   z-index: 99;
   display: inline-block;
-  color: #294aa5;
+  color: #c53027;
   transition: color 0.3s;
 }
 

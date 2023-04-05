@@ -1,9 +1,6 @@
 <template>
   <div @click="gotoHelp('help/how-auto-sell')" class="help">
-    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span
-      class="help-text"
-      >如何授权给Feee.io自动出售能量？</span
-    >
+    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">如何授权给Feee.io自动出售能量？</span>
   </div>
 </template>
 <script setup>
@@ -23,12 +20,14 @@ const gotoHelp = (route) => {
   cursor: pointer;
   margin: 14px 0;
 }
+
 .help-img {
   width: 16px;
   height: 16px;
   margin-right: 5px;
 }
+
 .help:hover {
-  color: #294aa5;
+  color: #c53027;
 }
 </style>

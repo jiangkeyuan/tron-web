@@ -26,10 +26,7 @@
             <div class="copy-item">
               <p class="title">授权地址</p>
               <p class="text">TQcC5yWBCuqo9pXkskHJMdsfBwZJLhhhhh</p>
-              <div
-                class="btn"
-                @click="copyEnd('TQcC5yWBCuqo9pXkskHJMdsfBwZJLhhhhh')"
-              >
+              <div class="btn" @click="copyEnd('TQcC5yWBCuqo9pXkskHJMdsfBwZJLhhhhh')">
                 复制
               </div>
             </div>
@@ -47,9 +44,7 @@
                 <el-checkbox label="立即开启自动出售" v-model="form.delivery" />
               </el-form-item>
               <el-form-item>
-                <el-button style="width: 100%" type="primary" @click="onSubmit"
-                  >完成授权</el-button
-                >
+                <el-button style="width: 100%" type="primary" @click="onSubmit">完成授权</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -57,31 +52,13 @@
       </div>
     </div>
   </div>
-  <el-dialog
-    v-model="courseVisible"
-    title="如何授权给Feee.io自动出售能量？"
-    width="830px"
-    center
-  >
+  <el-dialog v-model="courseVisible" title="如何授权给Feee.io自动出售能量？" width="830px" center>
     <HowAutoSell></HowAutoSell>
   </el-dialog>
-  <el-dialog
-    v-model="courseVideoVisible"
-    :show-close="false"
-    title=""
-    :before-close="close"
-    width="830px"
-    center
-    style="background-color: transparent"
-  >
+  <el-dialog v-model="courseVideoVisible" :show-close="false" title="" :before-close="close" width="830px" center
+    style="background-color: transparent">
     <div class="video-course-wrapper">
-      <video
-        class="video"
-        :src="videoSrc"
-        autoplay=""
-        controls=""
-        preload="auto"
-      ></video>
+      <video class="video" :src="videoSrc" autoplay="" controls="" preload="auto"></video>
       <div class="btns">
         <div class="btn" @click="lookTxtCourse">图文教程</div>
         <div class="btn" @click="close">完成</div>
@@ -117,9 +94,9 @@ const copyEnd = msg => {
 const onSubmit = async () => {
   console.log('submit!')
   const data = await getPermission()
-    console.log(data)
+  console.log(data)
   if (data.code === 12000) {
-   await store.dispatch('getUserInfoAction')
+    await store.dispatch('getUserInfoAction')
     console.log('666666666');
     router.push('/console/seller/auth-operation')
   } else {
@@ -143,7 +120,7 @@ const close = () => {
   videoSrc.value = ''
 }
 onMounted(() => {
-    getNothing()
+  getNothing()
 })
 </script>
 
@@ -151,12 +128,14 @@ onMounted(() => {
 .guide {
   .guide-1-step {
     position: relative;
+
     .bg {
       display: block;
       max-width: 100%;
       height: auto;
       border-style: none;
     }
+
     .text-wrapper {
       position: absolute;
       top: 29%;
@@ -165,12 +144,14 @@ onMounted(() => {
       height: 245px;
       background: url('@/assets/home/01-text.png') no-repeat center / cover;
       overflow: hidden;
+
       .main {
         position: absolute;
         top: 15px;
         right: 50px;
         bottom: 15px;
         left: 120px;
+
         h3 {
           margin: 15px 0;
           text-align: center;
@@ -178,10 +159,12 @@ onMounted(() => {
           color: #121c41;
         }
       }
+
       p {
         font-size: 16px;
         color: #707582;
       }
+
       .star-learn-btn {
         display: flex;
         justify-content: center;
@@ -189,7 +172,7 @@ onMounted(() => {
         margin: 20px auto 0;
         width: 160px;
         height: 40px;
-        background-color: #294aa5;
+        background-color: #c53027;
         border-radius: 5px;
         font-size: 16px;
         color: #fff;
@@ -197,8 +180,10 @@ onMounted(() => {
       }
     }
   }
+
   .guide-2-step {
     position: relative;
+
     img {
       display: block;
       max-width: 100%;
@@ -213,6 +198,7 @@ onMounted(() => {
       height: 398px;
       transform: translate(-50%, -50%);
       background: url('@/assets/home/02-text.png') no-repeat center / cover;
+
       .main {
         position: absolute;
         top: 0;
@@ -221,17 +207,20 @@ onMounted(() => {
         padding: 20px;
         border-radius: 10px;
         background-color: #fff;
+
         p {
           margin: 15px 0;
           font-size: 16px;
           color: #707582;
         }
+
         h3 {
           margin: 15px 0;
           text-align: center;
           font-size: 18px;
           color: #121c41;
         }
+
         .copy-item {
           display: grid;
           grid-template-areas:
@@ -242,6 +231,7 @@ onMounted(() => {
           column-gap: 10px;
           align-items: center;
           margin-bottom: 10px;
+
           .title {
             grid-area: title;
             font-size: 14px;
@@ -251,6 +241,7 @@ onMounted(() => {
             white-space: nowrap;
             text-overflow: ellipsis;
           }
+
           .text {
             grid-area: text;
             flex: 1;
@@ -260,6 +251,7 @@ onMounted(() => {
             text-overflow: ellipsis;
             font-size: 14px;
           }
+
           .btn {
             grid-area: btn;
             width: 50px;
@@ -269,33 +261,37 @@ onMounted(() => {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #294aa5;
+            background-color: #c53027;
             border-radius: 5px;
             color: #fff;
             cursor: pointer;
           }
         }
+
         .btns {
           display: flex;
           margin-top: 15px;
+
           .btn {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 40px;
-            background-color: #294aa5;
+            background-color: #c53027;
             border-radius: 5px;
             color: #fff;
             font-size: 16px;
             cursor: pointer;
+
             &:not(:last-of-type) {
               margin-right: 10px;
             }
           }
+
           .link {
             background-color: transparent;
-            color: #294aa5;
+            color: #c53027;
           }
         }
       }
@@ -308,17 +304,19 @@ onMounted(() => {
   .video {
     margin: 0 auto;
   }
+
   .btns {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
+
     .btn {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 140px;
       height: 40px;
-      background-color: #294aa5;
+      background-color: #c53027;
       border-radius: 5px;
       color: #fff;
       font-size: 16px;

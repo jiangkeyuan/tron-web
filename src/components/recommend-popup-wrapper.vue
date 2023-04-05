@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    v-model="props.show"
-    title=""
-    width="500px"
-    :before-close="handleClose"
-  >
+  <el-dialog v-model="props.show" title="" width="500px" :before-close="handleClose">
     <div class="recommend-popup-wrapper">
       <img src="@/assets/home/recommend-popup.png" alt="" class="img" />
       <h2 class="title">推荐奖励</h2>
@@ -33,38 +28,43 @@ const props = defineProps({
   }
 })
 const handleClose = () => {
-    emit('close', false)
+  emit('close', false)
 }
 </script>
 
 <style lang="less" scoped>
 .recommend-popup-wrapper {
   padding: 10px 30px;
+
   .img {
     display: block;
     margin: 0 auto;
     width: 260px;
     height: 180px;
   }
+
   .title {
     font-size: 24px;
     text-align: center;
     margin-bottom: 10px;
   }
+
   .tip {
     font-size: 1rem;
     margin-bottom: 20px;
   }
+
   .to-login-btn {
     display: block;
     width: 100%;
     border-radius: 50px;
     line-height: 50px;
     text-align: center;
-    background-color: #294aa5;
+    background-color: #c53027;
     font-size: 1rem;
     color: #fff;
   }
+
   .recommend-link {
     display: flex;
     justify-content: space-between;
@@ -72,6 +72,7 @@ const handleClose = () => {
     margin-top: 20px;
     padding-top: 20px;
     border-top: 1px dashed #c8d0df;
+
     .copy-btn {
       padding: 0 0.5em;
       border-radius: 5px;
@@ -80,14 +81,15 @@ const handleClose = () => {
     }
   }
 }
+
 .copy-btn-wrapper {
   display: inline-block;
   color: inherit;
+
   .btn {
     display: flex;
     align-items: center;
     color: inherit;
     cursor: pointer;
   }
-}
-</style>
+}</style>

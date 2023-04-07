@@ -8,32 +8,35 @@
     class="buy-popup"
   >
     <div class="content">
-      <el-radio-group
+      <!-- <el-radio-group
         v-model="radioVal"
         style="margin-bottom: 30px"
         size="large"
       >
         <el-radio-button label="能量">能量</el-radio-button>
         <el-radio-button label="带宽">带宽</el-radio-button>
-      </el-radio-group>
+      </el-radio-group> -->
 
       <el-form :model="form" label-width="100px" label-position="top">
         <el-form-item :label="`接收${radioVal}地址`">
-          <el-input v-model="form.name" />
+          <el-input
+            v-model="form.receiveAddress"
+            placeholder="不填写默认当前付款地址"
+          />
         </el-form-item>
         <el-form-item :label="`${radioVal}数量`">
-          <el-input v-model="form.name" />
+          <el-input v-model="form.rentalEnergyQuantity" />
         </el-form-item>
         <el-form-item label="">
           <Desc label="价格/天">
             <template #content>
-              <div>{{radioVal}}单价，每百万能量需消耗的 TRX</div>
+              <div>{{ radioVal }}单价，每百万能量需消耗的 TRX</div>
             </template>
             <template #value>
               <el-input-number
-                v-model="num"
-                :min="1"
-                :max="10"
+                v-model="form.price"
+                :min="110"
+                :max="99999"
                 @change="handleChange"
               />
             </template>
@@ -49,28 +52,35 @@
       </el-form>
       <div class="order-info">
         <Desc label="订单金额" content="您需要支付的订单金额">
+          <template #value>
+            <div>{{ orderAmount }} TRX</div>
+          </template>
+        </Desc>
+        <Desc
+          label="节&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;省"
+          content="较 3天燃烧节省"
+        >
+          <template #value>
+            <div>0 TRX</div>
+          </template>
+        </Desc>
+        <Desc
+          label="折&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;扣"
+          content="与冻结期间燃烧 TRX 相比的折扣"
+        >
+          <template #value>
+            <div>0 %</div>
+          </template>
+        </Desc>
+        <!-- <Desc label="手&nbsp;&nbsp;续&nbsp;费" content="永久免费">
             <template #value>
               <div>0 TRX</div>
             </template>
-          </Desc>
-            <Desc label="节&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;省" content="较 3天燃烧节省">
-            <template #value>
-              <div>0 TRX</div>
-            </template>
-          </Desc>
-            <Desc label="折&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;扣" content="与冻结期间燃烧 TRX 相比的折扣">
-            <template #value>
-              <div>0 %</div>
-            </template>
-          </Desc>
-             <Desc label="手&nbsp;&nbsp;续&nbsp;费" content="永久免费">
-            <template #value>
-              <div>0 TRX</div>
-            </template>
-          </Desc>
+          </Desc> -->
       </div>
       <span class="hint">
-        温馨提示：如果您选择比 {{radioVal == '能量'? 110 : 1200}} Sun 更高的价格/天，您的订单可能会更早完成。
+        温馨提示：如果您选择比 {{ radioVal == '能量' ? 110 : 1200 }} Sun
+        更高的价格/天，您的订单可能会更早完成。
       </span>
     </div>
     <template #footer>
@@ -85,21 +95,20 @@
 </template>
 
 <script setup>
+import { walletAddress } from '@/utils/utils/tron.js'
 import { sellManualOrders } from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import { computed, ref } from 'vue'
 const emit = defineEmits(['close'])
 const radioVal = ref('能量')
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: ''
+  rentalDays: 3,
+  price: 110,
+  rentalEnergyQuantity: '',
+  receiveAddress: walletAddress()
 })
+// const orderAmount = ref(0)
 const props = defineProps({
   show: {
     type: Boolean
@@ -117,6 +126,11 @@ const handleClose = () => {
 }
 
 onMounted(() => {})
+const orderAmount = computed(() => {
+  const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
+
+  return tronWeb.fromSun(amount)
+})
 </script>
 
 <style lang="less" scoped>
@@ -130,7 +144,7 @@ onMounted(() => {})
   .hint {
     color: #2a47ab;
     font-size: 13px;
-}
+  }
   .dialog-footer {
     width: 100%;
     margin-top: 20px;

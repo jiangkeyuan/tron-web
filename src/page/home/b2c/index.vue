@@ -23,14 +23,22 @@
             <div>未来2小时内增加：<span>75,854,513</span>energy</div>
             <div>单笔最大可租：<span>355,343</span>energy</div>
           </div>
-          <img src="@/assets/home/swap-bg-spaceman.webp" alt="" class="spaceman-img" />
+          <img
+            src="@/assets/home/swap-bg-spaceman.webp"
+            alt=""
+            class="spaceman-img"
+          />
         </div>
         <div class="rental-operation">
           <div class="header">
             <div class="title">{{ leaseRadio }}</div>
             <el-radio-group v-model="leaseRadio">
-              <el-radio-button label="转账租凭" border>转账租凭</el-radio-button>
-              <el-radio-button label="DAPP租赁" border>DAPP租赁</el-radio-button>
+              <el-radio-button label="转账租凭" border
+                >转账租凭</el-radio-button
+              >
+              <el-radio-button label="DAPP租赁" border
+                >DAPP租赁</el-radio-button
+              >
             </el-radio-group>
           </div>
           <template v-if="leaseRadio == '转账租凭'">
@@ -38,12 +46,25 @@
               <div class="input-panel rentVal">
                 <div class="title">租用量（单笔1~138.5908万）</div>
                 <div class="input">
-                  <el-input v-model="input" clearable placeholder="请输入需要租用的数量" min="10000" max="1408730"
-                    suffix-icon="Search" :formatter="onFormatter" :parser="onParser" />
+                  <el-input
+                    v-model="capacity"
+                    clearable
+                    placeholder="请输入需要租用的数量"
+                    min="10000"
+                    max="1408730"
+                    suffix-icon="Search"
+                    @input="onInput"
+                  />
                 </div>
                 <div class="rent-value-shortcut">
-                  <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">
-                    {{ item.label }}</div>
+                  <div
+                    class="item"
+                    v-for="(item, index) in shortcutList"
+                    :key="index"
+                    @click="onClick(item.value)"
+                  >
+                    {{ item.label }}
+                  </div>
                 </div>
               </div>
               <div class="notice noticepc"></div>
@@ -55,7 +76,18 @@
                 <div>2、若转账大于可租能量，将扣除1%手续费后原路退回</div>
                 <div>
                   3、平台默认转账钱包为接收能量地址，若需自定义接收地址，请在转账时备注接收地址
-                  <span class="example-title">示例教程</span>
+
+                  <el-tooltip
+                    class="box-item"
+                    content="Left Center prompts info"
+                    placement="left"
+                    effect="light"
+                  >
+                   <template #content>
+                        <img src="@/assets/home/b2c-screenshot-zh.png" alt="" srcset="">
+                   </template>
+                    <span class="example-title"> 示例教程 </span>
+                  </el-tooltip>
                 </div>
               </div>
             </div>
@@ -80,7 +112,7 @@
                     <div class="amount">
                       <span>需转账金额</span>
                       <span>
-                        <em>443.430540</em>
+                        <em>{{ amount }}</em>
                         TRX
                       </span>
                     </div>
@@ -98,12 +130,21 @@
                       </div>
                     </div>
                   </div>
-                  <img src="@/assets/home/content-qr-code.png" alt="二维码加载失败，请检查网络后刷新重试" class="content-qr-code" />
+                  <img
+                    src="@/assets/home/content-qr-code.png"
+                    alt="二维码加载失败，请检查网络后刷新重试"
+                    class="content-qr-code"
+                  />
                 </div>
               </div>
             </div>
             <div class="footer">
-              <el-button color="#c53027" class="btn-block">复制金额，去转账</el-button>
+              <el-button
+                color="#c53027"
+                class="btn-block"
+                @click="copyEnd(amount)"
+                >复制金额，去转账</el-button
+              >
             </div>
           </template>
           <template v-if="leaseRadio == 'DAPP租赁'">
@@ -114,12 +155,25 @@
               <div class="input-panel rentVal">
                 <div class="title">租用量</div>
                 <div class="input">
-                  <el-input v-model="capacity" clearable placeholder="请输入需要租用的数量" min="10000" max="1408730"
-                    suffix-icon="Search" @input="onInput" />
+                  <el-input
+                    v-model="capacity"
+                    clearable
+                    placeholder="请输入需要租用的数量"
+                    min="10000"
+                    max="1408730"
+                    suffix-icon="Search"
+                    @input="onInput"
+                  />
                 </div>
                 <div class="rent-value-shortcut">
-                  <div class="item" v-for="(item, index) in shortcutList" :key="index" @click="onClick(item.value)">
-                    {{ item.label }}</div>
+                  <div
+                    class="item"
+                    v-for="(item, index) in shortcutList"
+                    :key="index"
+                    @click="onClick(item.value)"
+                  >
+                    {{ item.label }}
+                  </div>
                 </div>
               </div>
               <div class="notice noticepc"></div>
@@ -135,8 +189,14 @@
                     </div>
                   </div>
                   <div class="input">
-                    <el-input v-model="address" clearable placeholder="不填写默认为当前账户地址" min="10000" max="1408730"
-                      suffix-icon="Search" />
+                    <el-input
+                      v-model="address"
+                      clearable
+                      placeholder="不填写默认为当前账户地址"
+                      min="10000"
+                      max="1408730"
+                      suffix-icon="Search"
+                    />
                   </div>
                 </div>
               </div>
@@ -173,7 +233,9 @@
               </div>
             </div>
             <div class="footer">
-              <el-checkbox v-model="clause" style="margin-bottom: 20px">为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox>
+              <el-checkbox v-model="clause" style="margin-bottom: 20px"
+                >为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox
+              >
               <el-button color="#c53027" class="btn-block">支付</el-button>
             </div>
           </template>
@@ -226,11 +288,19 @@
           </div>
           <!-- 大家在租 -->
           <div class="table" v-if="radio == '1'">
-            <el-table :data="finishedOrdersList" :row-class-name="tableRowClassName" style="width: 100%">
+            <el-table
+              :data="finishedOrdersList"
+              :row-class-name="tableRowClassName"
+              style="width: 100%"
+            >
               <el-table-column prop="transactionHash" label="交易哈希">
                 <template #default="{ row }">
-                  <el-link :href="`https://tronscan.org/#/address/${row.transactionHash}`" target="_blank"
-                    type="primary">TxHash</el-link>
+                  <el-link
+                    :href="`https://tronscan.org/#/address/${row.transactionHash}`"
+                    target="_blank"
+                    type="primary"
+                    >TxHash</el-link
+                  >
                 </template>
               </el-table-column>
               <el-table-column prop="toAddress" label="租用地址" width="280" />
@@ -244,18 +314,38 @@
                   <div>{{ row.rentalDays }} 天</div>
                 </template>
               </el-table-column>
-              <el-table-column prop="delegateDate" label="日期" :formatter="row => filterDate(row.delegateDate)" />
+              <el-table-column
+                prop="delegateDate"
+                label="日期"
+                :formatter="row => filterDate(row.delegateDate)"
+              />
             </el-table>
           </div>
           <div class="table" v-if="radio == '2'">
-            <el-table :data="ordersList" :row-class-name="tableRowClassName" style="width: 100%">
-              <el-table-column prop="payDate" label="支付时间" :formatter="row => filterDate(row.payDate)" />
-              <el-table-column prop="orderStatus" label="订单状态" :formatter="row => filterStatus(row.orderStatus)" />
+            <el-table
+              :data="ordersList"
+              :row-class-name="tableRowClassName"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="payDate"
+                label="支付时间"
+                :formatter="row => filterDate(row.payDate)"
+              />
+              <el-table-column
+                prop="orderStatus"
+                label="订单状态"
+                :formatter="row => filterStatus(row.orderStatus)"
+              />
               <el-table-column prop="orderNo" label="订单号" />
               <el-table-column prop="toAddress" label="接收地址" />
               <el-table-column prop="rentalQuantity" label="租用数量" />
               <el-table-column prop="rentalDays" label="租用时长" />
-              <el-table-column prop="expiredDate" label="到期时间" :formatter="row => filterDate(row.expiredDate)" />
+              <el-table-column
+                prop="expiredDate"
+                label="到期时间"
+                :formatter="row => filterDate(row.expiredDate)"
+              />
               <el-table-column prop="payAmount" label="支付金额" />
             </el-table>
           </div>
@@ -268,7 +358,8 @@
 
 <script setup>
 import { filterDate } from '@/utils/utils/date.js'
-import { walletAddress } from '@/utils/utils/tron.js';
+import { walletAddress } from '@/utils/utils/tron.js'
+import { copy } from '@/utils/utils/index.js'
 import { Calendar, Search } from '@element-plus/icons-vue'
 import {
   getQuickFinishedOrders,
@@ -281,6 +372,7 @@ const leaseRadio = ref('DAPP租赁')
 const clause = ref(true)
 const capacity = ref('')
 const amount = ref('')
+const transfer = ref('')
 const shortcutList = [
   {
     label: '50万',
@@ -358,19 +450,27 @@ const filterStatus = status => {
       return ''
   }
 }
-const onClick = (val) => {
-  console.log(val);
+const onClick = val => {
+  console.log(val)
   capacity.value = Number(capacity.value) + Number(val)
   amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
 }
-const onInput = (val) => {
+const onInput = val => {
   capacity.value = val
-  amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+  transfer.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+}
+
+const copyEnd = msg => {
+  copy({
+    msg,
+    callback: () => {
+      ElMessage.success('复制成功')
+    }
+  })
 }
 onMounted(() => {
   queryQuickFinishedOrders()
 })
-
 </script>
 
 <style lang="less" scoped>
@@ -746,7 +846,7 @@ onMounted(() => {
         }
       }
 
-      tbody tr:hover>td {
+      tbody tr:hover > td {
         background-color: #273767;
       }
     }

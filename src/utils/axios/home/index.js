@@ -41,3 +41,11 @@ export const getQuickFinishedOrders = async () => {
 export const getQuickOrders = async (address) => {
   return await service.get(`/index/quick/orders/${address}`);
 };
+
+export const buyManualOrders = async (data) => {
+    return await service({
+        url: '/index/manual/buy',
+        method: 'POST',
+        data
+    });
+  };

@@ -2,7 +2,7 @@
   <DashbordContent>
     <div class="statistics-panel">
       <div class="statistics-root">
-        <div class="item" v-for="(index) in 8" :key="index">
+        <div class="item">
           <div class="flex">
             <div class="item-tltle">
               收益利润
@@ -16,17 +16,94 @@
           <div class="flex">
             <div>
               <div>
-                <span class="font"> 今日 </span>
-                <span class="font text">0</span>
+                <span class="font"> 今日 订单({{sellerObj.toDay?.orderNum}}) </span>
+                <span class="font text">{{sellerObj.toDay?.benifitAmount}}</span>
                 <span class="font min-font">TRX</span>
               </div>
               <div>
-                <span class="font"> 今日 </span>
-                <span class="font text">0</span>
+                <span class="font"> 昨日 订单({{sellerObj.yesterday?.orderNum}})</span>
+                <span class="font text">{{sellerObj.yesterday?.benifitAmount}}</span>
                 <span class="font min-font">TRX</span>
               </div>
             </div>
-            <div class="icon">1</div>
+            <div class="icon"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="flex">
+            <div class="item-tltle">
+              投票收益
+              <!-- <span class="font total">(累计收益：<span class="red">26,827.34147</span>TRX)
+              </span> -->
+            </div>
+            <div class="font icon-question">
+              <Tips content="收益利润=订单收益+投票收益"></Tips>
+            </div>
+          </div>
+          <div class="flex">
+            <div>
+              <div>
+                <span class="font"> 今日 </span>
+                <span class="font text">{{sellerObj.toDay?.orderNum}}</span>
+                <span class="font min-font">TRX</span>
+              </div>
+              <div>
+                <span class="font"> 昨日 </span>
+                <span class="font text">{{sellerObj.yesterday?.orderNum}}</span>
+                <span class="font min-font">TRX</span>
+              </div>
+            </div>
+            <div class="icon"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="flex">
+            <div class="item-tltle">
+              出售能量
+            </div>
+            <div class="font icon-question">
+              <Tips content="每日出售订单所质押产生的能量合计"></Tips>
+            </div>
+          </div>
+          <div class="flex">
+            <div>
+              <div>
+                <span class="font"> 今日 </span>
+                <span class="font text">{{sellerObj.toDay?.enegerQuantity}}</span>
+                <span class="font min-font">能量</span>
+              </div>
+              <div>
+                <span class="font"> 昨日 </span>
+                <span class="font text">{{sellerObj.yesterday?.enegerQuantity}}</span>
+                <span class="font min-font">能量</span>
+              </div>
+            </div>
+            <div class="icon"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="flex">
+            <div class="item-tltle">
+              待释放
+            </div>
+            <div class="font icon-question">
+              <Tips content="可回收的委托资源"></Tips>
+            </div>
+          </div>
+          <div class="flex">
+            <div>
+              <div>
+                <span class="font"> 今日 </span>
+                <span class="font text">{{sellerObj.toDay?.delegateRelease}}</span>
+                <span class="font min-font"></span>
+              </div>
+              <div>
+                <span class="font"> 明日 </span>
+                <span class="font text">{{sellerObj.tomorrow?.delegateRelease}}</span>
+                <span class="font min-font"></span>
+              </div>
+            </div>
+            <div class="icon"></div>
           </div>
         </div>
       </div>
@@ -86,12 +163,13 @@
 
 <script setup>
 import { filterDate } from '@/utils/utils/date.js'
-import { getLatestSells, getAlmostSells } from '@/utils/axios/seller/index.js'
+import { getLatestSells, getAlmostSells, getSellerList } from '@/utils/axios/seller/index.js'
 import { WarningFilled } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import Tips from './tips.vue'
 const latestSells = ref([])
 const almostSells = ref([])
+const sellerObj = reactive({})
 // 最新订单
 const queryLatestSells = async () => {
   const data = await getLatestSells()
@@ -114,6 +192,17 @@ const queryAlmostSells = async () => {
     ElMessage.error(data.msg);
   }
 }
+
+const querySellerList = async () => {
+    const data = await getSellerList()
+    if (data.code === 12000) {
+    // ElMessage.success(data.msg);
+    Object.assign(sellerObj, data.data) 
+  } else {
+    ElMessage.error(data.msg);
+  }
+}
+querySellerList()
 queryLatestSells()
 queryAlmostSells()
 </script>

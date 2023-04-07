@@ -51,3 +51,10 @@ export const getNothing = async () => {
       url: '/seller/nothing'
     })
 }
+
+export const getSellerList = async () => {
+    return await service({
+      url: '/seller/index',
+      method: 'post'
+    })
+}

@@ -25,8 +25,8 @@
             </div>
             <div class="copy-item">
               <p class="title">授权地址</p>
-              <p class="text">TQcC5yWBCuqo9pXkskHJMdsfBwZJLhhhhh</p>
-              <div class="btn" @click="copyEnd('TQcC5yWBCuqo9pXkskHJMdsfBwZJLhhhhh')">
+              <p class="text">TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq</p>
+              <div class="btn" @click="copyEnd('TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq')">
                 复制
               </div>
             </div>
@@ -76,7 +76,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const store = useStore();
 const form = reactive({
-  name: 'THdgueo2XA3LyTbfrVPPQ4XzHuyNz8K73P',
+  name: 'TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq',
   delivery: true
 })
 const courseVisible = ref(false)

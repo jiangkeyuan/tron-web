@@ -65,7 +65,7 @@
         <template #default="scope">
           <el-link type="primary" @click="gotoNew(scope.row.transactionHash)" target="_blank">质押详情</el-link>
           <div></div>
-          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)" target="_blank">解压详情</el-link>
+          <el-link v-if="scope.row.orderStatus == 'DONE'" type="primary" @click="gotoNew(scope.row.transactionHash)" target="_blank">解压详情</el-link>
         </template>
       </el-table-column>
     </el-table>

@@ -2,49 +2,79 @@
   <div class="recharge-log">
     <el-form :model="form" inline class="sale-record sale-record-search">
       <el-form-item label="最小金额">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.minAmount" />
       </el-form-item>
       <el-form-item label="最大金额">
-        <el-input v-model="form.name" />
+        <el-input v-model="form.maxAmount" />
       </el-form-item>
       <el-form-item label="时间">
         <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
           end-placeholder="End date" />
       </el-form-item>
       <el-form-item label="类型">
-        <el-select empty="11111" v-model="form.region" placeholder="please select your zone">
-          <el-option v-for="i in apiKey" :label="i.label" :value="i.value" />
-          <div slot="empty">
-            <el-empty description="description" />
-          </div>
+        <el-select v-model="form.type" placeholder="请选择类型">
+          <el-option v-for="i in typeList" :label="i.label" :value="i.value" />
         </el-select>
       </el-form-item>
-      <el-button>重置</el-button>
-      <el-button type="primary" color="#c53027">查询</el-button>
+      <el-button @click="() => reset()">重置</el-button>
+      <el-button type="primary" color="#c53027" @click="() => search()">查询</el-button>
     </el-form>
     <div class="sale-record-table">
       <el-table :data="tableData" stripe class="sale-record-table-list" empty-text="暂无数据">
-        <el-table-column prop="order_no" label="发生时间" width="220" />
-        <el-table-column prop="receive_address" label="类型" />
-        <el-table-column prop="min_amount" label="入账金额" />
-        <el-table-column prop="date" label="交易哈希"> 查看 </el-table-column>
+        <el-table-column prop="createDate" label="发生时间" :formatter="(row) => filterDate(row.createDate)" />
+        <el-table-column prop="type" label="类型" :formatter="(row) => filterType(row.type)" />
+        <el-table-column prop="amount" label="入账金额(TRX)" />
+        <el-table-column prop="transactionHash" label="交易哈希">
+          <template #default="scope">
+            <el-tooltip class="box-item" effect="dark" :content="scope.row.transactionHash" placement="bottom">
+              <el-button link type="primary" size="small" @click="() => handleClick(scope)">查看</el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="sale-record-table-pagination">
         <el-pagination layout="prev, pager, next" v-model:current-page='form.pageIndex' v-model:page-size="form.pageSize"
-          :total="form.totalCount" @current-change="search" />
+          :total="form.totalCount" @current-change="() => search()" />
       </div>
     </div>
   </div>
 </template>
 <script setup>
+import { transcations } from '@/utils/axios/buyer/index';
+import { filterDate } from '@/utils/utils/date.js'
 const form = reactive({
   date: [],
-  type: "top",
+  type: "",
   totalCount: 0,
   pageIndex: 1,
   pageSize: 10
 });
-const apiKey = ref([]);
+const typeList = ref([
+  {
+    label: "全部",
+    value: ""
+  },
+  {
+    label: "充值",
+    value: "RECHARGE"
+  },
+  {
+    label: "提现",
+    value: "WITHDRAW"
+  },
+  {
+    label: "手工下单",
+    value: "INNER_ORDER"
+  },
+  {
+    label: "出售定单",
+    value: "SELL_ORDER"
+  },
+  {
+    label: "API下单",
+    value: "API_ORDER"
+  },
+]);
 const tableData = ref([
   {
     order_no: "2301151573104199689100",
@@ -113,9 +143,44 @@ const tableData = ref([
   },
 ]);
 
-const search = () => {
-
+const filterType = (type) => {
+  let d = ''
+  typeList.value.map(v => {
+    if (v.value === type) {
+      d = v.label;
+    }
+  })
+  return d;
 }
+
+const handleClick = (scope) => {
+  window.open(`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`,)
+};
+
+const search = async () => {
+  form.startTime = form.date[0];
+  form.endTime = form.date[1];
+  const data = await transcations(form);
+  if (data.code === 12000) {
+    tableData.value = data.data.data;
+    form.totalCount = data.data.totalCount
+  }
+}
+
+const reset = () => {
+  Object.keys(form).map(v => {
+    if (v === 'totalCount' || v === 'pageIndex' || v === 'pageSize') {
+      return;
+    }
+    form[v] = '';
+  })
+  form.date = [];
+}
+
+onMounted(() => {
+  search();
+})
+
 </script>
 <style scoped>
 .recharge-log {

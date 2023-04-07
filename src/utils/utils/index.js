@@ -9,7 +9,7 @@ export const setStorage = function (key, obj) {
 // 获取localStorage
 export const getStorage = function (key) {
   const str = window.localStorage.getItem(key);
-  if (!str) {
+  if (!str || str === "undefined") {
     return null;
   }
   return JSON.parse(str);

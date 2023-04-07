@@ -50,3 +50,7 @@ export const orderSubmit = async (params) => {
 export const getPlatformRechargeAddress = async () => {
   return await service.get("buyer/platformRechargeAddress");
 };
+
+export const transcations = async (params) => {
+  return await service.post("/users/transcations", params);
+};

@@ -19,14 +19,8 @@
     </a>
   </main>
   <Footer></Footer>
-  <recommend-popup-wrapper
-    :show="recommendDialogVisible"
-    @close="recommendDialogClose"
-  ></recommend-popup-wrapper>
-  <cooperation-popup-wrapper
-    :show="cooperationDialogVisible"
-    @close="cooperationDialogClose"
-  >
+  <recommend-popup-wrapper :show="recommendDialogVisible" @close="recommendDialogClose"></recommend-popup-wrapper>
+  <cooperation-popup-wrapper :show="cooperationDialogVisible" @close="cooperationDialogClose">
   </cooperation-popup-wrapper>
 </template>
 
@@ -77,15 +71,17 @@ const goPoint = event => {
     inline: 'nearest'
   })
 }
-onMounted(() => {})
+onMounted(() => { })
 </script>
 <style lang="less" scoped>
 .main {
   min-height: calc(100vh - 170px);
 }
+
 .tg-robot {
   bottom: calc(15% + 100px);
 }
+
 .tg-robot-wrapper {
   display: block;
   padding: 10px;
@@ -96,27 +92,33 @@ onMounted(() => {})
   background-image: linear-gradient(#266ef1, #2a47ab);
   color: #fff;
   transition: all 0.2s;
+
   .icon {
     width: 34px;
     height: 34px;
   }
+
   .title {
     margin: 10px 0;
   }
+
   .features {
     text-align: center;
     font-size: 14px;
     opacity: 0.7;
   }
 }
+
 .to-top {
   bottom: calc(15% - 80px);
   width: 60px;
   height: 60px;
 }
+
 .customer {
   bottom: 15%;
 }
+
 .customer-wrapper {
   display: block;
   padding: 10px;
@@ -124,11 +126,13 @@ onMounted(() => {})
   border-radius: 10px;
   box-shadow: 0 0 10px #00000026;
   text-align: center;
+
   .icon {
     margin-bottom: 10px;
     width: 34px;
     height: 34px;
   }
+
   .title {
     color: #000;
   }
@@ -139,13 +143,15 @@ onMounted(() => {})
   padding: 0;
   margin: 0;
 }
+
 .sell-popup {
-  > div {
+  >div {
     background-color: #f6f6f6;
     display: flex;
     flex-direction: column;
     margin: 10px;
     padding: 30px;
+
     .join-button {
       width: 50%;
       color: #2a47ab;
@@ -160,5 +166,4 @@ onMounted(() => {})
       margin: 5px 0;
     }
   }
-}
-</style>
+}</style>

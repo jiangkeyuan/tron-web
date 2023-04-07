@@ -1,7 +1,8 @@
 <template>
   <div class="home-right-wrapper">
     <div class="home-right-wrapper-header">
-      <span class="home-right-wrapper-header-l"> {{ store.state.menuList.menuType == 0 ? "买家版" : "卖家版" }} / </span>
+      <span class="home-right-wrapper-header-l"> {{ store.state.roles.roles === 'ADMIN' ? '系统设置' :
+        store.state.menuList.menuType == 0 ? "买家版" : "卖家版" }} / </span>
       <span class="home-right-wrapper-header-r">
         {{ rightTitle }}
       </span>
@@ -20,7 +21,8 @@
                 <ArrowDown />
               </el-icon>
             </span>
-            <span class="home-wrapper-user-no-amount">余额：{{ store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
+            <span v-if="store.state?.roles?.roles !== 'ADMIN'" class="home-wrapper-user-no-amount">余额：{{
+              store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
           </div>
         </div>
         <template #dropdown>
@@ -33,7 +35,7 @@
                 <span>修改密码</span>
               </div>
             </el-dropdown-item>
-            <el-dropdown-item class="home-wrapper-user-item">
+            <el-dropdown-item class="home-wrapper-user-item" v-if="store.state?.roles?.roles !== 'ADMIN'">
               <div class="home-wrapper-user-item" @click="gotoFund('/common/fund-change')">
                 <el-icon color="rgb(47, 76, 159)">
                   <WalletFilled />
@@ -41,7 +43,7 @@
                 资金账变
               </div>
             </el-dropdown-item>
-            <el-dropdown-item class="home-wrapper-user-item">
+            <el-dropdown-item class="home-wrapper-user-item" v-if="store.state?.roles?.roles !== 'ADMIN'">
               <div class="home-wrapper-user-item" @click="gotoFund('/common/user-info')">
                 <el-icon color="rgb(47, 76, 159)">
                   <Postcard />
@@ -57,7 +59,7 @@
                 我的推荐
               </div>
             </el-dropdown-item> -->
-            <el-dropdown-item class="home-wrapper-user-item">
+            <el-dropdown-item class="home-wrapper-user-item" v-if="store.state?.roles?.roles !== 'ADMIN'">
               <div class="home-wrapper-user-item" @click="changeMenutype">
                 <el-icon color="rgb(47, 76, 159)">
                   <Switch />

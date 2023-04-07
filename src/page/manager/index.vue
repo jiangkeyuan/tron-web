@@ -11,7 +11,7 @@
       </div>
     </template>
     <el-form :model="forms" inline class="sale-record sale-record-search">
-      <el-form-item label="值">
+      <el-form-item label="名称:">
         <el-input v-model="forms.systemKey" />
       </el-form-item>
       <el-form-item>

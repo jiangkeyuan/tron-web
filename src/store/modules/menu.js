@@ -86,23 +86,33 @@ export default {
   },
   getters: {
     menuList: (state) => {
-      const fullPath = window.location.hash;
-      console.log(state);
-      const isBuyer = fullPath.indexOf("buyer/");
-      if (state.menuType == 0) {
-        return buyerMenuList.map((v) => {
-          return {
-            ...v,
-            isActive: v.route === fullPath.replace("#", ""),
-          };
-        });
+      const rolesStr = localStorage.getItem("roles");
+      let roles = "";
+      if (rolesStr == "undefined" || !rolesStr) {
+        roles = "";
       } else {
-        return sellerMenuList.map((v) => {
-          return {
-            ...v,
-            isActive: v.route === fullPath.replace("#", ""),
-          };
-        });
+        roles = JSON.parse(rolesStr);
+      }
+      if (roles == "ADMIN") {
+        return [];
+      } else {
+        const fullPath = window.location.hash;
+        const isBuyer = fullPath.indexOf("buyer/");
+        if (state.menuType == 0) {
+          return buyerMenuList.map((v) => {
+            return {
+              ...v,
+              isActive: v.route === fullPath.replace("#", ""),
+            };
+          });
+        } else {
+          return sellerMenuList.map((v) => {
+            return {
+              ...v,
+              isActive: v.route === fullPath.replace("#", ""),
+            };
+          });
+        }
       }
     },
   },

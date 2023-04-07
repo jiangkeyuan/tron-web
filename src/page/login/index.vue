@@ -112,6 +112,7 @@ import { usersRegister, userActivave, userLogin, tronNonce, setemailVerify, send
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 const router = useRouter();
+const store = useStore();
 const registerType = ref(0);
 const dialogTableVisible = ref(false);
 const fullscreenLoading = ref(false);
@@ -128,21 +129,26 @@ const dialogVisibleReset = ref(false);
 let verifyCode = ref('');
 
 const resetEmailsSearch = async () => {
-  fullscreenLoading.value = true
-  const data = await forgetPwd({
-    verifyCode: userInfo.verifyCode,
-    email: userInfo.email || getParamsNew('email')
-  })
+  fullscreenLoading.value = true;
+  let data = {};
+  if (!getParamsNew('reset')) {
+    data = await sendEmails({
+      email: getParamsNew('email'),
+      verifyCode: userInfo.verifyCode,
+    })
+  } else {
+    data = await forgetPwd({
+      verifyCode: userInfo.verifyCode,
+      email: userInfo.email || getParamsNew('email')
+    })
+  }
   fullscreenLoading.value = false;
   if (data.code === 12000) {
     ElMessage.success('操作成功，请注意查收邮箱');
-    window.history.replaceState({
-      path: updateQueryStringParameter(window.location.href, 'reset', 1),
-    }, '', updateQueryStringParameter(window.location.href, 'reset', 1),);
-    changeType('3');
     dialogVisibleReset.value = false;
   } else {
     ElMessage.error(data.msg);
+    getCode()
   }
 }
 
@@ -174,16 +180,8 @@ const handleResetPwd = async () => {
 }
 
 const againResiter = async () => {
-  if (!getParamsNew('reset')) {
-    const data = await sendEmails({
-      email: getParamsNew('email')
-    })
-    ElMessage[data.code === 12000 ? 'success' : 'error'](data.msg)
-  } else {
-    getCode();
-    dialogVisibleReset.value = true;
-  }
-
+  getCode();
+  dialogVisibleReset.value = true;
 }
 
 const handleSetemailVerify = async () => {
@@ -206,8 +204,8 @@ const handleSetemailVerify = async () => {
   });
 }
 
-const getCode = async (type) => {
-  const data = await generateVerifyCode('forgetpwd');
+const getCode = async () => {
+  const data = await generateVerifyCode(!getParamsNew('reset') ? 'sendemail' : 'forgetpwd');
   if (data.code === 12000) {
     verifyCode.value = 'data:image/png;base64,' + data.data.imageBase64;
   }
@@ -221,7 +219,16 @@ const login = async () => {
       fullscreenLoading.value = false;
       if (data.code === 12000 || data.code === 14009) {
         window.localStorage.setItem('token', data.data.token);
-        router.push('/console')
+        store.dispatch('getUserInfoAction').then(res => {
+          localStorage.setItem('roles', res.roles?.toUpperCase())
+          store.commit('setRoles', res.roles?.toUpperCase());
+
+          if (res.roles?.toUpperCase() === 'ADMIN') {
+            router.push('/console/manager')
+          } else {
+            router.push('/console')
+          }
+        })
       } else if (data.code == 14011) {
         changeType('3');
       } else {
@@ -247,7 +254,6 @@ const tron_register = async () => {
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
-  console.log(isRead);
   if (!isRead) {
     ElMessage.error('未连接到钱包');
     fullscreenLoading.value = false;
@@ -258,7 +264,6 @@ const tron_register = async () => {
     const base58Key = window.tronLink.sunWeb.mainchain.defaultAddress.base58;
     const data = await tronNonce({ walletAddress: base58Key })
     dialogTableVisible.value = false
-    console.log(data);
     if (data.code === 12000) {
       const nonce_certificate = data.data.nonce_certificate
       tronWeb.trx.signMessage(nonce_certificate).then(async (res) => {
@@ -271,6 +276,7 @@ const tron_register = async () => {
           fullscreenLoading.value = false;
           if (data.code === 12000 || data.code === 14009) {
             window.localStorage.setItem('token', data.data.token);
+            store.dispatch('getUserInfoAction');
             router.push('/console')
           } else {
             ElMessage.error(data.msg);
@@ -345,7 +351,7 @@ onMounted(async () => {
     }
   }
 
-  if (type.value === '5') {
+  if (type.value === '5' || type.value === '6') {
     userInfo.email = getParamsNew('email')
   }
 })

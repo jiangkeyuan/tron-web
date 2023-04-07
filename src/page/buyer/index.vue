@@ -28,7 +28,7 @@
           <span class="home-left-menu-li-title">系统配置</span>
         </router-link>
       </ul>
-      <div class="home-left-button" @click="changMenuType">
+      <div class="home-left-button" @click="changMenuType" v-if="store.state?.roles?.roles !== 'ADMIN'">
         <el-icon class="home-left-button-icon">
           <ShoppingCart />
         </el-icon>
@@ -50,7 +50,6 @@ import DashbordTitle from './dashbord-title.vue'
 import { useRouter, useRoute } from 'vue-router'
 import BindEmails from '../../components/bind-emails.vue'
 import { signMessage, connectedWallet } from '@/utils/utils/tron.js'
-import { computed } from 'vue'
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
@@ -61,7 +60,6 @@ const rightTitle = ref('')
 const showManager = ref(false)
 
 watch(route, () => {
-  console.log('routerouterouterouterouterouterouteroute');
   store.getters.menuList.map(v => {
     if (v.isActive) {
       rightTitle.value = v.title
@@ -75,7 +73,7 @@ watch(route, () => {
 watch(
   () => store.state.userInfo.userInfo,
   (o, n) => {
-
+    console.log(o, '-----')
     noPermissionId(o?.permissionId)
 
     const dateTime = new Date().getTime()
@@ -90,7 +88,6 @@ watch(
     } else {
       showManager.value = false
     }
-
   }
 )
 

@@ -6,9 +6,16 @@ export default {
     userInfo: {}, // userInfo 的初始化
   },
   actions: {
-    async getUserInfoAction(context) {
-      const data = await getUserInfo();
-      context.commit("setUserInfo", data.data);
+    async getUserInfoAction(context, products) {
+      return new Promise(async (resolve, reject) => {
+        const data = await getUserInfo();
+        if (data.code === 12000) {
+          const userInfo = data.data;
+          context.commit("setRoles", userInfo.roles);
+          context.commit("setUserInfo", userInfo);
+          resolve(data.data);
+        }
+      });
     },
   },
   mutations: {

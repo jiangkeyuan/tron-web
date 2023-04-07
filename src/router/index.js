@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { getParamsNew } from "@/utils/utils/index.js";
+import store from "../store/index.js";
+
 const routes = [
   {
     path: "/",
@@ -74,6 +76,14 @@ const routes = [
     children: [
       {
         path: "manager",
+        beforeEnter: (to, from, next) => {
+          console.log(from.path);
+          if (store.state?.roles?.roles?.includes("ADMIN")) {
+            next();
+          } else {
+            next(from.path);
+          }
+        },
         components: {
           helper: () => import("../page/manager/index.vue"),
           default: () => import("../page/manager/index.vue"),
@@ -81,6 +91,17 @@ const routes = [
       },
       {
         path: "buyer/dashboard",
+        beforeEnter: (to, from, next) => {
+          if (store.state.roles.roles === "ADMIN") {
+            if (to.path === "/console/manager") {
+              next();
+            } else {
+              next("/console/manager");
+            }
+          } else {
+            next();
+          }
+        },
         components: {
           helper: () => import("../page/buyer/dashbord/index.vue"),
           default: () => import("../page/buyer/dashbord/index.vue"),
@@ -226,14 +247,6 @@ const router = createRouter({
   history: createWebHashHistory(),
   scrollBehavior: () => ({ y: 0 }),
   routes: routes,
-});
-
-//路由守卫
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem("stor");
-  next();
-  // const role = localStorage.getItem('ms_username');
-  // NProgress.start(); //进度条
 });
 
 export default router;

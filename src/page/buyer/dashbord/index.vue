@@ -30,7 +30,7 @@
           <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy || 0 }}</span>
           能量
         </div>
-        <div class="dashbord-top-right-content-button" @click="router.push('/buyer/recharge')">
+        <div class="dashbord-top-right-content-button" @click="router.push('/console/buyer/recharge')">
           充值
         </div>
       </div>

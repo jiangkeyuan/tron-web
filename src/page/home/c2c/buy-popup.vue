@@ -1,12 +1,5 @@
 <template>
-  <el-dialog
-    v-model="props.show"
-    :title="radioVal"
-    width="450px"
-    center
-    :before-close="handleClose"
-    class="buy-popup"
-  >
+  <el-dialog v-model="props.show" :title="radioVal" width="450px" center :before-close="handleClose" class="buy-popup">
     <div class="content">
       <!-- <el-radio-group
         v-model="radioVal"
@@ -141,6 +134,7 @@ const orderAmount = computed(() => {
     padding: 20px;
     margin: 10px 0;
   }
+
   .hint {
     color: #2a47ab;
     font-size: 13px;
@@ -150,6 +144,7 @@ const orderAmount = computed(() => {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+
     .btn {
       width: 47%;
       border-radius: 6px;
@@ -166,6 +161,7 @@ const orderAmount = computed(() => {
   .el-tabs__header {
     display: none;
   }
+
   .el-radio-button__inner {
     width: 200px;
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="recharge-log">
     <el-table :data="tableData" stripe class="recharge-log-table" empty-text="暂无数据">
-      <el-table-column prop="order_no" label="充值时间" />
+      <el-table-column prop="createDate" label="充值时间" :formatter="(row) => filterDate(row.createDate)" />
       <el-table-column prop="amount" label="充值金额" />
       <el-table-column prop="amount" label="入账金额" />
       <el-table-column prop="orderStatus" label="订单状态" />
@@ -22,6 +22,7 @@
 </template>
 <script setup>
 import { rechargesLog } from '@/utils/axios/buyer/index';
+import { filterDate } from '@/utils/utils/date.js'
 const form = reactive({
   pageIndex: 1,
   pageSize: 10,
@@ -29,7 +30,7 @@ const form = reactive({
 });
 const tableData = ref([]);
 const handleClick = (scope) => {
-  window.open(`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`,)
+  window.open(`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`)
 };
 
 const search = async () => {

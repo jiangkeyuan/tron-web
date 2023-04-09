@@ -30,7 +30,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="handleClose" class="btn cancel">取消</el-button>
-        <el-button type="primary" @click="handleSell" class="btn cancel">
+        <el-button type="primary" @click="() => handleSell()" class="btn cancel">
           投票
         </el-button>
       </span>
@@ -42,7 +42,7 @@
 import { getWitness } from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
-import { reactive } from 'vue'
+import { transactionBuilder, sendSignRawTransaction } from '@/utils/utils/tron.js';
 const emit = defineEmits(['close'])
 const props = defineProps({
   show: {
@@ -54,6 +54,19 @@ const address = ref('')
 const witnessList = ref([])
 const witnessObj = reactive({})
 const canVoteCount = ref(0)
+
+const handleSell = async () => {
+  let value = {};
+  witnessList.value.map(v => {
+    if (!!v.vote_count) {
+      value[v.witnessAddress] = +v.vote_count
+    }
+  })
+  console.log(value)
+  const data = await transactionBuilder(value);
+  const v = await sendSignRawTransaction(data);
+  console.log(v);
+}
 const handleChange = value => {
   console.log(value)
 }
@@ -61,15 +74,34 @@ const handleClose = () => {
   emit('close')
 }
 const allVote = item => {
-  const num = item.vote_count == '' ? 0 : item.vote_count
-  const sum = canVoteCount.value - num
+  item.vote_count = witnessObj.canVoteCount - computeVoteCount(false, item.witnessAddress);
 }
 const onBlur = ($event, item) => {
-  const num = item.vote_count == '' ? 0 : item.vote_count
-  const sum = canVoteCount.value - num
+  if (!item.vote_count) {
+    item.vote_count = 0;
+    return;
+  }
+  if (computeVoteCount(true) > witnessObj.canVoteCount) {
+    item.vote_count = witnessObj.canVoteCount - computeVoteCount(false, item.witnessAddress);
+  }
 }
-const computeVoteCount = (current, canVoteCount) => {
-  witnessList.value
+const computeVoteCount = (isAll, adress) => {
+  let value = 0;
+  if (isAll) {
+    witnessList.value.map(v => {
+      if (v.vote_count) {
+        value += +v.vote_count;
+      }
+    })
+  } else {
+    witnessList.value.map(v => {
+      if (v.vote_count && v.witnessAddress !== adress) {
+        value += +v.vote_count;
+      }
+    })
+  }
+
+  return value;
 }
 const queryWitness = async () => {
   //   const data = await getWitness(address.value)
@@ -89,7 +121,7 @@ const queryWitness = async () => {
           accountName: '',
           url: 'http://sr-8.com',
           annualizedPercent: 0.0,
-          voteCount: 324167418
+          voteCount: 324167418,
         },
         {
           witnessAddress: 'TA4pHhHgobzSGH3CWPsZ5URNk3QkzUEggX',

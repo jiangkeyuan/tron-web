@@ -90,10 +90,27 @@ export const tronErrorList = (str) => {
     return "波场异常";
   }
 };
+
+// 创建一个未签名的交易，用于给SR投票
+/**
+ *
+ * @obj {*} obj adress value
+ * @adress adress
+ */
+export const transactionBuilder = async (obj, adress = walletAddress()) => {
+  return await tronWeb.transactionBuilder.vote(obj, adress, 1);
+};
 // 转账 钱包充值
 
 // 售出
 
 // 为某些行为签名
+export const trxSign = async (value) => {
+  return await tronWeb.trx.sign(value);
+};
 
 // 广播交易
+export const sendSignRawTransaction = async (value) => {
+  const data = await trxSign(value);
+  return await tronWeb.trx.sendRawTransaction(data);
+};

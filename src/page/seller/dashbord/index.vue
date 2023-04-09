@@ -6,7 +6,7 @@
           <div class="flex">
             <div class="item-tltle">
               收益利润
-              <span class="font total">(累计收益：<span class="red">26,827.34147</span>TRX)
+              <span class="font total">(累计收益：<span class="red">{{sellerObj.totalEarnings}}</span>TRX)
               </span>
             </div>
             <div class="font icon-question">
@@ -43,13 +43,13 @@
           <div class="flex">
             <div>
               <div>
-                <span class="font"> 今日 </span>
-                <span class="font text">{{sellerObj.toDay?.orderNum}}</span>
+                <span class="font"> 本周 </span>
+                <span class="font text">{{sellerObj.voteEarnings?.thisWeek}}</span>
                 <span class="font min-font">TRX</span>
               </div>
               <div>
-                <span class="font"> 昨日 </span>
-                <span class="font text">{{sellerObj.yesterday?.orderNum}}</span>
+                <span class="font"> 上周 </span>
+                <span class="font text">{{sellerObj.voteEarnings?.lastWeek}}</span>
                 <span class="font min-font">TRX</span>
               </div>
             </div>

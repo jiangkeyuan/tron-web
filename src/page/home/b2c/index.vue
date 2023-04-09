@@ -54,6 +54,7 @@
                     max="1408730"
                     suffix-icon="Search"
                     @input="onInput"
+                    :formatter ="value => value.replace(/[^0-9.]/g, '')"
                   />
                 </div>
                 <div class="rent-value-shortcut">
@@ -83,9 +84,13 @@
                     placement="left"
                     effect="light"
                   >
-                   <template #content>
-                        <img src="@/assets/home/b2c-screenshot-zh.png" alt="" srcset="">
-                   </template>
+                    <template #content>
+                      <img
+                        src="@/assets/home/b2c-screenshot-zh.png"
+                        alt=""
+                        srcset=""
+                      />
+                    </template>
                     <span class="example-title"> 示例教程 </span>
                   </el-tooltip>
                 </div>
@@ -101,7 +106,7 @@
                   <div class="copy-board">
                     <span class="copy-btn-wrapper">
                       <div class="btn">
-                        <span>TALy13AV6qCj5UmYwn1vUYHxGPBBWAAAAA</span>
+                        <span>{{ rechargeAdress }}</span>
                         <i class="icon"></i>
                       </div>
                     </span>
@@ -130,11 +135,14 @@
                       </div>
                     </div>
                   </div>
-                  <img
+                  <!-- <img
                     src="@/assets/home/content-qr-code.png"
                     alt="二维码加载失败，请检查网络后刷新重试"
                     class="content-qr-code"
-                  />
+                  /> -->
+                   <div class="content-qr-code" >
+                    <qrcode-vue :value="rechargeAdress" :size="70"  ></qrcode-vue>
+                   </div>
                 </div>
               </div>
             </div>
@@ -150,7 +158,7 @@
           <template v-if="leaseRadio == 'DAPP租赁'">
             <div class="project-panel">
               <div class="input-panel wallet-address">
-                TTbQQMGYapeXV9qiHjoHV6uVWL48HDHYfm
+                {{ rechargeAdress }}
               </div>
               <div class="input-panel rentVal">
                 <div class="title">租用量</div>
@@ -163,6 +171,7 @@
                     max="1408730"
                     suffix-icon="Search"
                     @input="onInput"
+                    :formatter ="value => value.replace(/[^0-9.]/g, '')"
                   />
                 </div>
                 <div class="rent-value-shortcut">
@@ -236,7 +245,9 @@
               <el-checkbox v-model="clause" style="margin-bottom: 20px"
                 >为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox
               >
-              <el-button color="#c53027" class="btn-block">支付</el-button>
+              <el-button color="#c53027" class="btn-block" :loading="loading" @click="payment"
+                >支付</el-button
+              >
             </div>
           </template>
         </div>
@@ -296,7 +307,7 @@
               <el-table-column prop="transactionHash" label="交易哈希">
                 <template #default="{ row }">
                   <el-link
-                    :href="`https://tronscan.org/#/address/${row.transactionHash}`"
+                    :href="`https://nile.tronscan.org/#/address/${row.transactionHash}`"
                     target="_blank"
                     type="primary"
                     >TxHash</el-link
@@ -357,22 +368,28 @@
 </template>
 
 <script setup>
+import TronLink from '@/components/tron-link/index.js'
 import { filterDate } from '@/utils/utils/date.js'
 import { walletAddress } from '@/utils/utils/tron.js'
 import { copy } from '@/utils/utils/index.js'
 import { Calendar, Search } from '@element-plus/icons-vue'
 import {
   getQuickFinishedOrders,
-  getQuickOrders
+  getQuickOrders,
+  getPlatformRechargeAddress,
+  buyDappOrders
 } from '@/utils/axios/home/index.js'
+import QrcodeVue from 'qrcode.vue'
 import { ref } from 'vue'
 const radio = ref('1')
 const input = ref('')
 const leaseRadio = ref('DAPP租赁')
 const clause = ref(true)
+const loading = ref(false)
 const capacity = ref('')
 const amount = ref('')
 const transfer = ref('')
+const rechargeAdress = ref('')
 const shortcutList = [
   {
     label: '50万',
@@ -426,7 +443,7 @@ const queryQuickFinishedOrders = async () => {
   finishedOrdersList.value = data.data
 }
 // 我的租用地址
-const address = ref(walletAddress())
+const address = ref('')
 const ordersList = ref([])
 const queryQuickOrders = async () => {
   if (!address.value) return
@@ -456,11 +473,15 @@ const onClick = val => {
   amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
 }
 const onInput = val => {
+    console.log('valvalvalval',val);
   capacity.value = val
-  transfer.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
 }
 
 const copyEnd = msg => {
+  if (!amount.value) {
+    return ElMessage.error('请输入金额')
+  }
   copy({
     msg,
     callback: () => {
@@ -468,9 +489,52 @@ const copyEnd = msg => {
     }
   })
 }
+const payment = async () => {
+  await TronLink()
+  if (!amount.value) {
+    return ElMessage.error('请输入需要租用的能量数')
+  }
+  try {
+    loading.value = true
+    const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
+      rechargeAdress.value,
+      tronWeb.toSun(amount.value),
+      address.value
+    )
+    const signedTxn = await tronWeb.trx.sign(unsignedTxn)
+    const broastTx = await tronWeb.trx.sendRawTransaction(signedTxn)
+    console.log('broastTx', broastTx)
+    const data = await buyDappOrders({ transactionHash: broastTx.txid })
+    console.log('data', data)
+    loading.value = false
+    if (data.code === 12000) {
+      ElMessage.success(data.msg)
+    } else {
+      ElMessage.error(data.msg)
+    }
+  } catch (error) {
+    console.error(error)
+        loading.value = false
+    if (JSON.stringify(error).includes('balance is not sufficient')) {
+      return ElMessage.error('余额不足')
+    }
+    ElMessage.error(error)
+  }
+}
 onMounted(() => {
+  address.value = walletAddress() || ''
+  queryPlatformRechargeAddress()
   queryQuickFinishedOrders()
 })
+
+const queryPlatformRechargeAddress = async () => {
+  const data = await getPlatformRechargeAddress()
+  if (data.code === 12000) {
+    rechargeAdress.value = data.data
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -721,6 +785,8 @@ onMounted(() => {
             margin-left: 20px;
             width: 90px;
             height: 90px;
+            background: #fff;
+            padding: 10px;
           }
         }
 

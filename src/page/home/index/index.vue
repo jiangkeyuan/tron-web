@@ -13,7 +13,7 @@
     <section class="transaction-mean-wrapper section transaction-mean">
       <h2 class="title">多种交易方式</h2>
       <div class="means">
-        <a href="/" class="mean">
+        <a href="/#/c2c" class="mean">
           <div class="mean-content">
             <img src="@/assets/home/transaction-mean.svg" alt="" class="transaction-img" />
             <div class="card">

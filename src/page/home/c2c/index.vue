@@ -29,9 +29,9 @@
             </div>
             <div class="body">
               <ul class="pc-wallet-item">
-                <li>可用：<span>1</span>TRX</li>
-                <li>冻结：<span>1</span>TRX</li>
-                <li>全部：<span>1</span>TRX</li>
+                <li>可用：<span>0</span>TRX</li>
+                <li>冻结：<span>0</span>TRX</li>
+                <li>全部：<span>0</span>TRX</li>
               </ul>
               <i class="img"><el-icon>
                   <FolderRemove />
@@ -45,8 +45,8 @@
             </div>
             <div class="body">
               <ul class="pc-wallet-item">
-                <li>发　送：<span>1</span>TRX</li>
-                <li>已收到：<span>1</span>TRX</li>
+                <li>发　送：<span>0</span>TRX</li>
+                <li>已收到：<span>0</span>TRX</li>
               </ul>
               <i class="img"><el-icon>
                   <Lightning />
@@ -162,7 +162,7 @@
                   <el-table-column prop="delegateDate" label="时间" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                      <el-link type="primary" :href="`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`"
                         target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>
@@ -180,7 +180,7 @@
                   <el-table-column prop="expiredDate" label="截止时间" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                      <el-link type="primary" :href="`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`"
                         target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>
@@ -263,6 +263,7 @@ const stakes = ref([])
 const rowData = reactive({})
 const address = ref('')
 address.value = walletAddress()
+const accountInfo = reactive({})
 const sellPopup = ref(false)
 const showBuyPopup = ref(false)
 const showWithessPopup = ref(false)
@@ -415,9 +416,21 @@ const changeTab = val => {
       break
   }
 }
+watch(address, (o, n) => {
+    console.log('o',o);
+   if(o) {
+    getAccountResources()
+   }
+})
+const getAccountResources = async () => {
+  const data = await tronWeb.trx.getAccount(walletAddress())
+  console.log('data',JSON.stringify(data));
+  Object.assign(accountInfo, data)
+}
 onMounted(() => {
   queryManualOrders()
   queryFinishedOrders()
+  
   window.addEventListener('message', function (e) {
     if (e.data.message && e.data.message.action == 'tabReply') {
       if (walletAddress()) {
@@ -427,6 +440,7 @@ onMounted(() => {
       }
     }
   })
+  address.value && getAccountResources() 
 })
 
 </script>

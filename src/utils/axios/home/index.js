@@ -48,4 +48,17 @@ export const buyManualOrders = async (data) => {
         method: 'POST',
         data
     });
-  };
+};
+
+export const buyDappOrders = async (data) => {
+    return await service({
+        url: '/index/dapp/buy',
+        method: 'POST',
+        data
+    });
+};
+
+
+export const getPlatformRechargeAddress = async (data) => {
+    return await service.get('/index/platformRechargeAddress')
+};

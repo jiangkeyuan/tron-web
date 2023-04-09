@@ -1,5 +1,12 @@
 <template>
-  <el-dialog v-model="props.show" :title="radioVal" width="450px" center :before-close="handleClose" class="buy-popup">
+  <el-dialog
+    v-model="props.show"
+    :title="radioVal"
+    width="450px"
+    center
+    :before-close="handleClose"
+    class="buy-popup"
+  >
     <div class="content">
       <!-- <el-radio-group
         v-model="radioVal"
@@ -10,15 +17,21 @@
         <el-radio-button label="带宽">带宽</el-radio-button>
       </el-radio-group> -->
 
-      <el-form :model="form" label-width="100px" label-position="top">
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="ruleFormRef"
+        label-width="100px"
+        label-position="top"
+      >
         <el-form-item :label="`接收${radioVal}地址`">
-          <el-input
-            v-model="form.receiveAddress"
-            placeholder="不填写默认当前付款地址"
-          />
+          <el-input v-model="address" placeholder="不填写默认当前付款地址" />
         </el-form-item>
-        <el-form-item :label="`${radioVal}数量`">
-          <el-input v-model="form.rentalEnergyQuantity" />
+        <el-form-item :label="`${radioVal}数量`" prop="rentalEnergyQuantity">
+          <el-input
+            v-model="form.rentalEnergyQuantity"
+            :formatter="value => value.replace(/[^0-9.]/g, '')"
+          />
         </el-form-item>
         <el-form-item label="">
           <Desc label="价格/天">
@@ -54,17 +67,17 @@
           content="较 3天燃烧节省"
         >
           <template #value>
-            <div>0 TRX</div>
+            <div>{{ economize }} TRX</div>
           </template>
         </Desc>
-        <Desc
+        <!-- <Desc
           label="折&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;扣"
           content="与冻结期间燃烧 TRX 相比的折扣"
         >
           <template #value>
-            <div>0 %</div>
+            <div>74 %</div>
           </template>
-        </Desc>
+        </Desc> -->
         <!-- <Desc label="手&nbsp;&nbsp;续&nbsp;费" content="永久免费">
             <template #value>
               <div>0 TRX</div>
@@ -79,7 +92,12 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="handleClose" class="btn cancel">取消</el-button>
-        <el-button type="primary" @click="handleSell" class="btn cancel">
+        <el-button
+          type="primary"
+          @click="handleSell(ruleFormRef)"
+          class="btn cancel"
+          :loading="loading"
+        >
           下单
         </el-button>
       </span>
@@ -89,7 +107,10 @@
 
 <script setup>
 import { walletAddress } from '@/utils/utils/tron.js'
-import { sellManualOrders } from '@/utils/axios/home/index.js'
+import {
+  buyManualOrders,
+  getPlatformRechargeAddress
+} from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { computed, ref } from 'vue'
@@ -99,8 +120,16 @@ const form = reactive({
   rentalDays: 3,
   price: 110,
   rentalEnergyQuantity: '',
-  receiveAddress: walletAddress()
+  receiveAddress: ''
 })
+const ruleFormRef = ref()
+const rules = reactive({
+  rentalEnergyQuantity: [
+    { required: true, message: '请输入数额', trigger: ['blur', 'change'] }
+  ]
+})
+
+const address = ref(walletAddress())
 // const orderAmount = ref(0)
 const props = defineProps({
   show: {
@@ -111,19 +140,83 @@ const props = defineProps({
   }
 })
 const num = ref(1)
+const loading = ref(false)
 const handleChange = value => {
   console.log(value)
 }
 const handleClose = () => {
   emit('close')
+  resetForm()
 }
+const handleSell = async formEl => {
+  const addr = address.value || walletAddress()
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      try {
+        loading.value = true
+        const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
+          form.receiveAddress,
+          tronWeb.toSun(orderAmount.value),
+          addr
+        )
+        const signedTxn = await tronWeb.trx.sign(unsignedTxn)
+        const broastTx = await tronWeb.trx.sendRawTransaction(signedTxn)
 
-onMounted(() => {})
+        console.log('broastTx', broastTx)
+        queryBuyManualOrders(broastTx.txid)
+      } catch (error) {
+        console.error(error)
+        loading.value = false
+        if (JSON.stringify(error).includes('balance is not sufficient')) {
+          return ElMessage.error('余额不足')
+        }
+        ElMessage.error(error)
+      }
+    } else {
+      return false
+    }
+  })
+}
+const queryBuyManualOrders = async hash => {
+  const postData = {
+    ...form,
+    transactionHash: hash
+  }
+  const data = await buyManualOrders(postData)
+  loading.value = false
+  if (data.code === 12000) {
+    ElMessage.success(data.msg)
+    handleClose()
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
+const queryPlatformRechargeAddress = async () => {
+  const data = await getPlatformRechargeAddress()
+  if (data.code === 12000) {
+    form.receiveAddress = data.data
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
+onMounted(() => {
+  queryPlatformRechargeAddress()
+})
 const orderAmount = computed(() => {
   const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
 
   return tronWeb.fromSun(amount)
 })
+const economize = computed(() => {
+  const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
+  const a = form.rentalEnergyQuantity / 2381
+  console.log(tronWeb.fromSun(amount - a));
+  return Math.floor(tronWeb.fromSun(amount - a) * 100) / 100
+})
+const resetForm = () => {
+//   form.rentalEnergyQuantity = ''
+  ruleFormRef.value.resetFields()
+}
 </script>
 
 <style lang="less" scoped>

@@ -98,7 +98,7 @@ const handleSell = async () => {
     console.error(error)
     loading.value = false
     if (JSON.stringify(error).includes('Invalid votes provided')) {
-          return ElMessage.error('请选择一个投票，并填写票数!')
+      return ElMessage.error('请选择一个投票，并填写票数!')
     }
     ElMessage.error(error)
   }
@@ -107,6 +107,12 @@ const handleChange = value => {
   console.log(value)
 }
 const handleClose = () => {
+ witnessList.value =  witnessList.value.map(item => {
+    return {
+      ...item,
+      vote_count: ''
+    }
+  })
   emit('close')
 }
 const allVote = item => {
@@ -142,12 +148,12 @@ const computeVoteCount = (isAll, adress) => {
   return value
 }
 const queryWitness = async () => {
-    const data = await getWitness(address.value)
-    // const data = await getWitness('TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq')
-    console.log('datadata',data);
-    if(data.code != 12000) {
-     return ElMessage.error(data.msg)
-    }
+  const data = await getWitness(address.value)
+  // const data = await getWitness('TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq')
+  console.log('datadata', data)
+  if (data.code != 12000) {
+    return ElMessage.error(data.msg)
+  }
   witnessList.value = data.data.witnessList.map(item => {
     return {
       ...item,
@@ -160,10 +166,9 @@ const queryWitness = async () => {
   //   Object.assign
 }
 onMounted(() => {
-    queryWitness()
+  queryWitness()
   console.log('66666666666666666666666666666666666666666')
 })
-
 </script>
 
 <style lang="less" scoped>

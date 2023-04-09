@@ -174,6 +174,7 @@ const queryWitness = async () => {
   Object.assign(witnessObj, data.data)
 }
 const open = () => {
+    address.value = walletAddress() || ''
     walletAddress() && queryWitness()
 }
 onMounted(() => {

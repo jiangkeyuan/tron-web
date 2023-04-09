@@ -5,6 +5,7 @@
     width="450px"
     center
     :before-close="handleClose"
+    @open="open"
     class="buy-popup"
   >
     <div class="content">
@@ -216,6 +217,9 @@ const economize = computed(() => {
 const resetForm = () => {
 //   form.rentalEnergyQuantity = ''
   ruleFormRef.value.resetFields()
+}
+const open = () => {
+    address.value = walletAddress() || ''
 }
 </script>
 

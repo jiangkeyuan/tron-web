@@ -5,6 +5,7 @@
     width="550px"
     center
     :before-close="handleClose"
+    @open="open"
     class="popup"
   >
     <div class="content">
@@ -63,6 +64,7 @@
 import { getWitness } from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import { awaitFnLoading } from '@/utils/utils/loading.js'
 import {
   transactionBuilder,
   sendSignRawTransaction,
@@ -94,11 +96,11 @@ const handleSell = async () => {
     const v = await sendSignRawTransaction(data)
     console.log(v)
     loading.value = false
-    if(v.result) {
-    ElMessage.success('投票成功')
-    handleClose()
-    }else {
-         ElMessage.error('投票失败')
+    if (v.result) {
+      ElMessage.success('投票成功')
+      handleClose()
+    } else {
+      ElMessage.error('投票失败')
     }
   } catch (error) {
     console.error(error)
@@ -113,7 +115,7 @@ const handleChange = value => {
   console.log(value)
 }
 const handleClose = () => {
- witnessList.value =  witnessList.value.map(item => {
+  witnessList.value = witnessList.value.map(item => {
     return {
       ...item,
       vote_count: ''
@@ -154,8 +156,9 @@ const computeVoteCount = (isAll, adress) => {
   return value
 }
 const queryWitness = async () => {
-  const data = await getWitness(address.value)
-  // const data = await getWitness('TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq')
+  const data = await awaitFnLoading(getWitness, {
+    target: document.querySelector('.infinite-list')
+  })(address.value)
   console.log('datadata', data)
   if (data.code != 12000) {
     return ElMessage.error(data.msg)
@@ -170,8 +173,10 @@ const queryWitness = async () => {
   canVoteCount.value = data.data.canVoteCount
   Object.assign(witnessObj, data.data)
 }
+const open = () => {
+    walletAddress() && queryWitness()
+}
 onMounted(() => {
-  queryWitness()
   console.log('66666666666666666666666666666666666666666')
 })
 </script>

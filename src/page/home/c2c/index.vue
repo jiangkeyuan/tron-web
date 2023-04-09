@@ -423,7 +423,8 @@ watch(address, (o, n) => {
    }
 })
 const getAccountResources = async () => {
-  const data = await tronWeb.trx.getAccount(walletAddress())
+//   const data = await tronWeb.trx.getAccount(walletAddress())
+  const data = await tronWeb.trx.getContract(walletAddress())
   console.log('data',JSON.stringify(data));
   Object.assign(accountInfo, data)
 }

@@ -54,7 +54,7 @@
                     max="1408730"
                     suffix-icon="Search"
                     @input="onInput"
-                    :formatter ="value => value.replace(/[^0-9.]/g, '')"
+                    :formatter="value => value.replace(/[^0-9.]/g, '')"
                   />
                 </div>
                 <div class="rent-value-shortcut">
@@ -107,7 +107,11 @@
                     <span class="copy-btn-wrapper">
                       <div class="btn">
                         <span>{{ rechargeAdress }}</span>
-                        <i class="icon"></i>
+                        <el-icon
+                          class="icon"
+                          @click="copyRechargeAdress(rechargeAdress)"
+                          ><CopyDocument
+                        /></el-icon>
                       </div>
                     </span>
                   </div>
@@ -140,9 +144,9 @@
                     alt="二维码加载失败，请检查网络后刷新重试"
                     class="content-qr-code"
                   /> -->
-                   <div class="content-qr-code" >
-                    <qrcode-vue :value="rechargeAdress" :size="70"  ></qrcode-vue>
-                   </div>
+                  <div class="content-qr-code">
+                    <qrcode-vue :value="rechargeAdress" :size="70"></qrcode-vue>
+                  </div>
                 </div>
               </div>
             </div>
@@ -171,7 +175,7 @@
                     max="1408730"
                     suffix-icon="Search"
                     @input="onInput"
-                    :formatter ="value => value.replace(/[^0-9.]/g, '')"
+                    :formatter="value => value.replace(/[^0-9.]/g, '')"
                   />
                 </div>
                 <div class="rent-value-shortcut">
@@ -245,7 +249,11 @@
               <el-checkbox v-model="clause" style="margin-bottom: 20px"
                 >为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox
               >
-              <el-button color="#c53027" class="btn-block" :loading="loading" @click="payment"
+              <el-button
+                color="#c53027"
+                class="btn-block"
+                :loading="loading"
+                @click="payment"
                 >支付</el-button
               >
             </div>
@@ -473,7 +481,7 @@ const onClick = val => {
   amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
 }
 const onInput = val => {
-    console.log('valvalvalval',val);
+  console.log('valvalvalval', val)
   capacity.value = val
   amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
 }
@@ -489,17 +497,26 @@ const copyEnd = msg => {
     }
   })
 }
+const copyRechargeAdress = msg => {
+  copy({
+    msg,
+    callback: () => {
+      ElMessage.success('复制成功')
+    }
+  })
+}
 const payment = async () => {
   await TronLink()
   if (!amount.value) {
     return ElMessage.error('请输入需要租用的能量数')
   }
   try {
+    const addr = address.value || walletAddress()
     loading.value = true
     const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
       rechargeAdress.value,
       tronWeb.toSun(amount.value),
-      address.value
+      addr
     )
     const signedTxn = await tronWeb.trx.sign(unsignedTxn)
     const broastTx = await tronWeb.trx.sendRawTransaction(signedTxn)
@@ -514,7 +531,7 @@ const payment = async () => {
     }
   } catch (error) {
     console.error(error)
-        loading.value = false
+    loading.value = false
     if (JSON.stringify(error).includes('balance is not sufficient')) {
       return ElMessage.error('余额不足')
     }
@@ -525,7 +542,7 @@ onMounted(() => {
   address.value = walletAddress() || ''
   queryPlatformRechargeAddress()
   queryQuickFinishedOrders()
-    window.addEventListener('message', function (e) {
+  window.addEventListener('message', function (e) {
     if (e.data.message && e.data.message.action == 'tabReply') {
       if (walletAddress()) {
         address.value = walletAddress()

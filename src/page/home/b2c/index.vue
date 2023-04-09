@@ -525,6 +525,15 @@ onMounted(() => {
   address.value = walletAddress() || ''
   queryPlatformRechargeAddress()
   queryQuickFinishedOrders()
+    window.addEventListener('message', function (e) {
+    if (e.data.message && e.data.message.action == 'tabReply') {
+      if (walletAddress()) {
+        address.value = walletAddress()
+      } else {
+        address.value = ''
+      }
+    }
+  })
 })
 
 const queryPlatformRechargeAddress = async () => {

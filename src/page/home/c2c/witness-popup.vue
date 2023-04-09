@@ -94,6 +94,12 @@ const handleSell = async () => {
     const v = await sendSignRawTransaction(data)
     console.log(v)
     loading.value = false
+    if(v.result) {
+    ElMessage.success('投票成功')
+    handleClose()
+    }else {
+         ElMessage.error('投票失败')
+    }
   } catch (error) {
     console.error(error)
     loading.value = false
@@ -163,7 +169,6 @@ const queryWitness = async () => {
 
   canVoteCount.value = data.data.canVoteCount
   Object.assign(witnessObj, data.data)
-  //   Object.assign
 }
 onMounted(() => {
   queryWitness()

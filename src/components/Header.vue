@@ -81,7 +81,7 @@
       </a>
       <a href="javascript:;" class="user-wrapper" @click="login">
         <span class="account">
-          {{ store.state?.userInfo?.userInfo?.email || '登录/注册' }}
+          {{ store.state.userInfo?.userInfo?.email  || store.state.userInfo?.userInfo?.walletAddress  || '登录/注册' }}
         </span>
       </a>
       <div class="lang-wrapper">
@@ -113,7 +113,7 @@ const handleSelect = (key, keyPath) => {
   emit('itemClick', { key, keyPath })
 }
 const login = () => {
-  if (store.state.userInfo?.userInfo?.email) {
+  if (store.state.userInfo?.userInfo?.email || store.state.userInfo?.userInfo?.walletAddress) {
     return router.push('/console')
   }
   router.push('/auth/login')

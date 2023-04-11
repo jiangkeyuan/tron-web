@@ -9,7 +9,7 @@ const errorList = [
 export const isWalletDownloaded = () => window?.tronWeb;
 
 //钱包是否连接
-export const isConnectedWallet = () => tronLink?.ready;
+export const isConnectedWallet = () => window.tronLink?.ready;
 
 export const connectedWallet = async () => {
   return new Promise(async (resolve, reject) => {
@@ -25,12 +25,12 @@ export const connectedWallet = async () => {
 };
 
 export const walletAddress = () => {
-  if (!isConnectedWallet()) return isConnectedWallet();
+  if (!isConnectedWallet() && !isWalletDownloaded()) return isConnectedWallet();
   return tronWeb.defaultAddress.base58;
 };
 
 export const walletBalance = (address) => {
-  if (!isConnectedWallet()) return Promise.reject("钱包未连接");
+  if (!isConnectedWallet() && isWalletDownloaded()) return Promise.reject("钱包未连接");
   return new Promise(async (resolve, reject) => {
     try {
       resolve(await tronWeb.trx.getBalance(address || walletAddress()));

@@ -71,7 +71,10 @@
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
                 <div class="title">租用天数默认为3天</div>
+                <br/>
+                <Button-List v-model:rentalDays = 'rentalDays'></Button-List>
               </div>
+              
               <div class="announcements">
                 <div>1、转账租赁最小支持金额5.25TRX/0.33USDT</div>
                 <div>2、若转账大于可租能量，将扣除1%手续费后原路退回</div>
@@ -192,6 +195,8 @@
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
                 <div class="title">租用天数默认为3天</div>
+                <br/>
+                <Button-List v-model:rentalDays = 'rentalDays'></Button-List>
               </div>
               <div class="address">
                 <div class="input-panel receive-address">
@@ -398,6 +403,7 @@ const capacity = ref('')
 const amount = ref('')
 const transfer = ref('')
 const rechargeAdress = ref('')
+const rentalDays = ref(72)
 const shortcutList = [
   {
     label: '50万',
@@ -478,12 +484,12 @@ const filterStatus = status => {
 const onClick = val => {
   console.log(val)
   capacity.value = Number(capacity.value) + Number(val)
-  amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * rentalDays.value * 110)
 }
 const onInput = val => {
   console.log('valvalvalval', val)
   capacity.value = val
-  amount.value = tronWeb?.fromSun(capacity.value * 3 * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * rentalDays.value * 110)
 }
 
 const copyEnd = msg => {

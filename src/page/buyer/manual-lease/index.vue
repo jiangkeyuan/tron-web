@@ -17,7 +17,7 @@
         </div>
       </el-form-item>
       <el-form-item label="租用天数:" class="maual-lease-item">
-        <el-input-number disabled class="el-input-number" v-model="form.rentalDays" :min="3" placeholder="请输入租用天数" />
+        <Button-List v-model:rentalDays = 'form.rentalDays'></Button-List>
       </el-form-item>
       <el-form-item label="接收地址:" class="maual-lease-item">
         <el-input v-model="form.receiveAddress" placeholder="必须输入接受地址" />
@@ -36,7 +36,7 @@ const store = useStore();
 const fullscreenLoading = ref(false);
 const form = reactive({
   receiveAddress: '',
-  rentalDays: 3,
+  rentalDays: 1,
   rentalEnergyQuantity: ''
 });
 

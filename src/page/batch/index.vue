@@ -17,6 +17,11 @@
     <el-input v-model="form.rentalEnergyQuantity" type="number" placeholder="每个地址租用的能量数,10000起租"></el-input>
 
     <div class="outer-title">
+      <span>租用天数</span>
+    </div>
+    <Button-List v-model:rentalDays = 'form.rentalDays'></Button-List>
+
+    <div class="outer-title">
       <span>接收能量的地址（一行一个）</span>
     </div>
     <el-input v-model="form.receiveAddress" placeholder="接收能量的地址（一行一个）" rows="10" type="textarea"></el-input>
@@ -35,7 +40,7 @@ import { orderSubmit } from "@/utils/axios/buyer/index.js";
 import { ElMessage } from "element-plus";
 const loading = ref(false);
 const form = reactive({
-  rentalDays: 3
+  rentalDays: '1'
 })
 
 let receiveAddressList = [];

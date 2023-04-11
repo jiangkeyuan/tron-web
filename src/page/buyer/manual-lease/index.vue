@@ -17,7 +17,7 @@
         </div>
       </el-form-item>
       <el-form-item label="租用天数:" class="maual-lease-item">
-        <Button-List v-model:rentalDays = 'form.rentalDays'></Button-List>
+        <Button-List v-model:rentalDays = 'form.rentalHours'></Button-List>
       </el-form-item>
       <el-form-item label="接收地址:" class="maual-lease-item">
         <el-input v-model="form.receiveAddress" placeholder="必须输入接受地址" />
@@ -36,20 +36,20 @@ const store = useStore();
 const fullscreenLoading = ref(false);
 const form = reactive({
   receiveAddress: '',
-  rentalDays: 1,
+  rentalHours: 1,
   rentalEnergyQuantity: ''
 });
 
 let rentalEnergynum = ref(null);
 
-watch([() => form.rentalEnergyQuantity, () => form.rentalDays], (n, o) => {
+watch([() => form.rentalEnergyQuantity, () => form.rentalHours], (n, o) => {
   const rate = +n[0] >= 50000 ? 115 : 120;
-  rentalEnergynum.value = +n[0] * rate * n[1] / 1000000
+  rentalEnergynum.value = +n[0] * rate *  Math.floor(+n[1] +24) / 1000000
 })
 
 const buy = async () => {
   if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }
-  if (!form.rentalDays) { ElMessage.error('请输入租用天数'); return; }
+  if (!form.rentalHours) { ElMessage.error('请选择租用天数'); return; }
   if (!form.receiveAddress) { ElMessage.error('请输入接收地址'); return; }
   fullscreenLoading.value = true;
   const data = await manaulBuy('/buyer/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });

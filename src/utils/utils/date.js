@@ -11,3 +11,7 @@ export const filterDate = (originalDate) => {
     .toString()
     .padStart(2, "0")}`;
 };
+export const filterHours = (d)=>{
+  if(d == 1) return "1小时";
+  return `${ d / 24 }天`
+}

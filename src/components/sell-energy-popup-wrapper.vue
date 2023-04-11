@@ -300,7 +300,7 @@ const handleOpen = async () => {
 }
 const getBalance = async () => {
   console.log('--------------------------6', defaultAddress.value)
-  const data = await window.tronWeb.trx.getBalance(defaultAddress.value)
+  const data = await window.tronWeb?.trx.getBalance(defaultAddress.value)
   console.log('data-------------------------', data)
   balance.value = tronWeb.fromSun(data)
 }

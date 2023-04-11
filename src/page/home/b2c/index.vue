@@ -487,7 +487,7 @@ const onInput = val => {
 }
 
 const copyEnd = msg => {
-  if (!amount.value) {
+  if (!+amount.value) {
     return ElMessage.error('请输入金额')
   }
   copy({

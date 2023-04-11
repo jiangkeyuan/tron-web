@@ -74,6 +74,36 @@ const routes = [
       }
     },
     children: [
+        {
+            path: "user",
+            // beforeEnter: (to, from, next) => {
+            //   console.log(from.path);
+            //   if (store.state?.roles?.roles?.includes("ADMIN")) {
+            //     next();
+            //   } else {
+            //     next(from.path);
+            //   }
+            // },
+            components: {
+              helper: () => import("../page/user/index.vue"),
+              default: () => import("../page/user/index.vue"),
+            },
+        },        
+        {
+        path: "manager",
+        beforeEnter: (to, from, next) => {
+          console.log(from.path);
+          if (store.state?.roles?.roles?.includes("ADMIN")) {
+            next();
+          } else {
+            next(from.path);
+          }
+        },
+        components: {
+          helper: () => import("../page/manager/index.vue"),
+          default: () => import("../page/manager/index.vue"),
+        },
+      },
       {
         path: "manager",
         beforeEnter: (to, from, next) => {

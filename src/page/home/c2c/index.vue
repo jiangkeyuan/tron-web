@@ -159,7 +159,7 @@
                       <span>{{ scope.row.benifitAmount }} RTX</span>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="delegateDate" label="时间" />
+                  <el-table-column prop="delegateDate" label="时间" :formatter="row => filterDate(row.delegateDate)" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
                       <el-link type="primary" :href="`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`"
@@ -177,7 +177,7 @@
                       <span>{{ scope.row.statkeAmount }} RTX</span>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="expiredDate" label="截止时间" />
+                  <el-table-column prop="expiredDate" label="截止时间" :formatter="row => filterDate(row.expiredDate)" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
                       <el-link type="primary" :href="`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`"
@@ -238,6 +238,7 @@ import TronLink from '@/components/tron-link/index.js'
 import BuyPopup from './buy-popup.vue'
 import WithessPopup from './witness-popup.vue'
 import { awaitFnLoading } from '@/utils/utils/loading.js'
+import { filterDate } from '@/utils/utils/date.js'
 import {
   Calendar,
   Histogram,
@@ -293,28 +294,7 @@ const options = [
     label: '能量最高'
   }
 ]
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  }
-]
+const tableData = []
 const systemMsg = reactive([
   {
     id: 1,

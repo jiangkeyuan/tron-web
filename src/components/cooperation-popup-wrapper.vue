@@ -11,7 +11,7 @@
           @TRON-GAS
         </p>
         <p class="email">
-          邮箱：<a href="tron.gas.master@gmail.com">tron.gas.master@gmail.com</a>
+          邮箱：<a href="email_hashgo@hashgo.xyz">email_hashgo@hashgo.xyz</a>
         </p>
       </div>
       <a href="/" class="tg-contact-btn" target="_blank">联系客服</a>

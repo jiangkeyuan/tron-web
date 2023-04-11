@@ -56,7 +56,12 @@
         label="卖家的身份"
         :formatter="row => filterRoles(row.roles)"
       />
-      <el-table-column label="">
+      <el-table-column prop="settlementRatio" label="结算比例">
+        <template #default="{ row }">
+          <div>{{ row.settlementRatio }}%</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
         <template #default="scope">
           <el-button
             type="primary"

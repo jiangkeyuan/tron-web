@@ -70,11 +70,11 @@
               </div>
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
-                <div class="title">租用天数默认为3天</div>
-                <br/>
-                <Button-List v-model:rentalDays = 'rentalDays'></Button-List>
+                <div class="title">租用时间{{rentalDaysObj[rentalDays]}}</div>
+                <br />
+                <Button-List v-model:rentalDays="rentalDays"></Button-List>
               </div>
-              
+
               <div class="announcements">
                 <div>1、转账租赁最小支持金额5.25TRX/0.33USDT</div>
                 <div>2、若转账大于可租能量，将扣除1%手续费后原路退回</div>
@@ -194,9 +194,9 @@
               </div>
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
-                <div class="title">租用天数默认为3天</div>
-                <br/>
-                <Button-List v-model:rentalDays = 'rentalDays'></Button-List>
+                <div class="title">租用时间{{rentalDaysObj[rentalDays]}}</div>
+                <br />
+                <Button-List v-model:rentalDays="rentalDays"></Button-List>
               </div>
               <div class="address">
                 <div class="input-panel receive-address">
@@ -333,9 +333,9 @@
                   <div>{{ row.rentalQuantity }} 能量</div>
                 </template>
               </el-table-column>
-              <el-table-column prop="rentalDays" label="租用时长">
+              <el-table-column prop="rentalHours" label="租用时长">
                 <template #default="{ row }">
-                  <div>{{ row.rentalDays }} 天</div>
+                  <div>{{ rentalDaysObj[row.rentalHours] }}</div>
                 </template>
               </el-table-column>
               <el-table-column
@@ -364,7 +364,11 @@
               <el-table-column prop="orderNo" label="订单号" />
               <el-table-column prop="toAddress" label="接收地址" />
               <el-table-column prop="rentalQuantity" label="租用数量" />
-              <el-table-column prop="rentalDays" label="租用时长" />
+              <el-table-column prop="rentalHours" label="租用时长">
+                <template #default="{ row }">
+                  <div>{{ rentalDaysObj[row.rentalHours] }}</div>
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="expiredDate"
                 label="到期时间"
@@ -393,7 +397,7 @@ import {
   buyDappOrders
 } from '@/utils/axios/home/index.js'
 import QrcodeVue from 'qrcode.vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 const radio = ref('1')
 const input = ref('')
 const leaseRadio = ref('DAPP租赁')
@@ -404,6 +408,11 @@ const amount = ref('')
 const transfer = ref('')
 const rechargeAdress = ref('')
 const rentalDays = ref(72)
+const rentalDaysObj = reactive({
+    1: '1小时',
+    24: '1天',
+    72: '3天'
+})
 const shortcutList = [
   {
     label: '50万',
@@ -434,7 +443,11 @@ const onFormatter = value => {
 const onParser = value => {
   return value.replace(/\$\s?|(,*)/g, '')
 }
-
+watch(rentalDays, o => {
+  console.log('o', o)
+  const sum = Math.floor((Number(o) + 24) / 24)
+  amount.value = tronWeb?.fromSun(capacity.value * sum * 110)
+})
 // 大家的租用地址
 const radioChange = value => {
   console.log(value)
@@ -483,13 +496,14 @@ const filterStatus = status => {
 }
 const onClick = val => {
   console.log(val)
+  const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   capacity.value = Number(capacity.value) + Number(val)
-  amount.value = tronWeb?.fromSun(capacity.value * rentalDays.value * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * sum * 110)
 }
 const onInput = val => {
-  console.log('valvalvalval', val)
+  const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   capacity.value = val
-  amount.value = tronWeb?.fromSun(capacity.value * rentalDays.value * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * sum * 110)
 }
 
 const copyEnd = msg => {
@@ -527,7 +541,12 @@ const payment = async () => {
     const signedTxn = await tronWeb.trx.sign(unsignedTxn)
     const broastTx = await tronWeb.trx.sendRawTransaction(signedTxn)
     console.log('broastTx', broastTx)
-    const data = await buyDappOrders({ transactionHash: broastTx.txid })
+    const postData = {
+        transactionHash: broastTx.txid,
+        rentalEnergyQuantity: Number(capacity.value),
+        rentalHours: Number(rentalDays.value)
+    }
+    const data = await buyDappOrders(postData)
     console.log('data', data)
     loading.value = false
     if (data.code === 12000) {

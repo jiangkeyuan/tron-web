@@ -84,7 +84,7 @@
       ref="ruleFormRef"
       :rules="rules"
     >
-      <el-form-item label="email:" prop="email">
+      <el-form-item label="email:" prop="email" v-if="form.email">
         <el-input
           v-model="form.email"
           autocomplete="off"
@@ -92,7 +92,7 @@
           placeholder=""
         />
       </el-form-item>
-      <el-form-item label="钱包地址:" prop="email">
+      <el-form-item label="钱包地址:" prop="email" v-else>
         <el-input
           v-model="form.walletAddress"
           autocomplete="off"
@@ -100,13 +100,16 @@
           placeholder=""
         />
       </el-form-item>
-      <el-form-item label="结算比列:" prop="systemVal">
+      <el-form-item label="结算比列:" prop="settlementRatio">
         <el-input
-          v-model="form.systemVal"
+          v-model="form.settlementRatio"
           autocomplete="off"
-          placeholder="请输入值"
+          placeholder="0~100"
+          oninput="if(value > 100) value = 100; if(value < 0 || value == null) value = '';"
+          :maxlength="3"
+          :minlength="1"
         >
-         <template #append>%</template>
+          <template #append>%</template>
         </el-input>
       </el-form-item>
     </el-form>
@@ -121,7 +124,7 @@
 </template>
 <script setup>
 import { filterDate } from '@/utils/utils/date.js'
-import { getUserList } from '@/utils/axios/user/index.js'
+import { getUserList, settingRatio } from '@/utils/axios/user/index.js'
 import { ElMessage } from 'element-plus'
 const tableData = ref([])
 const form = reactive({})
@@ -130,7 +133,6 @@ const forms = reactive({
   pageIndex: 1,
   pageSize: 10,
   totalCount: 0,
-  order: '',
   email: '',
   walletAddress: '',
   date: []
@@ -181,6 +183,18 @@ const addManagerApi = async formEl => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+      const data = await settingRatio({
+        settlementRatio: form.settlementRatio,
+        userId: form.id
+      })
+      console.log(data)
+      if (data.code === 12000) {
+        ElMessage.success('设置成功')
+        seach()
+        dialogFormVisible.value = false
+      } else {
+        ElMessage.error(data.msg)
+      }
     }
   })
 }

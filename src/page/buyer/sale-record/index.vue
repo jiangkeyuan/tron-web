@@ -31,7 +31,7 @@
       <el-table-column prop="toAddress" label="接收" width="180" />
       <el-table-column prop="rentalQuantity" label="租用量" width="120" />
       <el-table-column prop="doneRentalQuantity" label="已完成租用量" width="120" />
-      <el-table-column prop="rentalDays" label="租用时长" width="120" />
+      <el-table-column prop="rentalHours" label="租用时长" width="120"  :formatter="(row) => filterHours(row.rentalHours)"/>
       <el-table-column prop="payDate" label="支付时间" width="180" :formatter="(row) => filterDate(row.payDate)" />
       <el-table-column prop="delegateDate" label="代理时间" width="180" :formatter="(row) => filterDate(row.delegateDate)" />
       <el-table-column prop="expiredDate" label="到期时间" width="180" :formatter="(row) => filterDate(row.expiredDate)" />
@@ -89,7 +89,7 @@
               </svg><span class="text">{{ detailsValue.doneRentalQuantity }}</span>
             </div>
             <div>
-              租用时长：<span class="text">{{ detailsValue.rentalDays }} <span style="padding: 0px 2px">天</span></span>
+              租用时长：<span class="text">{{  filterHours(detailsValue.rentalHours) }}</span>
             </div>
             <div>支付金额： <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
             <div>
@@ -107,16 +107,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                                                                                  display: inline-block;
-                                                                                  width: fit-content;
-                                                                                  padding: 1px 7px;
-                                                                                  margin: 0px;
-                                                                                  background: rgb(255, 255, 255);
-                                                                                  border: 1px solid rgb(191, 191, 191);
-                                                                                  border-radius: 3px;
-                                                                                  font-size: 12px;
-                                                                                  color: rgb(191, 191, 191);
-                                                                                ">
+                  display: inline-block;
+                  width: fit-content;
+                  padding: 1px 7px;
+                  margin: 0px;
+                  background: rgb(255, 255, 255);
+                  border: 1px solid rgb(191, 191, 191);
+                  border-radius: 3px;
+                  font-size: 12px;
+                  color: rgb(191, 191, 191);
+                ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
@@ -128,7 +128,7 @@
 </template>
 <script setup>
 import { getRentals, getApiList } from "@/utils/axios/buyer/index.js";
-import { filterDate } from '@/utils/utils/date.js';
+import { filterDate,filterHours } from '@/utils/utils/date.js';
 import { ElMessage } from "element-plus";
 const fullscreenLoading = ref(false);
 const form = reactive({

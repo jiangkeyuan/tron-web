@@ -69,7 +69,7 @@
             @click="() => change(scope)"
             v-if="scope.row.roles?.includes('BUYER') || scope.row.permissionId"
           >
-            设置
+            结算比例设置
           </el-button>
           <!-- <el-button type="primary" link @click="() => deleteList(scope)">
             删除
@@ -90,7 +90,7 @@
 
   <el-dialog
     v-model="dialogFormVisible"
-    title="用户设置"
+    title="结算比例设置"
     append-to-body
     destroy-on-close
   >

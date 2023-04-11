@@ -34,7 +34,11 @@
     </el-form>
     <el-table :data="tableData" style="width: 100%" @sort-change="sortChange">
       <el-table-column prop="email" label="email" />
-      <el-table-column prop="walletAddress" label="钱包地址" />
+      <el-table-column prop="walletAddress" label="钱包地址">
+        <template #default="{ row }">
+          <div class="text-ellipsis">{{ row.walletAddress }}</div>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="createDate"
         sortable="custom"
@@ -42,8 +46,16 @@
         :formatter="row => filterDate(row.createDate)"
       />
       <el-table-column prop="availableBalance" label="金额" />
-      <el-table-column prop="state" label="当前状态" />
-      <el-table-column prop="roles" label="卖家的身份" />
+      <el-table-column
+        prop="state"
+        label="当前状态"
+        :formatter="row => filterState(row.state)"
+      />
+      <el-table-column
+        prop="roles"
+        label="卖家的身份"
+        :formatter="row => filterRoles(row.roles)"
+      />
       <el-table-column label="">
         <template #default="scope">
           <el-button
@@ -220,6 +232,32 @@ const seach = async () => {
   } else {
     ElMessage.error(data.msg)
   }
+}
+const filterState = val => {
+  switch (val) {
+    case 0:
+      return '未激活'
+    case 1:
+      return '已激活'
+    default:
+      break
+  }
+}
+
+const filterRoles = val => {
+  return val
+    ?.split(',')
+    .map(item => {
+      switch (item) {
+        case 'BUYER':
+          return '买家'
+        case 'SELLER':
+          return '卖家'
+        default:
+          return item
+      }
+    })
+    .join(',')
 }
 onMounted(() => {
   seach()

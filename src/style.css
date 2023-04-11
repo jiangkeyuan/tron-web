@@ -1,26 +1,30 @@
 /*css reset code */
 /****  文字大小初始化,使1em=10px *****/
 :root {
-    --el-color-primary: #c53027 !important;
+  --el-color-primary: #c53027 !important;
 }
 
 body {
-    /* font-size: 62.5%; */
-    color: black !important;
-    color: #000000d9;
-    font-size: 14px;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
-    font-variant: tabular-nums;
-    line-height: 1.5715;
+  /* font-size: 62.5%; */
+  color: black !important;
+  color: #000000d9;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', Segoe UI Symbol, 'Noto Color Emoji';
+  font-variant: tabular-nums;
+  line-height: 1.5715;
 }
 
-*, *:before, *:after {
-    box-sizing: border-box;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
 /* for IE/Win */
-html>body {
-    font-size: 15px;
+html > body {
+  font-size: 15px;
 }
 
 /* for everything else */
@@ -49,22 +53,22 @@ p,
 blockquote,
 th,
 td {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 fieldset,
 img {
-    border: 0;
+  border: 0;
 }
 
 img {
-    display: block;
+  display: block;
 }
 
 address,
@@ -74,18 +78,18 @@ code,
 dfn,
 th,
 var {
-    font-weight: normal;
-    font-style: normal;
+  font-weight: normal;
+  font-style: normal;
 }
 
 ol,
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 caption,
 th {
-    text-align: left;
+  text-align: left;
 }
 
 h1,
@@ -94,96 +98,104 @@ h3,
 h4,
 h5,
 h6 {
-    font-size: 100%;
-    color: #000000d9;
-    font-weight: 500;
+  font-size: 100%;
+  color: #000000d9;
+  font-weight: 500;
 }
 
 q:before,
 q:after {
-    content: '';
+  content: '';
 }
 
 abbr,
 acronym {
-    border: 0;
+  border: 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a {
-    color: #c53027;
-    text-decoration: none;
-    background-color: transparent;
-    outline: none;
-    cursor: pointer;
-    transition: color .3s;
-    -webkit-text-decoration-skip: objects;
+  color: #c53027;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s;
+  -webkit-text-decoration-skip: objects;
 }
 
-a:active, a:hover {
-    text-decoration: none;
-    outline: 0;
+a:active,
+a:hover {
+  text-decoration: none;
+  outline: 0;
 }
 
 a:active {
-    color: #193180;
+  color: #193180;
 }
 
 a:hover {
-    color: #4969b3;
+  color: #4969b3;
 }
 
 .icon {
-    flex: none;
-    display: inline-block;
-    height: 1.2em;
-    vertical-align: middle;
-    --pd: 0.2em;
+  flex: none;
+  display: inline-block;
+  height: 1.2em;
+  vertical-align: middle;
+  --pd: 0.2em;
 }
 
 .tg-robot,
 .customer,
 .to-top {
-    position: fixed;
-    z-index: 5;
-    right: 25px;
+  position: fixed;
+  z-index: 5;
+  right: 25px;
 }
 
 mark {
-    padding: 0.2em;
-    background-color: #feffe6;
+  padding: 0.2em;
+  background-color: #feffe6;
 }
 
 .el-form--inline .el-form-item {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .hide {
-    display: none !important;
+  display: none !important;
 }
 
 .anticon {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 video {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .pagination {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .ctc-pagination {
-    width: 100%;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
 }
 /*初始化结束*************************************************************** */

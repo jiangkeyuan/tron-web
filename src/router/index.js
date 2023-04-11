@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { getParamsNew } from "@/utils/utils/index.js";
 import store from "../store/index.js";
-
 const routes = [
   {
     path: "/",
@@ -53,7 +52,15 @@ const routes = [
       },
     ],
   },
-
+  {
+    path:'/ic/:beInvitedCode',
+    component:()=>import("../page/login/ic.vue"),
+    beforeEnter:(to, from, next)=>{
+      const beInvitedCode = to.params.beInvitedCode;
+      sessionStorage.setItem('beInvitedCode',beInvitedCode)
+      next('/auth/login?type=1')
+    }
+  },
   {
     path: "/auth/login",
     component: () => import("../page/login/index.vue"),

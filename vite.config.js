@@ -117,7 +117,7 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         "@": resolve(__dirname, "src"),
-        "@store": resolve(__dirname, "src/store"),
+        "@store": resolve(__dirname, "src/store")
       },
     },
 

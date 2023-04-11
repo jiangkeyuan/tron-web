@@ -19,7 +19,7 @@
     <div class="outer-title">
       <span>租用天数</span>
     </div>
-    <Button-List v-model:rentalDays = 'form.rentalDays'></Button-List>
+    <Button-List v-model:rentalDays = 'form.rentalHours'></Button-List>
 
     <div class="outer-title">
       <span>接收能量的地址（一行一个）</span>
@@ -40,7 +40,7 @@ import { orderSubmit } from "@/utils/axios/buyer/index.js";
 import { ElMessage } from "element-plus";
 const loading = ref(false);
 const form = reactive({
-  rentalDays: '1'
+  rentalHours: '1'
 })
 
 let receiveAddressList = [];
@@ -76,7 +76,7 @@ const getList = async (receiveAddressList) => {
   const data = await orderSubmit({
     apiKey: form.apiKey,
     receiveAddress,
-    rentalDays: 3,
+    rentalHours:form.rentalHours,
     rentalEnergyQuantity: form.rentalEnergyQuantity
   })
   if (data.code === 12000) {

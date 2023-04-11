@@ -50,7 +50,7 @@
         </div>
         <div v-if="type === '1'">
           <div>
-            <el-button @click="register" type="primary" color="#c53027" class="login-content-button">注册</el-button>
+            <el-button @click="()=>register()" type="primary" color="#c53027" class="login-content-button">注册</el-button>
           </div>
           <div>
             <el-button class="login-content-button" @click="() => changeType('0')">返回</el-button>
@@ -322,10 +322,15 @@ const clearRules = () => {
 const register = () => {
   loginFormRef.value.submitForm(async (e, f) => {
     if (e) {
+      const beInvitedCode = sessionStorage.getItem('beInvitedCode')
       fullscreenLoading.value = true;
-      const data = await usersRegister(userInfo);
+      const data = await usersRegister({
+        ...userInfo,
+        beInvitedCode: beInvitedCode ?? ''
+      });
       fullscreenLoading.value = false;
       if (data.code === 12000 || data.code === 14011) {
+        sessionStorage.setItem('beInvitedCode','')
         changeType('3');
       } else {
         loginFormRef.value.getCode(type.value);

@@ -71,12 +71,12 @@
                         <div>
                             <div>
                                 <span class="font"> 笔数: </span>
-                                <span class="font text red">{{ sellereIncomemap.numtotal?.toLocaleString() }}</span>
+                                <span class="font text red">{{ sellereIncome.numtotal?.toLocaleString() }}</span>
                                 <span class="font min-font">笔</span>
                             </div>
                             <div>
                                 <span class="font"> 总额: </span>
-                                <span class="font text red">{{ sellereIncomemap.amounttotal?.toLocaleString() }}</span>
+                                <span class="font text red">{{ sellereIncome.amounttotal?.toLocaleString() }}</span>
                                 <span class="font min-font">TRX</span>
                             </div>
                         </div>
@@ -156,7 +156,7 @@ import { getStatistics } from "@/utils/axios/buyer/index.js";
 import { reactive, ref } from "vue";
 const users = reactive({});
 const recharge = reactive({});
-const sellereIncomemap = reactive({});
+const sellereIncome = reactive({});
 const order = ref([]);
 const energy = ref([]);
 
@@ -189,7 +189,7 @@ const getData = async () => {
     if (data.code == 12000) {
         Object.assign(users, data.data.users);
         Object.assign(recharge, data.data.recharge);
-        Object.assign(sellereIncomemap, data.data.sellereIncomemap);
+        Object.assign(sellereIncome, data.data.sellereIncome);
         order.value = data.data.order || [];
         energy.value = data.data.energy || [];
     }

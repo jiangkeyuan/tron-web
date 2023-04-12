@@ -39,6 +39,18 @@
           </el-icon>
           <span class="home-left-menu-li-title">用户列表</span>
         </router-link>
+        <router-link v-if="showManager" to="/console/admin" :class="[
+          {
+            'home-left-menu-li-active':
+              route.fullPath.includes('/console/admin')
+          },
+          'home-left-menu-li'
+        ]">
+          <el-icon class="home-left-menu-li-icon">
+            <component is="Setting"></component>
+          </el-icon>
+          <span class="home-left-menu-li-title">统计面板</span>
+        </router-link>
       </ul>
       <div class="home-left-button" @click="changMenuType" v-if="store.state?.roles?.roles !== 'ADMIN'">
         <el-icon class="home-left-button-icon">

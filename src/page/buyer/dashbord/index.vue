@@ -27,7 +27,7 @@
       <div class="dashbord-top-right-content">
         <h5 class="dashbord-top-right-content-top">账号可租量</h5>
         <div class="dashbord-top-right-content-num-kk">
-          <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy || 0 }}</span>
+          <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy?.toLocaleString() || 0 }}</span>
           能量
         </div>
         <div class="dashbord-top-right-content-button" @click="router.push('/console/buyer/recharge')">
@@ -86,8 +86,8 @@ const search = async () => {
   Object.assign(buyerObj, datas.data || {});
   if (datas.code === 12000) {
     buyerObj.apiInfos = (buyerObj?.apiInfos || []).map((v, i) => {
-      if (v.keyName.length > 6) {
-        v.name = v.keyName.substring(0, 6) + '...';
+      if (v.keyName.length > 10) {
+        v.name = v.keyName.substring(0, 10) + '...';
       } else {
         v.name = v.keyName
       }
@@ -128,7 +128,7 @@ onMounted(async () => {
         var arr = [
           "{a|" + name + "}",
           "{b|" + rentalEnergy + "能量}",
-          "{c|" + usedTrx + " Trx}",
+          "{c|" + usedTrx + " TRX}",
         ];
         return arr.join("  ");
       },
@@ -141,12 +141,12 @@ onMounted(async () => {
         rich: {
           a: {
             fontSize: 15,
-            width: 70,
+            width: 120,
             marginLeft: 10
           },
           b: {
             fontSize: 15,
-            width: 150,
+            width: 120,
           },
           c: {
             fontSize: 15,
@@ -288,7 +288,7 @@ h5 {
 .dashbord-top-right-content {
   display: flex;
   flex-direction: column;
-  width: 160px;
+  min-width: 160px;
 }
 
 .dashbord-top-right-content-top {

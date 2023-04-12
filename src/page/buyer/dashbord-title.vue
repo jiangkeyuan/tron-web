@@ -147,6 +147,25 @@ const rightTitleFunc = () => {
     }
   });
 
+  const adminRouter = [{
+    router:'/console/admin',
+    name: "统计面板"
+  },
+  {
+    router:'/console/user',
+    name: "用户列表"
+  },
+  {
+    router:'/console/manager',
+    name: "系统配置"
+  }]
+
+  adminRouter.map(v=>{
+    if(v.router === route.fullPath){
+      name = v.name
+    }
+  })
+
   return name;
 }
 const rightTitle = ref(rightTitleFunc() || '管理面板');

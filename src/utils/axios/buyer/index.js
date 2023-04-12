@@ -40,11 +40,11 @@ export const bunyerIndex = async () => {
 };
 
 export const bindWallets = async (params) => {
-  return await service.post("buyer/user/dapp/bind", params);
+  return await service.post("/buyer/user/dapp/bind", params);
 };
 
 export const orderSubmit = async (params) => {
-  return await service.post("buyer/order/submit", params);
+  return await service.post("/buyer/order/submit", params);
 };
 
 export const getPlatformRechargeAddress = async () => {
@@ -53,4 +53,8 @@ export const getPlatformRechargeAddress = async () => {
 
 export const transcations = async (params) => {
   return await service.post("/users/transcations", params);
+};
+
+export const getStatistics = async () => {
+  return await service.post("/admin/statistics",{});
 };

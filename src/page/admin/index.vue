@@ -5,7 +5,7 @@
                 <div class="item">
                     <div class="flex">
                         <div class="item-tltle">
-                            用户新增卖/买家统计
+                            用户新增卖/买家统计(当日)
                             <!-- <span class="font total">(累计收益：<span class="red">{{sellerObj.totalEarnings}}</span>TRX)
                 </span> -->
                         </div>
@@ -32,7 +32,7 @@
                 <div class="item">
                     <div class="flex">
                         <div class="item-tltle">
-                            充值笔数/总额
+                            充值笔数/总额(当日)
                             <!-- <span class="font total">(累计收益：<span class="red">26,827.34147</span>TRX)
                 </span> -->
                         </div>
@@ -61,7 +61,7 @@
                 <div class="item">
                     <div class="flex">
                         <div class="item-tltle">
-                            平台卖家收益
+                            平台卖家收益(当日)
                         </div>
                         <div class="font icon-question">
                             <Tips content="收益利润=订单收益+投票收益"></Tips>
@@ -92,7 +92,7 @@
                 <div class="item" v-for="item in order">
                     <div class="flex">
                         <div class="item-tltle">
-                            {{ filterOrderstatus(item.orderstatus) }}
+                            {{ filterOrderstatus(item.orderstatus) }} (当日)
                         </div>
                         <div class="font icon-question">
                             <Tips content="收益利润=订单收益+投票收益"></Tips>
@@ -124,7 +124,7 @@
                 <div class="item" v-for="item in energy">
                     <div class="flex">
                         <div class="item-tltle">
-                            {{ filterEnergy(item.orderstatus) }}
+                            {{ filterEnergy(item.orderstatus) }}  (当日)
                         </div>
                         <div class="font icon-question">
                             <Tips content="收益利润=订单收益+投票收益"></Tips>

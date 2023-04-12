@@ -62,3 +62,15 @@ export const buyDappOrders = async (data) => {
 export const getPlatformRechargeAddress = async (data) => {
     return await service.get('/index/platformRechargeAddress')
 };
+
+export const getPlatformDappAddress = async () => {
+    return await service.get('/index/platformDappAddress')
+};
+
+export const getPlatformTransferAddress = async () => {
+    return await service.get('/index/platformTransferAddress')
+};
+
+export const getPlatformPrice = async () => {
+    return await service.get('/index/platformPrice')
+};

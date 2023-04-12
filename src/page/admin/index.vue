@@ -17,11 +17,13 @@
                         <div>
                             <div>
                                 <span class="font">买家:</span>
-                                <span class="font text red">{{ users.BUYER }}</span>
+                                <span class="font text red">{{ users.BUYER?.toLocaleString() }}</span>
+                                <span class="font min-font">个</span>
                             </div>
                             <div>
                                 <span class="font">卖家:</span>
-                                <span class="font text red">{{ users.SELLER }}</span>
+                                <span class="font text red">{{ users.SELLER?.toLocaleString() }}</span>
+                                <span class="font min-font">个</span>
                             </div>
                         </div>
                         <div class="icon"></div>
@@ -42,7 +44,7 @@
                         <div>
                             <div>
                                 <span class="font"> 笔数: </span>
-                                <span class="font text red">{{ recharge.rechargetotal }}</span>
+                                <span class="font text red">{{ recharge.rechargetotal?.toLocaleString() }}</span>
                                 <span class="font min-font">笔</span>
                             </div>
                             <div>
@@ -55,6 +57,32 @@
                     </div>
                 </div>
 
+
+                <div class="item">
+                    <div class="flex">
+                        <div class="item-tltle">
+                            平台卖家收益
+                        </div>
+                        <div class="font icon-question">
+                            <Tips content="收益利润=订单收益+投票收益"></Tips>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                            <div>
+                                <span class="font"> 笔数: </span>
+                                <span class="font text red">{{ sellereIncomemap.numtotal?.toLocaleString() }}</span>
+                                <span class="font min-font">笔</span>
+                            </div>
+                            <div>
+                                <span class="font"> 总额: </span>
+                                <span class="font text red">{{ sellereIncomemap.amounttotal?.toLocaleString() }}</span>
+                                <span class="font min-font">TRX</span>
+                            </div>
+                        </div>
+                        <div class="icon"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </DashbordContent>
@@ -74,7 +102,7 @@
                         <div>
                             <div>
                                 <span class="font"> 笔数: </span>
-                                <span class="font text red">{{ item.ordertotal }}</span>
+                                <span class="font text red">{{ item.ordertotal?.toLocaleString() }}</span>
                                 <span class="font min-font">笔</span>
                             </div>
                             <div>
@@ -106,13 +134,13 @@
                         <div>
                             <div>
                                 <span class="font"> 笔数: </span>
-                                <span class="font text red">{{ item.ordertotal }}</span>
+                                <span class="font text red">{{ item.ordertotal?.toLocaleString() }}</span>
                                 <span class="font min-font">笔</span>
                             </div>
                             <div>
                                 <span class="font"> 总额: </span>
                                 <span class="font text red">{{ item.energytotal?.toLocaleString() }}</span>
-                                <span class="font min-font">TRX</span>
+                                <span class="font min-font">能量</span>
                             </div>
                         </div>
                         <div class="icon"></div>
@@ -128,6 +156,7 @@ import { getStatistics } from "@/utils/axios/buyer/index.js";
 import { reactive, ref } from "vue";
 const users = reactive({});
 const recharge = reactive({});
+const sellereIncomemap = reactive({});
 const order = ref([]);
 const energy = ref([]);
 
@@ -160,6 +189,7 @@ const getData = async () => {
     if (data.code == 12000) {
         Object.assign(users, data.data.users);
         Object.assign(recharge, data.data.recharge);
+        Object.assign(sellereIncomemap, data.data.sellereIncomemap);
         order.value = data.data.order || [];
         energy.value = data.data.energy || [];
     }

@@ -42,7 +42,7 @@
             <template #value>
               <el-input-number
                 v-model="form.price"
-                :min="110"
+                :min="price"
                 :max="99999"
                 @change="handleChange"
               />
@@ -86,7 +86,7 @@
           </Desc> -->
       </div>
       <span class="hint">
-        温馨提示：如果您选择比 {{ radioVal == '能量' ? 110 : 1200 }} Sun
+        温馨提示：如果您选择比 {{ radioVal == '能量' ? price : 1200 }} Sun
         更高的价格/天，您的订单可能会更早完成。
       </span>
     </div>
@@ -110,7 +110,8 @@
 import { walletAddress } from '@/utils/utils/tron.js'
 import {
   buyManualOrders,
-  getPlatformRechargeAddress
+  getPlatformTransferAddress,
+  getPlatformPrice
 } from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
@@ -192,16 +193,27 @@ const queryBuyManualOrders = async hash => {
     ElMessage.error(data.msg)
   }
 }
-const queryPlatformRechargeAddress = async () => {
-  const data = await getPlatformRechargeAddress()
+const queryPlatformTransferAddress = async () => {
+  const data = await getPlatformTransferAddress()
   if (data.code === 12000) {
     form.receiveAddress = data.data
   } else {
     ElMessage.error(data.msg)
   }
 }
+const price = ref('')
+const queryPlatformPrice = async () => {
+  const data = await getPlatformPrice()
+  if (data.code === 12000) {
+    form.price = data.data
+    price.value = data.data
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
 onMounted(() => {
-  queryPlatformRechargeAddress()
+  queryPlatformPrice()
+  queryPlatformTransferAddress()
 })
 const orderAmount = computed(() => {
   const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
@@ -211,15 +223,15 @@ const orderAmount = computed(() => {
 const economize = computed(() => {
   const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
   const a = form.rentalEnergyQuantity / 2381
-  console.log(tronWeb.fromSun(amount - a));
+  console.log(tronWeb.fromSun(amount - a))
   return Math.floor(tronWeb.fromSun(amount - a) * 100) / 100
 })
 const resetForm = () => {
-//   form.rentalEnergyQuantity = ''
+  //   form.rentalEnergyQuantity = ''
   ruleFormRef.value.resetFields()
 }
 const open = () => {
-    address.value = walletAddress() || ''
+  address.value = walletAddress() || ''
 }
 </script>
 

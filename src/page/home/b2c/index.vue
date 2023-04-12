@@ -109,10 +109,10 @@
                   <div class="copy-board">
                     <span class="copy-btn-wrapper">
                       <div class="btn">
-                        <span>{{ rechargeAdress }}</span>
+                        <span>{{ transferAddress }}</span>
                         <el-icon
                           class="icon"
-                          @click="copyRechargeAdress(rechargeAdress)"
+                          @click="copyTransferAddress(transferAddress)"
                           ><CopyDocument
                         /></el-icon>
                       </div>
@@ -131,7 +131,7 @@
                     <div class="info">
                       <div>
                         价格/天：
-                        <span>105</span>
+                        <span>{{price}}</span>
                         sun,
                       </div>
                       <div>
@@ -148,7 +148,7 @@
                     class="content-qr-code"
                   /> -->
                   <div class="content-qr-code">
-                    <qrcode-vue :value="rechargeAdress" :size="70"></qrcode-vue>
+                    <qrcode-vue :value="transferAddress" :size="70"></qrcode-vue>
                   </div>
                 </div>
               </div>
@@ -165,7 +165,7 @@
           <template v-if="leaseRadio == 'DAPP租赁'">
             <div class="project-panel">
               <div class="input-panel wallet-address">
-                {{ rechargeAdress }}
+                {{ dappAddress }}
               </div>
               <div class="input-panel rentVal">
                 <div class="title">租用量</div>
@@ -236,7 +236,7 @@
                     <div class="info">
                       <div>
                         价格/天：
-                        <span>110</span>
+                        <span>{{price}}</span>
                         sun,
                       </div>
                       <div>
@@ -394,7 +394,10 @@ import {
   getQuickFinishedOrders,
   getQuickOrders,
   getPlatformRechargeAddress,
-  buyDappOrders
+  buyDappOrders,
+  getPlatformDappAddress,
+  getPlatformTransferAddress,
+  getPlatformPrice
 } from '@/utils/axios/home/index.js'
 import QrcodeVue from 'qrcode.vue'
 import { reactive, ref } from 'vue'
@@ -406,7 +409,6 @@ const loading = ref(false)
 const capacity = ref('')
 const amount = ref('')
 const transfer = ref('')
-const rechargeAdress = ref('')
 const rentalDays = ref(72)
 const rentalDaysObj = reactive({
     1: '1小时',
@@ -446,7 +448,7 @@ const onParser = value => {
 watch(rentalDays, o => {
   console.log('o', o)
   const sum = Math.floor((Number(o) + 24) / 24)
-  amount.value = tronWeb?.fromSun(capacity.value * sum * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
 })
 // 大家的租用地址
 const radioChange = value => {
@@ -498,12 +500,12 @@ const onClick = val => {
   console.log(val)
   const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   capacity.value = Number(capacity.value) + Number(val)
-  amount.value = tronWeb?.fromSun(capacity.value * sum * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
 }
 const onInput = val => {
   const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   capacity.value = val
-  amount.value = tronWeb?.fromSun(capacity.value * sum * 110)
+  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
 }
 
 const copyEnd = msg => {
@@ -517,7 +519,7 @@ const copyEnd = msg => {
     }
   })
 }
-const copyRechargeAdress = msg => {
+const copyTransferAddress = msg => {
   copy({
     msg,
     callback: () => {
@@ -534,7 +536,7 @@ const payment = async () => {
     const addr = address.value || walletAddress()
     loading.value = true
     const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
-      rechargeAdress.value,
+      dappAddress.value,
       tronWeb.toSun(amount.value),
       addr
     )
@@ -565,7 +567,10 @@ const payment = async () => {
 }
 onMounted(() => {
   address.value = walletAddress() || ''
-  queryPlatformRechargeAddress()
+//   queryPlatformRechargeAddress()
+  queryPlatformDappAddress()
+  queryPlatformTransferAddress()
+  queryPlatformPrice()
   queryQuickFinishedOrders()
   window.addEventListener('message', function (e) {
     if (e.data.message && e.data.message.action == 'tabReply') {
@@ -578,10 +583,29 @@ onMounted(() => {
   })
 })
 
-const queryPlatformRechargeAddress = async () => {
-  const data = await getPlatformRechargeAddress()
+const dappAddress = ref('')
+const queryPlatformDappAddress = async () => {
+  const data = await getPlatformDappAddress()
   if (data.code === 12000) {
-    rechargeAdress.value = data.data
+    dappAddress.value = data.data
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
+const transferAddress = ref('')
+const queryPlatformTransferAddress = async () => {
+  const data = await getPlatformTransferAddress()
+  if (data.code === 12000) {
+    transferAddress.value = data.data
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
+const price = ref('')
+const queryPlatformPrice = async () => {
+  const data = await getPlatformPrice()
+  if (data.code === 12000) {
+    price.value = data.data
   } else {
     ElMessage.error(data.msg)
   }

@@ -110,7 +110,7 @@
 import { walletAddress } from '@/utils/utils/tron.js'
 import {
   buyManualOrders,
-  getPlatformRechargeAddress
+  getPlatformTransferAddress
 } from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
@@ -192,8 +192,8 @@ const queryBuyManualOrders = async hash => {
     ElMessage.error(data.msg)
   }
 }
-const queryPlatformRechargeAddress = async () => {
-  const data = await getPlatformRechargeAddress()
+const queryPlatformTransferAddress = async () => {
+  const data = await getPlatformTransferAddress()
   if (data.code === 12000) {
     form.receiveAddress = data.data
   } else {
@@ -201,7 +201,7 @@ const queryPlatformRechargeAddress = async () => {
   }
 }
 onMounted(() => {
-  queryPlatformRechargeAddress()
+  queryPlatformTransferAddress()
 })
 const orderAmount = computed(() => {
   const amount = form.rentalEnergyQuantity * form.rentalDays * form.price

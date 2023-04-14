@@ -219,8 +219,8 @@ const energy = ref([
 ]);
 
 const platformIncome = ref([
-  { date: "yesterday", amounttotal: 0, numtotal: 0 },
-  { date: "todat", amounttotal: 0, numtotal: 0 }
+  { date: "昨日", amounttotal: 0, numtotal: 0 },
+  { date: "今日", amounttotal: 0, numtotal: 0 }
 ]);
 
 

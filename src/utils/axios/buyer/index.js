@@ -44,11 +44,15 @@ export const bindWallets = async (params) => {
 };
 
 export const orderSubmit = async (params) => {
-  return await service.post("/buyer/order/submit", params);
+  return await service.post("/index/order/submit", params);
 };
 
 export const getPlatformRechargeAddress = async () => {
-  return await service.get("buyer/platformRechargeAddress");
+  return await service.get("/buyer/user/transfer/recharge/account");
+};
+
+export const getPlatformDappRechargeAddress = async () => {
+  return await service.get("/buyer/user/dapp/recharge/account");
 };
 
 export const transcations = async (params) => {
@@ -58,3 +62,7 @@ export const transcations = async (params) => {
 export const getStatistics = async () => {
   return await service.post("/admin/statistics",{});
 };
+export const getPlatformPrice = async () => {
+  return await service.get("/index/platformPrice");
+};
+

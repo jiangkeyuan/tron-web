@@ -61,6 +61,11 @@
           <div>{{ row.settlementRatio }}%</div>
         </template>
       </el-table-column>
+      <el-table-column prop="commissionRatio" label="佣金比例">
+        <template #default="{ row }">
+          <div>{{ row.commissionRatio }}%</div>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
           <el-button
@@ -69,7 +74,7 @@
             @click="() => change(scope)"
             v-if="scope.row.roles?.includes('BUYER') || scope.row.permissionId"
           >
-            结算比例设置
+            比例设置
           </el-button>
           <!-- <el-button type="primary" link @click="() => deleteList(scope)">
             删除
@@ -90,7 +95,7 @@
 
   <el-dialog
     v-model="dialogFormVisible"
-    title="结算比例设置"
+    title="比例设置"
     append-to-body
     destroy-on-close
   >
@@ -120,6 +125,18 @@
       <el-form-item label="结算比列:" prop="settlementRatio">
         <el-input
           v-model="form.settlementRatio"
+          autocomplete="off"
+          placeholder="0~100"
+          oninput="if(value > 100) value = 100; if(value < 0 || value == null) value = '';"
+          :maxlength="3"
+          :minlength="1"
+        >
+          <template #append>%</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="佣金比列:" prop="commissionRatio">
+        <el-input
+          v-model="form.commissionRatio"
           autocomplete="off"
           placeholder="0~100"
           oninput="if(value > 100) value = 100; if(value < 0 || value == null) value = '';"
@@ -202,6 +219,7 @@ const addManagerApi = async formEl => {
     if (valid) {
       const data = await settingRatio({
         settlementRatio: form.settlementRatio,
+        commissionRatio: form.commissionRatio,
         userId: form.id
       })
       console.log(data)
@@ -253,7 +271,8 @@ const filterRoles = val => {
   return val
     ?.split(',')
     .map(item => {
-      switch (item) {
+      const v = item.toUpperCase()
+      switch (v) {
         case 'BUYER':
           return '买家'
         case 'SELLER':

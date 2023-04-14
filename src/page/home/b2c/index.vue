@@ -70,7 +70,7 @@
               </div>
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
-                <div class="title">租用时间{{rentalDaysObj[rentalDays]}}</div>
+                <div class="title">租用时间{{ rentalDaysObj[rentalDays] }}</div>
                 <br />
                 <Button-List v-model:rentalDays="rentalDays"></Button-List>
               </div>
@@ -131,7 +131,7 @@
                     <div class="info">
                       <div>
                         价格/天：
-                        <span>{{price}}</span>
+                        <span>{{ price }}</span>
                         sun,
                       </div>
                       <div>
@@ -148,7 +148,10 @@
                     class="content-qr-code"
                   /> -->
                   <div class="content-qr-code">
-                    <qrcode-vue :value="transferAddress" :size="70"></qrcode-vue>
+                    <qrcode-vue
+                      :value="transferAddress"
+                      :size="70"
+                    ></qrcode-vue>
                   </div>
                 </div>
               </div>
@@ -194,7 +197,7 @@
               </div>
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
-                <div class="title">租用时间{{rentalDaysObj[rentalDays]}}</div>
+                <div class="title">租用时间{{ rentalDaysObj[rentalDays] }}</div>
                 <br />
                 <Button-List v-model:rentalDays="rentalDays"></Button-List>
               </div>
@@ -236,7 +239,7 @@
                     <div class="info">
                       <div>
                         价格/天：
-                        <span>{{price}}</span>
+                        <span>{{ price }}</span>
                         sun,
                       </div>
                       <div>
@@ -397,7 +400,8 @@ import {
   buyDappOrders,
   getPlatformDappAddress,
   getPlatformTransferAddress,
-  getPlatformPrice
+  getPlatformPrice,
+  hasSufficientTrx
 } from '@/utils/axios/home/index.js'
 import QrcodeVue from 'qrcode.vue'
 import { reactive, ref } from 'vue'
@@ -411,9 +415,9 @@ const amount = ref('')
 const transfer = ref('')
 const rentalDays = ref(72)
 const rentalDaysObj = reactive({
-    1: '1小时',
-    24: '1天',
-    72: '3天'
+  1: '1小时',
+  24: '1天',
+  72: '3天'
 })
 const shortcutList = [
   {
@@ -532,6 +536,10 @@ const payment = async () => {
   if (!amount.value) {
     return ElMessage.error('请输入需要租用的能量数')
   }
+  await queryHasSufficientTrx()
+  if (!isHasSufficientTrx.value) {
+    return ElMessage.error('平台能量不足')
+  }
   try {
     const addr = address.value || walletAddress()
     loading.value = true
@@ -544,9 +552,9 @@ const payment = async () => {
     const broastTx = await tronWeb.trx.sendRawTransaction(signedTxn)
     console.log('broastTx', broastTx)
     const postData = {
-        transactionHash: broastTx.txid,
-        rentalEnergyQuantity: Number(capacity.value),
-        rentalHours: Number(rentalDays.value)
+      transactionHash: broastTx.txid,
+      rentalEnergyQuantity: Number(capacity.value),
+      rentalHours: Number(rentalDays.value)
     }
     const data = await buyDappOrders(postData)
     console.log('data', data)
@@ -567,7 +575,7 @@ const payment = async () => {
 }
 onMounted(() => {
   address.value = walletAddress() || ''
-//   queryPlatformRechargeAddress()
+  //   queryPlatformRechargeAddress()
   queryPlatformDappAddress()
   queryPlatformTransferAddress()
   queryPlatformPrice()
@@ -606,6 +614,18 @@ const queryPlatformPrice = async () => {
   const data = await getPlatformPrice()
   if (data.code === 12000) {
     price.value = data.data
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
+const isHasSufficientTrx = ref(false)
+const queryHasSufficientTrx = async () => {
+  const data = await hasSufficientTrx({
+    rentalEnergyQuantity: Number(capacity.value)
+  })
+
+  if (data.code === 12000) {
+    isHasSufficientTrx.value = data.data
   } else {
     ElMessage.error(data.msg)
   }

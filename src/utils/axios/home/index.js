@@ -74,3 +74,11 @@ export const getPlatformTransferAddress = async () => {
 export const getPlatformPrice = async () => {
     return await service.get('/index/platformPrice')
 };
+
+export const hasSufficientTrx = async (data) => {
+    return await service({
+        url: '/index/dapp/hasSufficientTrx',
+        method: 'post',
+        data
+    })
+};

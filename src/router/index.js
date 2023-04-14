@@ -128,21 +128,6 @@ const routes = [
         },
       },
       {
-        path: "manager",
-        beforeEnter: (to, from, next) => {
-          console.log(from.path);
-          if (store.state?.roles?.roles?.includes("ADMIN")) {
-            next();
-          } else {
-            next(from.path);
-          }
-        },
-        components: {
-          helper: () => import("../page/manager/index.vue"),
-          default: () => import("../page/manager/index.vue"),
-        },
-      },
-      {
         path: "buyer/dashboard",
         beforeEnter: (to, from, next) => {
           if (store.state.roles.roles === "ADMIN") {
@@ -218,6 +203,13 @@ const routes = [
         components: {
           helper: () => import("../page/buyer/help/index.vue"),
           default: () => import("../page/buyer/help/index.vue"),
+        },
+      },
+      {
+        path: "buyer/help/energy",
+        components: {
+          helper: () => import("../page/buyer/help/energy/index.vue"),
+          default: () => import("../page/buyer/help/energy/index.vue"),
         },
       },
       {

@@ -11,7 +11,7 @@
           </el-input>
           <span class="maual-lease-item-energy-text">
             大约需要支付
-            <span class="maual-lease-item-energy-text-num">{{ rentalEnergynum }}</span>
+            <span class="maual-lease-item-energy-text-num">{{ rentalEnergynum || 0 }}</span>
             TRX
           </span>
         </div>
@@ -30,7 +30,7 @@
   </div>
 </template>
 <script setup>
-import { manaulBuy } from '@/utils/axios/buyer/index';
+import { manaulBuy,getPlatformPrice } from '@/utils/axios/buyer/index';
 import { ElMessage } from 'element-plus';
 const store = useStore();
 const fullscreenLoading = ref(false);
@@ -39,13 +39,23 @@ const form = reactive({
   rentalHours: 1,
   rentalEnergyQuantity: ''
 });
+const platformPrice = ref(0);
 
 let rentalEnergynum = ref(null);
 
 watch([() => form.rentalEnergyQuantity, () => form.rentalHours], (n, o) => {
-  const rate = +n[0] >= 50000 ? 115 : 120;
-  rentalEnergynum.value = +n[0] * rate *  Math.floor(+n[1] +24) / 1000000
+  rentalEnergynum.value = +n[0] * platformPrice.value * Math.floor((+n[1] + 24) / 24) / 1000000
 })
+
+
+const pageGetPlatformPrice = async ()=>{
+  const data = await getPlatformPrice();
+  if(data.code === 12000){
+    platformPrice.value = +data.data;
+  }
+}
+
+pageGetPlatformPrice()
 
 const buy = async () => {
   if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }

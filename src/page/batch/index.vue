@@ -6,10 +6,6 @@
       <span>余额: 0</span>
     </div>
     <el-input v-model="form.apiKey" placeholder="填写你的密钥">
-      <template #append>
-        <el-button>更新余额</el-button>
-        <el-button>查询可租能量</el-button>
-      </template>
     </el-input>
     <div class="outer-title">
       <span>租用能量数</span>

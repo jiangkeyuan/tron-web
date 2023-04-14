@@ -40,7 +40,7 @@
             <div class="recharge-content">
               <span>平台钱包地址</span>
               <div class="recharge-content-address">
-                <span>{{ rechargeAdress }}</span>
+                <span>{{ rechargeTransferAdress }}</span>
                 <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#c53027">
                   <CopyDocument />
                 </el-icon>
@@ -73,9 +73,8 @@
 import DashBord from "@/components/dashbord-content.vue";
 import { copy } from "@/utils/utils/index.js";
 import { useRouter } from "vue-router";
-import { md5 } from "@/utils/utils/md5.js";
 import { isConnectedWallet, walletAddress, tronErrorList } from '@/utils/utils/tron.js';
-import { dappRecharge, bindWallets, getPlatformRechargeAddress } from '@/utils/axios/buyer/index';
+import { dappRecharge, bindWallets, getPlatformRechargeAddress,getPlatformDappRechargeAddress } from '@/utils/axios/buyer/index';
 import { ElMessage } from "element-plus";
 import RechareLog from '../recharge-log/index.vue'
 const router = useRouter();
@@ -84,7 +83,9 @@ const rechargeAmount = ref("");
 const fullscreenLoading = ref(false);
 const store = useStore();
 const rechargeAdress = ref("");
+const rechargeTransferAdress = ref('')
 const rechareRef = ref('');
+
 
 const searchLog = (e) => {
   if (e.props.name === 'three') {
@@ -108,6 +109,10 @@ const bindWalletHandle = async () => {
 
 const addMoney = async () => {
   fullscreenLoading.value = true;
+  if(!window.tronLink){
+    fullscreenLoading.value = false;
+    return 
+  } 
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",
   });
@@ -121,7 +126,6 @@ const addMoney = async () => {
     return;
   }
   try {
-    console.log(walletAddress());
     const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
       rechargeAdress.value,
       tronWeb.toSun(rechargeAmount.value),
@@ -150,7 +154,11 @@ const getUserInfo = () => {
 }
 
 onMounted(async () => {
-  const data = await getPlatformRechargeAddress()
+  const data = await getPlatformDappRechargeAddress()
+  const datas = await getPlatformRechargeAddress()
+  if(datas.code === 12000){
+    rechargeTransferAdress.value = datas.data;
+  }
   if (data.code === 12000) {
     rechargeAdress.value = data.data;
   } else {

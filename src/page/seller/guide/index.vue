@@ -20,8 +20,8 @@
             <h3>自动出售授权教程</h3>
             <div class="copy-item">
               <p class="title">授权权限名称</p>
-              <p class="text">feee.io</p>
-              <div class="btn" @click="copyEnd('feee.io')">复制</div>
+              <p class="text">HashGo</p>
+              <div class="btn" @click="copyEnd('HashGo')">复制</div>
             </div>
             <div class="copy-item">
               <p class="title">授权地址</p>
@@ -52,7 +52,7 @@
       </div>
     </div>
   </div>
-  <el-dialog v-model="courseVisible" title="如何授权给Feee.io自动出售能量？" width="830px" center>
+  <el-dialog v-model="courseVisible" title="如何授权给HashGo自动出售能量？" width="830px" center>
     <HowAutoSell></HowAutoSell>
   </el-dialog>
   <el-dialog v-model="courseVideoVisible" :show-close="false" title="" :before-close="close" width="830px" center

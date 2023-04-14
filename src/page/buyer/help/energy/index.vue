@@ -1,256 +1,1209 @@
 <template>
   <DashbordContent>
-  <div class="contents">
-    <div class='typora-export os-windows kkkk' >
-        <div  id='write'  class = 'is-node'><p><span>请求路径：</span><a href='http://energy.hashgo.xyz/index/order/submit' target='_blank' class='url'>http://energy.hashgo.xyz/index/order/submit</a>
-        <span>请求方式：post</span>
-        <span>请求格式:json</span>
-        <span>请求参数:</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>apiKey</span></td><td><span>string</span></td><td><span>申请的 apikey</span></td><td><span>*</span><strong><span>*</span><span>_</span><span>*</span><span>*</span></strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span><span>**_</span></td></tr><tr><td><span>rentalHours</span></td><td><span>Integer</span></td><td><span>租用时长</span></td><td><span>小时为单位,1 小时或者其他 24 的倍数</span></td></tr><tr><td><span>receiveAddress</span></td><td><span>String</span></td><td><span>接受地址</span></td><td><span>TJRk_**hCAY</span></td></tr></tbody></table></figure><p><span>返回参数</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>orderNo</span></td><td><span>String</span></td><td><span>订单号</span></td><td><span>202xxxxx</span></td></tr><tr><td><span>apiKey</span></td><td><span>String</span></td><td><span>申请的 apikey</span></td><td><span>*</span><strong><span>*</span><span>_</span><span>*</span><span>*</span></strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span><span>**_</span></td></tr><tr><td><span>fromAddress</span></td><td><span>String</span></td><td><span>代理方地址</span></td><td><span>TJRk_**hCAY</span></td></tr><tr><td><span>toAddress</span></td><td><span>String</span></td><td><span>接收方地址</span></td><td><span>TJRk</span><span>*</span><span>*</span><span>*</span><span>hCAY</span></td></tr><tr><td><span>rentalQuantity</span></td><td><span>Long</span></td><td><span>租用能量</span></td><td><span>10000</span></td></tr><tr><td><span>doneRentalQuantity</span></td><td><span>Long</span></td><td><span>已完成能量</span></td><td><span>10000</span></td></tr><tr><td><span>rentalHours</span></td><td><span>Integer</span></td><td><span>租用时长</span></td><td><span>72</span></td></tr><tr><td><span>payDate</span></td><td><span>Date</span></td><td><span>支付日期</span></td><td><span>2001-01-01</span></td></tr><tr><td><span>delegateDate</span></td><td><span>Date</span></td><td><span>代理日期</span></td><td><span>2002-02-02</span></td></tr><tr><td><span>expiredDate</span></td><td><span>Date</span></td><td><span>过期日期</span></td><td><span>2002-02-02</span></td></tr><tr><td><span>price</span></td><td><span>Integer</span></td><td><span>出售单价</span></td><td><span>120</span></td></tr><tr><td><span>payAmount</span></td><td><span>Bigdecimal</span></td><td><span>支付金额</span></td><td><span>3.6</span></td></tr><tr><td><span>orderStatus</span></td><td><span>String</span></td><td><span>订单状态</span></td><td><span>代理中</span></td></tr><tr><td><span>transactionHash</span></td><td><span>String</span></td><td><span>交易 id</span></td><td><span>sadfsadfds</span></td></tr><tr><td><span>createDate</span></td><td><span>Date</span></td><td><span>创建日期</span></td><td><span>2002-02-02</span></td></tr></tbody></table></figure><p><span>请求路径：</span><a href='http://energy.hashgo.xyz/index/order/query' target='_blank' class='url'>http://energy.hashgo.xyz/index/order/query</a>
-        <span>请求方式：get</span>
-        <span>请求格式:json</span>
-        <span>请求参数:</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>apiKey</span></td><td><span>String</span></td><td><span>申请的 apikey</span></td><td><span>*</span><strong><span>*</span><span>_</span><span>*</span><span>*</span></strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span><span>**</span><span>*</span></td></tr><tr><td><span>orderNo</span></td><td><span>String</span></td><td><span>订单号</span></td><td><span>202xxxxxx</span></td></tr></tbody></table></figure><p><span>返回参数</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>orderNo</span></td><td><span>String</span></td><td><span>订单号</span></td><td><span>202xxxxx</span></td></tr><tr><td><span>apiKey</span></td><td><span>String</span></td><td><span>申请的 apikey</span></td><td><span>*</span><span>*</span><strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span></strong><span>*</span><span>_</span><span>*</span><span>*</span><span>**</span></td></tr><tr><td><span>fromAddress</span></td><td><span>String</span></td><td><span>代理方地址</span></td><td><span>TJRk**_hCAY</span></td></tr><tr><td><span>toAddress</span></td><td><span>String</span></td><td><span>接收方地址</span></td><td><span>TJRk_**hCAY</span></td></tr><tr><td><span>rentalQuantity</span></td><td><span>Long</span></td><td><span>租用能量</span></td><td><span>10000</span></td></tr><tr><td><span>doneRentalQuantity</span></td><td><span>Long</span></td><td><span>已完成能量</span></td><td><span>10000</span></td></tr><tr><td><span>rentalHours</span></td><td><span>Integer</span></td><td><span>租用时长</span></td><td><span>72</span></td></tr><tr><td><span>payDate</span></td><td><span>Date</span></td><td><span>支付日期</span></td><td><span>2001-01-01</span></td></tr><tr><td><span>delegateDate</span></td><td><span>Date</span></td><td><span>代理日期</span></td><td><span>2002-02-02</span></td></tr><tr><td><span>expiredDate</span></td><td><span>Date</span></td><td><span>过期日期</span></td><td><span>2002-02-02</span></td></tr><tr><td><span>price</span></td><td><span>Integer</span></td><td><span>出售单价</span></td><td><span>120</span></td></tr><tr><td><span>payAmount</span></td><td><span>Bigdecimal</span></td><td><span>支付金额</span></td><td><span>3.6</span></td></tr><tr><td><span>orderStatus</span></td><td><span>String</span></td><td><span>订单状态</span></td><td><span>代理中</span></td></tr><tr><td><span>transactionHash</span></td><td><span>String</span></td><td><span>交易 id</span></td><td><span>sadfsadfds</span></td></tr><tr><td><span>createDate</span></td><td><span>Date</span></td><td><span>创建日期</span></td><td><span>2002-02-02</span></td></tr></tbody></table></figure><p><span>请求路径：</span><a href='http://energy.hashgo.xyz/index/order/list' target='_blank' class='url'>http://energy.hashgo.xyz/index/order/list</a>
-        <span>请求方式：get</span>
-        <span>请求格式:json</span>
-        <span>请求参数:</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>apiKey</span></td><td><span>String</span></td><td><span>申请的 apikey</span></td><td><span>*</span><strong><span>*</span><span>_</span><span>*</span><span>*</span></strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span><span>**</span><span>*</span></td></tr></tbody></table></figure><p><span>返回参数</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>orderNo</span></td><td><span>String</span></td><td><span>订单号</span></td><td><span>202xxxxx</span></td></tr><tr><td><span>apiKey</span></td><td><span>String</span></td><td><span>申请的 apikey</span></td><td><span>*</span><span>*</span><strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span></strong><span>*</span><span>_</span><span>*</span><span>*</span><span>**</span></td></tr><tr><td><span>fromAddress</span></td><td><span>String</span></td><td><span>代理方地址</span></td><td><span>TJRk**_hCAY</span></td></tr><tr><td><span>toAddress</span></td><td><span>String</span></td><td><span>接收方地址</span></td><td><span>TJRk_**hCAY</span></td></tr><tr><td><span>rentalQuantity</span></td><td><span>Long</span></td><td><span>租用能量</span></td><td><span>10000</span></td></tr><tr><td><span>doneRentalQuantity</span></td><td><span>Long</span></td><td><span>已完成能量</span></td><td><span>10000</span></td></tr><tr><td><span>rentalHours</span></td><td><span>Integer</span></td><td><span>租用时长</span></td><td><span>72</span></td></tr><tr><td><span>payDate</span></td><td><span>Date</span></td><td><span>支付日期</span></td><td><span>2001-01-01</span></td></tr><tr><td><span>delegateDate</span></td><td><span>Date</span></td><td><span>代理日期</span></td><td><span>2002-02-02</span></td></tr><tr><td><span>expiredDate</span></td><td><span>Date</span></td><td><span>过期日期</span></td><td><span>2002-02-02</span></td></tr><tr><td><span>price</span></td><td><span>Integer</span></td><td><span>出售单价</span></td><td><span>120</span></td></tr><tr><td><span>payAmount</span></td><td><span>Bigdecimal</span></td><td><span>支付金额</span></td><td><span>3.6</span></td></tr><tr><td><span>orderStatus</span></td><td><span>String</span></td><td><span>订单状态</span></td><td><span>代理中</span></td></tr><tr><td><span>transactionHash</span></td><td><span>String</span></td><td><span>交易 id</span></td><td><span>sadfsadfds</span></td></tr><tr><td><span>createDate</span></td><td><span>Date</span></td><td><span>创建日期</span></td><td><span>2002-02-02</span></td></tr></tbody></table></figure><p><span>请求路径：</span><a href='http://energy.hashgo.xyz/index/api/query' target='_blank' class='url'>http://energy.hashgo.xyz/index/api/query</a>
-        <span>请求方式：get</span>
-        <span>请求格式:json</span>
-        <span>请求参数:</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>apiKey</span></td><td><span>String</span></td><td><span>申请的 apikey</span></td><td><span>*</span><strong><span>*</span><span>_</span><span>*</span><span>*</span></strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span><span>*</span><span>*</span><span>*</span></td></tr></tbody></table></figure><p><span>返回参数</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>canRentalEnergy</span></td><td><span>Long</span></td><td><span>还能租多少</span></td><td><span>10000</span></td></tr><tr><td><span>todayTrxUsed</span></td><td><span>Bigdecimal</span></td><td><span>今天使用 trx</span></td><td><span>3.6</span></td></tr><tr><td><span>todayRentaledEnergy</span></td><td><span>Long</span></td><td><span>今天租用能量</span></td><td><span>100000</span></td></tr><tr><td><span>yesterdayTrxUsed</span></td><td><span>Bigdecimal</span></td><td><span>昨天使用 trx</span></td><td><span>3.6</span></td></tr><tr><td><span>yesterdayRentaledEnergy</span></td><td><span>Long</span></td><td><span>昨天租用能量</span></td><td><span>100000</span></td></tr><tr><td><span>totalTrxUsed</span></td><td><span>Bigdecimal</span></td><td><span>总使用 trx</span></td><td><span>7.2</span></td></tr><tr><td><span>totalRentaledEnergy</span></td><td><span>Long</span></td><td><span>总租用能量</span></td><td><span>200000</span></td></tr><tr><td><span>createDate</span></td><td><span>Date</span></td><td><span>创建日期</span></td><td><span>2020-01-02</span></td></tr></tbody></table></figure><p><span>请求路径：</span><a href='http://energy.hashgo.xyz/index/api/resource' target='_blank' class='url'>http://energy.hashgo.xyz/index/api/resource</a>
-        <span>请求方式：get</span>
-        <span>请求格式:json</span>
-        <span>返回参数</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>data</span></td><td><span>Long</span></td><td><span>平台可用资源</span></td><td><span>10000</span></td></tr></tbody></table></figure><p><span>请求路径：</span><a href='http://energy.hashgo.xyz/index/api/undelegate' target='_blank' class='url'>http://energy.hashgo.xyz/index/api/undelegate</a>
-        <span>请求方式：post</span>
-        <span>请求格式:json</span>
-        <span>请求参数:</span></p><figure><table><thead><tr><th><span>参数名</span></th><th><span>参数类型</span></th><th><span>参数说明</span></th><th><span>示例</span></th></tr></thead><tbody><tr><td><span>apiKey</span></td><td><span>String</span></td><td><span>申请的 apikey</span></td><td><span>*</span><strong><span>*</span><span>_</span><span>*</span><span>*</span></strong><em><span>*</span><span>*</span><span>*</span><span>*</span></em><span>*</span><span>*</span><span>*</span><span>*</span></td></tr><tr><td><span>orderNo</span></td><td><span>String</span></td><td><span>订单号</span></td><td><span>202xxxxxx</span></td></tr></tbody></table></figure></div>
-    </div>
-  </div>
-</DashbordContent>
+    <div class="feeeio-layout-content full">
+		<div class="">
+			<div class="p-4" data-v-531a4288="">
+				<div class="common-form-container" data-v-531a4288="">
+					<div class="md:w-247.5  mt-20" data-v-531a4288="">
+						<h3 class="ant-typography" data-v-531a4288="">1.购买能量</h3>
+						<div class="ant-typography" data-v-531a4288="">
+							请求路径：http://api.energy.hashgo.xyz/index/order/submit
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							请求方式：POST
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							参数格式：JSON
+							<!---->
+						</div>
+						<h5 class="ant-typography" data-v-531a4288="">
+							请求header头
+							<!---->
+						</h5>
+						<div>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">Content-Type</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">application/json</td>
+											<td data-v-531a4288="">application/json</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								请求参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">申请的api-key</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalEnergyQuantity</td>
+											<td data-v-531a4288="">int</td>
+											<td data-v-531a4288="">租用能量数(10000起租)</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalHours</td>
+											<td data-v-531a4288="">Integer</td>
+											<td data-v-531a4288="">租用时长</td>
+											<td data-v-531a4288="">小时为单位,1 小时或者其他 24 的倍数</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">receiveAddress</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">接受地址</td>
+											<td data-v-531a4288="">TJRk_**hCAY</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">code</td>
+											<td data-v-531a4288="">int</td>
+											<td data-v-531a4288="">状态码</td>
+											<td data-v-531a4288="">0</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">msg</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">响应说明</td>
+											<td data-v-531a4288="">ok</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">data</td>
+											<td data-v-531a4288="">object</td>
+											<td data-v-531a4288="">数据详情结构</td>
+											<td data-v-531a4288=""></td>
+										</tr>
+
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderNo</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单号</td>
+											<td data-v-531a4288="">202xxxxx</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">apiKey</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">申请的 apikey</td>
+											<td data-v-531a4288="">****_****_****_***</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">fromAddress</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">代理方地址</td>
+											<td data-v-531a4288="">TJRk_**hCAY</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">toAddress</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">接收方地址</td>
+											<td data-v-531a4288="">TJRk***hCAY</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalQuantity</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">租用能量</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">doneRentalQuantity</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">已完成能量</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalHours</td>
+											<td data-v-531a4288="">Integer</td>
+											<td data-v-531a4288="">租用时长</td>
+											<td data-v-531a4288="">72</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">payDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">支付日期</td>
+											<td data-v-531a4288="">2001-01-01</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">delegateDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">代理日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">expiredDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">过期日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">price</td>
+											<td data-v-531a4288="">Integer</td>
+											<td data-v-531a4288="">出售单价</td>
+											<td data-v-531a4288="">120</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">payAmount</td>
+											<td data-v-531a4288="">Bigdecimal</td>
+											<td data-v-531a4288="">支付金额</td>
+											<td data-v-531a4288="">3.6</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderStatus</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单状态</td>
+											<td data-v-531a4288="">代理中</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">transactionHash</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">交易 id</td>
+											<td data-v-531a4288="">sadfsadfds</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">createDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">创建日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+
+
+
+									</tbody>
+								</table>
+							</div>
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应示例
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<pre class="code" data-v-531a4288="">
+								<code data-v-531a4288="">
+{
+"code":0,
+"msg":"ok",
+"data":{
+	
+}
+}
+								</code>
+							</pre>
+							</div>
+
+						</div>
+					</div>
+
+
+
+					<div class="md:w-247.5  mt-20" data-v-531a4288="">
+						<h3 class="ant-typography" data-v-531a4288="">2.查询某笔订单</h3>
+						<div class="ant-typography" data-v-531a4288="">
+							请求路径：http://api.energy.hashgo.xyz/index/order/query
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							请求方式：GET
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							参数格式：JSON
+							<!---->
+						</div>
+						<h5 class="ant-typography" data-v-531a4288="">
+							请求header头
+							<!---->
+						</h5>
+						<div>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">Content-Type</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">application/json</td>
+											<td data-v-531a4288="">application/json</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								请求参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">申请的api-key</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderNo</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单号</td>
+											<td data-v-531a4288="">202xxxxxx</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">code</td>
+											<td data-v-531a4288="">int</td>
+											<td data-v-531a4288="">状态码</td>
+											<td data-v-531a4288="">0</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">msg</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">响应说明</td>
+											<td data-v-531a4288="">ok</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">data</td>
+											<td data-v-531a4288="">object</td>
+											<td data-v-531a4288="">订单详情结构</td>
+											<td data-v-531a4288=""></td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderNo</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单号</td>
+											<td data-v-531a4288="">202xxxxx</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">apiKey</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">申请的 apikey</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">fromAddress</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">代理方地址</td>
+											<td data-v-531a4288="">TJRk**_hCAY</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">toAddress</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">接收方地址</td>
+											<td data-v-531a4288="">TJRk_**hCAY</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalQuantity</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">租用能量</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">doneRentalQuantity</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">已完成能量</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalHours</td>
+											<td data-v-531a4288="">Integer</td>
+											<td data-v-531a4288="">租用时长</td>
+											<td data-v-531a4288="">72</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">payDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">支付日期</td>
+											<td data-v-531a4288="">2001-01-01</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">delegateDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">代理日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">expiredDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">过期日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">price</td>
+											<td data-v-531a4288="">Integer</td>
+											<td data-v-531a4288="">出售单价</td>
+											<td data-v-531a4288="">120</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">payAmount</td>
+											<td data-v-531a4288="">Bigdecimal</td>
+											<td data-v-531a4288="">支付金额</td>
+											<td data-v-531a4288="">3.6</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderStatus</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单状态</td>
+											<td data-v-531a4288="">代理中</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">transactionHash</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">交易 id</td>
+											<td data-v-531a4288="">sadfsadfds</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">createDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">创建日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应示例
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<pre class="code" data-v-531a4288="">
+								<code data-v-531a4288="">
+{
+"code":0,
+"msg":"ok",
+"data":{
+	
+}
+}
+								</code>
+							</pre>
+							</div>
+
+						</div>
+					</div>
+
+
+
+
+
+					<div class="md:w-247.5  mt-20" data-v-531a4288="">
+						<h3 class="ant-typography" data-v-531a4288="">3.查询apikey下的订单</h3>
+						<div class="ant-typography" data-v-531a4288="">
+							请求路径：http://api.energy.hashgo.xyz/index/order/list
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							请求方式：GET
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							参数格式：JSON
+							<!---->
+						</div>
+						<h5 class="ant-typography" data-v-531a4288="">
+							请求header头
+							<!---->
+						</h5>
+						<div>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">Content-Type</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">application/json</td>
+											<td data-v-531a4288="">application/json</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								请求参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">申请的api-key</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">code</td>
+											<td data-v-531a4288="">int</td>
+											<td data-v-531a4288="">状态码</td>
+											<td data-v-531a4288="">0</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">msg</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">响应说明</td>
+											<td data-v-531a4288="">ok</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">data</td>
+											<td data-v-531a4288="">object</td>
+											<td data-v-531a4288="">订单详情结构</td>
+											<td data-v-531a4288=""></td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderNo</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单号</td>
+											<td data-v-531a4288="">202xxxxx</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">apiKey</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">申请的 apikey</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">fromAddress</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">代理方地址</td>
+											<td data-v-531a4288="">TJRk**_hCAY</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">toAddress</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">接收方地址</td>
+											<td data-v-531a4288="">TJRk_**hCAY</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalQuantity</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">租用能量</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">doneRentalQuantity</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">已完成能量</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">rentalHours</td>
+											<td data-v-531a4288="">Integer</td>
+											<td data-v-531a4288="">租用时长</td>
+											<td data-v-531a4288="">72</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">payDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">支付日期</td>
+											<td data-v-531a4288="">2001-01-01</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">delegateDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">代理日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">expiredDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">过期日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">price</td>
+											<td data-v-531a4288="">Integer</td>
+											<td data-v-531a4288="">出售单价</td>
+											<td data-v-531a4288="">120</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">payAmount</td>
+											<td data-v-531a4288="">Bigdecimal</td>
+											<td data-v-531a4288="">支付金额</td>
+											<td data-v-531a4288="">3.6</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderStatus</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单状态</td>
+											<td data-v-531a4288="">代理中</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">transactionHash</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">交易 id</td>
+											<td data-v-531a4288="">sadfsadfds</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">createDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">创建日期</td>
+											<td data-v-531a4288="">2002-02-02</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应示例
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<pre class="code" data-v-531a4288="">
+								<code data-v-531a4288="">
+{
+"code":0,
+"msg":"ok",
+"data":{
+	
+}
+}
+								</code>
+							</pre>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="md:w-247.5  mt-20" data-v-531a4288="">
+						<h3 class="ant-typography" data-v-531a4288="">4.API 资源查询</h3>
+						<div class="ant-typography" data-v-531a4288="">
+							请求路径：http://api.energy.hashgo.xyz/index/api/query
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							请求方式：GET
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							参数格式：JSON
+							<!---->
+						</div>
+						<h5 class="ant-typography" data-v-531a4288="">
+							请求header头
+							<!---->
+						</h5>
+						<div>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">Content-Type</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">application/json</td>
+											<td data-v-531a4288="">application/json</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								请求参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">申请的api-key</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">code</td>
+											<td data-v-531a4288="">int</td>
+											<td data-v-531a4288="">状态码</td>
+											<td data-v-531a4288="">0</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">msg</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">响应说明</td>
+											<td data-v-531a4288="">ok</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">data</td>
+											<td data-v-531a4288="">object</td>
+											<td data-v-531a4288="">订单详情结构</td>
+											<td data-v-531a4288=""></td>
+										</tr>
+
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">canRentalEnergy</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">还能租多少</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">todayTrxUsed</td>
+											<td data-v-531a4288="">Bigdecimal</td>
+											<td data-v-531a4288="">今天使用 trx</td>
+											<td data-v-531a4288="">3.6</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">todayRentaledEnergy</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">今天租用能量</td>
+											<td data-v-531a4288="">100000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">yesterdayTrxUsed</td>
+											<td data-v-531a4288="">Bigdecimal</td>
+											<td data-v-531a4288="">昨天使用 trx</td>
+											<td data-v-531a4288="">3.6</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">yesterdayRentaledEnergy</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">昨天租用能量</td>
+											<td data-v-531a4288="">100000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">totalTrxUsed</td>
+											<td data-v-531a4288="">Bigdecimal</td>
+											<td data-v-531a4288="">总使用 trx</td>
+											<td data-v-531a4288="">7.2</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">totalRentaledEnergy</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">总租用能量</td>
+											<td data-v-531a4288="">200000</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">createDate</td>
+											<td data-v-531a4288="">Date</td>
+											<td data-v-531a4288="">创建日期</td>
+											<td data-v-531a4288="">2020-01-02</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应示例
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<pre class="code" data-v-531a4288="">
+								<code data-v-531a4288="">
+{
+"code":0,
+"msg":"ok",
+"data":{
+	
+}
+}
+								</code>
+							</pre>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="md:w-247.5  mt-20" data-v-531a4288="">
+						<h3 class="ant-typography" data-v-531a4288="">5.查询平台可用资源</h3>
+						<div class="ant-typography" data-v-531a4288="">
+							请求路径：http://api.energy.hashgo.xyz/index/api/resource
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							请求方式：GET
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							参数格式：JSON
+							<!---->
+						</div>
+						<h5 class="ant-typography" data-v-531a4288="">
+							请求header头
+							<!---->
+						</h5>
+						<div>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">Content-Type</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">application/json</td>
+											<td data-v-531a4288="">application/json</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								请求参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">申请的api-key</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">code</td>
+											<td data-v-531a4288="">int</td>
+											<td data-v-531a4288="">状态码</td>
+											<td data-v-531a4288="">0</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">msg</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">响应说明</td>
+											<td data-v-531a4288="">ok</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">data</td>
+											<td data-v-531a4288="">object</td>
+											<td data-v-531a4288="">订单详情结构</td>
+											<td data-v-531a4288=""></td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">data</td>
+											<td data-v-531a4288="">Long</td>
+											<td data-v-531a4288="">平台可用资源</td>
+											<td data-v-531a4288="">10000</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应示例
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<pre class="code" data-v-531a4288="">
+								<code data-v-531a4288="">
+{
+"code":0,
+"msg":"ok",
+"data":{
+	
+}
+}
+								</code>
+							</pre>
+							</div>
+						</div>
+					</div>
+					<div class="md:w-247.5  mt-20" data-v-531a4288="">
+						<h3 class="ant-typography" data-v-531a4288="">6.取消代理</h3>
+						<div class="ant-typography" data-v-531a4288="">
+							请求路径：http://api.energy.hashgo.xyz/index/api/undelegate
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							请求方式：POST
+							<!---->
+						</div>
+						<div class="ant-typography" data-v-531a4288="">
+							参数格式：JSON
+							<!---->
+						</div>
+						<h5 class="ant-typography" data-v-531a4288="">
+							请求header头
+							<!---->
+						</h5>
+						<div>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">Content-Type</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">application/json</td>
+											<td data-v-531a4288="">application/json</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								请求参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">申请的api-key</td>
+											<td data-v-531a4288="">****_****_****_****</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">orderNo</td>
+											<td data-v-531a4288="">String</td>
+											<td data-v-531a4288="">订单号</td>
+											<td data-v-531a4288="">202xxxxxx</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应参数
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<table class="table" data-v-531a4288="">
+									<thead data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<th data-v-531a4288="">参数名</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">参数类型</th>
+											<th data-v-531a4288="">示例</th>
+										</tr>
+									</thead>
+									<tbody data-v-531a4288="">
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">code</td>
+											<td data-v-531a4288="">int</td>
+											<td data-v-531a4288="">状态码</td>
+											<td data-v-531a4288="">0</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">msg</td>
+											<td data-v-531a4288="">string</td>
+											<td data-v-531a4288="">响应说明</td>
+											<td data-v-531a4288="">ok</td>
+										</tr>
+										<tr data-v-531a4288="">
+											<td data-v-531a4288="">data</td>
+											<td data-v-531a4288="">object</td>
+											<td data-v-531a4288=""></td>
+											<td data-v-531a4288=""></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h5 class="ant-typography" data-v-531a4288="">
+								响应示例
+								<!---->
+							</h5>
+							<div class="overflow-auto" data-v-531a4288="">
+								<pre class="code" data-v-531a4288="">
+								<code data-v-531a4288="">
+{
+"code":0,
+"msg":"ok",
+"data":{
+	
+}
+}
+								</code>
+							</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </DashbordContent>
 </template>
 <script setup></script>
 <style scoped>
-.contents{
-  display: flex;
-  width:100%;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+.mt-20{
+  margin-top:20px;
 }
-.kkkk { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-.kkkk { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
-iframe { margin: auto; }
-a.url { word-break: break-all; }
-a:active, a:hover { outline: 0px; }
-.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; }
-#write.first-line-indent p { text-indent: 2em; }
-#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
-#write.first-line-indent li { margin-left: 2em; }
-.for-image #write { padding-left: 8px; padding-right: 8px; }
-.kkkk.typora-export { padding-right: 30px; }
-.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
-@media screen and (max-width: 500px) {
-  .kkkk.typora-export { padding-left: 0px; padding-right: 0px; }
-  #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
+body,
+td {
+  font-family: 微软雅黑;
+  font-size: 10pt;
 }
-#write li > figure:last-child { margin-bottom: 0.5rem; }
-#write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
-button, input, select, textarea { color: inherit; font: inherit; }
-input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
-*, ::after, ::before { box-sizing: border-box; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-p { line-height: inherit; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
-p { orphans: 4; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.6rem; }
-h4 { font-size: 1.4rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1rem; }
-.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
-.hidden { display: none; }
-.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
-a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
-sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
-#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
-figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
-tr { break-inside: avoid; break-after: auto; }
-thead { display: table-header-group; }
-table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
-table.md-table td { min-width: 32px; }
-.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
-.CodeMirror-linenumber { user-select: none; }
-.CodeMirror { text-align: left; }
-.CodeMirror-placeholder { opacity: 0.3; }
-.CodeMirror pre { padding: 0px 4px; }
-.CodeMirror-lines { padding: 0px; }
-div.hr:focus { cursor: none; }
-#write pre { white-space: pre-wrap; }
-#write.fences-no-line-wrapping pre { white-space: pre; }
-#write pre.ty-contain-cm { white-space: normal; }
-.CodeMirror-gutters { margin-right: 4px; }
-.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
-#write .md-fences.mock-cm { white-space: pre-wrap; }
-.md-fences.md-fences-with-lineno { padding-left: 0px; }
-#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
-.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
-.CodeMirror-line, twitterwidget { break-inside: avoid; }
-.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
-.footnotes + .footnotes { margin-top: 0px; }
-.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
-li div { padding-top: 0px; }
-blockquote { margin: 1rem 0px; }
-li .mathjax-block, li p { margin: 0.5rem 0px; }
-li { margin: 0px; position: relative; }
-blockquote > :last-child { margin-bottom: 0px; }
-blockquote > :first-child, li > :first-child { margin-top: 0px; }
-.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
-#write .footnote-line { white-space: pre-wrap; }
-@media print {
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
-  .typora-export #write::after { height: 0px; }
+.common-form-container {
+  width: 100%;
+  border-radius: 10px;
+  background: #fff;
 }
-.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
-a img, img a { cursor: pointer; }
-pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
-p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
-p > .md-image:only-child { display: inline-block; width: 100%; }
-#write .MathJax_Display { margin: 0.8em 0px 0px; }
-.md-math-block { width: 100%; }
-.md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
-.md-task-list-item { position: relative; list-style-type: none; }
-.task-list-item.md-task-list-item { padding-left: 0px; }
-.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
-.math { font-size: 1rem; }
-.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
-.md-toc-content { position: relative; margin-left: 0px; }
-.md-toc-content::after, .md-toc::after { display: none; }
-.md-toc-item { display: block; color: rgb(65, 131, 196); }
-.md-toc-item a { text-decoration: none; }
-.md-toc-inner:hover { text-decoration: underline; }
-.md-toc-inner { display: inline-block; cursor: pointer; }
-.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
-.md-toc-h2 .md-toc-inner { margin-left: 2em; }
-.md-toc-h3 .md-toc-inner { margin-left: 4em; }
-.md-toc-h4 .md-toc-inner { margin-left: 6em; }
-.md-toc-h5 .md-toc-inner { margin-left: 8em; }
-.md-toc-h6 .md-toc-inner { margin-left: 10em; }
-@media screen and (max-width: 48em) {
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+div.ant-typography,
+.ant-typography p {
+  margin:20px 0;
 }
-a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
-.footnote-line a:not(.reversefootnote) { color: inherit; }
-.md-attr { display: none; }
-.md-fn-count::after { content: "."; }
-code, pre, samp, tt { font-family: var(--monospace); }
-kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
-code { text-align: left; vertical-align: initial; }
-a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
-.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { transition: none 0s ease 0s; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
-.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
-.md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
-[lang="mermaid"] .node text { font-size: 1rem; }
-table tr th { border-bottom: 0px; }
-video { max-width: 100%; display: block; margin: 0px auto; }
-iframe { max-width: 100%; width: 100%; border: none; }
-.highlight td, .highlight tr { border: 0px; }
-
-
-:root { --side-bar-bg-color: #fafafa; --control-text-color: #777; }
-html { font-size: 16px; }
-body { font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.6; }
-#write { max-width: 860px; margin: 0px auto; }
-#write > ul:first-child, #write > ol:first-child { margin-top: 30px; }
-a { color: rgb(65, 131, 196); }
-h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1rem; margin-bottom: 1rem; font-weight: bold; line-height: 1.4; cursor: text; }
-h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
-h1 tt, h1 code { font-size: inherit; }
-h2 tt, h2 code { font-size: inherit; }
-h3 tt, h3 code { font-size: inherit; }
-h4 tt, h4 code { font-size: inherit; }
-h5 tt, h5 code { font-size: inherit; }
-h6 tt, h6 code { font-size: inherit; }
-h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
-h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
-h3 { font-size: 1.5em; line-height: 1.43; }
-h4 { font-size: 1.25em; }
-h5 { font-size: 1em; }
-h6 { font-size: 1em; color: rgb(119, 119, 119); }
-p, blockquote, ul, ol, dl, table { margin: 0.8em 0px; }
-li > ol, li > ul { margin: 0px; }
-hr { height: 2px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; overflow: hidden; box-sizing: content-box; }
-li p.first { display: inline-block; }
-ul, ol { padding-left: 30px; }
-ul:first-child, ol:first-child { margin-top: 0px; }
-ul:last-child, ol:last-child { margin-bottom: 0px; }
-blockquote { border-left: 4px solid rgb(223, 226, 229); padding: 0px 15px; color: rgb(119, 119, 119); }
-blockquote blockquote { padding-right: 0px; }
-table { padding: 0px; word-break: initial; }
-table tr { border-top: 1px solid rgb(223, 226, 229); margin: 0px; padding: 0px; }
-table tr:nth-child(2n), thead { background-color: rgb(248, 248, 248); }
-table tr th { font-weight: bold; border-width: 1px 1px 0px; border-top-style: solid; border-right-style: solid; border-left-style: solid; border-top-color: rgb(223, 226, 229); border-right-color: rgb(223, 226, 229); border-left-color: rgb(223, 226, 229); border-image: initial; border-bottom-style: initial; border-bottom-color: initial; margin: 0px; padding: 6px 13px; }
-table tr td { border: 1px solid rgb(223, 226, 229); margin: 0px; padding: 6px 13px; }
-table tr th:first-child, table tr td:first-child { margin-top: 0px; }
-table tr th:last-child, table tr td:last-child { margin-bottom: 0px; }
-.CodeMirror-lines { padding-left: 4px; }
-.code-tooltip { box-shadow: rgba(0, 28, 36, 0.3) 0px 1px 1px 0px; border-top: 1px solid rgb(238, 242, 242); }
-.md-fences, code, tt { border: 1px solid rgb(231, 234, 237); background-color: rgb(248, 248, 248); border-radius: 3px; padding: 2px 4px 0px; font-size: 0.9em; }
-code { background-color: rgb(243, 244, 244); padding: 0px 2px; }
-.md-fences { margin-bottom: 15px; margin-top: 15px; padding-top: 8px; padding-bottom: 6px; }
-.md-task-list-item > input { margin-left: -1.3em; }
-@media print {
-  html { font-size: 13px; }
-  table, pre { break-inside: avoid; }
-  pre { overflow-wrap: break-word; }
+.ant-typography {
+  color: #000000d9;
+  overflow-wrap: break-word;
 }
-.md-fences { background-color: rgb(248, 248, 248); }
-#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
-.mathjax-block > .code-tooltip { bottom: 0.375rem; }
-.md-mathjax-midline { background: rgb(250, 250, 250); }
-#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
-#write > h4.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-#write > h5.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-#write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-.md-image > .md-meta { border-radius: 3px; padding: 2px 0px 0px 4px; font-size: 0.9em; color: inherit; }
-.md-tag { color: rgb(167, 167, 167); opacity: 1; }
-.md-toc { margin-top: 20px; padding-bottom: 20px; }
-.sidebar-tabs { border-bottom: none; }
-#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
-#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
-.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
-header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Arial, sans-serif; }
-.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
-.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color); }
-.md-lang { color: rgb(180, 101, 77); }
-.html-for-mac .context-menu { --item-hover-bg-color: #E6F0FE; }
-#md-notification .btn { border: 0px; }
-.dropdown-menu .divider { border-color: rgb(229, 229, 229); }
-.ty-preferences .window-content { background-color: rgb(250, 250, 250); }
-.ty-preferences .nav-group-item.active { color: white; background: rgb(153, 153, 153); }
-
- .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+h3.ant-typography,
+.ant-typography h3 {
+  margin-bottom: 0.5em;
+  color: #000000d9;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.35;
+}
+h5.ant-typography,
+.ant-typography h5 {
+  margin-bottom: 0.5em;
+  color: #000000d9;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.ant-typography {
+  color: #000000d9;
+  overflow-wrap: break-word;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.table[data-v-531a4288] {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table tr[data-v-531a4288]:nth-of-type(even) {
+  background-color: #f5f5f5;
+}
+.table th[data-v-531a4288],
+.table td[data-v-531a4288] {
+  padding: 1em;
+  text-align: center;
+  max-width: 200px;
+  min-width: 150px;
+  border: 0.5px solid black;
+}
+.table th[data-v-531a4288] {
+  background-color: #ebf0f3;
+}
+.code[data-v-531a4288] {
+  padding: 15px;
+  background-color: #252526;
+  color: #f5f5f5;
+  overflow: auto;
+  border-radius: 10px;
+}
+p[data-v-531a4288]:last-of-type {
+  margin-bottom: 0;
+}
+@media screen and (max-width: 768px) {
+  .table th[data-v-531a4288],
+  .table td[data-v-531a4288] {
+    padding: 6px;
+    text-align: center;
+    max-width: 10px;
+    min-width: 50px;
+    font-size: 12px;
+    word-break: break-all;
+  }
+  .code[data-v-531a4288] {
+    padding: 10px;
+    max-height: none;
+    font-size: 12px;
+  }
+}
+typography + h5.ant-typography {
+  margin-top: 1.2em;
+}
+.feeeio-layout-content {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.ant-layout,
+.ant-layout * {
+  box-sizing: border-box;
+}
 </style>

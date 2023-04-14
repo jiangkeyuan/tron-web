@@ -52,7 +52,7 @@
       </div>
     </section>
     <section id="introduce" class="introduce-wrapper section introduce">
-      <h2 class="title">Feee.io 介绍</h2>
+      <h2 class="title">HashGo 介绍</h2>
       <div class="main">
         <div class="keywords">
           <div class="item">
@@ -69,7 +69,7 @@
           </div>
         </div>
         <p class="intro">
-          feee.io
+          HashGo
           是波场生态中的能量交易平台,我们的宗旨是为波场交易者降低能量消耗所需燃烧的费用,优惠力度更大,更安全且高效的能量B2C和C2C交易服务。
         </p>
         <ul class="feature-list">

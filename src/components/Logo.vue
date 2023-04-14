@@ -8,7 +8,7 @@
 const props = defineProps({
     title:{
         type: String,
-        default: "Feee.io"
+        default: "HashGo"
     },
     isLogin:Boolean
 });

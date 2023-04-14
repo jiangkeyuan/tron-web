@@ -1,5 +1,5 @@
 <template>
-  <footer>COPYRIGHT © {{ new Date().getFullYear() }} feee.io</footer>
+  <footer>COPYRIGHT © {{ new Date().getFullYear() }} HashGo</footer>
 </template>
 
 <script setup></script>

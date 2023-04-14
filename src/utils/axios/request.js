@@ -8,12 +8,12 @@ const service = axios.create({
 });
 
 if (process.env.NODE_ENV === "development") {
-  service.defaults.baseURL = "http://api.ziliaoguanjia.cn/";
+  service.defaults.baseURL = "http://api.energy.hashgo.xyz/";
   //   service.defaults.baseURL = "http://192.168.1.131:8080/";
   // service.defaults.baseURL = "http://192.168.1.47:8080/";
   //   service.defaults.baseURL = "http://192.168.1.163:8080/";
 } else {
-  service.defaults.baseURL = "http://api.ziliaoguanjia.cn/";
+  service.defaults.baseURL = "http://api.energy.hashgo.xyz/";
 }
 
 let loading = "";

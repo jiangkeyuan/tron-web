@@ -19,8 +19,8 @@ export const sellManualOrders = (data) => {
   });
 };
 
-export const getUserInfo = async () => {
-  return await service.get("/users/info");
+export const getUserInfo = async (params) => {
+  return await service.get("/users/info",params);
 };
 
 export const logout = async ({}) => {

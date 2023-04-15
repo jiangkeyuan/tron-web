@@ -47,7 +47,7 @@ watch(
   (o, n) => {
     console.log('o', o)
     const {  origin, pathname } = window.location
-    hrefValue.value = `${origin}${pathname}#/?ic=${o.inviteCode}`
+    hrefValue.value = `${origin}${pathname}#/ic/${o.inviteCode}`
   }
 )
 </script>

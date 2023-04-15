@@ -6,9 +6,10 @@ export default {
     userInfo: {}, // userInfo 的初始化
   },
   actions: {
-    async getUserInfoAction(context, products) {
+    async getUserInfoAction(context, products = {}) {
+      console.log(products)
       return new Promise(async (resolve, reject) => {
-        const data = await getUserInfo();
+        const data = await getUserInfo(products);
         if (data.code === 12000) {
           const userInfo = data.data;
           context.commit("setRoles", userInfo.roles);

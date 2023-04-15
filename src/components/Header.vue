@@ -119,7 +119,9 @@ const login = () => {
   router.push('/auth/login')
 }
 onMounted(() => {
-  store.dispatch('getUserInfoAction')
+  store.dispatch('getUserInfoAction',{
+    isHome:true
+  })
 })
 </script>
 

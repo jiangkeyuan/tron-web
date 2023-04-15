@@ -1,5 +1,5 @@
 <template>
-  <Header @itemClick="itemClick"></Header>
+  <Header @itemClick="itemClick" :isHome = "true"></Header>
   <main class="main">
     <router-view></router-view>
     <a class="tg-robot-wrapper tg-robot hide" href="" target="_blank">

@@ -7,6 +7,8 @@ const service = axios.create({
   timeout: 30000, // 设置请求超时时间
 });
 
+let isHome = false;
+
 if (process.env.NODE_ENV === "development") {
   service.defaults.baseURL = "http://api.energy.hashgo.xyz/";
   //   service.defaults.baseURL = "http://192.168.1.131:8080/";
@@ -20,6 +22,7 @@ let loading = "";
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
+    isHome = config.isHome;
     if (localStorage.getItem("token") && !config.headers["Authorization"]) {
       config.headers["Authorization"] = localStorage.getItem("token");
     }
@@ -38,7 +41,7 @@ service.interceptors.response.use(
     const dataAxios = response.data;
     // loading.close();
     // 这个状态码是和后端约定的
-    if (dataAxios.code === 14006 && response.config.url !== "/users/info") {
+    if (dataAxios.code === 14006 && !isHome) {
       //掉登
       ElMessage.error("请重新登陆");
       localStorage.setItem("token", "");

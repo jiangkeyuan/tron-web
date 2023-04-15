@@ -4,14 +4,14 @@
       <img src="@/assets/home/recommend-popup.png" alt="" class="img" />
       <h2 class="title">推荐奖励</h2>
       <p class="tip">
-        推荐成功后，能量交易永久享受 3% 返佣，闪兑交易永久享受 1% 返佣
+        推荐成功后，能量交易永久享受 {{store.state.userInfo?.userInfo.commissionRatio}}% 返佣
       </p>
-      <a v-if="store.state.userInfo?.userInfo.inviteCode" class="to-login-btn" href="/#/console/buyer/dashboard" target="_blank"> 获取推荐链接 </a>
+      <a v-if="!store.state.userInfo?.userInfo.inviteCode" class="to-login-btn" href="/#/console/buyer/dashboard" target="_blank"> 获取推荐链接 </a>
       <div class="recommend-link" v-else>
         <p>推广链接：{{hrefValue}}</p>
         <span class="copy-btn-wrapper">
           <div class="btn">
-            <div class="copy-btn">复制</div>
+            <div class="copy-btn" @click="copyEnd(hrefValue)">复制</div>
           </div>
         </span>
       </div>
@@ -22,6 +22,7 @@
 <script setup>
 // import { ref, defineProps, defineEmits } from 'vue'
 import { useRouter } from "vue-router";
+import { copy } from '@/utils/utils/index.js'
 const store = useStore();
 const hrefValue = ref('')
 const emit = defineEmits(['close'])
@@ -33,10 +34,22 @@ const props = defineProps({
 const handleClose = () => {
   emit('close', false)
 }
-onMounted(() => {
+const copyEnd = msg => {
+  copy({
+    msg,
+    callback: () => {
+      ElMessage.success('复制成功')
+    }
+  })
+}
+watch(
+  () => store.state.userInfo?.userInfo,
+  (o, n) => {
+    console.log('o', o)
     const {  origin, pathname } = window.location
-    hrefValue.value = `${origin}${pathname}?ic=${store.state.userInfo?.userInfo.inviteCod}`
-})
+    hrefValue.value = `${origin}${pathname}#/?ic=${o.inviteCode}`
+  }
+)
 </script>
 
 <style lang="less" scoped>

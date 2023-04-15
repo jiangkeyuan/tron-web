@@ -125,10 +125,10 @@
     <p>
       17、支付成功后，回到卖家后台
       <a
-        href="https://feee.io/console"
+        href="https://hashgo.xyz/console"
         target="_blank"
         rel="noopener noreferrer"
-        >Feee.io</a
+        >Hashgo.xyz</a
       >，填写已设置授权的钱包地址并提交完成授权，到此授权的全部操作就完成了。
     </p>
     <img

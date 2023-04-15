@@ -8,7 +8,7 @@
       </p>
       <a class="to-login-btn" href="http://" target="_blank"> 获取推荐链接 </a>
       <div class="recommend-link">
-        <p>推广链接：https://feee.io/?ic=TS7U</p>
+        <p>推广链接：https://hashgo.xyz/?ic=TS7U</p>
         <span class="copy-btn-wrapper">
           <div class="btn">
             <div class="copy-btn">复制</div>

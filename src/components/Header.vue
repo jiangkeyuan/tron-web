@@ -4,7 +4,7 @@
       <a href="/" class="logo logo-wrapper">
         <h1>
           <img src="@/assets/logo/logo.svg" alt="" class="img" />
-          <span class="text">Feee.io</span>
+          <span class="text">Hashgo.xyz</span>
         </h1>
       </a>
       <div class="navigation-wrapper nav">

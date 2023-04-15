@@ -20,8 +20,8 @@
             <h3>自动出售授权教程</h3>
             <div class="copy-item">
               <p class="title">授权权限名称</p>
-              <p class="text">feee.io</p>
-              <div class="btn" @click="copyEnd('feee.io')">复制</div>
+              <p class="text">hashgo.xyz</p>
+              <div class="btn" @click="copyEnd('hashgo.xyz')">复制</div>
             </div>
             <div class="copy-item">
               <p class="title">授权地址</p>

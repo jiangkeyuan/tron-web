@@ -46,7 +46,7 @@
       :initial-index="4"
       fit="cover"
     />
-    <p>7、权限名称必须输入feee.io</p>
+    <p>7、权限名称必须输入hashgo.xyz</p>
     <img
       src="@/assets/help/cas-7.png"
       :zoom-rate="1.2"
@@ -60,14 +60,14 @@
       :initial-index="4"
       fit="cover"
     />
-    <p>9、输入平台钱包地址<mark>TQcC5yWBCuqo9pXkskHJMdsfBwZJLhhhhh</mark></p>
+    <p>9、输入平台钱包地址<mark>TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq</mark></p>
     <img
       src="@/assets/help/cas-9.png"
       :zoom-rate="1.2"
       :initial-index="4"
       fit="cover"
     />
-    <p>10、权重填写1s</p>
+    <p>10、权重填写1</p>
     <img
       src="@/assets/help/cas-10.png"
       :zoom-rate="1.2"
@@ -82,14 +82,16 @@
       fit="cover"
     />
     <p>
-      12、在编辑权限弹窗中勾选这4项（TRX
-      Freeze是质押权限，授权平台后可自动化出售能量或带宽、TRX
-      Unfreeze是解押权限，授权后平台自动解冻质押订单、
-      授权投票权限，可在出售成功后自动投票，获取TRX权益奖励、 Reward
-      Withdraw是领取权益权限，授权后平台会自动领取权益收益到您的钱包）
+      12、在编辑权限弹窗中勾选这5项
     </p>
     <img
-      src="@/assets/help/cas-12.png"
+      src="@/assets/help/cas-12-1.png"
+      :zoom-rate="1.2"
+      :initial-index="4"
+      fit="cover"
+    />
+    <img
+      src="@/assets/help/cas-12-2.png"
       :zoom-rate="1.2"
       :initial-index="4"
       fit="cover"
@@ -125,18 +127,18 @@
     <p>
       17、支付成功后，回到卖家后台
       <a
-        href="https://hashgo.xyz/console"
+        :href="hrefValue"
         target="_blank"
         rel="noopener noreferrer"
         >Hashgo.xyz</a
-      >，填写已设置授权的钱包地址并提交完成授权，到此授权的全部操作就完成了。
+      >，查看已设置授权的钱包地址并提交完成授权，到此授权的全部操作就完成了。
     </p>
-    <img
+    <!-- <img
       src="@/assets/help/cas-17-1.png"
       :zoom-rate="1.2"
       :initial-index="4"
       fit="cover"
-    />
+    /> -->
     <img
       src="@/assets/help/cas-17-2.png"
       :zoom-rate="1.2"
@@ -147,7 +149,13 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import HelpContent from '../help-content.vue'
+const hrefValue = ref('')
+onMounted(() => {
+    const {  origin, pathname } = window.location
+    hrefValue.value = `${origin}${pathname}#/console/seller/guide`
+})
 </script>
 
 <style lang="less" scoped>

@@ -26,7 +26,10 @@
             <div class="copy-item">
               <p class="title">授权地址</p>
               <p class="text">TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq</p>
-              <div class="btn" @click="copyEnd('TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq')">
+              <div
+                class="btn"
+                @click="copyEnd('TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq')"
+              >
                 复制
               </div>
             </div>
@@ -44,7 +47,9 @@
                 <el-checkbox label="立即开启自动出售" v-model="form.delivery" />
               </el-form-item>
               <el-form-item>
-                <el-button style="width: 100%" type="primary" @click="onSubmit">完成授权</el-button>
+                <el-button style="width: 100%" type="primary" @click="onSubmit"
+                  >完成授权</el-button
+                >
               </el-form-item>
             </el-form>
           </div>
@@ -52,13 +57,31 @@
       </div>
     </div>
   </div>
-  <el-dialog v-model="courseVisible" title="如何授权给Feee.io自动出售能量？" width="830px" center>
+  <el-dialog
+    v-model="courseVisible"
+    title="如何授权给Hashgo.xyz自动出售能量？"
+    width="830px"
+    center
+  >
     <HowAutoSell></HowAutoSell>
   </el-dialog>
-  <el-dialog v-model="courseVideoVisible" :show-close="false" title="" :before-close="close" width="830px" center
-    style="background-color: transparent">
+  <el-dialog
+    v-model="courseVideoVisible"
+    :show-close="false"
+    title=""
+    :before-close="close"
+    width="830px"
+    center
+    style="background-color: transparent"
+  >
     <div class="video-course-wrapper">
-      <video class="video" :src="videoSrc" autoplay="" controls="" preload="auto"></video>
+      <video
+        class="video"
+        :src="videoSrc"
+        autoplay=""
+        controls=""
+        preload="auto"
+      ></video>
       <div class="btns">
         <div class="btn" @click="lookTxtCourse">图文教程</div>
         <div class="btn" @click="close">完成</div>
@@ -72,11 +95,12 @@ import { getPermission, getNothing } from '@/utils/axios/seller/index.js'
 import { copy } from '@/utils/utils/index.js'
 import { ref } from 'vue'
 import HowAutoSell from '../help/how-auto-sell/page.vue'
-import { useRouter } from "vue-router";
-const router = useRouter();
-const store = useStore();
+import { useRouter } from 'vue-router'
+import { walletAddress } from '@/utils/utils/tron.js'
+const router = useRouter()
+const store = useStore()
 const form = reactive({
-  name: 'TVDJUVhQPdp8Gojsp7bmZS47M8KU2zSsaq',
+  name: '',
   delivery: true
 })
 const courseVisible = ref(false)
@@ -91,13 +115,21 @@ const copyEnd = msg => {
     }
   })
 }
+
+watch(
+  () => store.state.userInfo?.userInfo,
+  (o, n) => {
+    console.log('o', o)
+    form.name = o.walletAddress || ''
+    console.log(' form.name', form.name)
+  }
+)
 const onSubmit = async () => {
   console.log('submit!')
   const data = await getPermission()
   console.log(data)
   if (data.code === 12000) {
     await store.dispatch('getUserInfoAction')
-    console.log('666666666');
     router.push('/console/seller/auth-operation')
   } else {
     ElMessage.error(data.msg)
@@ -107,6 +139,7 @@ const startStudy = () => {
   step.value = 2
 }
 const lookTxtCourse = () => {
+  videoSrc.value = ''
   courseVideoVisible.value = false
   courseVisible.value = true
 }

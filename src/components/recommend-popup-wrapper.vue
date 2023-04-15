@@ -6,9 +6,9 @@
       <p class="tip">
         推荐成功后，能量交易永久享受 3% 返佣，闪兑交易永久享受 1% 返佣
       </p>
-      <a class="to-login-btn" href="http://" target="_blank"> 获取推荐链接 </a>
-      <div class="recommend-link">
-        <p>推广链接：https://hashgo.xyz/?ic=TS7U</p>
+      <a v-if="store.state.userInfo?.userInfo.inviteCode" class="to-login-btn" href="/#/console/buyer/dashboard" target="_blank"> 获取推荐链接 </a>
+      <div class="recommend-link" v-else>
+        <p>推广链接：{{hrefValue}}</p>
         <span class="copy-btn-wrapper">
           <div class="btn">
             <div class="copy-btn">复制</div>
@@ -21,6 +21,9 @@
 
 <script setup>
 // import { ref, defineProps, defineEmits } from 'vue'
+import { useRouter } from "vue-router";
+const store = useStore();
+const hrefValue = ref('')
 const emit = defineEmits(['close'])
 const props = defineProps({
   show: {
@@ -30,6 +33,10 @@ const props = defineProps({
 const handleClose = () => {
   emit('close', false)
 }
+onMounted(() => {
+    const {  origin, pathname } = window.location
+    hrefValue.value = `${origin}${pathname}?ic=${store.state.userInfo?.userInfo.inviteCod}`
+})
 </script>
 
 <style lang="less" scoped>

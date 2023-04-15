@@ -1,6 +1,6 @@
 <template>
   <div @click="gotoHelp('help/how-auto-sell')" class="help">
-    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">如何授权给Feee.io自动出售能量？</span>
+    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">如何授权给Hashgo.xyz自动出售能量？</span>
   </div>
 </template>
 <script setup>

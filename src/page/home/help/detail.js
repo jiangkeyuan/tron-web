@@ -34,7 +34,7 @@ const detail = {
     <p>如果账号没有足够能量,转账时会自动燃烧 TRX 以抵扣转账所需的带宽和能量。相比消耗能量,燃烧TRX显然并不划算。</p>
     <p>方法二:冻结 TRX</p>
     <p>点击资产首页的能量 / 带宽,进入 Tron 资源管理界面,选择想获得的资源类型,输入需冻结的 TRX 数量,获得的能量 = 冻结的TRX / 全网获得能量冻结的总TRX * 总能量限制。(这是基于冻结的TRX为所有用户平均分配的固定能量),冻结后的 TRX 在 3 天后可以解冻取回。如果您有大量闲置TRX,可以考虑这种方法。</p>
-    <img src="/src/assets/home/faq3answer1.png" alt="" >
+    <img src="${getImageUrl('faq3answer1')}" alt="" >
     <p>方法三:租用能量</p>
     <p>可以通过Hashgo.xyz平台进行能量租赁的方式来节省手续费,能量租赁既不需要冻结大量TRX,也不用燃烧更多TRX,还可节省至少80%的手续费,以租用100万能量为例,若直接燃烧TRX,3天需要燃烧大约840TRX,用hashgo.xyz平台租用100万能量只需要140TRX左右,节省了83.33%≈700TRX。推荐使用,具体可参考《如何租用能量？》</p>
         `
@@ -46,19 +46,19 @@ const detail = {
     <p>hashgo.xyz提供了波场能量交易功能,用户可随时自助租用,实时到账。租用流程简单便捷,可选择DAPP租用和转账租用两种方式:</p>
     <p>DAPP租用:</p>
     <p>1.打开租赁网址hashgo.xyz,点击登录连接DAPP钱包</p>
-    <img src="/src/assets/home/faq4answer1.png" alt="" width="1200">
+    <img src="${getImageUrl('faq4answer1')}" alt=""  width="1200">
     <p>2.若未安装DAPP钱包,可点击安装,已经安装可跳过此步</p>
-    <img src="/src/assets/home/faq4answer2.png" alt="" width="500" height="500">
+    <img src="${getImageUrl('faq4answer2')}" alt="" width="500" height="500">
     <p>安装好后,可通过浏览器插件进行钱包登录</p>
-    <img src="/src/assets/home/faq4answer3.png" alt="" width="500" height="500">
+    <img src="${getImageUrl('faq4answer3')}" alt="" width="500" height="500">
     <p>3.登录钱包后,输入租用能量和租用天数,点击支付即可,转账后,5分钟内能量到账。</p>
-    <img src="/src/assets/home/faq4answer4.png" alt="" width="1200">
+    <img src="${getImageUrl('faq4answer4')}" alt="" width="1200">
     <p>转账租用:</p>
     <p>选择转账租用,可在手机端直接转账操作能量租用。</p>
     <p>1.打开租赁网址hashgo.xyz,输入想要租用的能量和租用天数,系统自动计算出需要转账的金额</p>
-    <img src="/src/assets/home/faq4answer5.png" alt="" width="1200">
+    <img src="${getImageUrl('faq4answer5')}" alt="" width="1200">
     <p>2.复制平台钱包地址,按系统计算出的金额转账到平台钱包地址,平台默认转账钱包为接收能量地址,若需自定义接收地址,请在转账时备注接收地址。转账后,5分钟内能量到账。</p>
-    <img src="/src/assets/home/faq4answer6.png" alt="" width="500" height="1000">
+    <img src="${getImageUrl('faq4answer6')}" alt="" width="500" height="1000">
         `
   },
   q5: {
@@ -80,5 +80,7 @@ const detail = {
         `
   }
 }
-
+function getImageUrl(name) {
+    return new URL(`./img/${name}.png`, import.meta.url).href
+}
 export default detail

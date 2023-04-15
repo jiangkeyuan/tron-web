@@ -41,7 +41,7 @@
             <p>第二步：提交已设置授权的钱包地址，完成授权</p>
             <el-form :model="form" label-width="0px">
               <el-form-item label="">
-                <el-input v-model="form.name" disabled />
+                <el-input v-model="addr" disabled />
               </el-form-item>
               <el-form-item label="">
                 <el-checkbox label="立即开启自动出售" v-model="form.delivery" />
@@ -93,7 +93,7 @@
 <script setup>
 import { getPermission, getNothing } from '@/utils/axios/seller/index.js'
 import { copy } from '@/utils/utils/index.js'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import HowAutoSell from '../help/how-auto-sell/page.vue'
 import { useRouter } from 'vue-router'
 import { walletAddress } from '@/utils/utils/tron.js'
@@ -115,15 +115,9 @@ const copyEnd = msg => {
     }
   })
 }
-
-watch(
-  () => store.state.userInfo?.userInfo,
-  (o, n) => {
-    console.log('o', o)
-    form.name = o.walletAddress || ''
-    console.log(' form.name', form.name)
-  }
-)
+const addr = computed(() => {
+    return store.state.userInfo?.userInfo?.walletAddress
+})
 const onSubmit = async () => {
   console.log('submit!')
   const data = await getPermission()

@@ -3,6 +3,9 @@
 :root {
   --el-color-primary: #c53027 !important;
 }
+.ElMessageClass{
+  z-index: 9999 !important;
+}
 
 body {
   /* font-size: 62.5%; */

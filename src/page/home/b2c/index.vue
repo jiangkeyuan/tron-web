@@ -437,6 +437,15 @@ const shortcutList = [
     value: 10000000
   }
 ]
+
+const amountFilter = (str)=>{
+  if(window.tronWeb){
+    return tronWeb?.fromSun(str)
+  }else{
+    return str / 1000000
+  }
+}
+
 const tableRowClassName = ({ row, rowIndex }) => {
   if (rowIndex % 2 == 0) {
     return 'warning-row'
@@ -452,7 +461,7 @@ const onParser = value => {
 watch(rentalDays, o => {
   console.log('o', o)
   const sum = Math.floor((Number(o) + 24) / 24)
-  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  amount.value = amountFilter(capacity.value * sum * price.value)
 })
 // 大家的租用地址
 const radioChange = value => {
@@ -504,13 +513,14 @@ const onClick = val => {
   console.log(val)
   const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   capacity.value = Number(capacity.value) + Number(val)
-  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  amount.value = amountFilter(capacity.value * sum * price.value)
 }
 const onInput = val => {
   const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   capacity.value = val
-  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  amount.value = amountFilter(capacity.value * sum * price.value)
 }
+
 
 const copyEnd = msg => {
   if (!+amount.value) {

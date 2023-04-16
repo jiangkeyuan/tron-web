@@ -111,6 +111,7 @@ import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js
 import { usersRegister, userActivave, userLogin, tronNonce, setemailVerify, sendEmails, forgetPwd, resetPwd, generateVerifyCode } from '@/utils/axios/login/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import TronLink from '@/components/tron-link/index.js'
 const router = useRouter();
 const store = useStore();
 const registerType = ref(0);
@@ -241,15 +242,10 @@ const login = async () => {
 
 const tron_login = async () => {
   dialogTableVisible.value = true;
-
 }
 
 const tron_register = async () => {
-  // const isReads = await window.tronLink.request({
-  //   method: "TronWeb.trx.getBalance",
-  // });
-  // console.log(isReads)
-  // return;
+  await TronLink()
   fullscreenLoading.value = true;
   const isRead = await window.tronLink.request({
     method: "tron_requestAccounts",

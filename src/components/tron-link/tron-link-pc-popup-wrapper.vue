@@ -3,7 +3,6 @@
     v-model="props.show"
     title=""
     width="350px"
-    :z-index="1000"
     :before-close="handleClose"
   >
     <div class="tron-link-pc-popup-wrapper">

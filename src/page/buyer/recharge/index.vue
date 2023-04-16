@@ -174,7 +174,7 @@ onUnmounted(() => {
 
 const copyEnd = () => {
   copy({
-    msg: rechargeAdress.value,
+    msg: rechargeTransferAdress.value,
     callback: () => {
       ElMessage.success("复制成功");
     },

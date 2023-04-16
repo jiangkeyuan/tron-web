@@ -9,14 +9,22 @@ export default function TronLink (options = {}) {
     const isLoginTron = isRead;
     if (!window.tronLink || isLoginTron == '') {
         if(!window.tronLink) {
-            ElMessage.error('请安装 TronLink 钱包')
+            ElMessage({
+              message:"请安装 TronLink 钱包",
+              type:'error',
+              customClass:'ElMessageClass'
+            })
         }
         if(isLoginTron == '') {
-            ElMessage.error('请登录 TronLink 钱包')
+            ElMessage({
+              message:"请登录 TronLink 钱包",
+              type:'error',
+              customClass:'ElMessageClass'
+            })
         }
-      const mountNode = document.createElement('div')
+      var mountNode = document.createElement('div')
       document.body.appendChild(mountNode)
-      const app = createApp(TronLinkPopup, {
+      var app = createApp(TronLinkPopup, {
         ...options,
         show: true,
         remove () {

@@ -72,7 +72,7 @@
               <div class="input-panel rentDay">
                 <!-- <div class="title">租用时间{{ rentalDaysObj[rentalDays] }}</div> -->
                 <div class="title">租用时间默认为3天</div>
-                <br />
+                <!-- <br /> -->
                 <!-- <Button-List v-model:rentalDays="rentalDays"></Button-List> -->
               </div>
 

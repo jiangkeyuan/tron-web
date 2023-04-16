@@ -32,7 +32,7 @@
         <div class="rental-operation">
           <div class="header">
             <div class="title">{{ leaseRadio }}</div>
-            <el-radio-group v-model="leaseRadio">
+            <el-radio-group v-model="leaseRadio" @change="changeVal">
               <el-radio-button label="转账租凭" border
                 >转账租凭</el-radio-button
               >
@@ -70,9 +70,10 @@
               </div>
               <div class="notice noticepc"></div>
               <div class="input-panel rentDay">
-                <div class="title">租用时间{{ rentalDaysObj[rentalDays] }}</div>
+                <!-- <div class="title">租用时间{{ rentalDaysObj[rentalDays] }}</div> -->
+                <div class="title">租用时间默认为3天</div>
                 <br />
-                <Button-List v-model:rentalDays="rentalDays"></Button-List>
+                <!-- <Button-List v-model:rentalDays="rentalDays"></Button-List> -->
               </div>
 
               <div class="announcements">
@@ -132,14 +133,12 @@
                       <div>
                         价格/天：
                         <span>{{ price }}</span>
-                        sun,
+                        sun
                       </div>
-                      <div>
-                        较3天烧毁省
-                        <span>75</span>
-                        % ≈
-                        <span>1330.29TRX</span>
-                      </div>
+                      <!-- <div>
+                        较3天烧毁省≈
+                        <span>{{economize}}TRX</span>
+                      </div> -->
                     </div>
                   </div>
                   <!-- <img
@@ -240,14 +239,12 @@
                       <div>
                         价格/天：
                         <span>{{ price }}</span>
-                        sun,
+                        sun
                       </div>
-                      <div>
-                        较3天烧毁省
-                        <span>74</span>
-                        % ≈
-                        <span>930.00TRX</span>
-                      </div>
+                      <!-- <div>
+                        较3天烧毁省≈
+                        <span>{{ economize }}TRX</span>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -336,10 +333,11 @@
                   <div>{{ row.rentalQuantity }} 能量</div>
                 </template>
               </el-table-column>
-              <el-table-column prop="rentalHours" label="租用时长">
-                <template #default="{ row }">
-                  <div>{{ rentalDaysObj[row.rentalHours] }}</div>
-                </template>
+              <el-table-column
+                prop="rentalHours"
+                label="租用时长"
+                :formatter="row => filterHours(row.rentalHours)"
+              >
               </el-table-column>
               <el-table-column
                 prop="delegateDate"
@@ -367,10 +365,11 @@
               <el-table-column prop="orderNo" label="订单号" />
               <el-table-column prop="toAddress" label="接收地址" />
               <el-table-column prop="rentalQuantity" label="租用数量" />
-              <el-table-column prop="rentalHours" label="租用时长">
-                <template #default="{ row }">
-                  <div>{{ rentalDaysObj[row.rentalHours] }}</div>
-                </template>
+              <el-table-column
+                prop="rentalHours"
+                label="租用时长"
+                :formatter="row => filterHours(row.rentalHours)"
+              >
               </el-table-column>
               <el-table-column
                 prop="expiredDate"
@@ -389,7 +388,7 @@
 
 <script setup>
 import TronLink from '@/components/tron-link/index.js'
-import { filterDate } from '@/utils/utils/date.js'
+import { filterDate, filterHours } from '@/utils/utils/date.js'
 import { walletAddress } from '@/utils/utils/tron.js'
 import { copy } from '@/utils/utils/index.js'
 import { Calendar, Search } from '@element-plus/icons-vue'
@@ -419,6 +418,7 @@ const rentalDaysObj = reactive({
   24: '1天',
   72: '3天'
 })
+const economize = ref(0)
 const shortcutList = [
   {
     label: '50万',
@@ -502,16 +502,49 @@ const filterStatus = status => {
 }
 const onClick = val => {
   console.log(val)
-  const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+  let sum = 0
+  if (leaseRadio.value == '转账租凭') {
+    sum = Math.floor((Number(3) + 24) / 24)
+  } else {
+    sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+  }
   capacity.value = Number(capacity.value) + Number(val)
   amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  console.log('amount', amount.value)
+  const x = capacity.value / 2381
+  console.log('x', x)
+  economize.value = Math.floor(x - amount.value)
 }
 const onInput = val => {
-  const sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+  let sum = 0
+  if (leaseRadio.value == '转账租凭') {
+    sum = Math.floor((Number(3) + 24) / 24)
+  } else {
+    sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+  }
   capacity.value = val
   amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  console.log('amount', amount.value)
+  const x = capacity.value / 2381
+  console.log('x', x)
+  economize.value = Math.floor(x - amount.value)
 }
-
+const changeVal = val => {
+  rentalDays.value = '72'
+  let sum = 0
+  console.log(val == '转账租凭')
+  if (val == '转账租凭') {
+    sum = Math.floor((Number(72) + 24) / 24)
+  } else {
+    sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+  }
+  console.log('changeVal', sum)
+  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  console.log('amount', amount.value)
+  const x = capacity.value / 2381
+  console.log('x', x)
+  economize.value = Math.floor(x - amount.value)
+}
 const copyEnd = msg => {
   if (!+amount.value) {
     return ElMessage.error('请输入金额')

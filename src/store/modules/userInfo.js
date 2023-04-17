@@ -7,7 +7,7 @@ export default {
   },
   actions: {
     async getUserInfoAction(context, products = {}) {
-      console.log(products)
+      console.log(products, "============");
       return new Promise(async (resolve, reject) => {
         const data = await getUserInfo(products);
         if (data.code === 12000) {

@@ -513,7 +513,7 @@ const onClick = val => {
   console.log(val)
   let sum = 0
   if (leaseRadio.value == '转账租凭') {
-    sum = Math.floor((Number(3) + 24) / 24)
+    sum = Math.floor((Number(72) + 24) / 24)
   } else {
     sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   }
@@ -527,7 +527,7 @@ const onClick = val => {
 const onInput = val => {
   let sum = 0
   if (leaseRadio.value == '转账租凭') {
-    sum = Math.floor((Number(3) + 24) / 24)
+    sum = Math.floor((Number(72) + 24) / 24)
   } else {
     sum = Math.floor((Number(rentalDays.value) + 24) / 24)
   }

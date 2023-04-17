@@ -15,10 +15,10 @@
       <div class="basic-info">
         <div class="font">可用余额</div>
         <div class="font text">
-          {{ store.state.userInfo?.userInfo?.availableBalance }}
+          {{ store.state.userInfo?.userInfo?.availableBalance?.toLocaleString() }}
           <span style="margin: 0px 20px 0px 8px"> TRX </span>
           <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">充值</div>
-          <div class="font btn">提币</div>
+          <div class="font btn" @click="()=> withdrawbalance()" :loading='loading'>提币</div>
         </div>
         <div class="font">注册时间</div>
         <div class="font text">2023-03-02 12:09:42</div>
@@ -31,12 +31,12 @@
     <div class="login-method">
       <div class="font">邮箱</div>
       <div class="font">支持账号密码登录，可找回账号</div>
-      <div class="font text">{{ store.state.userInfo.userInfo.email }}</div>
-      <div class="btn font" @click="handleBind" v-if="!store.state.userInfo.userInfo.email">绑定邮箱</div>
+      <div class="font text">{{ store.state?.userInfo?.userInfo?.email }}</div>
+      <div class="btn font" @click="handleBind" v-if="!store.state.userInfo?.userInfo?.email">绑定邮箱</div>
       <div v-else></div>
       <div class="font">Tron钱包地址</div>
       <div class="font">绑定钱包地址，充值自动识别入账</div>
-      <div class="font text">{{ store.state.userInfo.userInfo.walletAddress }}</div>
+      <div class="font text">{{ store.state.userInfo?.userInfo?.walletAddress }}</div>
       <div class="btn font" @click="handleBindAdress" v-if="!store.state.userInfo.userInfo.walletAddress">绑定</div>
     </div>
     <div v-if="showBind">
@@ -48,12 +48,14 @@
 <script setup>
 import BindEmailsInput from '../../../components/bind-emails-input.vue';
 import { isConnectedWallet, walletAddress, connectedWallet } from '@/utils/utils/tron.js';
-import { bindWallets } from '@/utils/axios/buyer/index';
+import { bindWallets,getWithdrawbalance } from '@/utils/axios/buyer/index';
 import { useRouter } from "vue-router";
+import { ElMessage } from 'element-plus';
 
 const store = useStore();
 const router = useRouter();
 const showBind = ref(false);
+const loading = ref(false);
 
 const handleBind = () => {
   showBind.value = true;
@@ -62,6 +64,39 @@ const handleBind = () => {
 const pushRecharge = () => {
   store.commit("changeMenuType", 0);
   router.push('/console/buyer/recharge')
+}
+
+const withdrawbalance = ()=>{
+  ElMessageBox.prompt('请输入提取金额(手续费1TRX)', '提币', {
+    confirmButtonText: '好的',
+    cancelButtonText: '取消',
+    beforeClose: async (a, b, done)=>{
+      if(a === 'confirm'){
+        if(!b.inputValue){
+          ElMessage.error('请输入正确金额');
+          return;
+        }
+
+        if(+b.inputValue > store.state.userInfo?.userInfo?.availableBalance){
+          ElMessage.error('请输入金额不能大于余额');
+          return;
+        }
+        loading.value = true;
+        const data = await getWithdrawbalance({withdrawAmount:b.inputValue});
+        loading.value = false;
+        if(data.code === 12000){
+          ElMessage.success('操作成功');
+          store.dispatch('getUserInfoAction');
+          done()
+        }else{
+          ElMessage.error(data.msg);
+        }
+      } else{
+        done()
+      }
+    },
+    inputErrorMessage: '金额错误',
+  })
 }
 
 const handleBindAdress = () => {

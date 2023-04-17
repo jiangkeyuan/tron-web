@@ -36,7 +36,15 @@
       <el-table-column prop="email" label="email" />
       <el-table-column prop="walletAddress" label="钱包地址">
         <template #default="{ row }">
-          <div class="text-ellipsis">{{ row.walletAddress }}</div>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            :content="row.walletAddress"
+            placement="top"
+          >
+            <div class="text-ellipsis">{{ row.walletAddress?.replace( /^(\w{4})\w+(\w{4})$/, "$1****$2") }}</div>
+          </el-tooltip>
+          
         </template>
       </el-table-column>
       <el-table-column

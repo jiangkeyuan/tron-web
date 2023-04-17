@@ -66,3 +66,8 @@ export const getPlatformPrice = async () => {
   return await service.get("/index/platformPrice");
 };
 
+export const getWithdrawbalance = async (params) => {
+  return await service.post("/users/withdrawbalance",params);
+};
+
+

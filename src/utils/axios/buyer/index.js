@@ -70,4 +70,10 @@ export const getWithdrawbalance = async (params) => {
   return await service.post("/users/withdrawbalance",params);
 };
 
+export const cancelOrder = async (params) => {
+  return await service.post("/buyer/order/cancel",params);
+};
+
+
+
 

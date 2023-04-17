@@ -4,11 +4,12 @@
       <img src="@/assets/home/recommend-popup.png" alt="" class="img" />
       <h2 class="title">推荐奖励</h2>
       <p class="tip">
-        推荐成功后，能量交易永久享受 {{store.state.userInfo?.userInfo.commissionRatio}}% 返佣
+        推荐成功后，能量交易永久享受 {{ store.state.userInfo?.userInfo.commissionRatio || 3 }}% 返佣
       </p>
-      <a v-if="!store.state.userInfo?.userInfo.inviteCode" class="to-login-btn" href="/#/console/buyer/dashboard" target="_blank"> 获取推荐链接 </a>
+      <a v-if="!store.state.userInfo?.userInfo.inviteCode" class="to-login-btn" href="/#/console/buyer/dashboard"
+        target="_blank"> 获取推荐链接 </a>
       <div class="recommend-link" v-else>
-        <p>推广链接：{{hrefValue}}</p>
+        <p>推广链接：{{ hrefValue }}</p>
         <span class="copy-btn-wrapper">
           <div class="btn">
             <div class="copy-btn" @click="copyEnd(hrefValue)">复制</div>
@@ -46,7 +47,7 @@ watch(
   () => store.state.userInfo?.userInfo,
   (o, n) => {
     console.log('o', o)
-    const {  origin, pathname } = window.location
+    const { origin, pathname } = window.location
     hrefValue.value = `${origin}${pathname}#/ic/${o.inviteCode}`
   }
 )
@@ -112,4 +113,5 @@ watch(
     color: inherit;
     cursor: pointer;
   }
-}</style>
+}
+</style>

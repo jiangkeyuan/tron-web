@@ -120,9 +120,7 @@
                       </div>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="rentalDays" label="冻结时间"><template #default="scope">
-                      {{ scope.row.rentalDays }} <span>天</span>
-                    </template>
+                  <el-table-column prop="rentalHours" label="冻结时间" :formatter="row => filterHours(row.rentalHours)">
                   </el-table-column>
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
@@ -238,7 +236,7 @@ import TronLink from '@/components/tron-link/index.js'
 import BuyPopup from './buy-popup.vue'
 import WithessPopup from './witness-popup.vue'
 import { awaitFnLoading } from '@/utils/utils/loading.js'
-import { filterDate } from '@/utils/utils/date.js'
+import { filterDate, filterHours } from '@/utils/utils/date.js'
 import {
   Calendar,
   Histogram,

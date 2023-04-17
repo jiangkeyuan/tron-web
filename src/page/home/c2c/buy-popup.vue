@@ -222,10 +222,11 @@ const orderAmount = computed(() => {
 })
 const economize = computed(() => {
   const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
-  const a = form.rentalEnergyQuantity / 2381
+  const a = form.rentalEnergyQuantity * form.rentalDays / 2381
   console.log('a ',a );
-  console.log('amount ', a - tronWeb.fromSun(amount));
-  return Math.floor(a - tronWeb.fromSun(amount))
+  const result = a - tronWeb.fromSun(amount)
+  console.log('amount ', result);
+  return result.toFixed(2)
 })
 const resetForm = () => {
   //   form.rentalEnergyQuantity = ''

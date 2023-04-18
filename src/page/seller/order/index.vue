@@ -121,15 +121,15 @@
             type="primary"
             @click="gotoNew(scope.row.transactionHash)"
             target="_blank"
-            >质押详情</el-link
+            >委托详情</el-link
           >
           <div></div>
           <el-link
             v-if="scope.row.orderStatus == 'DONE'"
             type="primary"
-            @click="gotoNew(scope.row.transactionHash)"
+            @click="gotoNew(scope.row.undelegateHash)"
             target="_blank"
-            >解压详情</el-link
+            >回收详情</el-link
           >
         </template>
       </el-table-column>

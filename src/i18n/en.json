@@ -16,5 +16,34 @@
 
   "title-seller": "Seller",
   "title-buyer": "Buyer",
-  "switch": "Switch To"
+  "switch": "Switch To",
+
+
+  "Home": "Home",
+  "Trading": "Trading",
+  "Freedom": "Freedom",
+  "Fast": "Fast",
+  "EnergyTrading": "Energy Trading",
+  "FreedomTrading ": "Freedom Trading",
+  "FastTrading": "Fast Trading",
+  "FlexibleCheap": "Flexible & Cheap",
+  "LongerFaster": "Longer & Faster",
+  "Popularization": "Popularization",
+  "Announcement": "Announcement",
+  "FAQ": "FAQ",
+  "Business": "Business",
+  "Login": "Login",
+  "TRONEnergyTradingplatform": "TRON Energy Trading platform",
+  "MoreWaysToTrade": "More ways to trade",
+  "Tradenow": "Trade now",
+  "CustomizableUnitPriceDay": "Customizable unit price/day",
+  "TheMinimumUnitPriceIs110SunDay": "The minimum unit price is 110 sun/day",
+  "SupportformobileDAPP": "Support for mobile DAPP",
+  "SupportEnergyBandwidthBulkTrading": "Support energy, bandwidth bulk trading",
+  "SellersEarnRentalFees": "Sellers earn rental fees",
+  "LongerLeaseTermUpToDays": "Longer lease term, up to 30 days",
+  "largerLeaseScopeStartingAtTenThousand": " larger lease scope, starting at ten thousand",
+  "FastTransactionEnergyArrivesInSeconds": "Fast transaction, energy arrives in seconds",
+  "SupportMultiCurrencyPaymentPurchase": "Support multi-currency payment purchase",
+  "SupportDAPPBrowserUse": "Support DAPP browser use"
 }

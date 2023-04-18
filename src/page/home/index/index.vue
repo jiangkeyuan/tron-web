@@ -5,13 +5,13 @@
         <div class="inner">
           <div class="bg"></div>
           <div class="d3">
-            <h1 class="name">TRON能量交易平台</h1>
+            <h1 class="name">{{$t('TRONEnergyTradingplatform')}}</h1>
           </div>
         </div>
       </div>
     </div>
     <section class="transaction-mean-wrapper section transaction-mean">
-      <h2 class="title">多种交易方式</h2>
+      <h2 class="title">{{$t('MoreWaysToTrade')}}</h2>
       <div class="means">
         <a href="/#/c2c" class="mean">
           <div class="mean-content">
@@ -19,35 +19,35 @@
             <div class="card">
               <div class="card-content">
                 <h3 class="name">
-                  <strong>自助</strong>&nbsp;交易
+                  <strong>{{$t('Freedom')}}</strong>&nbsp;{{$t('Trading')}}
                   <i class="tip-icon"></i>
                 </h3>
                 <ul class="feature-list">
-                  <li>灵活选择，可自定义单价/天</li>
-                  <li>价格更优，单价最低70sun/天</li>
-                  <li>支持手机DAPP浏览器使用</li>
-                  <li>支持能量、带宽批量交易</li>
-                  <li>卖家可赚取交易费</li>
+                  <li>{{$t('CustomizableUnitPriceDay')}}</li>
+                  <li>{{$t('TheMinimumUnitPriceIs110SunDay')}}</li>
+                  <li>{{$t('SupportformobileDAPP')}}</li>
+                  <li>{{$t('SupportEnergyBandwidthBulkTrading')}}</li>
+                  <li>{{$t('SellersEarnRentalFees')}}</li>
                 </ul>
               </div>
             </div>
             <div class="card">
               <div class="card-content">
                 <h3 class="name">
-                  <strong>快捷</strong>&nbsp;交易
+                  <strong>{{$t('Fast')}}</strong>&nbsp;{{$t('Trading')}}
                   <i class="tip-icon"></i>
                 </h3>
                 <ul class="feature-list">
-                  <li>租期更长，最长30天</li>
-                  <li>范围更大，1万起租</li>
-                  <li>快速租用，能量秒到账</li>
-                  <li>支持多币种支付购买</li>
-                  <li>支持DAPP浏览器使用</li>
+                  <li>{{$t('LongerLeaseTermUpToDays')}}</li>
+                  <li>{{$t('largerLeaseScopeStartingAtTenThousand')}}</li>
+                  <li>{{$t('FastTransactionEnergyArrivesInSeconds')}}</li>
+                  <li>{{$t('SupportMultiCurrencyPaymentPurchase')}}</li>
+                  <li>{{$t('SupportDAPPBrowserUse')}}</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="go-btn">立即交易</div>
+          <div class="go-btn">{{$t('Tradenow')}}</div>
         </a>
       </div>
     </section>

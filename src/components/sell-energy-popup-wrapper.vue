@@ -245,7 +245,7 @@ const handleClose = () => {
 }
 const handleSell = async () => {
   loading.value = true
-  btnText.value = '质押中'
+  btnText.value = '代理中'
   console.log('receiver_address', props.rowData.receiveAddress)
   const addr = address.value || defaultAddress.value
   console.log('addr', addr)

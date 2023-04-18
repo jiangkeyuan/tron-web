@@ -64,15 +64,15 @@ const options = [
   },
   {
     value: 'DELEGATE',
-    label: '代理'
+    label: '委托资源'
   },
   {
     value: 'UNDELEGATE',
-    label: '取消代理'
+    label: '回收资源'
   },
   {
     value: 'STAKE',
-    label: '质押'
+    label: '代理'
   }
 ]
 const operationList = ref([])

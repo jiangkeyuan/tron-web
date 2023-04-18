@@ -101,7 +101,7 @@
                           {{ scope.row.benifitAmount }} <i>TRX</i>
                         </div>
                         <div class="freeze">
-                          质押: {{ scope.row.stakeAmount }} TRX
+                          代理: {{ scope.row.stakeAmount }} TRX
                         </div>
                         <div class="amount">
                           能量: {{ scope.row.energyQuantity }}
@@ -166,7 +166,7 @@
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
-              <el-tab-pane label="质押列表">
+              <el-tab-pane label="代理列表">
                 <el-table :data="stakes" style="width: 100%" empty-text="暂无数据">
                   <el-table-column prop="walletAddress" label="冻结对象" />
                   <el-table-column prop="resource" label="资源" />
@@ -335,7 +335,7 @@ const queryFinishedOrders = async () => {
     finishedOrders.value = data.data
   }
 }
-// 质押列表
+// 代理列表
 const queryStakes = async () => {
   const data = await getStakes()
   console.log('data', data)

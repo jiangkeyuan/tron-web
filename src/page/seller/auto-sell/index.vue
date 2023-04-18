@@ -39,6 +39,7 @@
       <el-form :model="sellConfigData" label-width="160px">
         <el-form-item label="开启自动出售">
           <el-switch v-model="sellConfigData.autoSell" :active-value="true" :inactive-value="false" />
+          <span class="desc">开启自动出售则表示【允许平台代理质押/资源，以及自动投票和领取收益】</span>
         </el-form-item>
 
         <!-- <el-form-item label="出售资源">
@@ -63,6 +64,7 @@
             <el-radio :label="true">默认</el-radio>
             <el-radio :label="false">自定义</el-radio>
           </el-radio-group>
+          <span class="desc">选择默认则按平台规则单价进行代理，当前单价为：{{price}}</span>
         </el-form-item>
         <el-form-item label="自定义能量单价" v-if="!sellConfigData.energeDefaultPrice">
           <template #label>
@@ -144,6 +146,7 @@
 
 <script setup>
 import { getSellConfig, saveSellConfig } from '@/utils/axios/seller/index.js'
+import { getPlatformPrice } from '@/utils/axios/home/index.js'
 import { awaitFnLoading } from '@/utils/utils/loading.js'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { reactive } from 'vue'
@@ -168,7 +171,17 @@ const querySellConfig = async () => {
   }
   console.log('sellConfigData', sellConfigData)
 }
+const price = ref('')
+const queryPlatformPrice = async () => {
+  const data = await getPlatformPrice()
+  if (data.code === 12000) {
+    price.value = data.data
+  } else {
+    ElMessage.error(data.msg)
+  }
+}
 onMounted(() => {
+  queryPlatformPrice()
   querySellConfig()
 })
 </script>
@@ -235,6 +248,10 @@ onMounted(() => {
         margin-right: 0.5em;
       }
     }
+  }
+  .desc {
+    margin-left: 20px;
+    color: #909399;
   }
 }
 </style>

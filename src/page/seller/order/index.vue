@@ -43,27 +43,41 @@
       <el-table-column
         prop="delegateDate"
         label="质押时间"
-        :formatter="row => filterDate(row.delegateDate)"
+        :formatter="(row) => filterDate(row.delegateDate)"
       />
       <el-table-column prop="fromAddress" label="钱包">
         <template #default="scope">
           <div class="text-overflow">
             <span>收款：</span>
-            <el-link
-              :href="`https://tronscan.org/#/address/${scope.row.fromAddress}`"
-              target="_blank"
-              type="primary"
-              >{{ formatAddr(scope.row.fromAddress) }}</el-link
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              :content="scope.row.fromAddress"
+              placement="top"
             >
+              <el-link
+                :href="`https://tronscan.org/#/address/${scope.row.fromAddress}`"
+                target="_blank"
+                type="primary"
+                >{{ formatAddr(scope.row.fromAddress) }}</el-link
+              >
+            </el-tooltip>
           </div>
           <div class="text-overflow">
             <span>接收：</span>
-            <el-link
-              :href="`https://tronscan.org/#/address/${scope.row.toAddress}`"
-              target="_blank"
-              type="primary"
-              >{{ formatAddr(scope.row.toAddress) }}</el-link
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              :content="scope.row.toAddress"
+              placement="top"
             >
+              <el-link
+                :href="`https://tronscan.org/#/address/${scope.row.toAddress}`"
+                target="_blank"
+                type="primary"
+                >{{ formatAddr(scope.row.toAddress) }}</el-link
+              >
+            </el-tooltip>
           </div>
         </template>
       </el-table-column>
@@ -78,7 +92,7 @@
       <el-table-column
         prop="expiredDate"
         label="到期时间"
-        :formatter="row => filterDate(row.expiredDate)"
+        :formatter="(row) => filterDate(row.expiredDate)"
       >
         <template #header>
           <div>
@@ -99,7 +113,7 @@
       <el-table-column
         prop="orderStatus"
         label="订单状态"
-        :formatter="row => filterStatus(row.orderStatus)"
+        :formatter="(row) => filterStatus(row.orderStatus)"
       />
       <el-table-column prop="address" label="操作">
         <template #default="scope">
@@ -128,78 +142,78 @@
 </template>
 
 <script setup>
-import { filterDate } from '@/utils/utils/date.js'
-import { awaitFnLoading } from '@/utils/utils/loading.js'
-import { getUserSells } from '@/utils/axios/seller/index.js'
+import { filterDate } from "@/utils/utils/date.js";
+import { awaitFnLoading } from "@/utils/utils/loading.js";
+import { getUserSells } from "@/utils/axios/seller/index.js";
 const form = reactive({
-  orderNo: '',
-  toAddress: '',
-  startTime: '',
-  endTime: '',
-  orderStatus: '',
+  orderNo: "",
+  toAddress: "",
+  startTime: "",
+  endTime: "",
+  orderStatus: "",
   date: [],
   pageIndex: 1,
   pageSize: 10,
-  totalCount: 0
-})
-const radio2 = ref(0)
-const gotoNew = url => {
-  window.open(`https://nile.tronscan.org/#/transaction/${url}`, '_blank')
-}
+  totalCount: 0,
+});
+const radio2 = ref(0);
+const gotoNew = (url) => {
+  window.open(`https://nile.tronscan.org/#/transaction/${url}`, "_blank");
+};
 const handleClick = (tab, event) => {
-  console.log(tab, event)
-}
-const value1 = ref('')
-const userSells = ref([])
+  console.log(tab, event);
+};
+const value1 = ref("");
+const userSells = ref([]);
 const onSubmit = () => {
-  console.log('submit!')
-  queryUserSells()
-}
+  console.log("submit!");
+  queryUserSells();
+};
 const queryUserSells = async () => {
   if (form.date && form.date.length > 0) {
-    form.startTime = form.date[0]
-    form.endTime = form.date[1]
+    form.startTime = form.date[0];
+    form.endTime = form.date[1];
   } else {
-    form.date = []
+    form.date = [];
   }
-  const data = await awaitFnLoading(getUserSells)(form)
+  const data = await awaitFnLoading(getUserSells)(form);
   if (data.code === 12000) {
-    console.log(data)
-    userSells.value = data.data.data
+    console.log(data);
+    userSells.value = data.data.data;
   } else {
-    ElMessage.error(data.msg)
+    ElMessage.error(data.msg);
   }
-}
-const filterStatus = status => {
+};
+const filterStatus = (status) => {
   switch (status) {
-    case 'DELEGATEING':
-      return '代理中'
-    case 'ALMOST_DONE':
-      return '即将结束'
-    case 'DONE':
-      return '已经完成'
+    case "DELEGATEING":
+      return "代理中";
+    case "ALMOST_DONE":
+      return "即将结束";
+    case "DONE":
+      return "已经完成";
     default:
-      return ''
+      return "";
   }
-}
+};
 const changeStatus = () => {
-  queryUserSells()
-}
+  queryUserSells();
+};
 const resetForm = () => {
-  Object.keys(form).map(v => {
-    form[v] = ''
-  })
-  form.date = []
-  form.pageIndex = 1
-  form.pageSize = 10
-  queryUserSells()
-}
+  Object.keys(form).map((v) => {
+    form[v] = "";
+  });
+  form.date = [];
+  form.pageIndex = 1;
+  form.pageSize = 10;
+  queryUserSells();
+};
 onMounted(async () => {
-  queryUserSells()
-})
-const formatAddr = str => {
-  return str.replace(/^(\w{4})\w+(\w{4})$/, '$1****$2')
-}
+  queryUserSells();
+});
+const formatAddr = (str) => {
+  return str.replace(/^(\w{4})\w+(\w{4})$/, "$1****$2");
+};
 </script>
 
 <style>

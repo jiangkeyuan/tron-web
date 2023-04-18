@@ -117,7 +117,7 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         "@": resolve(__dirname, "src"),
-        "@store": resolve(__dirname, "src/store")
+        "@store": resolve(__dirname, "src/store"),
       },
     },
 
@@ -127,6 +127,8 @@ export default ({ mode }) => {
       chunkSizeWarningLimit: 800,
       assetsDir: "./assets",
       emptyOutDir: true,
+      preload: [/\.vue\?type=script/],
+      prefetch: [/\.png$/, /\.json$/, /\.css$/],
       // rollupOptions: {
       //   input: entrances,
       //   output: {

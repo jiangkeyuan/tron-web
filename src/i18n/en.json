@@ -1,3 +1,20 @@
 {
-    "hello":"hello word"
+  "systemConfiguration":"System dashboard",
+  "userList":"User list",
+  "statisticsDashboard":"Statistics dashboard",
+  "managementDashboard":"Dashboard",
+  "rentalRecords":"Rental records",
+  "recharge": "Recharge",
+  "manualLease":"Energy leasing",
+  "apiKey":"Api key",
+  "help": "FAQ",
+
+
+  "salesOrder" :"Sell order",
+  "saleSettings": "Sale settings",
+  "authOperation": "Authorized operation",
+
+  "title-seller": "Seller",
+  "title-buyer": "Buyer",
+  "switch": "Switch To"
 }

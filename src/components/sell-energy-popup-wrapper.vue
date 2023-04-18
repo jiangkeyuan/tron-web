@@ -154,8 +154,9 @@
             </div>
           </div>
           <div class="value">
-            <span>{{ props.rowData.rentalDays }}</span
-            ><span class="unit">天</span>
+            <span>{{ filterHours(props.rowData.rentalHours) }}</span
+            >
+            <!-- <span class="unit">天</span> -->
           </div>
         </div>
         <div class="profit balance">
@@ -221,6 +222,7 @@
 import { sellManualOrders } from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import { filterHours } from '@/utils/utils/date.js'
 const emit = defineEmits(['close'])
 const props = defineProps({
   show: {

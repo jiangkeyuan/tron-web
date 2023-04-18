@@ -1,3 +1,20 @@
 {
-    "hello":"你好"
+  "systemConfiguration":"系统设置",
+  "userList":"用户列表",
+  "statisticsDashboard":"统计面板",
+  "managementDashboard":"管理面板",
+  "rentalRecords":"租用记录",
+  "recharge": "充值",
+  "manualLease":"手工租赁",
+  "apiKey":"API密钥",
+  "help": "使用帮助",
+
+
+  "salesOrder" :"出售订单",
+  "saleSettings": "出售设置",
+  "authOperation": "授权操作明细",
+
+  "title-seller": "卖家版",
+  "title-buyer": "买家版",
+  "switch": "切换"
 }

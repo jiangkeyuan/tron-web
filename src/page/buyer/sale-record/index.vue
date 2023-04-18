@@ -31,7 +31,7 @@
       <el-table-column prop="toAddress" label="接收" width="180" />
       <el-table-column prop="rentalQuantity" label="租用量" width="120" />
       <el-table-column prop="doneRentalQuantity" label="已完成租用量" width="120" />
-      <el-table-column prop="rentalHours" label="租用时长" width="120"  :formatter="(row) => filterHours(row.rentalHours)"/>
+      <el-table-column prop="rentalHours" label="租用时长" width="120" :formatter="(row) => filterHours(row.rentalHours)" />
       <el-table-column prop="payDate" label="支付时间" width="180" :formatter="(row) => filterDate(row.payDate)" />
       <el-table-column prop="delegateDate" label="代理时间" width="180" :formatter="(row) => filterDate(row.delegateDate)" />
       <el-table-column prop="expiredDate" label="到期时间" width="180" :formatter="(row) => filterDate(row.expiredDate)" />
@@ -42,7 +42,8 @@
           <el-button link type="primary" size="small" @click="details(scope)">订单详情</el-button>
           <el-button v-if="scope.row.transactionHash" link type="primary" size="small"
             @click="gotoNew(scope.row.transactionHash)">代理详情</el-button>
-          <el-button v-if="scope.row.orderStatus === 'WAIT_DELEGATE' || scope.row.orderType === 'NORMAL'" link type="primary" size="small" @click="cancel(scope)">取消订单</el-button>
+          <el-button v-if="scope.row.orderStatus === 'WAIT_DELEGATE' && scope.row.orderType === 'NORMAL'" link
+            type="primary" size="small" @click="cancel(scope)">取消订单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -90,7 +91,7 @@
               </svg><span class="text">{{ detailsValue.doneRentalQuantity }}</span>
             </div>
             <div>
-              租用时长：<span class="text">{{  filterHours(detailsValue.rentalHours) }}</span>
+              租用时长：<span class="text">{{ filterHours(detailsValue.rentalHours) }}</span>
             </div>
             <div>支付金额： <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
             <div>
@@ -108,16 +109,16 @@
             <div class="flex">
               <span>状态：</span>
               <div style="
-                  display: inline-block;
-                  width: fit-content;
-                  padding: 1px 7px;
-                  margin: 0px;
-                  background: rgb(255, 255, 255);
-                  border: 1px solid rgb(191, 191, 191);
-                  border-radius: 3px;
-                  font-size: 12px;
-                  color: rgb(191, 191, 191);
-                ">
+                    display: inline-block;
+                    width: fit-content;
+                    padding: 1px 7px;
+                    margin: 0px;
+                    background: rgb(255, 255, 255);
+                    border: 1px solid rgb(191, 191, 191);
+                    border-radius: 3px;
+                    font-size: 12px;
+                    color: rgb(191, 191, 191);
+                  ">
                 {{ filterStatus(detailsValue.orderStatus) }}
               </div>
             </div>
@@ -128,8 +129,8 @@
   </div>
 </template>
 <script setup>
-import { getRentals, getApiList,cancelOrder } from "@/utils/axios/buyer/index.js";
-import { filterDate,filterHours } from '@/utils/utils/date.js';
+import { getRentals, getApiList, cancelOrder } from "@/utils/axios/buyer/index.js";
+import { filterDate, filterHours } from '@/utils/utils/date.js';
 import { ElMessage } from "element-plus";
 const fullscreenLoading = ref(false);
 const form = reactive({
@@ -152,21 +153,21 @@ const gotoNew = (url) => {
   window.open(`https://nile.tronscan.org/#/transaction/${url}`, '_blank');
 }
 
-const cancel = async (scope)=>{
+const cancel = async (scope) => {
   console.log(scope)
-  ElMessageBox.alert('是否取消该订单',"警告", {
+  ElMessageBox.alert('是否取消该订单', "警告", {
     confirmButtonText: '确认',
-    beforeClose: async (a,b,done) => {
-      if(a === 'confirm'){
-        const data = await cancelOrder({id:scope.row.id});
-        if(data === 12000){
+    beforeClose: async (a, b, done) => {
+      if (a === 'confirm') {
+        const data = await cancelOrder({ id: scope.row.id });
+        if (data === 12000) {
           ElMessage.success('操作成功');
           seach()
           done()
-        }else{
+        } else {
           ElMessage.error(data.msg);
         }
-      }else{
+      } else {
         done()
       }
     },

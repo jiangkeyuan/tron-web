@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "serve": "vite dev",
-    "preview": "vite preview"
+    "preview": "vite build && vite preview"
   },
   "dependencies": {
     "axios": "^0.27.2",

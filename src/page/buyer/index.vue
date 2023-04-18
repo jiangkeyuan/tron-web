@@ -12,7 +12,7 @@
           <el-icon class="home-left-menu-li-icon">
             <component :is="item.img"></component>
           </el-icon>
-          <span class="home-left-menu-li-title">{{ item.title }}</span>
+          <span class="home-left-menu-li-title">{{ $t(item.title) }}</span>
         </router-link>
 
         <router-link v-if="showManager" to="/console/manager" :class="[
@@ -25,7 +25,7 @@
           <el-icon class="home-left-menu-li-icon">
             <component is="Setting"></component>
           </el-icon>
-          <span class="home-left-menu-li-title">系统配置</span>
+          <span class="home-left-menu-li-title">{{ $t('systemConfiguration') }}</span>
         </router-link>
         <router-link v-if="showManager" to="/console/user" :class="[
           {
@@ -37,7 +37,7 @@
           <el-icon class="home-left-menu-li-icon">
             <component is="Setting"></component>
           </el-icon>
-          <span class="home-left-menu-li-title">用户列表</span>
+          <span class="home-left-menu-li-title">{{ $t('userList') }}</span>
         </router-link>
         <router-link v-if="showManager" to="/console/admin" :class="[
           {
@@ -49,14 +49,15 @@
           <el-icon class="home-left-menu-li-icon">
             <component is="Setting"></component>
           </el-icon>
-          <span class="home-left-menu-li-title">统计面板</span>
+          <span class="home-left-menu-li-title">{{ $t('statisticsDashboard') }}</span>
         </router-link>
       </ul>
       <div class="home-left-button" @click="changMenuType" v-if="store.state?.roles?.roles !== 'ADMIN'">
         <el-icon class="home-left-button-icon">
           <ShoppingCart />
         </el-icon>
-        <span class="home-left-button-text"> 切换{{ title(0) }}</span>
+        <span class="home-left-button-text"> {{ $t('switch') }} {{ store.state.menuList.menuType == 0 ? $t('title-seller')
+          : $t('title-buyer') }}</span>
       </div>
     </div>
     <div class="home-right">
@@ -122,8 +123,8 @@ const menuType = computed(() => {
 const permissionId = computed(() => {
   return store.state.userInfo.userInfo.permissionId
 })
-const title = t => {
-  return store.state.menuList.menuType === t ? '卖家版' : '买家版'
+const title = ts => {
+  return store.state.menuList.menuType === ts ? $t('title-seller') : $t('title-buyer')
 }
 
 const changMenuType = () => {
@@ -289,7 +290,7 @@ const noPermissionId = (permissionId = '') => {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 14px 24px;
+  padding: 14px 20px;
   font-size: 14px;
   display: flex;
   flex-direction: row;

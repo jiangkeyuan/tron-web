@@ -26,7 +26,7 @@
         label-position="top"
       >
         <el-form-item :label="`接收${radioVal}地址`">
-          <el-input v-model="address" placeholder="不填写默认当前付款地址" />
+          <el-input v-model="form.receiveAddress" placeholder="不填写默认当前付款地址" />
         </el-form-item>
         <el-form-item :label="`${radioVal}数量`" prop="rentalEnergyQuantity">
           <el-input
@@ -119,8 +119,8 @@ import { computed, ref } from 'vue'
 const emit = defineEmits(['close'])
 const radioVal = ref('能量')
 const form = reactive({
-  rentalDays: 3,
-  price: 110,
+  rentalHours: 72,
+  price: 120,
   rentalEnergyQuantity: '',
   receiveAddress: ''
 })
@@ -131,7 +131,7 @@ const rules = reactive({
   ]
 })
 
-const address = ref(walletAddress())
+const address = ref('')
 // const orderAmount = ref(0)
 const props = defineProps({
   show: {
@@ -151,15 +151,17 @@ const handleClose = () => {
   resetForm()
 }
 const handleSell = async formEl => {
-  const addr = address.value || walletAddress()
+  const receiveAddress = form.receiveAddress || walletAddress()
+  console.log('address',address.value);
+  console.log('receiveAddress',receiveAddress);
   await formEl.validate(async (valid, fields) => {
     if (valid) {
       try {
         loading.value = true
         const unsignedTxn = await tronWeb.transactionBuilder.sendTrx(
-          form.receiveAddress,
+          address.value,
           tronWeb.toSun(orderAmount.value),
-          addr
+          receiveAddress
         )
         const signedTxn = await tronWeb.trx.sign(unsignedTxn)
         const broastTx = await tronWeb.trx.sendRawTransaction(signedTxn)
@@ -196,7 +198,7 @@ const queryBuyManualOrders = async hash => {
 const queryPlatformTransferAddress = async () => {
   const data = await getPlatformTransferAddress()
   if (data.code === 12000) {
-    form.receiveAddress = data.data
+    address.value = data.data
   } else {
     ElMessage.error(data.msg)
   }
@@ -216,24 +218,28 @@ onMounted(() => {
   queryPlatformTransferAddress()
 })
 const orderAmount = computed(() => {
-  const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
-
-  return tronWeb.fromSun(amount)
+  const amount = getAmount()
+  return amount
 })
 const economize = computed(() => {
-  const amount = form.rentalEnergyQuantity * form.rentalDays * form.price
-  const a = form.rentalEnergyQuantity * form.rentalDays / 2381
+  const amount = getAmount()
+  const a = form.rentalEnergyQuantity * 3 / 2381
   console.log('a ',a );
-  const result = a - tronWeb.fromSun(amount)
+  const result = a - amount
   console.log('amount ', result);
   return result.toFixed(2)
 })
+const getAmount = () => {
+  const rentalHours = Math.floor((Number(form.rentalHours) + 24) / 24)
+  const amount = form.rentalEnergyQuantity * rentalHours * form.price
+  return tronWeb.fromSun(amount)
+}
 const resetForm = () => {
   //   form.rentalEnergyQuantity = ''
   ruleFormRef.value.resetFields()
 }
 const open = () => {
-  address.value = walletAddress() || ''
+  form.receiveAddress = walletAddress() || ''
 }
 </script>
 

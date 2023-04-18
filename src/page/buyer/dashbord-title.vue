@@ -2,7 +2,7 @@
   <div class="home-right-wrapper">
     <div class="home-right-wrapper-header">
       <span class="home-right-wrapper-header-l"> {{ store.state.roles.roles === 'ADMIN' ? '系统设置' :
-        store.state.menuList.menuType == 0 ? "买家版" : "卖家版" }} / </span>
+        store.state.menuList.menuType == 0 ? $t('title-buyer') : $t('title-seller') }} / </span>
       <span class="home-right-wrapper-header-r">
         {{ rightTitle }}
       </span>
@@ -64,7 +64,7 @@
                 <el-icon color="rgb(47, 76, 159)">
                   <Switch />
                 </el-icon>
-                切换{{ store.state.menuList.menuType == 1 ? "买家版" : "卖家版" }}
+                {{ $t("switch") }} {{ store.state.menuList.menuType == 1 ? $t('title-buyer') : $t('title-seller') }}
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item">
@@ -148,20 +148,20 @@ const rightTitleFunc = () => {
   });
 
   const adminRouter = [{
-    router:'/console/admin',
+    router: '/console/admin',
     name: "统计面板"
   },
   {
-    router:'/console/user',
+    router: '/console/user',
     name: "用户列表"
   },
   {
-    router:'/console/manager',
+    router: '/console/manager',
     name: "系统配置"
   }]
 
-  adminRouter.map(v=>{
-    if(v.router === route.fullPath){
+  adminRouter.map(v => {
+    if (v.router === route.fullPath) {
       name = v.name
     }
   })
@@ -378,7 +378,7 @@ onMounted(() => {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 14px 24px;
+  padding: 14px 0;
   font-size: 14px;
   display: flex;
   flex-direction: row;

@@ -20,7 +20,7 @@ export const sellManualOrders = (data) => {
 };
 
 export const getUserInfo = async (params) => {
-  return await service.get("/users/info",params);
+  return await service.get("/users/info", params);
 };
 
 export const logout = async ({}) => {
@@ -43,42 +43,41 @@ export const getQuickOrders = async (address) => {
 };
 
 export const buyManualOrders = async (data) => {
-    return await service({
-        url: '/index/manual/buy',
-        method: 'POST',
-        data
-    });
+  return await service({
+    url: "/buyer/manual/buy",
+    method: "POST",
+    data,
+  });
 };
 
 export const buyDappOrders = async (data) => {
-    return await service({
-        url: '/index/dapp/buy',
-        method: 'POST',
-        data
-    });
+  return await service({
+    url: "/index/dapp/buy",
+    method: "POST",
+    data,
+  });
 };
 
-
 export const getPlatformRechargeAddress = async (data) => {
-    return await service.get('/index/platformRechargeAddress')
+  return await service.get("/index/platformRechargeAddress");
 };
 
 export const getPlatformDappAddress = async () => {
-    return await service.get('/index/platformDappAddress')
+  return await service.get("/index/platformDappAddress");
 };
 
 export const getPlatformTransferAddress = async () => {
-    return await service.get('/index/platformTransferAddress')
+  return await service.get("/index/platformTransferAddress");
 };
 
 export const getPlatformPrice = async () => {
-    return await service.get('/index/platformPrice')
+  return await service.get("/index/platformPrice");
 };
 
 export const hasSufficientTrx = async (data) => {
-    return await service({
-        url: '/index/dapp/hasSufficientTrx',
-        method: 'post',
-        data
-    })
+  return await service({
+    url: "/index/dapp/hasSufficientTrx",
+    method: "post",
+    data,
+  });
 };

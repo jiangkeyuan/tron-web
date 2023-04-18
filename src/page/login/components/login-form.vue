@@ -5,9 +5,9 @@
         {{ filterName(props.type) }}
       </h2>
       <el-form-item class="login-content-right-input" prop="email">
-        <div v-if="props.type === '5'" class="mb-10">绑定邮箱</div>
+        <div v-if="props.type === '5'" class="mb-10">{{ $t("LOGIN-035") }}</div>
         <el-input class="login-content-right-input-l" :disabled='props.type === "5" || props.type === "6"'
-          v-model.trim="value.email" placeholder="请输入您的邮箱地址">
+          v-model.trim="value.email" :placeholder="$t('LOGIN-030')">
           <template #prefix>
             <img src="@/assets/login/login-user.svg" alt="" />
           </template>
@@ -15,13 +15,13 @@
       </el-form-item>
       <Transition :duration="550" name="slide-up">
         <div>
-          <div v-if="props.type === '5'" class="mb-10">密码</div>
+          <div v-if="props.type === '5'" class="mb-10">{{ $t('LOGIN-034') }}</div>
           <el-form-item v-if="props.type !== '2'" class="login-content-right-input" prop="passWord" :rules="[
-            { required: true, message: '请输入密码！', trigger: ['blur', 'change'] },
-            { required: true, min: 8, message: '请输入大于8位数的密码！', trigger: ['blur', 'change'] },
+            { required: true, message: $t('LOGIN-031'), trigger: ['blur', 'change'] },
+            { required: true, min: 8, message: $t('LOGIN-029'), trigger: ['blur', 'change'] },
           ]">
             <el-input class="login-content-right-input-l" v-model.trim="value.passWord" type="password"
-              placeholder="请输入您的密码" show-password>
+              :placeholder="$t('LOGIN-031')" show-password>
               <template #prefix>
                 <img src="@/assets/login/login-password.svg" alt="" color="red" />
               </template>
@@ -31,14 +31,14 @@
       </Transition>
       <Transition :duration="550" name="slide-up">
         <div>
-          <div v-if="props.type === '5'" class="mb-10">确认密码</div>
+          <div v-if="props.type === '5'" class="mb-10">{{$t('LOGIN-010')}}</div>
           <el-form-item v-if="props.type === '1' || props.type === '5' || props.type === '6'" prop="confirmPassword"
             class="login-content-right-input" :rules="[
-              { required: true, message: '请输入二次密码！', trigger: ['blur', 'change'] },
+              { required: true, message: $t('LOGIN-032'), trigger: ['blur', 'change'] },
               { required: true, validator: checkPassWord, trigger: ['blur', 'change'] },
             ]">
             <el-input clearable class="login-content-right-input-l" v-model.trim="value.confirmPassword" type="password"
-              placeholder="确认密码" show-password>
+              :placeholder="$t('LOGIN-010')" show-password>
               <template #prefix>
                 <img src="@/assets/login/login-password.svg" alt="" color="red" />
               </template>
@@ -49,7 +49,7 @@
 
       <el-form-item class="login-content-right-input login-content-right-c" prop="verifyCode" v-if="props.type !== '5'">
         <el-input class="login-content-right-input-l login-content-right-input-code" v-model="value.verifyCode"
-          placeholder="请输入验证码">
+          :placeholder="$t('LOGIN-014')">
           <template #prefix>
             <img src="@/assets/login/login-code.svg" alt="" />
           </template>
@@ -63,6 +63,8 @@
 <script setup>
 import { generateVerifyCode } from '@/utils/axios/login/index.js';
 import { getParamsNew } from '@/utils/utils/index.js';
+import { useI18n } from 'vue-i18n'
+const { t,locale } = useI18n()
 const props = defineProps({
   data: {
     default: {},
@@ -71,6 +73,7 @@ const props = defineProps({
   forgetpwds: Function,
   type: String
 });
+
 
 const emit = defineEmits(['update:data'])
 const ruleFormRef = ref();
@@ -87,13 +90,25 @@ watch(value, (o, n) => {
   emit('update:data', n);
 })
 
-const rules = reactive({
+watch(locale,()=>{
+  Object.assign(rules,{
   verifyCode: [
-    { required: true, message: '请输入验证码', trigger: ['blur', 'change'] },
+    { required: true, message: t("LOGIN-018"), trigger: ['blur', 'change'] },
   ],
   email: [
-    { required: true, message: '请输入邮箱！', trigger: ['blur', 'change'] },
-    { required: true, pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: '请输入正确的邮箱！', trigger: ['blur', 'change'] },
+    { required: true, message: t("LOGIN-030"), trigger: ['blur', 'change'] },
+    { required: true, pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: t('LOGIN-017'), trigger: ['blur', 'change'] },
+  ]
+})
+})
+
+const rules = reactive({
+  verifyCode: [
+    { required: true, message: t("LOGIN-018"), trigger: ['blur', 'change'] },
+  ],
+  email: [
+    { required: true, message: t("LOGIN-030"), trigger: ['blur', 'change'] },
+    { required: true, pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: t('LOGIN-017'), trigger: ['blur', 'change'] },
   ]
 })
 
@@ -137,17 +152,17 @@ const getCode = async (type) => {
 const filterName = (type) => {
   switch (type) {
     case '0':
-      return '登陆'
+      return t('LOGIN-001')
     case '1':
-      return '注册'
+      return t('LOGIN-011')
     case '2':
-      return '忘记密码'
+      return t("LOGIN-007")
     case '5':
-      return '绑定邮箱'
+      return t('LOGIN-035')
     case '6':
       return '重置密码'
     default:
-      return '登陆'
+      return t('LOGIN-001')
   }
 }
 

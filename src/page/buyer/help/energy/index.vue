@@ -60,7 +60,7 @@
 									</thead>
 									<tbody data-v-531a4288="">
 										<tr data-v-531a4288="">
-											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">apiKey</td>
 											<td data-v-531a4288="">string</td>
 											<td data-v-531a4288="">申请的api-key</td>
 											<td data-v-531a4288="">****_****_****_****</td>
@@ -296,7 +296,7 @@
 									</thead>
 									<tbody data-v-531a4288="">
 										<tr data-v-531a4288="">
-											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">apiKey</td>
 											<td data-v-531a4288="">string</td>
 											<td data-v-531a4288="">申请的api-key</td>
 											<td data-v-531a4288="">****_****_****_****</td>
@@ -469,7 +469,7 @@
 							<!---->
 						</div>
 						<div class="ant-typography" data-v-531a4288="">
-							请求方式：GET
+							请求方式：POST
 							<!---->
 						</div>
 						<div class="ant-typography" data-v-531a4288="">
@@ -518,7 +518,7 @@
 									</thead>
 									<tbody data-v-531a4288="">
 										<tr data-v-531a4288="">
-											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">apiKey</td>
 											<td data-v-531a4288="">string</td>
 											<td data-v-531a4288="">申请的api-key</td>
 											<td data-v-531a4288="">****_****_****_****</td>
@@ -730,7 +730,7 @@
 									</thead>
 									<tbody data-v-531a4288="">
 										<tr data-v-531a4288="">
-											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">apiKey</td>
 											<td data-v-531a4288="">string</td>
 											<td data-v-531a4288="">申请的api-key</td>
 											<td data-v-531a4288="">****_****_****_****</td>
@@ -902,7 +902,7 @@
 									</thead>
 									<tbody data-v-531a4288="">
 										<tr data-v-531a4288="">
-											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">apiKey</td>
 											<td data-v-531a4288="">string</td>
 											<td data-v-531a4288="">申请的api-key</td>
 											<td data-v-531a4288="">****_****_****_****</td>
@@ -1028,7 +1028,7 @@
 									</thead>
 									<tbody data-v-531a4288="">
 										<tr data-v-531a4288="">
-											<td data-v-531a4288="">key</td>
+											<td data-v-531a4288="">apiKey</td>
 											<td data-v-531a4288="">string</td>
 											<td data-v-531a4288="">申请的api-key</td>
 											<td data-v-531a4288="">****_****_****_****</td>

@@ -38,7 +38,7 @@
           </el-tab-pane>
           <el-tab-pane label="转账充值" name="second">
             <div class="recharge-content">
-              <span>平台钱包地址</span>
+              <span>平台钱包地址(转账充值大概在2分钟内到账)</span>
               <div class="recharge-content-address">
                 <span>{{ rechargeTransferAdress }}</span>
                 <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#c53027">

@@ -190,6 +190,7 @@ const seach = async () => {
   fullscreenLoading.value = false;
   if (data.code == 12000) {
     tableData.value = data.data.data;
+    form.totalCount = data.data.totalCount
   } else {
     ElMessage.error(data.mas)
   }

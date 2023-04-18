@@ -42,7 +42,7 @@
       <el-table-column prop="orderNo" label="订单号"> </el-table-column>
       <el-table-column
         prop="delegateDate"
-        label="质押时间"
+        label="代理时间"
         :formatter="(row) => filterDate(row.delegateDate)"
       />
       <el-table-column prop="fromAddress" label="钱包">
@@ -83,9 +83,9 @@
       </el-table-column>
       <el-table-column prop="benifitAmount" label="结算金额" />
       <el-table-column prop="sellPrice" label="单价" />
-      <el-table-column prop="address" label="质押">
+      <el-table-column prop="address" label="代理">
         <template #default="scope">
-          <div>金额：{{ scope.row.stakeAmount }}</div>
+          <!-- <div>金额：{{ scope.row.stakeAmount }}</div> -->
           <div>能量：{{ scope.row.lendEnergy }}</div>
         </template>
       </el-table-column>
@@ -134,9 +134,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="sale-record-table-pagination">
-      <!-- <el-pagination v-model:current-page='form.pageIndex' :page-size="form.pageSize" layout="prev, pager, next"
-        :total="form.totalCount" /> -->
+    <div class="ctc-pagination pagination">
+      <el-pagination v-model:current-page="form.pageIndex" v-model:page-size="form.pageSize" 
+        layout="prev, pager, next, jumper" :total="form.totalCount" @current-change="handleCurrentChange"
+        hide-on-single-pageS />
     </div>
   </DashbordContent>
 </template>
@@ -180,6 +181,7 @@ const queryUserSells = async () => {
   if (data.code === 12000) {
     console.log(data);
     userSells.value = data.data.data;
+    form.totalCount = data.data.totalCount
   } else {
     ElMessage.error(data.msg);
   }
@@ -211,6 +213,10 @@ const resetForm = () => {
 onMounted(async () => {
   queryUserSells();
 });
+const handleCurrentChange = (value) => {
+  form.pageIndex = value
+  queryUserSells()
+}
 const formatAddr = (str) => {
   return str.replace(/^(\w{4})\w+(\w{4})$/, "$1****$2");
 };

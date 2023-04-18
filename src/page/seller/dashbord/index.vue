@@ -62,7 +62,7 @@
               出售能量
             </div>
             <div class="font icon-question">
-              <Tips content="每日出售订单所质押产生的能量合计"></Tips>
+              <Tips content="每日出售订单所代理产生的能量合计"></Tips>
             </div>
           </div>
           <div class="flex">
@@ -112,10 +112,11 @@
   <DashbordContent>
     <div class="vben-basic-table-title">最新订单</div>
     <el-table :data="latestSells" stripe style="width: 100%" empty-text="暂无数据">
+      <el-table-column prop="orderNo" label="订单号" />
       <el-table-column prop="delegateDate" label="Date" :formatter="row => filterDate(row.delegateDate)">
         <template #header>
           <div>
-            质押时间
+            代理时间
             <el-tooltip class="box-item" effect="dark" content="香港时间" placement="right">
               <el-icon>
                 <WarningFilled />
@@ -143,6 +144,7 @@
   <DashbordContent>
     <div class="vben-basic-table-title">即将结束订单</div>
     <el-table :data="almostSells" stripe style="width: 100%" empty-text="暂无数据">
+        <el-table-column prop="orderNo" label="订单号" />
       <el-table-column prop="expiredDate" label="Date" :formatter="row => filterDate(row.expiredDate)">
         <template #header>
           <div>
@@ -155,7 +157,6 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="delegateAmount" label="质押金额" />
       <el-table-column prop="lendEnergy" label="资源" />
     </el-table>
   </DashbordContent>

@@ -3,8 +3,11 @@
     <div class="home-right-wrapper-header">
       <span class="home-right-wrapper-header-l"> {{ store.state.roles.roles === 'ADMIN' ? $t('systemConfiguration') :
         store.state.menuList.menuType == 0 ? $t('title-buyer') : $t('title-seller') }} / </span>
-      <span class="home-right-wrapper-header-r">
-        {{ rightTitleFunc() || $t('managementDashboard') }}
+      <span class="home-right-wrapper-header-r" v-if="rightTitleFunc()">
+        {{ rightTitleFunc() }}
+      </span>
+      <span class="home-right-wrapper-header-r" v-else>
+        {{ $t('buyer-004')  }}
       </span>
     </div>
 
@@ -144,7 +147,7 @@ const rightTitleFunc = () => {
   let name = "";
   store.getters.menuList.map((v) => {
     if (v.isActive) {
-      name = v.title;
+      name = t(v.title);
     }
   });
 
@@ -172,8 +175,6 @@ const rightTitleFunc = () => {
 
   return name;
 }
-const rightTitle = ref(rightTitleFunc() || '管理面板');
-const leftTitle = ref(title());
 
 const checkPassWord = (rule, v, callback) => {
   if (v !== form.newPwd) {
@@ -228,14 +229,7 @@ const gotoFund = (route) => {
   router.push(route);
 };
 
-watch(route, () => {
-  rightTitle.value = rightTitleFunc();
-  leftTitle.value = title();
-});
 
-const menuType = computed(() => {
-  return store.state.menuList.menuType;
-});
 
 onMounted(() => {
   store.dispatch('getUserInfoAction');

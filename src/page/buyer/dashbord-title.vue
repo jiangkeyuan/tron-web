@@ -150,7 +150,7 @@ const rightTitleFunc = () => {
 
   const adminRouter = [{
     router: '/console/admin',
-    name: $('statisticsDashboard')
+    name: t('statisticsDashboard')
   },
   {
     router: '/console/user',

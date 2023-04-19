@@ -472,7 +472,9 @@ const onParser = value => {
 watch(rentalDays, o => {
   console.log('o', o)
   const sum = Math.floor((Number(o) + 23) / 24)
-  amount.value = amountFilter(capacity.value * sum * price.value)
+  const fromSun = amountFilter(capacity.value * sum * price.value)
+  fromSunAmount.value = fromSun
+  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
 })
 // 大家的租用地址
 const radioChange = value => {

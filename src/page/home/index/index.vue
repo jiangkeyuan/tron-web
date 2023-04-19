@@ -5,13 +5,13 @@
         <div class="inner">
           <div class="bg"></div>
           <div class="d3">
-            <h1 class="name">{{$t('TRONEnergyTradingplatform')}}</h1>
+            <h1 class="name">{{$t('HOME-001')}}</h1>
           </div>
         </div>
       </div>
     </div>
     <section class="transaction-mean-wrapper section transaction-mean">
-      <h2 class="title">{{$t('MoreWaysToTrade')}}</h2>
+      <h2 class="title">{{$t('HOME-002')}}</h2>
       <div class="means">
         <a href="/#/c2c" class="mean">
           <div class="mean-content">
@@ -23,11 +23,11 @@
                   <i class="tip-icon"></i>
                 </h3>
                 <ul class="feature-list">
-                  <li>{{$t('CustomizableUnitPriceDay')}}</li>
-                  <li>{{$t('TheMinimumUnitPriceIs110SunDay')}}</li>
-                  <li>{{$t('SupportformobileDAPP')}}</li>
-                  <li>{{$t('SupportEnergyBandwidthBulkTrading')}}</li>
-                  <li>{{$t('SellersEarnRentalFees')}}</li>
+                  <li>{{$t('HOME-004')}}</li>
+                  <li>{{$t('HOME-005')}}</li>
+                  <li>{{$t('HOME-006')}}</li>
+                  <li>{{$t('HOME-007')}}</li>
+                  <li>{{$t('HOME-008')}}</li>
                 </ul>
               </div>
             </div>
@@ -38,49 +38,49 @@
                   <i class="tip-icon"></i>
                 </h3>
                 <ul class="feature-list">
-                  <li>{{$t('LongerLeaseTermUpToDays')}}</li>
-                  <li>{{$t('largerLeaseScopeStartingAtTenThousand')}}</li>
-                  <li>{{$t('FastTransactionEnergyArrivesInSeconds')}}</li>
-                  <li>{{$t('SupportMultiCurrencyPaymentPurchase')}}</li>
-                  <li>{{$t('SupportDAPPBrowserUse')}}</li>
+                  <li>{{$t('HOME-009')}}</li>
+                  <li>{{$t('HOME-010')}}</li>
+                  <li>{{$t('HOME-011')}}</li>
+                  <li>{{$t('HOME-012')}}</li>
+                  <li>{{$t('HOME-013')}}</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="go-btn">{{$t('Tradenow')}}</div>
+          <div class="go-btn">{{$t('HOME-003')}}</div>
         </a>
       </div>
     </section>
     <section id="introduce" class="introduce-wrapper section introduce">
-      <h2 class="title">Hashgo.xyz 介绍</h2>
+      <h2 class="title">Hashgo.xyz {{$t('HOME-014')}}</h2>
       <div class="main">
         <div class="keywords">
           <div class="item">
             <img src="@/assets/home/gas-key-economy.svg" alt="" />
-            <strong>经济</strong>
+            <strong>{{$t('HOME-015')}}</strong>
           </div>
           <div class="item">
             <img src="@/assets/home/gas-key-safety.svg" alt="" />
-            <strong>安全</strong>
+            <strong>{{$t('HOME-016')}}</strong>
           </div>
           <div class="item">
             <img src="@/assets/home/gas-key-efficient.svg" alt="" />
-            <strong>安全</strong>
+            <strong>{{$t('HOME-017')}}</strong>
           </div>
         </div>
         <p class="intro">
           hashgo.xyz
-          是波场生态中的能量交易平台,我们的宗旨是为波场交易者降低能量消耗所需燃烧的费用,优惠力度更大,更安全且高效的能量B2C和C2C交易服务。
+          {{$t('HOME-018')}}
         </p>
         <ul class="feature-list">
-          <li>解决 TRX 手续费支出过多问题</li>
-          <li>API&手工&转账多种租赁方式</li>
-          <li>能量秒到账,手续费直降88%</li>
-          <li>闲置 TRX 可以赚取能量交易佣金</li>
-          <li>流程快捷方便,只需接收地址即可获取能量</li>
-          <li>专业客服及技术团队,为用户运营保驾护航</li>
-          <li>适用 USDT,合约转账,部署合约,部署NFT</li>
-          <li>Tron 波场用户必备省钱专家</li>
+          <li>{{$t('HOME-019')}}</li>
+          <li>{{$t('HOME-020')}}</li>
+          <li>{{$t('HOME-021')}}</li>
+          <li>{{$t('HOME-022')}}</li>
+          <li>{{$t('HOME-023')}}</li>
+          <li>{{$t('HOME-024')}}</li>
+          <li>{{$t('HOME-025')}}</li>
+          <li>{{$t('HOME-026')}}</li>
         </ul>
       </div>
     </section>

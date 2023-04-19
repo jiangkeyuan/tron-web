@@ -215,16 +215,16 @@
         <span>您可以加入我们VIP卖家全自动化出售能量以获得最高收益，点击下方注册VIP卖家开始加入</span>
         <a class="join-button" href="/#/console/buyer/dashboard" target="_blank"><span>注册加入</span></a>
       </div>
-      <div class="channel">
+      <!-- <div class="channel">
         <span>当有订单时您也可以手动出售能量以获得收入，要获得及时的订单推送，请关注如下频道</span>
         <div class="channel-link">
           <a href="https://t.me/tronenergymarkets" target="_blank">TG频道：@TRON ENERGY MARKET</a>
         </div>
-      </div>
+      </div> -->
       <div class="service">
         <span>如有其他问题，请联系：</span>
         <div class="service-link">
-          <a href="https://t.me/trongascom" target="_blank">TG客服：@trongascom</a>
+          <a href="https://t.me/tron_hashgo" target="_blank">TG客服：@tron_hashgo</a>
         </div>
       </div>
     </div>

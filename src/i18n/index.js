@@ -4,7 +4,8 @@ import EN from "./en.json";
 import ZH from "./zh.json";
 import LGONEN from './login/en.json'
 import LGONZH from './login/zh.json'
-
+import HOMEEN from './home/en.json'
+import HOMEZH from './home/zh.json'
 export const i18n = createI18n({
   legacy: false,
   globalInjection: true,
@@ -13,11 +14,13 @@ export const i18n = createI18n({
   messages: {
     "en-US": {
       ...EN,
-      ...LGONEN
+      ...LGONEN,
+      ...HOMEEN
     },
     "zh-CN": {
       ...ZH,
-      ...LGONZH
+      ...LGONZH,
+      ...HOMEZH
     },
   },
 });

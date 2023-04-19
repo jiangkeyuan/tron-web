@@ -12,7 +12,7 @@
               <li>支持DAPP支付和转账租赁</li>
               <li>
                 <span>如一次性需大额能量，可</span>
-                <a class="customer-link" href="/" target="_blank">联系客服</a>
+                <a class="customer-link" href="https://t.me/tron_hashgo" target="_blank">联系客服</a>
                 <span> 下单 </span>
               </li>
             </ul>
@@ -166,8 +166,8 @@
           </template>
           <template v-if="leaseRadio == 'DAPP租赁'">
             <div class="project-panel">
-              <div class="input-panel wallet-address">
-                {{ dappAddress }}
+              <div class="input-panel wallet-address" v-if="defaultAddr">
+                {{ defaultAddr }}
               </div>
               <div class="input-panel rentVal">
                 <div class="title">租用量</div>
@@ -418,6 +418,7 @@ const rentalDaysObj = reactive({
   24: '1天',
   72: '3天'
 })
+const defaultAddr = ref('')
 const economize = ref(0)
 const shortcutList = [
   {
@@ -616,6 +617,7 @@ const payment = async () => {
 }
 onMounted(() => {
   address.value = walletAddress() || ''
+  defaultAddr.value = walletAddress() || ''
   //   queryPlatformRechargeAddress()
   queryPlatformDappAddress()
   queryPlatformTransferAddress()
@@ -625,8 +627,10 @@ onMounted(() => {
     if (e.data.message && e.data.message.action == 'tabReply') {
       if (walletAddress()) {
         address.value = walletAddress()
+        defaultAddr.value = walletAddress()
       } else {
         address.value = ''
+        defaultAddr.value = ''
       }
     }
   })

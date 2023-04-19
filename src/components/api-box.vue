@@ -12,7 +12,7 @@
     </p>
     <p class="text">
       如需其他服务可
-      <a href="/" target="_blank"> 咨询客服 </a>
+      <a href="https://t.me/tron_hashgo" target="_blank"> 咨询客服 </a>
     </p>
   </section>
 </template>

@@ -13,7 +13,7 @@
        
     </div> -->
     <el-backtop class="to-top" :right="25" bottom="" />
-    <a class="customer-wrapper customer hide" href="http://" target="_blank">
+    <a class="customer-wrapper customer hide" href="https://t.me/tron_hashgo" target="_blank">
       <img src="@/assets/logo/logo.svg" alt="" class="icon" />
       <p class="title">在线客服</p>
     </a>

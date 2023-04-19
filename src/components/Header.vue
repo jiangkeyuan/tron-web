@@ -56,7 +56,7 @@
             <template #title>{{$t('EnergyTrading')}}</template>
             <el-menu-item index="2-1">
               <div class="link">
-                <div class="sub-link_title">{{$t('FreedomTrading')}}</div>
+                <div class="sub-link_title">{{$t('Freedom')}}{{$t('Trading')}}</div>
                 <p class="intro">{{$t('FlexibleCheap')}}</p>
               </div>
             </el-menu-item>

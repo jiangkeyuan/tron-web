@@ -6,6 +6,8 @@ import LGONEN from './login/en.json'
 import LGONZH from './login/zh.json'
 import HOMEEN from './home/en.json'
 import HOMEZH from './home/zh.json'
+import BUYERZH from './buyer/zh.json'
+import BUYEREN from './buyer/en.json'
 export const i18n = createI18n({
   legacy: false,
   globalInjection: true,
@@ -15,12 +17,14 @@ export const i18n = createI18n({
     "en-US": {
       ...EN,
       ...LGONEN,
-      ...HOMEEN
+      ...HOMEEN,
+      ...BUYEREN
     },
     "zh-CN": {
       ...ZH,
       ...LGONZH,
-      ...HOMEZH
+      ...HOMEZH,
+      ...BUYERZH
     },
   },
 });

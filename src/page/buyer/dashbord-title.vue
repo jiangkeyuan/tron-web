@@ -1,10 +1,10 @@
 <template>
   <div class="home-right-wrapper">
     <div class="home-right-wrapper-header">
-      <span class="home-right-wrapper-header-l"> {{ store.state.roles.roles === 'ADMIN' ? '系统设置' :
+      <span class="home-right-wrapper-header-l"> {{ store.state.roles.roles === 'ADMIN' ? $t('systemConfiguration') :
         store.state.menuList.menuType == 0 ? $t('title-buyer') : $t('title-seller') }} / </span>
       <span class="home-right-wrapper-header-r">
-        {{ rightTitle }}
+        {{ rightTitleFunc() || $t('managementDashboard') }}
       </span>
     </div>
 
@@ -21,8 +21,10 @@
                 <ArrowDown />
               </el-icon>
             </span>
-            <span v-if="store.state?.roles?.roles !== 'ADMIN'" class="home-wrapper-user-no-amount">余额：{{
-              store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
+            <span v-if="store.state?.roles?.roles !== 'ADMIN'" class="home-wrapper-user-no-amount">
+              {{$t('buyer-004')}}
+              ：
+              {{ store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
           </div>
         </div>
         <template #dropdown>
@@ -32,7 +34,7 @@
                 <el-icon color="rgb(47, 76, 159)">
                   <Setting />
                 </el-icon>
-                <span>修改密码</span>
+                <span>{{$t('buyer-001')}}</span>
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item" v-if="store.state?.roles?.roles !== 'ADMIN'">
@@ -40,7 +42,7 @@
                 <el-icon color="rgb(47, 76, 159)">
                   <WalletFilled />
                 </el-icon>
-                资金账变
+                {{$t("FundDetails")}}
               </div>
             </el-dropdown-item>
             <el-dropdown-item class="home-wrapper-user-item" v-if="store.state?.roles?.roles !== 'ADMIN'">
@@ -48,7 +50,7 @@
                 <el-icon color="rgb(47, 76, 159)">
                   <Postcard />
                 </el-icon>
-                用户信息
+                {{$t('buyer-002')}}
               </div>
             </el-dropdown-item>
             <!-- <el-dropdown-item class="home-wrapper-user-item">
@@ -72,7 +74,7 @@
                 <el-icon color="rgb(47, 76, 159)">
                   <SwitchButton />
                 </el-icon>
-                退出登录
+                {{$t('buyer-003')}}
               </div>
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -108,15 +110,14 @@ import { changePassWordRequest } from '@/utils/axios/login/index.js';
 import { logout } from '@/utils/axios/home/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter, useRoute } from "vue-router";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
 const dialogFormVisible = ref(false);
 const form = reactive({});
 const ruleFormRef = ref('');
-const title = () => {
-  return store.state.menuType == 0 ? "买家版" : "卖家版"
-};
 
 const logoutUser = async () => {
   const data = await logout({});
@@ -149,15 +150,18 @@ const rightTitleFunc = () => {
 
   const adminRouter = [{
     router: '/console/admin',
-    name: "统计面板"
+    name: $('statisticsDashboard')
   },
   {
     router: '/console/user',
-    name: "用户列表"
+    name: t('userList')
   },
   {
     router: '/console/manager',
-    name: "系统配置"
+    name: t('systemConfiguration')
+  },{
+    router: '/common/fund-change',
+    name: t("FundDetails")
   }]
 
   adminRouter.map(v => {

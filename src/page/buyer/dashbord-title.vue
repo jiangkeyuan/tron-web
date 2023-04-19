@@ -21,8 +21,10 @@
                 <ArrowDown />
               </el-icon>
             </span>
-            <span v-if="store.state?.roles?.roles !== 'ADMIN'" class="home-wrapper-user-no-amount">{{$t('buyer-004')}} ：{{
-              store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
+            <span v-if="store.state?.roles?.roles !== 'ADMIN'" class="home-wrapper-user-no-amount">
+              {{$t('buyer-004')}}
+              ：
+              {{ store.state.userInfo?.userInfo?.availableBalance }} TRX</span>
           </div>
         </div>
         <template #dropdown>

@@ -12,17 +12,22 @@
               <li>支持DAPP支付和转账租赁</li>
               <li>
                 <span>如一次性需大额能量，可</span>
-                <a class="customer-link" href="https://t.me/tron_hashgo" target="_blank">联系客服</a>
+                <a
+                  class="customer-link"
+                  href="https://t.me/tron_hashgo"
+                  target="_blank"
+                  >联系客服</a
+                >
                 <span> 下单 </span>
               </li>
             </ul>
             <img src="@/assets/home/introduce.png" alt="" />
           </div>
-          <div class="info">
+          <!-- <div class="info">
             <div>剩余可租能量：<span>966,484</span>energy</div>
             <div>未来2小时内增加：<span>75,854,513</span>energy</div>
             <div>单笔最大可租：<span>355,343</span>energy</div>
-          </div>
+          </div> -->
           <img
             src="@/assets/home/swap-bg-spaceman.webp"
             alt=""
@@ -120,6 +125,8 @@
                     </span>
                   </div>
                 </div>
+                 <div>*当前购买能量低于50000时，将会多收取0.6TRX</div>
+                <div>大约需要支付 <span class="commission">{{fromSunAmount}}</span> TRX + <span class="commission">{{commission}}</span> TRX</div>
                 <div class="amount-box">
                   <div class="amount-content">
                     <div class="amount">
@@ -175,7 +182,7 @@
                   <el-input
                     v-model="capacity"
                     clearable
-                    placeholder="请输入需要租用的数量"
+                    placeholder="请输入需要租用的数量，30000起租"
                     min="10000"
                     max="1408730"
                     suffix-icon="Search"
@@ -225,6 +232,8 @@
               <div class="header">
                 <div class="title">支付</div>
               </div>
+                <div>*当前购买能量低于50000时，将会多收取0.6TRX</div>
+               <div>大约需要支付 <span class="commission">{{fromSunAmount}}</span> TRX + <span class="commission">{{commission}}</span> TRX</div>
               <div class="cashier">
                 <div class="amount-box">
                   <div class="amount-content">
@@ -265,7 +274,7 @@
           </template>
         </div>
       </div>
-      <div class="statistics-content stc-display">
+      <!-- <div class="statistics-content stc-display">
         <div class="item">
           <div class="num">
             <div class="container num">
@@ -299,7 +308,7 @@
           <div class="info">当前单价(sun) <i class="img">1</i></div>
           <div class="rule">5万能量以上</div>
         </div>
-      </div>
+      </div> -->
       <div class="rent-log-container">
         <div class="rent-log-panel">
           <div class="rent-log-title">
@@ -320,7 +329,7 @@
               <el-table-column prop="transactionHash" label="交易哈希">
                 <template #default="{ row }">
                   <el-link
-                    :href="`https://nile.tronscan.org/#/address/${row.transactionHash}`"
+                    :href="`https://nile.tronscan.org/#/transaction/${row.transactionHash}`"
                     target="_blank"
                     type="primary"
                     >TxHash</el-link
@@ -420,6 +429,7 @@ const rentalDaysObj = reactive({
 })
 const defaultAddr = ref('')
 const economize = ref(0)
+const fromSunAmount = ref(0)
 const shortcutList = [
   {
     label: '50万',
@@ -438,7 +448,7 @@ const shortcutList = [
     value: 10000000
   }
 ]
-
+const commission = ref(0.6);
 const amountFilter = (str)=>{
   if(window.tronWeb){
     return tronWeb?.fromSun(str)
@@ -461,7 +471,7 @@ const onParser = value => {
 }
 watch(rentalDays, o => {
   console.log('o', o)
-  const sum = Math.floor((Number(o) + 24) / 24)
+  const sum = Math.floor((Number(o) + 23) / 24)
   amount.value = amountFilter(capacity.value * sum * price.value)
 })
 // 大家的租用地址
@@ -513,12 +523,15 @@ const filterStatus = status => {
 const onClick = val => {
   let sum = 0
   if (leaseRadio.value == '转账租凭') {
-    sum = Math.floor((Number(72) + 24) / 24)
+    sum = Math.floor((Number(72) + 23) / 24)
   } else {
-    sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+    sum = Math.floor((Number(rentalDays.value) + 23) / 24)
   }
   capacity.value = Number(capacity.value) + Number(val)
-  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
+  fromSunAmount.value = fromSun
+  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
+//   amount.value = +tronWeb?.fromSun(capacity.value * sum * price.value) + getCommissionValue(capacity.value)
   console.log('amount', amount.value)
   const x = capacity.value / 2381
   console.log('x', x)
@@ -527,15 +540,16 @@ const onClick = val => {
 const onInput = val => {
   let sum = 0
   if (leaseRadio.value == '转账租凭') {
-    sum = Math.floor((Number(72) + 24) / 24)
+    sum = Math.floor((Number(72) + 23) / 24)
   } else {
-    sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+    sum = Math.floor((Number(rentalDays.value) + 23) / 24)
   }
   capacity.value = val
-  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
+  fromSunAmount.value = fromSun
+  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
   console.log('amount', amount.value)
   const x = capacity.value / 2381
-  console.log('x', x)
   economize.value = Math.floor(x - amount.value)
 }
 const changeVal = val => {
@@ -543,12 +557,14 @@ const changeVal = val => {
   let sum = 0
   console.log(val == '转账租凭')
   if (val == '转账租凭') {
-    sum = Math.floor((Number(72) + 24) / 24)
+    sum = Math.floor((Number(72) + 23) / 24)
   } else {
-    sum = Math.floor((Number(rentalDays.value) + 24) / 24)
+    sum = Math.floor((Number(rentalDays.value) + 23) / 24)
   }
   console.log('changeVal', sum)
-  amount.value = tronWeb?.fromSun(capacity.value * sum * price.value)
+  const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
+  fromSunAmount.value = fromSun
+  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
   console.log('amount', amount.value)
   const x = capacity.value / 2381
   console.log('x', x)
@@ -573,10 +589,22 @@ const copyTransferAddress = msg => {
     }
   })
 }
+const getCommissionValue = (val) =>{
+  if(+val >= 50000){
+    commission.value = 0;
+  }
+  else{
+    commission.value = 0.6;
+  }
+  return commission.value
+}
 const payment = async () => {
   await TronLink()
   if (!amount.value) {
     return ElMessage.error('请输入需要租用的能量数')
+  }
+  if (+capacity.value < 30000) {
+    return ElMessage.error('租用最低 30000 能量')
   }
   await queryHasSufficientTrx()
   if (!isHasSufficientTrx.value) {

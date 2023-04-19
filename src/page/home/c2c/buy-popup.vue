@@ -30,6 +30,7 @@
         </el-form-item>
         <el-form-item :label="`${radioVal}数量`" prop="rentalEnergyQuantity">
           <el-input
+          placeholder="请输入能量数量，30000起租"
             v-model="form.rentalEnergyQuantity"
             :formatter="value => value.replace(/[^0-9.]/g, '')"
           />
@@ -58,6 +59,8 @@
         </el-form-item>
       </el-form>
       <div class="order-info">
+        <div>*当前购买能量低于50000时，将会多收取0.6TRX</div>
+        <div>大约需要支付 <span class="commission">{{origiAmount}}</span> TRX + <span class="commission">{{commission}}</span> TRX</div>
         <Desc label="订单金额" content="您需要支付的订单金额">
           <template #value>
             <div>{{ orderAmount }} TRX</div>
@@ -124,7 +127,9 @@ const form = reactive({
   rentalEnergyQuantity: '',
   receiveAddress: ''
 })
+const commission = ref(0)
 const ruleFormRef = ref()
+const origiAmount = ref(0)
 const rules = reactive({
   rentalEnergyQuantity: [
     { required: true, message: '请输入数额', trigger: ['blur', 'change'] }
@@ -153,6 +158,9 @@ const handleClose = () => {
 const handleSell = async formEl => {
   const receiveAddress = form.receiveAddress || walletAddress()
   console.log('address',address.value);
+  if(form.rentalEnergyQuantity < 30000) {
+    return ElMessage.error('租用最低 30000 能量')
+  }
   console.log('receiveAddress',receiveAddress);
   await formEl.validate(async (valid, fields) => {
     if (valid) {
@@ -219,7 +227,8 @@ onMounted(() => {
 })
 const orderAmount = computed(() => {
   const amount = getAmount()
-  return amount
+  origiAmount.value = getAmount()
+  return amount != 0 ? +amount + getCommissionValue(form.rentalEnergyQuantity) : amount
 })
 const economize = computed(() => {
   const amount = getAmount()
@@ -230,9 +239,18 @@ const economize = computed(() => {
   return result.toFixed(2)
 })
 const getAmount = () => {
-  const rentalHours = Math.floor((Number(form.rentalHours) + 24) / 24)
+  const rentalHours = Math.floor((Number(form.rentalHours) + 23) / 24)
   const amount = form.rentalEnergyQuantity * rentalHours * form.price
   return tronWeb.fromSun(amount)
+}
+const getCommissionValue = (val) =>{
+  if(+val >= 50000){
+    commission.value = 0;
+  }
+  else{
+    commission.value = 0.6;
+  }
+  return commission.value
 }
 const resetForm = () => {
   //   form.rentalEnergyQuantity = ''
@@ -281,6 +299,9 @@ const open = () => {
 
   .el-radio-button__inner {
     width: 200px;
+  }
+  .commission {
+    color: #2a47ab;
   }
 }
 </style>

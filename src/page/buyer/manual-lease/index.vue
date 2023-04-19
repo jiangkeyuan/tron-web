@@ -9,12 +9,17 @@
           <el-input v-model="form.rentalEnergyQuantity" placeholder="请输入租用量">
             <template #append>Energy</template>
           </el-input>
+          
           <span class="maual-lease-item-energy-text">
             大约需要支付
-            <span class="maual-lease-item-energy-text-num">{{ rentalEnergynum || 0 }}</span>
+            <span class="maual-lease-item-energy-text-num">{{ rentalEnergynum || 0 }}</span> 
+            TRX
+            +
+            <span class="maual-lease-item-energy-text-num">{{ commission }}</span> 
             TRX
           </span>
         </div>
+       
       </el-form-item>
       <el-form-item label="租用天数:" class="maual-lease-item">
         <Button-List v-model:rentalDays = 'form.rentalHours'></Button-List>
@@ -27,11 +32,19 @@
         <el-button link type="primary" @click=openBatch>批量租赁</el-button>
       </el-form-item>
     </el-form>
+
+    <div class="recharge-content-two-text">
+      <span>*</span>
+      <span class="recharge-content-two-text-child">
+        当购买能量低于50000时,将会多收取0.6TRX
+      </span>
+    </div>
   </div>
 </template>
 <script setup>
 import { manaulBuy,getPlatformPrice } from '@/utils/axios/buyer/index';
 import { ElMessage } from 'element-plus';
+import { watch } from 'vue';
 const store = useStore();
 const fullscreenLoading = ref(false);
 const form = reactive({
@@ -43,8 +56,18 @@ const platformPrice = ref(0);
 
 let rentalEnergynum = ref(null);
 
+let commission = ref(0.6);
+
 watch([() => form.rentalEnergyQuantity, () => form.rentalHours], (n, o) => {
-  rentalEnergynum.value = +n[0] * platformPrice.value * Math.floor((+n[1] + 24) / 24) / 1000000
+  rentalEnergynum.value = +n[0] * platformPrice.value * Math.floor((+n[1] + 23) / 24) / 1000000
+})
+
+watch(()=> form.rentalEnergyQuantity,(n)=>{
+  if(+n >= 50000){
+    commission.value = 0;
+  }else{
+    commission.value = 0.6;
+  }
 })
 
 
@@ -59,8 +82,10 @@ pageGetPlatformPrice()
 
 const buy = async () => {
   if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }
+  if(+form.rentalEnergyQuantity < 30000){ ElMessage.error('租用最低 30000 能量'); return; }
   if (!form.rentalHours) { ElMessage.error('请选择租用天数'); return; }
   if (!form.receiveAddress) { ElMessage.error('请输入接收地址'); return; }
+
   fullscreenLoading.value = true;
   const data = await manaulBuy('/buyer/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });
   store.dispatch('getUserInfoAction');
@@ -73,6 +98,15 @@ const openBatch = () => {
 }
 </script>
 <style scoped>
+
+.recharge-content-two-text-child {
+  color: #989fae;
+}
+
+.recharge-content-two-text {
+  color: red;
+  margin-top: 10px;
+}
 .maual-lease {
   padding: 24px;
   box-sizing: border-box;

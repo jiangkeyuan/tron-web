@@ -1,7 +1,7 @@
 <template>
      <el-radio-group v-model="tabPosition">
         <el-radio-button label="1">1小时</el-radio-button>
-        <el-radio-button label="24">1天</el-radio-button>
+        <!-- <el-radio-button label="24">1天</el-radio-button> -->
         <el-radio-button label="72">3天</el-radio-button>
     </el-radio-group>
 </template>

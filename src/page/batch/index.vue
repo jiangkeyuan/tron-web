@@ -10,7 +10,7 @@
     <div class="outer-title">
       <span>租用能量数</span>
     </div>
-    <el-input v-model="form.rentalEnergyQuantity" type="number" placeholder="每个地址租用的能量数,10000起租"></el-input>
+    <el-input v-model="form.rentalEnergyQuantity" type="number" placeholder="每个地址租用的能量数,30000起租"></el-input>
 
     <div class="outer-title">
       <span>租用天数</span>
@@ -45,6 +45,10 @@ const receiveAddressSuccess = ref('');
 const submit = async () => {
   if (!form.rentalEnergyQuantity) {
     ElMessage.error('请输入能量数');
+    return;
+  }
+  if (+form.rentalEnergyQuantity < 30000) {
+    ElMessage.error('最低租用30000能量');
     return;
   }
   if (!form.receiveAddress) {

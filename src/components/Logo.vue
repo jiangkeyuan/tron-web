@@ -1,6 +1,6 @@
 <template>
     <div class="tron-web-logo">
-        <img src="@/assets/logo/logo.svg" alt="" class="tron-web-logo-img"/>
+        <img src="@/assets/logo/logo3.png" alt="" class="tron-web-logo-img"/>
         <span class="tron-web-logo-title">{{props.title}}</span>
     </div>
 </template>

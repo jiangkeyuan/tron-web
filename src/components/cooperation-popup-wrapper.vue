@@ -7,7 +7,7 @@
       </p>
       <div class="contact-ways">
         <p class="tg">
-          <img src="@/assets/logo/logo.svg" alt="" class="icon" />
+          <img src="@/assets/logo/logo2.png" alt="" class="icon" />
           @email_hashgo
         </p>
         <p class="email">

@@ -4,13 +4,13 @@
 
 <script setup></script>
 
-<style scoped>
+<style lang="less" scoped>
 footer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100px;
-  background-color: #121e42;
+  background-color: @color;
   color: #fff;
 }
 </style>

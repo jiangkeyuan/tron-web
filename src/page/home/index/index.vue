@@ -5,82 +5,88 @@
         <div class="inner">
           <div class="bg"></div>
           <div class="d3">
-            <h1 class="name">{{$t('HOME-001')}}</h1>
+            <h1 class="name">{{ $t('HOME-001') }}</h1>
           </div>
         </div>
       </div>
     </div>
     <section class="transaction-mean-wrapper section transaction-mean">
-      <h2 class="title">{{$t('HOME-002')}}</h2>
+      <h2 class="title">{{ $t('HOME-002') }}</h2>
       <div class="means">
         <a href="/#/c2c" class="mean">
           <div class="mean-content">
-            <img src="@/assets/home/transaction-mean.svg" alt="" class="transaction-img" />
+            <img
+              src="@/assets/home/transaction-mean.svg"
+              alt=""
+              class="transaction-img"
+            />
             <div class="card">
               <div class="card-content">
                 <h3 class="name">
-                  <strong>{{$t('Freedom')}}</strong>&nbsp;{{$t('Trading')}}
+                  <strong>{{ $t('Freedom') }}</strong
+                  >&nbsp;{{ $t('Trading') }}
                   <i class="tip-icon"></i>
                 </h3>
                 <ul class="feature-list">
-                  <li>{{$t('HOME-004')}}</li>
-                  <li>{{$t('HOME-005')}}</li>
-                  <li>{{$t('HOME-006')}}</li>
-                  <li>{{$t('HOME-007')}}</li>
-                  <li>{{$t('HOME-008')}}</li>
+                  <li>{{ $t('HOME-004') }}</li>
+                  <li>{{ $t('HOME-005') }}</li>
+                  <li>{{ $t('HOME-006') }}</li>
+                  <li>{{ $t('HOME-007') }}</li>
+                  <li>{{ $t('HOME-008') }}</li>
                 </ul>
               </div>
             </div>
             <div class="card">
               <div class="card-content">
                 <h3 class="name">
-                  <strong>{{$t('Fast')}}</strong>&nbsp;{{$t('Trading')}}
+                  <strong>{{ $t('Fast') }}</strong
+                  >&nbsp;{{ $t('Trading') }}
                   <i class="tip-icon"></i>
                 </h3>
                 <ul class="feature-list">
-                  <li>{{$t('HOME-009')}}</li>
-                  <li>{{$t('HOME-010')}}</li>
-                  <li>{{$t('HOME-011')}}</li>
-                  <li>{{$t('HOME-012')}}</li>
-                  <li>{{$t('HOME-013')}}</li>
+                  <li>{{ $t('HOME-009') }}</li>
+                  <li>{{ $t('HOME-010') }}</li>
+                  <li>{{ $t('HOME-011') }}</li>
+                  <li>{{ $t('HOME-012') }}</li>
+                  <li>{{ $t('HOME-013') }}</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="go-btn">{{$t('HOME-003')}}</div>
+          <div class="go-btn">{{ $t('HOME-003') }}</div>
         </a>
       </div>
     </section>
     <section id="introduce" class="introduce-wrapper section introduce">
-      <h2 class="title">Hashgo.xyz {{$t('HOME-014')}}</h2>
+      <h2 class="title">Hashgo.xyz {{ $t('HOME-014') }}</h2>
       <div class="main">
         <div class="keywords">
           <div class="item">
-            <img src="@/assets/home/gas-key-economy.svg" alt="" />
-            <strong>{{$t('HOME-015')}}</strong>
+            <img src="@/assets/home/gas-key-economy.png" alt="" />
+            <strong>{{ $t('HOME-015') }}</strong>
           </div>
           <div class="item">
-            <img src="@/assets/home/gas-key-safety.svg" alt="" />
-            <strong>{{$t('HOME-016')}}</strong>
+            <img src="@/assets/home/gas-key-safety.png" alt="" />
+            <strong>{{ $t('HOME-016') }}</strong>
           </div>
           <div class="item">
-            <img src="@/assets/home/gas-key-efficient.svg" alt="" />
-            <strong>{{$t('HOME-017')}}</strong>
+            <img src="@/assets/home/gas-key-efficient.png" alt="" />
+            <strong>{{ $t('HOME-017') }}</strong>
           </div>
         </div>
         <p class="intro">
           hashgo.xyz
-          {{$t('HOME-018')}}
+          {{ $t('HOME-018') }}
         </p>
         <ul class="feature-list">
-          <li>{{$t('HOME-019')}}</li>
-          <li>{{$t('HOME-020')}}</li>
-          <li>{{$t('HOME-021')}}</li>
-          <li>{{$t('HOME-022')}}</li>
-          <li>{{$t('HOME-023')}}</li>
-          <li>{{$t('HOME-024')}}</li>
-          <li>{{$t('HOME-025')}}</li>
-          <li>{{$t('HOME-026')}}</li>
+          <li>{{ $t('HOME-019') }}</li>
+          <li>{{ $t('HOME-020') }}</li>
+          <li>{{ $t('HOME-021') }}</li>
+          <li>{{ $t('HOME-022') }}</li>
+          <li>{{ $t('HOME-023') }}</li>
+          <li>{{ $t('HOME-024') }}</li>
+          <li>{{ $t('HOME-025') }}</li>
+          <li>{{ $t('HOME-026') }}</li>
         </ul>
       </div>
     </section>
@@ -88,7 +94,11 @@
       <h2 class="title">FAQ</h2>
       <div class="main">
         <ul class="faq-list">
-          <li v-for="(item, index) in helpList" :key="index" @click="toHelp(item.id)">
+          <li
+            v-for="(item, index) in helpList"
+            :key="index"
+            @click="toHelp(item.id)"
+          >
             <a href="javascript:void(0)">{{ item.title }}</a>
           </li>
         </ul>
@@ -152,9 +162,14 @@ const toHelp = id => {
 .banner-wrapper {
   --bottom-margin: -110px;
   margin-bottom: var(--bottom-margin);
-  background-color: #121e42;
+  //   background-color: @color;
   color: #fff;
 
+  background-image: url('@/assets/home/banner.jpg');
+
+  background-color: @color;
+  background-size: 100% 90%;
+  background-repeat: no-repeat;
   .lg-screen {
     margin: 0 auto;
     max-width: 1300px;
@@ -179,7 +194,6 @@ const toHelp = id => {
       font-family: sans-serif;
       font-size: 200px;
       font-weight: bolder;
-      background: radial-gradient(circle, #0a339a, #fff);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -192,9 +206,6 @@ const toHelp = id => {
         content: '';
         width: 100%;
         height: 100%;
-        background: radial-gradient(ellipse closest-side at center,
-            #00196b,
-            rgba(255, 255, 255, 0));
       }
     }
 
@@ -228,7 +239,7 @@ const toHelp = id => {
   h2.title {
     line-height: 55px;
     text-align: center;
-    background-color: #17275f;
+    background-color: #b73700;
     font-size: 20px;
     color: #fff;
   }
@@ -268,7 +279,7 @@ const toHelp = id => {
 
             strong {
               font-weight: inherit;
-              color: #c53027;
+              color: @color;
             }
 
             .tip-icon {
@@ -291,7 +302,7 @@ const toHelp = id => {
               line-height: 1.4em;
 
               &::marker {
-                color: #c53027;
+                color: @color;
               }
             }
           }
@@ -310,7 +321,7 @@ const toHelp = id => {
         padding: 0.6em 1em;
         width: 300px;
         height: 40px;
-        background-color: #c53027;
+        background-color: @color;
         border-radius: 5px;
         color: #fff;
       }
@@ -369,12 +380,19 @@ const toHelp = id => {
 
     li {
       margin-left: 22px;
-      list-style: disc url('@/assets/home/dart-1.svg');
+      //   list-style: disc url('@/assets/home/dart-1.png');
+
       margin-bottom: 10px;
       line-height: 1.4em;
-
+      position: relative;
       &:before {
-        content: ' ';
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -30px;
+        background: url('@/assets/home/dart-1.png') no-repeat 100%;
+        width: 26px;
+        height: 26px;
       }
     }
   }
@@ -393,8 +411,8 @@ const toHelp = id => {
 
   .main {
     padding: 30px 50px;
-    background-color: #f4f8fe;
-    border: 1px dashed #c8d0df;
+    background-color: #fddfd4;
+    border: 1px dashed @color;
   }
 
   .faq-list {
@@ -405,15 +423,26 @@ const toHelp = id => {
       margin-left: 20px;
       margin-bottom: 14px;
       line-height: 1.4em;
-      list-style: disc url('@/assets/home/doc-s1.svg');
+      //   list-style: disc url('@/assets/home/doc-s1.png');
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -30px;
+        background: url('@/assets/home/doc-s1.png') no-repeat 100%;
+        width: 26px;
+        height: 26px;
+      }
 
       a {
-        color: #121c41;
+        color: @color;
 
         &:hover {
-          color: #266ef1;
+          color: @color;
         }
       }
     }
   }
-}</style>
+}
+</style>

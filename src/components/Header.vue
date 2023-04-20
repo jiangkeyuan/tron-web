@@ -3,7 +3,7 @@
     <div class="inner">
       <a href="/" class="logo logo-wrapper">
         <h1>
-          <img src="@/assets/logo/logo.svg" alt="" class="img" />
+          <img src="@/assets/logo/logo.png" alt="" class="img" />
           <span class="text">Hashgo.xyz</span>
         </h1>
       </a>
@@ -44,7 +44,7 @@
           :default-active="activeIndex2"
           class="el-menu-demo"
           mode="horizontal"
-          background-color="#121e42"
+          background-color="#ce4b13"
           text-color="#fff"
           active-text-color="#ffd04b"
           @select="handleSelect"
@@ -77,7 +77,7 @@
         </el-menu>
       </div>
       <a class="service-wrapper">
-        <img src="@/assets/logo/logo.svg" alt="" class="img" />
+        <img src="@/assets/logo/logo.png" alt="" class="img" />
       </a>
       <a href="javascript:;" class="user-wrapper" @click="login">
         <span class="account">
@@ -227,7 +227,7 @@ onMounted(() => {
         background-color: #fff;
         border-radius: var(--option-radius);
         box-shadow: 0 2px 5px #0000001a;
-        color: #141e42;
+        color: @color;
         &:before {
           content: '';
           position: absolute;

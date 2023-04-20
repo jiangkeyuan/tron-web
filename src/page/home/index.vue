@@ -3,18 +3,18 @@
   <main class="main">
     <router-view></router-view>
     <a class="tg-robot-wrapper tg-robot hide" href="" target="_blank">
-      <img src="@/assets/logo/logo.svg" alt="" class="icon" />
+      <img src="@/assets/logo/logo2.png" alt="" class="icon" />
       <p class="title">TG机器人</p>
       <p class="features" style="margin-bottom: 5px">能量 | 兑换</p>
       <p class="features">查询 | 监控</p>
     </a>
     <!-- <div class="to-top-wrapper to-top">
-      <img src="@/assets/logo/logo.svg" alt="" class="icon" />
+      <img src="@/assets/logo/logo2.png" alt="" class="icon" />
        
     </div> -->
     <el-backtop class="to-top" :right="25" bottom="" />
     <a class="customer-wrapper customer hide" href="https://t.me/tron_hashgo" target="_blank">
-      <img src="@/assets/logo/logo.svg" alt="" class="icon" />
+      <img src="@/assets/logo/logo2.png" alt="" class="icon" />
       <p class="title">在线客服</p>
     </a>
   </main>

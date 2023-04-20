@@ -6,7 +6,7 @@
     </div>
     <p>
       <a href="/" target="_blank">
-        <img src="@/assets/logo/logo.svg" alt="" class="icon" />
+        <img src="@/assets/logo/logo3.png" alt="" class="icon" />
         申请使用
       </a>
     </p>
@@ -47,12 +47,12 @@
   }
 
   a {
-    color: #c53027;
+    color: @color;
   }
 
   .icon {
     height: 30px;
-    color: #c53027;
+    color: @color;
     margin-right: 10px;
   }
 }</style>

@@ -288,7 +288,7 @@ onMounted(() => {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #c53027;
+            background-color: @color;
             border-radius: 5px;
             color: #fff;
             cursor: pointer;
@@ -305,7 +305,7 @@ onMounted(() => {
             justify-content: center;
             align-items: center;
             height: 40px;
-            background-color: #c53027;
+            background-color: @color;
             border-radius: 5px;
             color: #fff;
             font-size: 16px;
@@ -318,7 +318,7 @@ onMounted(() => {
 
           .link {
             background-color: transparent;
-            color: #c53027;
+            color: @color;
           }
         }
       }
@@ -343,7 +343,7 @@ onMounted(() => {
       align-items: center;
       width: 140px;
       height: 40px;
-      background-color: #c53027;
+      background-color: @color;
       border-radius: 5px;
       color: #fff;
       font-size: 16px;

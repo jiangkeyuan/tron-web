@@ -1,7 +1,7 @@
 /*css reset code */
 /****  文字大小初始化,使1em=10px *****/
 :root {
-  --el-color-primary: #c53027 !important;
+  --el-color-primary: #ce4b13 !important;
 }
 .ElMessageClass{
   z-index: 9999 !important;

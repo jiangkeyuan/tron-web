@@ -2,6 +2,7 @@
 /****  文字大小初始化,使1em=10px *****/
 :root {
   --el-color-primary: #ce4b13 !important;
+  --el-button-text-color: #ce4b13 
 }
 .ElMessageClass{
   z-index: 9999 !important;

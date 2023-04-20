@@ -29,7 +29,7 @@
             <div>单笔最大可租：<span>355,343</span>energy</div>
           </div> -->
           <img
-            src="@/assets/home/swap-bg-spaceman.webp"
+            src="@/assets/home/swap-bg-spaceman.png"
             alt=""
             class="spaceman-img"
           />
@@ -38,10 +38,10 @@
           <div class="header">
             <div class="title">{{ leaseRadio }}</div>
             <el-radio-group v-model="leaseRadio" @change="changeVal">
-              <el-radio-button label="转账租凭" border
+              <el-radio-button label="转账租凭" border class="color"
                 >转账租凭</el-radio-button
               >
-              <el-radio-button label="DAPP租赁" border
+              <el-radio-button class="color" label="DAPP租赁" border
                 >DAPP租赁</el-radio-button
               >
             </el-radio-group>
@@ -125,8 +125,12 @@
                     </span>
                   </div>
                 </div>
-                 <div>*当前购买能量低于50000时，将会多收取0.6TRX</div>
-                <div>大约需要支付 <span class="commission">{{fromSunAmount}}</span> TRX + <span class="commission">{{commission}}</span> TRX</div>
+                <div>*当前购买能量低于50000时，将会多收取0.6TRX</div>
+                <div>
+                  大约需要支付
+                  <span class="commission">{{ fromSunAmount }}</span> TRX +
+                  <span class="commission">{{ commission }}</span> TRX
+                </div>
                 <div class="amount-box">
                   <div class="amount-content">
                     <div class="amount">
@@ -164,7 +168,7 @@
             </div>
             <div class="footer">
               <el-button
-                color="#c53027"
+                color="#fe4d01"
                 class="btn-block"
                 @click="copyEnd(amount)"
                 >复制金额，去转账</el-button
@@ -232,8 +236,12 @@
               <div class="header">
                 <div class="title">支付</div>
               </div>
-                <div>*当前购买能量低于50000时，将会多收取0.6TRX</div>
-               <div>大约需要支付 <span class="commission">{{fromSunAmount}}</span> TRX + <span class="commission">{{commission}}</span> TRX</div>
+              <div>*当前购买能量低于50000时，将会多收取0.6TRX</div>
+              <div>
+                大约需要支付
+                <span class="commission">{{ fromSunAmount }}</span> TRX +
+                <span class="commission">{{ commission }}</span> TRX
+              </div>
               <div class="cashier">
                 <div class="amount-box">
                   <div class="amount-content">
@@ -264,7 +272,7 @@
                 >为了确保您的交易完成，当快捷区能量不足时，自动免费发布到自助交易区</el-checkbox
               >
               <el-button
-                color="#c53027"
+                color="#fe4d01"
                 class="btn-block"
                 :loading="loading"
                 @click="payment"
@@ -391,7 +399,7 @@
         </div>
       </div>
     </div>
-    <api-box class="api"></api-box>
+    <api-box class="api dark" :effect="true"></api-box>
   </div>
 </template>
 
@@ -448,11 +456,11 @@ const shortcutList = [
     value: 10000000
   }
 ]
-const commission = ref(0.6);
-const amountFilter = (str)=>{
-  if(window.tronWeb){
+const commission = ref(0.6)
+const amountFilter = str => {
+  if (window.tronWeb) {
     return tronWeb?.fromSun(str)
-  }else{
+  } else {
     return str / 1000000
   }
 }
@@ -474,7 +482,8 @@ watch(rentalDays, o => {
   const sum = Math.floor((Number(o) + 23) / 24)
   const fromSun = amountFilter(capacity.value * sum * price.value)
   fromSunAmount.value = fromSun
-  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
+  amount.value =
+    fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
 })
 // 大家的租用地址
 const radioChange = value => {
@@ -532,8 +541,9 @@ const onClick = val => {
   capacity.value = Number(capacity.value) + Number(val)
   const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
   fromSunAmount.value = fromSun
-  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
-//   amount.value = +tronWeb?.fromSun(capacity.value * sum * price.value) + getCommissionValue(capacity.value)
+  amount.value =
+    fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
+  //   amount.value = +tronWeb?.fromSun(capacity.value * sum * price.value) + getCommissionValue(capacity.value)
   console.log('amount', amount.value)
   const x = capacity.value / 2381
   console.log('x', x)
@@ -549,7 +559,8 @@ const onInput = val => {
   capacity.value = val
   const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
   fromSunAmount.value = fromSun
-  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
+  amount.value =
+    fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
   console.log('amount', amount.value)
   const x = capacity.value / 2381
   economize.value = Math.floor(x - amount.value)
@@ -566,7 +577,8 @@ const changeVal = val => {
   console.log('changeVal', sum)
   const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
   fromSunAmount.value = fromSun
-  amount.value = fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
+  amount.value =
+    fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
   console.log('amount', amount.value)
   const x = capacity.value / 2381
   console.log('x', x)
@@ -591,12 +603,11 @@ const copyTransferAddress = msg => {
     }
   })
 }
-const getCommissionValue = (val) =>{
-  if(+val >= 50000){
-    commission.value = 0;
-  }
-  else{
-    commission.value = 0.6;
+const getCommissionValue = val => {
+  if (+val >= 50000) {
+    commission.value = 0
+  } else {
+    commission.value = 0.6
   }
   return commission.value
 }
@@ -709,19 +720,19 @@ const queryHasSufficientTrx = async () => {
 
 <style lang="less" scoped>
 .b2c-container {
-  --bg-primary-color: #121d44;
+  --bg-primary-color: #ff733b;
   --bg-secondary-color: #15244f;
-  --bg-lesser-color: #202b54;
+  --bg-lesser-color: #b73700;
   --text-primary-color: #fff;
   --text--secondary-color: #7f8fc8;
-  --text-lesser-color: #ced9eb;
-  --text-table-body-color: #6f8eca;
-  --text-notice-color: #7f8fc8;
-  --border-primary-color: #2a47ab;
+  --text-lesser-color: #fff;
+  --text-table-body-color: #fff;
+  --text-notice-color: #ffd04b;
+  --border-primary-color: #b73700;
   --border-radio-color: #2a47ab;
-  --border-dashed-color: #2b396a;
+  --border-dashed-color: #ff733b;
   --input-suffix-color: #266ef1;
-  --input-shortcut-color: #26a17b;
+  --input-shortcut-color: #b73700;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -764,7 +775,9 @@ const queryHasSufficientTrx = async () => {
     .introduce {
       position: relative;
       margin-top: 40px;
-
+      .customer-link {
+        color: #4969b3;
+      }
       ul {
         padding-left: 20px;
         list-style: initial;
@@ -788,7 +801,6 @@ const queryHasSufficientTrx = async () => {
       border: 1px dashed rgb(53, 90, 160);
       border-radius: 6px;
       background-color: rgb(39, 55, 103);
-      color: var(--text-lesser-color);
 
       div {
         margin-bottom: 10px;
@@ -801,7 +813,7 @@ const queryHasSufficientTrx = async () => {
 
     .spaceman-img {
       width: 120%;
-      margin: 120px -50px 0px;
+      margin: 60px -50px 0px;
     }
   }
 
@@ -813,7 +825,7 @@ const queryHasSufficientTrx = async () => {
     min-width: 570px;
     width: 590px;
     height: 100%;
-    background-color: var(--bg-primary-color);
+    background-color: var(--bg-lesser-color);
     color: var(--text-primary-color);
 
     .header {
@@ -831,7 +843,7 @@ const queryHasSufficientTrx = async () => {
       .input-panel {
         padding: 20px 20px 15px;
         border-radius: 6px;
-        background-color: var(--bg-lesser-color);
+        background-color: #db4202;
 
         .title {
           display: flex;
@@ -869,7 +881,7 @@ const queryHasSufficientTrx = async () => {
       .announcements {
         margin-top: 15px;
         font-size: 14px;
-        color: var(--text--secondary-color);
+        color: var(--text-notice-color);
         line-height: 1.4em;
 
         .example-title {
@@ -903,7 +915,7 @@ const queryHasSufficientTrx = async () => {
         .address {
           margin-top: 6px;
           font-size: 12px;
-          color: var(--text--secondary-color);
+          color: var(--text-notice-color);
 
           .address-title {
             display: inline;
@@ -938,8 +950,8 @@ const queryHasSufficientTrx = async () => {
               padding: 0 15px;
               border-radius: 6px;
               height: 50px;
-              background-color: var(--bg-lesser-color);
-              color: var(--text--secondary-color);
+              background-color: #bf4d1b;
+              color: var(--text-primary-color);
 
               em {
                 margin-right: 5px;
@@ -962,7 +974,8 @@ const queryHasSufficientTrx = async () => {
 
         .info {
           margin-top: 15px;
-          color: #26a17b;
+          
+      color: var(--text-notice-color);
           font-size: 14px;
 
           div {
@@ -991,11 +1004,11 @@ const queryHasSufficientTrx = async () => {
 
     .item {
       margin-right: 8px;
-      border: 1px solid var(--input-shortcut-color);
+      border: 1px solid var(--text-notice-color);
       border-radius: 3px;
       padding: 5px 15px;
       font-size: 12px;
-      color: var(--input-shortcut-color);
+      color: var(--text-notice-color);
       transition: all 0.5s ease-in-out;
       cursor: pointer;
     }
@@ -1053,14 +1066,14 @@ const queryHasSufficientTrx = async () => {
 
   .table {
     :deep(.el-table) {
-      color: #6f8eca;
+      color: #fdc2b1;
 
       .warning-row {
-        background-color: #121d44;
+        background-color: #ff7439;
       }
 
       .success-row {
-        background-color: #15244f;
+        background-color: #e65c22;
       }
 
       td.el-table__cell,
@@ -1069,7 +1082,7 @@ const queryHasSufficientTrx = async () => {
       }
 
       th.el-table__cell {
-        background-color: #18295c;
+        background-color: #e65c22;
       }
 
       thead {
@@ -1083,7 +1096,8 @@ const queryHasSufficientTrx = async () => {
       }
 
       tbody tr:hover > td {
-        background-color: #273767;
+        // background-color: #273767;
+        background-color: transparent;
       }
     }
   }
@@ -1091,11 +1105,11 @@ const queryHasSufficientTrx = async () => {
 
 .switch-panel {
   display: inline-flex;
-  height: 40px;
+  //   height: 40px;
   // border: 1px solid #2a47ab;
-  border-radius: 20px;
-  box-shadow: 0 0 10px #0000001a;
-  padding: 1px;
+  //   border-radius: 20px;
+  //   box-shadow: 0 0 10px #0000001a;
+  //   padding: 1px;
 }
 
 .api {
@@ -1116,5 +1130,22 @@ const queryHasSufficientTrx = async () => {
     color: inherit;
     cursor: pointer;
   }
+}
+.color {
+  color: @color !important;
+}
+</style>
+<style lang="less">
+.el-radio-button {
+    --el-radio-button-checked-bg-color: #fe4d01;
+    --el-radio-button-checked-text-color: var(--el-color-white);
+    --el-radio-button-checked-border-color: #fe4d01;
+    --el-radio-button-disabled-checked-fill: var(--el-border-color-extra-light);
+}
+.el-checkbox {
+    --el-checkbox-checked-text-color: #fff;
+}
+.el-link {
+  color: var(--text-notice-color);
 }
 </style>

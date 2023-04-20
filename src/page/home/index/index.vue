@@ -16,7 +16,7 @@
         <a href="/#/c2c" class="mean">
           <div class="mean-content">
             <img
-              src="@/assets/home/transaction-mean.svg"
+              src="@/assets/home/transaction-mean.png"
               alt=""
               class="transaction-img"
             />

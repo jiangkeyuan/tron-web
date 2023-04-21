@@ -160,7 +160,7 @@
                   <el-table-column prop="delegateDate" label="时间" :formatter="row => filterDate(row.delegateDate)" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link type="primary" :href="`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
                         target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>
@@ -178,7 +178,7 @@
                   <el-table-column prop="expiredDate" label="截止时间" :formatter="row => filterDate(row.expiredDate)" />
                   <el-table-column fixed="right" label="操作">
                     <template #default="scope">
-                      <el-link type="primary" :href="`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`"
+                      <el-link type="primary" :href="`https://tronscan.org/#/transaction/${scope.row.transactionHash}`"
                         target="_blank">交易哈希</el-link>
                     </template>
                   </el-table-column>

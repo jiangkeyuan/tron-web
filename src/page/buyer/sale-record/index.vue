@@ -150,7 +150,7 @@ const details = (v) => {
   dialogTableVisible.value = true;
 };
 const gotoNew = (url) => {
-  window.open(`https://nile.tronscan.org/#/transaction/${url}`, '_blank');
+  window.open(`https://tronscan.org/#/transaction/${url}`, '_blank');
 }
 
 const cancel = async (scope) => {

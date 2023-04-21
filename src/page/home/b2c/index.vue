@@ -337,7 +337,7 @@
               <el-table-column prop="transactionHash" label="交易哈希">
                 <template #default="{ row }">
                   <el-link
-                    :href="`https://nile.tronscan.org/#/transaction/${row.transactionHash}`"
+                    :href="`https://tronscan.org/#/transaction/${row.transactionHash}`"
                     target="_blank"
                     type="primary"
                     >TxHash</el-link

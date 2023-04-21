@@ -50,7 +50,7 @@ const form = reactive({
   pageSize: 10
 })
 const gotoNew = (url) => {
-  window.open(`https://nile.tronscan.org/#/transaction/${url}`, '_blank');
+  window.open(`https://tronscan.org/#/transaction/${url}`, '_blank');
 }
 const totalCount = ref(0)
 const options = [

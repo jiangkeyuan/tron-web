@@ -1,11 +1,6 @@
 <template>
   <DashbordContent>
-    <el-form
-      :inline="true"
-      ref="ruleFormRef"
-      :model="form"
-      class="demo-form-inline"
-    >
+    <el-form :inline="true" ref="ruleFormRef" :model="form" class="demo-form-inline">
       <el-form-item label="订单号" prop="orderNo">
         <el-input v-model="form.orderNo" placeholder="请输入订单号" />
       </el-form-item>
@@ -13,12 +8,7 @@
         <el-input v-model="form.toAddress" placeholder="请输入地址" />
       </el-form-item>
       <el-form-item label="时间" prop="date">
-        <el-date-picker
-          v-model="form.date"
-          type="daterange"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-        />
+        <el-date-picker v-model="form.date" type="daterange" start-placeholder="开始时间" end-placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
         <el-button @click="resetForm">重置</el-button>
@@ -33,50 +23,23 @@
       <el-radio-button label="ALMOST_DONE">即将结束</el-radio-button>
       <el-radio-button label="DONE">已完成</el-radio-button>
     </el-radio-group>
-    <el-table
-      :data="userSells"
-      stripe
-      style="width: 100%"
-      empty-text="暂无数据"
-    >
+    <el-table :data="userSells" stripe style="width: 100%" empty-text="暂无数据">
       <el-table-column prop="orderNo" label="订单号"> </el-table-column>
-      <el-table-column
-        prop="delegateDate"
-        label="代理时间"
-        :formatter="(row) => filterDate(row.delegateDate)"
-      />
+      <el-table-column prop="delegateDate" label="代理时间" :formatter="(row) => filterDate(row.delegateDate)" />
       <el-table-column prop="fromAddress" label="钱包">
         <template #default="scope">
           <div class="text-overflow">
             <span>收款：</span>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              :content="scope.row.fromAddress"
-              placement="top"
-            >
-              <el-link
-                :href="`https://tronscan.org/#/address/${scope.row.fromAddress}`"
-                target="_blank"
-                type="primary"
-                >{{ formatAddr(scope.row.fromAddress) }}</el-link
-              >
+            <el-tooltip class="box-item" effect="dark" :content="scope.row.fromAddress" placement="top">
+              <el-link :href="`https://tronscan.org/#/address/${scope.row.fromAddress}`" target="_blank" type="primary">{{
+                formatAddr(scope.row.fromAddress) }}</el-link>
             </el-tooltip>
           </div>
           <div class="text-overflow">
             <span>接收：</span>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              :content="scope.row.toAddress"
-              placement="top"
-            >
-              <el-link
-                :href="`https://tronscan.org/#/address/${scope.row.toAddress}`"
-                target="_blank"
-                type="primary"
-                >{{ formatAddr(scope.row.toAddress) }}</el-link
-              >
+            <el-tooltip class="box-item" effect="dark" :content="scope.row.toAddress" placement="top">
+              <el-link :href="`https://tronscan.org/#/address/${scope.row.toAddress}`" target="_blank" type="primary">{{
+                formatAddr(scope.row.toAddress) }}</el-link>
             </el-tooltip>
           </div>
         </template>
@@ -89,20 +52,11 @@
           <div>能量：{{ scope.row.lendEnergy }}</div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="expiredDate"
-        label="到期时间"
-        :formatter="(row) => filterDate(row.expiredDate)"
-      >
+      <el-table-column prop="expiredDate" label="到期时间" :formatter="(row) => filterDate(row.expiredDate)">
         <template #header>
           <div>
             到期时间
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="香港时间"
-              placement="right"
-            >
+            <el-tooltip class="box-item" effect="dark" content="香港时间" placement="right">
               <el-icon>
                 <WarningFilled />
               </el-icon>
@@ -110,32 +64,18 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="orderStatus"
-        label="订单状态"
-        :formatter="(row) => filterStatus(row.orderStatus)"
-      />
+      <el-table-column prop="orderStatus" label="订单状态" :formatter="(row) => filterStatus(row.orderStatus)" />
       <el-table-column prop="address" label="操作">
         <template #default="scope">
-          <el-link
-            type="primary"
-            @click="gotoNew(scope.row.transactionHash)"
-            target="_blank"
-            >委托详情</el-link
-          >
+          <el-link type="primary" @click="gotoNew(scope.row.transactionHash)" target="_blank">委托详情</el-link>
           <div></div>
-          <el-link
-            v-if="scope.row.orderStatus == 'DONE'"
-            type="primary"
-            @click="gotoNew(scope.row.undelegateHash)"
-            target="_blank"
-            >回收详情</el-link
-          >
+          <el-link v-if="scope.row.orderStatus == 'DONE'" type="primary" @click="gotoNew(scope.row.undelegateHash)"
+            target="_blank">回收详情</el-link>
         </template>
       </el-table-column>
     </el-table>
     <div class="ctc-pagination pagination">
-      <el-pagination v-model:current-page="form.pageIndex" v-model:page-size="form.pageSize" 
+      <el-pagination v-model:current-page="form.pageIndex" v-model:page-size="form.pageSize"
         layout="prev, pager, next, jumper" :total="form.totalCount" @current-change="handleCurrentChange"
         hide-on-single-pageS />
     </div>
@@ -159,7 +99,7 @@ const form = reactive({
 });
 const radio2 = ref(0);
 const gotoNew = (url) => {
-  window.open(`https://nile.tronscan.org/#/transaction/${url}`, "_blank");
+  window.open(`https://tronscan.org/#/transaction/${url}`, "_blank");
 };
 const handleClick = (tab, event) => {
   console.log(tab, event);

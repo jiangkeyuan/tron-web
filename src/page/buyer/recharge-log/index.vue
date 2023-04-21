@@ -30,7 +30,7 @@ const form = reactive({
 });
 const tableData = ref([]);
 const handleClick = (scope) => {
-  window.open(`https://nile.tronscan.org/#/transaction/${scope.row.transactionHash}`)
+  window.open(`https://tronscan.org/#/transaction/${scope.row.transactionHash}`)
 };
 
 const search = async () => {

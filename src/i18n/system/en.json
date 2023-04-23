@@ -1,0 +1,14 @@
+{
+    "SYSTEM-001": "system parameter",
+    "SYSTEM-002": "name",
+    "SYSTEM-003": "value",
+    "SYSTEM-004": "notes",
+    "SYSTEM-005": "last-modified",
+    "SYSTEM-006": "modify",
+    "SYSTEM-007": "system configuration",
+    "SYSTEM-008": "Please enter a value",
+    "SYSTEM-009": "Please enter a comment",
+    "SYSTEM-010": "Please enter the system name",
+    "SYSTEM-011": "Please enter the system value",
+    "SYSTEM-012": "Please enter a comment"
+}

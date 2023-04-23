@@ -1,12 +1,12 @@
 <template>
     <HelpContent>
         <div class="help-recharge">
-            <h1 class="help-rechare-title">1. 进入Hashgo.xyz管理面板，点击左侧菜单「充值」或管理面板中「充值」进入充值页面</h1>
+            <h1 class="help-rechare-title">1. {{ $t("MANAGE-026") }}</h1>
             <img class="help-set-api-key-img" src="@/assets/help/api-create.png"/>
-            <h1 class="help-rechare-title">1. 进入Hashgo.xyz管理面板，点击左侧菜单「充值」或管理面板中「充值」进入充值页面</h1>
-            <div class="help-rechare-title-l">2. Hashgo.xyz支持两种充值方式</div>
+            <h1 class="help-rechare-title">1. {{ $t("MANAGE-026") }}</h1>
+            <div class="help-rechare-title-l">2. {{ $t("MANAGE-027") }}</div>
             <img class="help-set-api-key-img" src="@/assets/help/api-create.png"/>
-            <div class="help-rechare-title-l">2.2 转账充值，可使用波场浏览器或手机钱包进行转账</div>
+            <div class="help-rechare-title-l">2.2 {{ $t("MANAGE-028") }}</div>
             <img class="help-set-api-key-img" src="@/assets/help/api-create.png"/>
         </div>
     </HelpContent>
@@ -14,6 +14,8 @@
 
 <script setup>
 import HelpContent from "../help-content.vue";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 </script>
 <style scoped>
 .help-set-api-key-img{

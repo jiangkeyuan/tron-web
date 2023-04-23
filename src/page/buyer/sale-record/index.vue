@@ -1,49 +1,49 @@
 <template>
   <el-form :model="form" inline class="sale-record sale-record-search">
-    <el-form-item label="订单号">
+    <el-form-item :label="$t('RENT-001')">
       <el-input v-model="form.orderNo" />
     </el-form-item>
-    <el-form-item label="接收">
+    <el-form-item :label="$t('RENT-002')">
       <el-input v-model="form.toAddress" />
     </el-form-item>
-    <el-form-item label="时间">
+    <el-form-item :label="$t('RENT-003')">
       <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
         end-placeholder="End date" />
     </el-form-item>
     <el-form-item label="Api Key">
       <el-input v-model="form.apikey" />
     </el-form-item>
-    <el-button @click="reset">重置</el-button>
-    <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
+    <el-button @click="reset">{{ $t('resetting') }}</el-button>
+    <el-button type="primary" color="#c53027" @click="seach">{{ $t('Query') }}</el-button>
   </el-form>
   <div class="sale-record sale-record-table">
     <el-radio-group v-model="form.orderStatus" class="sale-record-group" @change="seach">
-      <el-radio-button label="">全部</el-radio-button>
-      <el-radio-button label="WAIT_DELEGATE">待代理</el-radio-button>
-      <el-radio-button label="DELEGATEING">代理中</el-radio-button>
-      <el-radio-button label="ALMOST_DONE">即将结束</el-radio-button>
-      <el-radio-button label="DONE">已完成</el-radio-button>
-      <el-radio-button label="UNAVAILABLE">未生效</el-radio-button>
+      <el-radio-button label="">{{ $t('RENT-004') }}</el-radio-button>
+      <el-radio-button label="WAIT_DELEGATE">{{ $t('RENT-005') }}</el-radio-button>
+      <el-radio-button label="DELEGATEING">{{ $t('RENT-006') }}</el-radio-button>
+      <el-radio-button label="ALMOST_DONE">{{ $t('RENT-007') }}</el-radio-button>
+      <el-radio-button label="DONE">{{ $t('RENT-008') }}</el-radio-button>
+      <el-radio-button label="UNAVAILABLE">{{ $t('RENT-009') }}</el-radio-button>
     </el-radio-group>
 
-    <el-table :data="tableData" stripe class="sale-record-table-list" v-loading="fullscreenLoading" empty-text="暂无数据">
-      <el-table-column prop="orderNo" label="订单号" width="220" />
-      <el-table-column prop="toAddress" label="接收" width="180" />
-      <el-table-column prop="rentalQuantity" label="租用量" width="120" />
-      <el-table-column prop="doneRentalQuantity" label="已完成租用量" width="120" />
-      <el-table-column prop="rentalHours" label="租用时长" width="120" :formatter="(row) => filterHours(row.rentalHours)" />
-      <el-table-column prop="payDate" label="支付时间" width="180" :formatter="(row) => filterDate(row.payDate)" />
-      <el-table-column prop="delegateDate" label="代理时间" width="180" :formatter="(row) => filterDate(row.delegateDate)" />
-      <el-table-column prop="expiredDate" label="到期时间" width="180" :formatter="(row) => filterDate(row.expiredDate)" />
-      <el-table-column prop="payAmount" label="支付金额" width="120" />
-      <el-table-column prop="orderStatus" label="状态" width="120" :formatter="(row) => filterStatus(row.orderStatus)" />
-      <el-table-column prop="date" label="更多操作" width="220" fixed="right">
+    <el-table :data="tableData" stripe class="sale-record-table-list" v-loading="fullscreenLoading" :empty-text="$t('NoData')">
+      <el-table-column prop="orderNo" :label="$t('RENT-001')" width="220" />
+      <el-table-column prop="toAddress" :label="$t('RENT-002')" width="180" />
+      <el-table-column prop="rentalQuantity" :label="$t('RENT-010')" width="120" />
+      <el-table-column prop="doneRentalQuantity" :label="$t('RENT-011')" width="220" />
+      <el-table-column prop="rentalHours" :label="$t('RENT-012')" width="120" :formatter="(row) => filterHours(row.rentalHours)" />
+      <el-table-column prop="payDate" :label="$t('RENT-013')" width="180" :formatter="(row) => filterDate(row.payDate)" />
+      <el-table-column prop="delegateDate" :label="$t('RENT-018')" width="180" :formatter="(row) => filterDate(row.delegateDate)" />
+      <el-table-column prop="expiredDate" :label="$t('RENT-019')" width="180" :formatter="(row) => filterDate(row.expiredDate)" />
+      <el-table-column prop="payAmount" :label="$t('RENT-020')" width="200" />
+      <el-table-column prop="orderStatus" :label="$t('RENT-021')" width="120" :formatter="(row) => filterStatus(row.orderStatus)" />
+      <el-table-column prop="date" :label="$t('RENT-014')" width="220" fixed="right">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="details(scope)">订单详情</el-button>
+          <el-button link type="primary" size="small" @click="details(scope)">{{ $t('RENT-022') }}</el-button>
           <el-button v-if="scope.row.transactionHash" link type="primary" size="small"
-            @click="gotoNew(scope.row.transactionHash)">代理详情</el-button>
+            @click="gotoNew(scope.row.transactionHash)">{{ $t('RENT-023') }}</el-button>
           <el-button v-if="scope.row.orderStatus === 'WAIT_DELEGATE' && scope.row.orderType === 'NORMAL'" link
-            type="primary" size="small" @click="cancel(scope)">取消订单</el-button>
+            type="primary" size="small" @click="cancel(scope)">{{ $t('RENT-035') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,23 +52,23 @@
         v-model:page-size="form.pageSize" layout="prev, pager, next" :total="form.totalCount" />
     </div>
 
-    <el-dialog v-model="dialogTableVisible" append-to-body center :title="`订单号:${detailsValue.orderNo}`">
+    <el-dialog v-model="dialogTableVisible" append-to-body center :title="`${$t('RENT-001')}:${detailsValue.orderNo}`">
       <div class="custom-modal-centent">
         <div class="modal-content">
           <div class="detail">
-            <div>用户：<span class="text">{{ store.state.userInfo?.userInfo?.email }}</span></div>
+            <div>{{$t('RENT-024')}}:<span class="text">{{ store.state.userInfo?.userInfo?.email }}</span></div>
             <div>
-              钱包地址:
+              {{$t('RENT-025')}}:
               <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
                 store.state.userInfo?.userInfo?.walletAddress }}</a>
             </div>
             <div>
-              <div>TRX余额：<span class="text">{{ store.state.userInfo?.userInfo?.availableBalance }}</span></div>
+              <div>TRX{{$t('RENT-026')}}：<span class="text">{{ store.state.userInfo?.userInfo?.availableBalance }}</span></div>
             </div>
           </div>
           <div class="detail">
             <div>
-              交易哈希：
+              {{$t('RENT-027')}}:
               <span class="text" style="padding: 0px 5px">{{ detailsValue.transactionHash || '-' }}</span>
             </div>
             <div>
@@ -76,38 +76,38 @@
               <span class="text" style="padding: 0px 5px">{{ detailsValue.apiKey || '-' }}</span>
             </div>
             <div>
-              接收：
+              {{$t('RENT-028')}}:
               <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
                 detailsValue.toAddress }}</a>
             </div>
             <div>
-              租用量：<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
+              {{$t('RENT-029')}}:<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
                 <use xlink:href="#icon-seller-selling-energy"></use>
               </svg><span class="text">{{ detailsValue.rentalQuantity }}</span>
             </div>
             <div>
-              已完成租用量：<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
+              {{$t('RENT-030')}}:<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
                 <use xlink:href="#icon-seller-selling-energy"></use>
               </svg><span class="text">{{ detailsValue.doneRentalQuantity }}</span>
             </div>
             <div>
-              租用时长：<span class="text">{{ filterHours(detailsValue.rentalHours) }}</span>
+              {{$t('RENT-031')}}:<span class="text">{{ filterHours(detailsValue.rentalHours) }}</span>
             </div>
-            <div>支付金额： <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
+            <div>{{$t('RENT-020')}}: <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
             <div>
-              支付时间：
+              {{$t('RENT-036')}}：
               <span class="text">{{ filterDate(detailsValue.payDate) }}</span>
             </div>
             <div>
-              代理时间：
+              {{$t('RENT-018')}}:
               <span class="text">{{ filterDate(detailsValue.stakeDate) }}</span>
             </div>
             <div>
-              到期时间：
+              {{$t('RENT-019')}}:
               <span class="text">{{ filterDate(detailsValue.expiredDate) }}</span>
             </div>
             <div class="flex">
-              <span>状态：</span>
+              <span>{{$t('RENT-021')}}:</span>
               <div style="
                     display: inline-block;
                     width: fit-content;
@@ -132,6 +132,8 @@
 import { getRentals, getApiList, cancelOrder } from "@/utils/axios/buyer/index.js";
 import { filterDate, filterHours } from '@/utils/utils/date.js';
 import { ElMessage } from "element-plus";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const fullscreenLoading = ref(false);
 const form = reactive({
   date: [],
@@ -155,13 +157,13 @@ const gotoNew = (url) => {
 
 const cancel = async (scope) => {
   console.log(scope)
-  ElMessageBox.alert('是否取消该订单', "警告", {
-    confirmButtonText: '确认',
+  ElMessageBox.alert(t('RENT-032'), t('RENT-033'), {
+    confirmButtonText: t('RENT-037'),
     beforeClose: async (a, b, done) => {
       if (a === 'confirm') {
         const data = await cancelOrder({ id: scope.row.id });
         if (data === 12000) {
-          ElMessage.success('操作成功');
+          ElMessage.success(t('OperateSuccess'));
           seach()
           done()
         } else {
@@ -200,15 +202,15 @@ const seach = async () => {
 const filterStatus = (status) => {
   switch (status) {
     case "WAIT_DELEGATE":
-      return "等待代理"
+      return t('RENT-005')
     case "DELEGATEING":
-      return "代理中"
+      return t('RENT-006')
     case "ALMOST_DONE":
-      return "即将结束"
+      return t('RENT-007')
     case "DONE":
-      return "已经完成"
+      return t('RENT-008')
     case "UNAVAILABLE":
-      return "未生效"
+      return t('RENT-009')
     default:
       return '';
   }

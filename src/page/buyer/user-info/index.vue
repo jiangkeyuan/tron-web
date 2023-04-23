@@ -1,43 +1,43 @@
 <template>
   <div class="user-content">
-    <h5>基本信息</h5>
+    <h5>{{$t('USRER-025')}}</h5>
     <div class="user-content-one">
       <div class="basic-info">
-        <div class="font">账户名称</div>
+        <div class="font">{{$t('USRER-026')}}</div>
         <div class="font text">{{ store.state.userInfo?.userInfo?.userName || store.state.userInfo?.userInfo?.email }}
         </div>
-        <div class="font">绑定钱包</div>
+        <div class="font">{{$t('USRER-027')}}</div>
         <div class="font text">
           {{ store.state.userInfo?.userInfo?.walletAddress }}
         </div>
       </div>
       <div class="content-line"></div>
       <div class="basic-info">
-        <div class="font">可用余额</div>
+        <div class="font">{{$t('USRER-028')}}</div>
         <div class="font text">
           {{ store.state.userInfo?.userInfo?.availableBalance?.toLocaleString() }}
           <span style="margin: 0px 20px 0px 8px"> TRX </span>
-          <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">充值</div>
-          <div class="font btn" @click="()=> withdrawbalance()" :loading='loading'>提币</div>
+          <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">{{$t('USRER-020')}}</div>
+          <div class="font btn" @click="()=> withdrawbalance()" :loading='loading'>{{$t('USRER-030')}}</div>
         </div>
-        <div class="font">注册时间</div>
+        <div class="font">{{$t('USRER-031')}}</div>
         <div class="font text">2023-03-02 12:09:42</div>
       </div>
     </div>
   </div>
   <div class="user-content">
-    <h1>登录方式</h1>
-    <p class="fontn tips">账号支持多种登录方式，便捷管理您的账号</p>
+    <h1>{{$t('USRER-032')}}</h1>
+    <p class="fontn tips">{{$t('USRER-033')}}</p>
     <div class="login-method">
-      <div class="font">邮箱</div>
-      <div class="font">支持账号密码登录，可找回账号</div>
+      <div class="font">{{$t('USRER-034')}}</div>
+      <div class="font">{{$t('USRER-035')}}</div>
       <div class="font text">{{ store.state?.userInfo?.userInfo?.email }}</div>
-      <div class="btn font" @click="handleBind" v-if="!store.state.userInfo?.userInfo?.email">绑定邮箱</div>
+      <div class="btn font" @click="handleBind" v-if="!store.state.userInfo?.userInfo?.email">{{$t('USRER-044')}}</div>
       <div v-else></div>
-      <div class="font">Tron钱包地址</div>
-      <div class="font">绑定钱包地址，充值自动识别入账</div>
+      <div class="font">{{$t('USRER-036')}}</div>
+      <div class="font">{{$t('USRER-043')}}</div>
       <div class="font text">{{ store.state.userInfo?.userInfo?.walletAddress }}</div>
-      <div class="btn font" @click="handleBindAdress" v-if="!store.state.userInfo.userInfo.walletAddress">绑定</div>
+      <div class="btn font" @click="handleBindAdress" v-if="!store.state.userInfo.userInfo.walletAddress">{{$t('USRER-045')}}</div>
     </div>
     <div v-if="showBind">
       <BindEmailsInput @close='showBind = false'></BindEmailsInput>
@@ -51,6 +51,8 @@ import { isConnectedWallet, walletAddress, connectedWallet } from '@/utils/utils
 import { bindWallets,getWithdrawbalance } from '@/utils/axios/buyer/index';
 import { useRouter } from "vue-router";
 import { ElMessage } from 'element-plus';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const store = useStore();
 const router = useRouter();
@@ -67,25 +69,25 @@ const pushRecharge = () => {
 }
 
 const withdrawbalance = ()=>{
-  ElMessageBox.prompt('请输入提取金额(手续费1TRX)', '提币', {
-    confirmButtonText: '好的',
-    cancelButtonText: '取消',
+  ElMessageBox.prompt(t('USRER-037'), (t('USRER-037')), {
+    confirmButtonText: t('OK'),
+    cancelButtonText: t('Cancel'),
     beforeClose: async (a, b, done)=>{
       if(a === 'confirm'){
         if(!b.inputValue){
-          ElMessage.error('请输入正确金额');
+          ElMessage.error(t('USRER-040'));
           return;
         }
 
         if(+b.inputValue > store.state.userInfo?.userInfo?.availableBalance){
-          ElMessage.error('请输入金额不能大于余额');
+          ElMessage.error(t('USRER-041'));
           return;
         }
         loading.value = true;
         const data = await getWithdrawbalance({withdrawAmount:b.inputValue});
         loading.value = false;
         if(data.code === 12000){
-          ElMessage.success('操作成功');
+          ElMessage.success(t('OperateSuccess'));
           store.dispatch('getUserInfoAction');
           done()
         }else{
@@ -95,7 +97,7 @@ const withdrawbalance = ()=>{
         done()
       }
     },
-    inputErrorMessage: '金额错误',
+    inputErrorMessage: t('USRER-042'),
   })
 }
 
@@ -115,7 +117,7 @@ const bind = async () => {
   })
 
   if (data.code === 12000) {
-    ElMessage.success('绑定成功')
+    ElMessage.success(t('BindingSuccessful'))
     store.dispatch('getUserInfoAction')
   } else {
     ElMessage.error(data.msg);

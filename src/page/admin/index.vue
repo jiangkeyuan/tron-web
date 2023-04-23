@@ -5,21 +5,21 @@
         <div class="item" v-for="item in platformIncome">
           <div class="flex">
             <div class="item-tltle">
-              {{ item.date }}平台收益汇总
+              {{ item.date }}{{ $t('STATISTICS-001') }}
             </div>
             <div class="font icon-question">
-              <Tips content="收益利润=订单收益+投票收益"></Tips>
+              <Tips :content="`${$t('STATISTICS-002')}=${$t('STATISTICS-003')}+${$t('STATISTICS-004')}`"></Tips>
             </div>
           </div>
           <div class="flex">
             <div>
               <div>
-                <span class="font"> 笔数: </span>
+                <span class="font"> {{ $t('STATISTICS-005') }}: </span>
                 <span class="font text red">{{ item.numtotal?.toLocaleString() || 0 }}</span>
-                <span class="font min-font">笔</span>
+                <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
-                <span class="font"> 总额: </span>
+                <span class="font"> {{ $t('STATISTICS-007') }}: </span>
                 <span class="font text red">{{ item.amounttotal?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">TRX</span>
               </div>
@@ -36,25 +36,25 @@
         <div class="item">
           <div class="flex">
             <div class="item-tltle">
-              用户新增卖/买家统计(当日)
+              {{ $t('STATISTICS-008') }}/{{ $t('STATISTICS-009') }}
               <!-- <span class="font total">(累计收益：<span class="red">{{sellerObj.totalEarnings}}</span>TRX)
                 </span> -->
             </div>
             <div class="font icon-question">
-              <Tips content="收益利润=订单收益+投票收益"></Tips>
+              <Tips :content="`${$t('STATISTICS-002')}=${$t('STATISTICS-003')}+${$t('STATISTICS-004')}`"></Tips>
             </div>
           </div>
           <div class="flex">
             <div>
               <div>
-                <span class="font">买家:</span>
+                <span class="font">{{ $t('STATISTICS-010') }}:</span>
                 <span class="font text red">{{ users.BUYER?.toLocaleString() }}</span>
-                <span class="font min-font">个</span>
+                <span class="font min-font">{{ $t('STATISTICS-011') }}</span>
               </div>
               <div>
-                <span class="font">卖家:</span>
+                <span class="font">{{ $t('STATISTICS-012') }}:</span>
                 <span class="font text red">{{ users.SELLER?.toLocaleString() }}</span>
-                <span class="font min-font">个</span>
+                <span class="font min-font">{{ $t('STATISTICS-011') }}</span>
               </div>
             </div>
             <div class="icon"></div>
@@ -63,23 +63,23 @@
         <div class="item">
           <div class="flex">
             <div class="item-tltle">
-              充值笔数/总额(当日)
+              {{ $t('STATISTICS-013') }}/{{ $t('STATISTICS-014') }}
               <!-- <span class="font total">(累计收益：<span class="red">26,827.34147</span>TRX)
                 </span> -->
             </div>
             <div class="font icon-question">
-              <Tips content="收益利润=订单收益+投票收益"></Tips>
+              <Tips :content="`${$t('STATISTICS-002')}=${$t('STATISTICS-003')}+${$t('STATISTICS-004')}`"></Tips>
             </div>
           </div>
           <div class="flex">
             <div>
               <div>
-                <span class="font"> 笔数: </span>
+                <span class="font"> {{ $t('STATISTICS-005') }}: </span>
                 <span class="font text red">{{ recharge.rechargetotal?.toLocaleString() || 0 }}</span>
-                <span class="font min-font">笔</span>
+                <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
-                <span class="font"> 总额: </span>
+                <span class="font"> {{ $t('STATISTICS-007') }}: </span>
                 <span class="font text red">{{ recharge.amounttotal?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">TRX</span>
               </div>
@@ -92,21 +92,21 @@
         <div class="item">
           <div class="flex">
             <div class="item-tltle">
-              平台卖家收益(当日)
+              {{ $t('STATISTICS-015') }}
             </div>
             <div class="font icon-question">
-              <Tips content="收益利润=订单收益+投票收益"></Tips>
+              <Tips :content="`${$t('STATISTICS-002')}=${$t('STATISTICS-003')}+${$t('STATISTICS-004')}`"></Tips>
             </div>
           </div>
           <div class="flex">
             <div>
               <div>
-                <span class="font"> 笔数: </span>
+                <span class="font"> {{ $t('STATISTICS-005') }}: </span>
                 <span class="font text red">{{ sellereIncome.numtotal?.toLocaleString() || 0 }}</span>
-                <span class="font min-font">笔</span>
+                <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
-                <span class="font"> 总额: </span>
+                <span class="font"> {{ $t('STATISTICS-007') }}: </span>
                 <span class="font text red">{{ sellereIncome.amounttotal?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">TRX</span>
               </div>
@@ -120,24 +120,24 @@
   <DashbordContent>
     <div class="statistics-panel">
       <div class="statistics-root">
-        <div class="item" v-for="item in order">
+        <div class="item" v-for="item in order" :key="item.index">
           <div class="flex">
             <div class="item-tltle">
-              {{ filterOrderstatus(item.orderstatus) }} (当日)
+              {{ filterOrderstatus(item.orderstatus) }} {{ $t('STATISTICS-016') }}
             </div>
             <div class="font icon-question">
-              <Tips content="收益利润=订单收益+投票收益"></Tips>
+              <Tips :content="`${$t('STATISTICS-002')}=${$t('STATISTICS-003')}+${$t('STATISTICS-004')}`"></Tips>
             </div>
           </div>
           <div class="flex">
             <div>
               <div>
-                <span class="font"> 笔数: </span>
+                <span class="font"> {{ $t('STATISTICS-005') }}: </span>
                 <span class="font text red">{{ item.ordertotal?.toLocaleString() }}</span>
-                <span class="font min-font">笔</span>
+                <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
-                <span class="font"> 总额: </span>
+                <span class="font"> {{ $t('STATISTICS-007') }}: </span>
                 <span class="font text red">{{ item.amounttotal?.toLocaleString() }}</span>
                 <span class="font min-font">TRX</span>
               </div>
@@ -152,26 +152,26 @@
   <DashbordContent>
     <div class="statistics-panel">
       <div class="statistics-root">
-        <div class="item" v-for="item in energy">
+        <div class="item" v-for="item in energy" :key="item.index">
           <div class="flex">
             <div class="item-tltle">
-              {{ filterEnergy(item.orderstatus) }} (当日)
+              {{ filterEnergy(item.orderstatus) }} {{ $t('STATISTICS-016') }}
             </div>
             <div class="font icon-question">
-              <Tips content="收益利润=订单收益+投票收益"></Tips>
+              <Tips :content="`${$t('STATISTICS-002')}=${$t('STATISTICS-003')}+${$t('STATISTICS-004')}`"></Tips>
             </div>
           </div>
           <div class="flex">
             <div>
               <div>
-                <span class="font"> 笔数: </span>
+                <span class="font"> {{ $t('STATISTICS-005') }}: </span>
                 <span class="font text red">{{ item.ordertotal?.toLocaleString() || 0 }}</span>
-                <span class="font min-font">笔</span>
+                <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
-                <span class="font"> 总额: </span>
+                <span class="font"> {{ $t('STATISTICS-007') }}: </span>
                 <span class="font text red">{{ item.energytotal?.toLocaleString() || 0 }}</span>
-                <span class="font min-font">能量</span>
+                <span class="font min-font">{{ $t('STATISTICS-024') }}</span>
               </div>
             </div>
             <div class="icon"></div>
@@ -185,6 +185,8 @@
 <script setup>
 import { getStatistics } from "@/utils/axios/buyer/index.js";
 import { reactive, ref } from "vue";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const users = reactive({});
 const recharge = reactive({});
 const sellereIncome = reactive({});
@@ -219,8 +221,8 @@ const energy = ref([
 ]);
 
 const platformIncome = ref([
-  { date: "昨日", amounttotal: 0, numtotal: 0 },
-  { date: "今日", amounttotal: 0, numtotal: 0 }
+  { date: t('STATISTICS-017'), amounttotal: 0, numtotal: 0 },
+  { date: t('STATISTICS-018'), amounttotal: 0, numtotal: 0 }
 ]);
 
 
@@ -239,11 +241,11 @@ const filterArray = (a, b, key = 'orderstatus') => {
 const filterOrderstatus = (str) => {
   switch (str) {
     case 'DELEGATEING':
-      return '代理中'
+      return t('STATISTICS-019')
     case 'DONE':
-      return '已完成代理'
+      return t('STATISTICS-020')
     case 'WAIT_DELEGATE':
-      return '等待完成代理'
+      return t('STATISTICS-021')
     default:
       return ''
   }
@@ -252,9 +254,9 @@ const filterOrderstatus = (str) => {
 const filterEnergy = (str) => {
   switch (str) {
     case 'DELEGATEING':
-      return '消耗能量'
+      return t('STATISTICS-022')
     case 'DONE':
-      return '释放能量'
+      return t('STATISTICS-023')
     default:
       return ''
   }

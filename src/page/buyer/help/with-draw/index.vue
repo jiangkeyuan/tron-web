@@ -1,12 +1,14 @@
 <template>
     <HelpContent>
         <div class="help-draw">
-            余额用不完可随时提币，提币操作可在【用户信息】页面点击【提币】进行提币处理。
+            {{ $t("MANAGE-032") }}
         </div>
     </HelpContent>
 </template>
 <script setup>
 import HelpContent from "../help-content.vue";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 </script>
 <style scoped>
 .help-draw{

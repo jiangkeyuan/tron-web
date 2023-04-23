@@ -1,39 +1,41 @@
 <template>
   <div class="outer">
-    <h1>简易批量租能量</h1>
+    <h1>{{$t('MANUAL-017')}}</h1>
     <div class="outer-title">
-      <span>您的Api密钥</span>
-      <span>余额: 0</span>
+      <span>{{$t('MANUAL-018')}}</span>
+      <span>{{$t('MANUAL-019')}}: 0</span>
     </div>
-    <el-input v-model="form.apiKey" placeholder="填写你的密钥">
+    <el-input v-model="form.apiKey" :placeholder="$t('MANUAL-029')">
     </el-input>
     <div class="outer-title">
-      <span>租用能量数</span>
+      <span>{{$t('MANUAL-020')}}</span>
     </div>
-    <el-input v-model="form.rentalEnergyQuantity" type="number" placeholder="每个地址租用的能量数,30000起租"></el-input>
+    <el-input v-model="form.rentalEnergyQuantity" type="number" :placeholder="$t('MANUAL-020')"></el-input>
 
     <div class="outer-title">
-      <span>租用天数</span>
+      <span>{{$t('MANUAL-021')}}</span>
     </div>
     <Button-List v-model:rentalDays = 'form.rentalHours'></Button-List>
 
     <div class="outer-title">
-      <span>接收能量的地址（一行一个）</span>
+      <span>{{$t('MANUAL-022')}}</span>
     </div>
-    <el-input v-model="form.receiveAddress" placeholder="接收能量的地址（一行一个）" rows="10" type="textarea"></el-input>
+    <el-input v-model="form.receiveAddress" :placeholder="$t('MANUAL-022')" rows="10" type="textarea"></el-input>
 
     <div class="outer-title">
-      <span>已经发送的地址</span>
+      <span>{{$t('MANUAL-023')}}</span>
     </div>
-    <el-input disabled v-model="receiveAddressSuccess" placeholder="此处会显示已发送成功的钱包地址..." rows="10"
+    <el-input disabled v-model="receiveAddressSuccess" :placeholder="$t('MANUAL-024')" rows="10"
       type="textarea"></el-input>
 
-    <el-button type="primary" @click="submit" class="outer-btn" :loading='loading'>开始新的请求</el-button>
+    <el-button type="primary" @click="submit" class="outer-btn" :loading='loading'>{{$t('MANUAL-025')}}</el-button>
   </div>
 </template>
 <script setup>
 import { orderSubmit } from "@/utils/axios/buyer/index.js";
 import { ElMessage } from "element-plus";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const loading = ref(false);
 const form = reactive({
   rentalHours: '1'
@@ -44,15 +46,15 @@ const receiveAddressSuccess = ref('');
 
 const submit = async () => {
   if (!form.rentalEnergyQuantity) {
-    ElMessage.error('请输入能量数');
+    ElMessage.error(t('MANUAL-026'));
     return;
   }
   if (+form.rentalEnergyQuantity < 30000) {
-    ElMessage.error('最低租用30000能量');
+    ElMessage.error(t('MANUAL-027'));
     return;
   }
   if (!form.receiveAddress) {
-    ElMessage.error('请输入接收方地址');
+    ElMessage.error(t('MANUAL-015'));
     return;
   }
   loading.value = true;
@@ -66,7 +68,7 @@ const submit = async () => {
 
 const getList = async (receiveAddressList) => {
   if (receiveAddressList.length === 0) {
-    ElMessage.success('操作成功')
+    ElMessage.success(t('OperateSuccess'))
     loading.value = false;
     return;
   }

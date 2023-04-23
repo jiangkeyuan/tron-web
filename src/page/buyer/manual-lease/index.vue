@@ -1,17 +1,17 @@
 <template>
   <div class="maual-lease" v-loading.fullscreen.lock="fullscreenLoading">
     <el-form :model="form" label-width="200px" label-position="left">
-      <el-form-item label="可用余额:" class="maual-lease-item">
+      <el-form-item :label="$t('MANUAL-001')" class="maual-lease-item">
         <span>{{ store.state.userInfo?.userInfo?.availableBalance?.toLocaleString() }} TRX</span>
       </el-form-item>
-      <el-form-item label="租用量:">
+      <el-form-item :label="$t('MANUAL-002')">
         <div class="maual-lease-item-energy">
-          <el-input v-model="form.rentalEnergyQuantity" placeholder="请输入租用量">
+          <el-input v-model="form.rentalEnergyQuantity" :placeholder="$t('MANUAL-003')">
             <template #append>Energy</template>
           </el-input>
           
           <span class="maual-lease-item-energy-text">
-            大约需要支付
+            {{$t('MANUAL-004')}}
             <span class="maual-lease-item-energy-text-num">{{ rentalEnergynum || 0 }}</span> 
             TRX
             +
@@ -21,22 +21,22 @@
         </div>
        
       </el-form-item>
-      <el-form-item label="租用天数:" class="maual-lease-item">
+      <el-form-item :label="$t('MANUAL-005')" class="maual-lease-item">
         <Button-List v-model:rentalDays = 'form.rentalHours'></Button-List>
       </el-form-item>
-      <el-form-item label="接收地址:" class="maual-lease-item">
-        <el-input v-model="form.receiveAddress" placeholder="必须输入接受地址" />
+      <el-form-item :label="$t('MANUAL-008')" class="maual-lease-item">
+        <el-input v-model="form.receiveAddress" :placeholder="$t('MANUAL-009')" />
       </el-form-item>
       <el-form-item class="maual-lease-item">
-        <el-button type="primary" @click="() => buy()">租 用</el-button>
-        <el-button link type="primary" @click=openBatch>批量租赁</el-button>
+        <el-button type="primary" @click="() => buy()">{{$t('MANUAL-010')}}</el-button>
+        <el-button link type="primary" @click=openBatch>{{$t('MANUAL-011')}}</el-button>
       </el-form-item>
     </el-form>
 
     <div class="recharge-content-two-text">
       <span>*</span>
       <span class="recharge-content-two-text-child">
-        当购买能量低于50000时,将会多收取0.6TRX
+        {{$t('MANUAL-012')}}
       </span>
     </div>
   </div>
@@ -45,6 +45,8 @@
 import { manaulBuy,getPlatformPrice } from '@/utils/axios/buyer/index';
 import { ElMessage } from 'element-plus';
 import { watch } from 'vue';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const store = useStore();
 const fullscreenLoading = ref(false);
 const form = reactive({
@@ -81,10 +83,10 @@ const pageGetPlatformPrice = async ()=>{
 pageGetPlatformPrice()
 
 const buy = async () => {
-  if (!form.rentalEnergyQuantity) { ElMessage.error('请输入租用量'); return; }
-  if(+form.rentalEnergyQuantity < 30000){ ElMessage.error('租用最低 30000 能量'); return; }
-  if (!form.rentalHours) { ElMessage.error('请选择租用天数'); return; }
-  if (!form.receiveAddress) { ElMessage.error('请输入接收地址'); return; }
+  if (!form.rentalEnergyQuantity) { ElMessage.error(t('MANUAL-013')); return; }
+  if(+form.rentalEnergyQuantity < 30000){ ElMessage.error(t('MANUAL-014')); return; }
+  if (!form.rentalHours) { ElMessage.error(t('MANUAL-016')); return; }
+  if (!form.receiveAddress) { ElMessage.error(t('MANUAL-015')); return; }
 
   fullscreenLoading.value = true;
   const data = await manaulBuy('/buyer/user/manaul/buy', { ...form, rentalEnergyQuantity: +form.rentalEnergyQuantity });

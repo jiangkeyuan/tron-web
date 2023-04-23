@@ -2,7 +2,7 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <span>系统参数</span>
+        <span>{{ $t('SYSTEM-001') }}</span>
         <el-button type="primary" text @click="() => addManager()">
           <el-icon>
             <Plus />
@@ -11,24 +11,24 @@
       </div>
     </template>
     <el-form :model="forms" inline class="sale-record sale-record-search">
-      <el-form-item label="名称:">
+      <el-form-item :label="$t('SYSTEM-002')">
         <el-input v-model="forms.systemKey" />
       </el-form-item>
       <el-form-item>
-        <el-button @click="reset">重置</el-button>
-        <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
+        <el-button @click="reset">{{ $t('resetting') }}</el-button>
+        <el-button type="primary" color="#c53027" @click="seach">{{ $t('Query') }}</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" @sort-change="sortChange">
-      <el-table-column prop="systemKey" label="名称" width="300" />
-      <el-table-column prop="systemVal" label="值" />
-      <el-table-column prop="remarks" label="备注" width="300" />
-      <el-table-column prop="lastUpdateDate" sortable="custom" label="最后修改时间" width="300"
+      <el-table-column prop="systemKey" :label="$t('SYSTEM-002')" width="300" />
+      <el-table-column prop="systemVal" :label="$t('SYSTEM-003')" />
+      <el-table-column prop="remarks" :label="$t('SYSTEM-004')" width="300" />
+      <el-table-column prop="lastUpdateDate" sortable="custom" :label="$t('SYSTEM-005')" width="300"
         :formatter="(row) => filterDate(row.lastUpdateDate)" />
       <el-table-column label="" width="130">
         <template #default='scope'>
           <el-button type="primary" link @click="() => change(scope)">
-            修改
+            {{ $t('SYSTEM-006') }}
           </el-button>
           <!-- <el-button type="primary" link @click="() => deleteList(scope)">
             删除
@@ -42,22 +42,22 @@
     </div>
   </el-card>
 
-  <el-dialog v-model="dialogFormVisible" title="系统配置" append-to-body destroy-on-close>
+  <el-dialog v-model="dialogFormVisible" :title="$t('SYSTEM-007')" append-to-body destroy-on-close>
     <el-form :model="form" label-position="right" label-width="60" ref="ruleFormRef" :rules="rules">
-      <el-form-item label="名称:" prop="systemKey">
-        <el-input v-model="form.systemKey" autocomplete="off" :disabled='form.type !== "add"' placeholder="请输入名称" />
+      <el-form-item :title="$t('SYSTEM-002')" prop="systemKey">
+        <el-input v-model="form.systemKey" autocomplete="off" :disabled='form.type !== "add"' placeholder="$t('SYSTEM-013')" />
       </el-form-item>
-      <el-form-item label="值:" prop="systemVal">
-        <el-input v-model="form.systemVal" autocomplete="off" placeholder="请输入值" />
+      <el-form-item :title="$t('SYSTEM-003')" prop="systemVal">
+        <el-input v-model="form.systemVal" autocomplete="off" :placeholder="$t('SYSTEM-008')" />
       </el-form-item>
-      <el-form-item label="备注:" prop="remarks">
-        <el-input v-model="form.remarks" autocomplete="off" placeholder="请输入备注" />
+      <el-form-item :title="$t('SYSTEM-004')" prop="remarks">
+        <el-input v-model="form.remarks" autocomplete="off" :placeholder="$t('SYSTEM-009')" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="() => addManagerApi(ruleFormRef)">
-          确认
+          {{$t('SYSTEM-014')}}
         </el-button>
       </span>
     </template>
@@ -67,6 +67,8 @@
 import { filterDate } from '@/utils/utils/date.js';
 import { getManagerList, addManagerList, changeManagerList, deleteManagerList } from '@/utils/axios/manager/index.js';
 import { ElMessage } from 'element-plus';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const tableData = ref([]);
 const form = reactive({});
 const ruleFormRef = ref()
@@ -79,13 +81,13 @@ const forms = reactive({
 const dialogFormVisible = ref(false);
 const rules = reactive({
   systemKey: [
-    { required: true, message: '请输入系统名称', trigger: 'change' },
+    { required: true, message: t('SYSTEM-010'), trigger: 'change' },
   ],
   systemVal: [
-    { required: true, message: '请输入系统值', trigger: 'change' },
+    { required: true, message: t('SYSTEM-011'), trigger: 'change' },
   ],
   remarks: [
-    { required: true, message: '请输入备注', trigger: 'change' },
+    { required: true, message: t('SYSTEM-012'), trigger: 'change' },
   ],
 })
 
@@ -115,7 +117,7 @@ const change = async (scope) => {
 const deleteList = async (scope) => {
   const data = await deleteManagerList(scope.row);
   if (data.code === 12000) {
-    ElMessage.success('删除成功')
+    ElMessage.success(t('DeletedSuccess'))
     seach();
   } else {
 
@@ -130,7 +132,7 @@ const addManagerApi = async (formEl) => {
         const data = await changeManagerList({ ...form, });
         if (data.code === 12000) {
           dialogFormVisible.value = false;
-          ElMessage.success('修改成功')
+          ElMessage.success(t('EditSuccess'))
           seach();
         } else {
           ElMessage.error(data.msg)
@@ -139,7 +141,7 @@ const addManagerApi = async (formEl) => {
         const data = await addManagerList(form);
         if (data.code === 12000) {
           dialogFormVisible.value = false;
-          ElMessage.success('添加成功')
+          ElMessage.success(t('AddSuccess'))
           seach();
         } else {
           ElMessage.error(data.msg)

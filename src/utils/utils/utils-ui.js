@@ -1,8 +1,8 @@
 import { getApiList, addApiList } from "@/utils/axios/buyer/index.js";
-import { useI18n } from 'vue-i18n';
+import { i18n } from "../../i18n/index.js";
 export const createAPIKEY = (callback) => {
-  ElMessageBox.prompt("", "请输入Key的名称，以便区分统计", {
-    confirmButtonText: "创建KEY22222",
+  ElMessageBox.prompt("", i18n.global.t('MANAGE-019'), {
+    confirmButtonText: i18n.global.t('MANAGE-018'),
     showCancelButton: false,
     inputErrorMessage: "Invalid Email",
     beforeClose: async (a, b, done) => {

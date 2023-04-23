@@ -162,6 +162,10 @@ const rightTitleFunc = () => {
   {
     router: '/console/manager',
     name: t('systemConfiguration')
+  },
+  {
+    router: '/console/order',
+    name: t('orderCenter')
   },{
     router: '/common/fund-change',
     name: t("FundDetails")

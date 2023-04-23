@@ -136,6 +136,32 @@
         <el-form-item label="保留金额" v-if="sellConfigData.autoWithdrawAmount == 'P'">
           <el-input v-model="sellConfigData.remainAmount" />
         </el-form-item>
+        <el-form-item label="自动质押">
+          <template #label>
+            <div>
+              自动质押
+              <el-tooltip class="box-item" effect="dark" content="当你的剩余可用trx余额大于1000trx时，系统将会为您自动质押trx获取更多能量用于出售，增加收益！" placement="top">
+                <el-icon>
+                  <WarningFilled />
+                </el-icon>
+              </el-tooltip>
+            </div>
+          </template>            
+          <el-switch v-model="sellConfigData.autoStake" :active-value="true" :inactive-value="false" />
+        </el-form-item>
+                <el-form-item label="质押保留" v-if="sellConfigData.autoStake">
+          <template #label>
+            <div>
+              质押保留
+              <el-tooltip class="box-item" effect="dark" content="预留部分余额不参与质押，推荐设置数额：大于>近1天出售订单数*0.6TRX，避免造成带宽不足造成无法出售订单" placement="top">
+                <el-icon>
+                  <WarningFilled />
+                </el-icon>
+              </el-tooltip>
+            </div>
+          </template>
+          <el-input v-model="sellConfigData.stakeRemainAmount" />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">保存</el-button>
         </el-form-item>

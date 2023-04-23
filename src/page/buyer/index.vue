@@ -39,6 +39,18 @@
           </el-icon>
           <span class="home-left-menu-li-title">{{ $t('userList') }}</span>
         </router-link>
+        <router-link v-if="showManager" to="/console/order" :class="[
+          {
+            'home-left-menu-li-active':
+              route.fullPath.includes('/console/order')
+          },
+          'home-left-menu-li'
+        ]">
+          <el-icon class="home-left-menu-li-icon">
+            <component is="Setting"></component>
+          </el-icon>
+          <span class="home-left-menu-li-title">{{ $t('orderCenter') }}</span>
+        </router-link>
         <router-link v-if="showManager" to="/console/admin" :class="[
           {
             'home-left-menu-li-active':

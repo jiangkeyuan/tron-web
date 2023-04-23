@@ -1,6 +1,7 @@
 {
   "systemConfiguration":"系统设置",
   "userList":"用户列表",
+  "orderCenter": "订单中心",
   "statisticsDashboard":"统计面板",
   "managementDashboard":"管理面板",
   "rentalRecords":"租用记录",

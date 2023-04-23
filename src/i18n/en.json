@@ -1,6 +1,7 @@
 {
   "systemConfiguration":"System dashboard",
   "userList":"User list",
+  "orderCenter": "orderCenter",
   "statisticsDashboard":"Statistics dashboard",
   "managementDashboard":"Dashboard",
   "rentalRecords":"Rental records",

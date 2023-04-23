@@ -95,9 +95,7 @@ export let copyValue = {
       e.clipboardData.setData("text/plain", data);
       e.preventDefault();
     };
-    document.addEventListener("copy", function copy(e) {
-      copyMethods(e);
-    });
+    document.addEventListener("copy", copyMethods(e));
     document.execCommand("copy");
     document.removeEventListener("copy", copyMethods);
   },

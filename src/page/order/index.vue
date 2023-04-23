@@ -148,7 +148,7 @@
           class="jump-a"
           target="_blank"
           :href="`https://tronscan.org/#/transaction/${detailsValue.transactionHash}`"
-          >{{ detailsValue.transactionHash || '' }}</a
+          >{{ detailsValue.transactionHash || '-' }}</a
         >
       </div>
       <div>
@@ -158,12 +158,12 @@
         }}</span>
       </div>
       <div>
-        ：
+        代理：
         <a
           class="jump-a"
           target="_blank"
           :href="`https://tronscan.org/#/address/${detailsValue.fromAddress}`"
-          >{{ detailsValue.fromAddress }}</a
+          >{{ detailsValue.fromAddress || '-' }}</a
         >
       </div>
       <div>
@@ -172,7 +172,7 @@
           class="jump-a"
           target="_blank"
           :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`"
-          >{{ detailsValue.toAddress }}</a
+          >{{ detailsValue.toAddress || '-' }}</a
         >
       </div>
       <div>
@@ -233,10 +233,10 @@
             padding: 1px 7px;
             margin: 0px;
             background: rgb(255, 255, 255);
-            border: 1px solid rgb(191, 191, 191);
+            border: 1px solid #67C23A;
             border-radius: 3px;
             font-size: 12px;
-            color: rgb(191, 191, 191);
+            color: #67C23A;
           "
         >
           {{ filterStatus(detailsValue.orderStatus) }}
@@ -417,5 +417,8 @@ onMounted(() => {
 }
 .sale-record-group {
   margin-bottom: 20px;
+}
+.el-form--inline .el-form-item {
+  margin-bottom: 18px;
 }
 </style>

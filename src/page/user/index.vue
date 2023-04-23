@@ -2,7 +2,7 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <span>用户列表</span>
+        <span>{{ $t('USRER-001') }}</span>
         <!-- <el-button type="primary" text @click="() => addManager()">
           <el-icon>
             <Plus />
@@ -14,27 +14,27 @@
       <el-form-item label="email:">
         <el-input v-model="forms.email" />
       </el-form-item>
-      <el-form-item label="钱包地址:">
+      <el-form-item :label="`${$t('USRER-002')}:`">
         <el-input v-model="forms.walletAddress" />
       </el-form-item>
-      <el-form-item label="时间" prop="date">
+      <el-form-item :label="$t('USRER-003')" prop="date">
         <el-date-picker
           v-model="forms.date"
           type="daterange"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
+          :start-placeholder="$t('USRER-003')"
+          :end-placeholder="$t('USRER-004')"
         />
       </el-form-item>
       <el-form-item>
-        <el-button @click="reset">重置</el-button>
+        <el-button @click="reset">{{ $t('USRER-020') }}</el-button>
         <el-button type="primary" color="#c53027" @click="seach"
-          >查询</el-button
+          >{{ $t('USRER-021') }}</el-button
         >
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" @sort-change="sortChange">
       <el-table-column prop="email" label="email" />
-      <el-table-column prop="walletAddress" label="钱包地址">
+      <el-table-column prop="walletAddress" :label="$t('USRER-002')">
         <template #default="{ row }">
           <el-tooltip
             class="box-item"
@@ -50,31 +50,31 @@
       <el-table-column
         prop="createDate"
         sortable="custom"
-        label="创建时间"
+        :label="$t('USRER-022')"
         :formatter="row => filterDate(row.createDate)"
       />
-      <el-table-column prop="availableBalance" label="金额" />
+      <el-table-column prop="availableBalance" :label="$t('USRER-006')" />
       <el-table-column
         prop="state"
-        label="当前状态"
+        :label="$t('USRER-007')"
         :formatter="row => filterState(row.state)"
       />
       <el-table-column
         prop="roles"
-        label="卖家的身份"
+        :label="$t('USRER-008')"
         :formatter="row => filterRoles(row.roles)"
       />
-      <el-table-column prop="settlementRatio" label="结算比例">
+      <el-table-column prop="settlementRatio" :label="$t('USRER-009')">
         <template #default="{ row }">
           <div>{{ row.settlementRatio }}%</div>
         </template>
       </el-table-column>
-      <el-table-column prop="commissionRatio" label="佣金比例">
+      <el-table-column prop="commissionRatio" :label="$t('USRER-010')">
         <template #default="{ row }">
           <div>{{ row.commissionRatio }}%</div>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column :label="$t('USRER-011')">
         <template #default="scope">
           <el-button
             type="primary"
@@ -82,7 +82,7 @@
             @click="() => change(scope)"
             v-if="scope.row.roles?.includes('BUYER') || scope.row.permissionId"
           >
-            比例设置
+            {{ $t('USRER-023') }}
           </el-button>
           <!-- <el-button type="primary" link @click="() => deleteList(scope)">
             删除
@@ -103,7 +103,7 @@
 
   <el-dialog
     v-model="dialogFormVisible"
-    title="比例设置"
+    :title="$t('USRER-023')"
     append-to-body
     destroy-on-close
   >
@@ -122,7 +122,7 @@
           placeholder=""
         />
       </el-form-item>
-      <el-form-item label="钱包地址:" prop="email" v-else>
+      <el-form-item :label="`${$t('USRER-002')}:`" prop="email" v-else>
         <el-input
           v-model="form.walletAddress"
           autocomplete="off"
@@ -130,7 +130,7 @@
           placeholder=""
         />
       </el-form-item>
-      <el-form-item label="结算比列:" prop="settlementRatio">
+      <el-form-item :label="`${$t('USRER-009')}:`" prop="settlementRatio">
         <el-input
           v-model="form.settlementRatio"
           autocomplete="off"
@@ -142,7 +142,7 @@
           <template #append>%</template>
         </el-input>
       </el-form-item>
-      <el-form-item label="佣金比列:" prop="commissionRatio">
+      <el-form-item :label="`${$t('USRER-010')}:`" prop="commissionRatio">
         <el-input
           v-model="form.commissionRatio"
           autocomplete="off"
@@ -158,7 +158,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="() => addManagerApi(ruleFormRef)">
-          确认
+          {{ $t('USRER-024') }}
         </el-button>
       </span>
     </template>
@@ -168,6 +168,8 @@
 import { filterDate } from '@/utils/utils/date.js'
 import { getUserList, settingRatio } from '@/utils/axios/user/index.js'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const tableData = ref([])
 const form = reactive({})
 const ruleFormRef = ref()
@@ -181,9 +183,9 @@ const forms = reactive({
 })
 const dialogFormVisible = ref(false)
 const rules = reactive({
-  systemKey: [{ required: true, message: '请输入系统名称', trigger: 'change' }],
-  systemVal: [{ required: true, message: '请输入系统值', trigger: 'change' }],
-  remarks: [{ required: true, message: '请输入备注', trigger: 'change' }]
+  systemKey: [{ required: true, message: t('USRER-012'), trigger: 'change' }],
+  systemVal: [{ required: true, message: t('USRER-013'), trigger: 'change' }],
+  remarks: [{ required: true, message: t('USRER-014'), trigger: 'change' }]
 })
 
 const sortChange = e => {
@@ -215,7 +217,7 @@ const change = async scope => {
 const deleteList = async scope => {
   const data = await deleteManagerList(scope.row)
   if (data.code === 12000) {
-    ElMessage.success('删除成功')
+    ElMessage.success(t('USRER-025'))
     seach()
   } else {
   }
@@ -232,7 +234,7 @@ const addManagerApi = async formEl => {
       })
       console.log(data)
       if (data.code === 12000) {
-        ElMessage.success('设置成功')
+        ElMessage.success(t('USRER-015'))
         seach()
         dialogFormVisible.value = false
       } else {
@@ -267,9 +269,9 @@ const seach = async () => {
 const filterState = val => {
   switch (val) {
     case 0:
-      return '未激活'
+      return t('USRER-016')
     case 1:
-      return '已激活'
+      return t('USRER-017')
     default:
       break
   }
@@ -282,9 +284,9 @@ const filterRoles = val => {
       const v = item.toUpperCase()
       switch (v) {
         case 'BUYER':
-          return '买家'
+          return t('USRER-018')
         case 'SELLER':
-          return '卖家'
+          return t('USRER-019')
         default:
           return item
       }

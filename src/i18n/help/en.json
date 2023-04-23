@@ -1,0 +1,11 @@
+{
+    "HELP-001": "How to use API to rent energy?",
+    "HELP-002": "How to set up and create API security keys?",
+    "HELP-003": "How to recharge when the rent usage is insufficient？",
+    "HELP-004": "What to do if the balance is not used up and how to withdraw it",
+    "HELP-005": "Enter the Hashgo.xyz management panel, click Create KEY, enter a name (Key name is for easy differentiation and statistics, and can be customized according to needs, such as project name), and click Create to complete the task。",
+    "HELP-006": "Note: Each account can create up to 3 API-Keys, and API rental statistics cannot be found after deletion",
+    "HELP-007": "Enter the Hashgo.xyz management panel, click on the left menu ‘Recharge’ or ‘Recharge’ in the management panel to enter the recharge page",
+    "HELP-008": "Hashgo.xyz supports two recharge methods",
+    "HELP-009": "If the balance is not used up, you can withdraw the currency at any time. The withdrawal operation can be performed by clicking on 'Withdraw Currency' on the 'User Information' page。"
+}

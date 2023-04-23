@@ -2,21 +2,23 @@
   <div @click="gotoHelp('help/energy')" class="help">
     <img src="@/assets/home/doc-s1.svg" class="help-img" /><span
       class="help-text"
-      >如何使用API租用能量？</span
+      >{{ $t("MANAGE-021") }}</span
     >
   </div>
   <div @click="gotoHelp('help/set-api-key')" class="help">
-    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">如何设置创建API安全密钥？</span>
+    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">{{ $t("MANAGE-021") }}</span>
   </div>
   <div @click="gotoHelp('help/recharge')" class="help">
-    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">租金用量不足时，如何充值？</span>
+    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">{{ $t("MANAGE-029") }}</span>
   </div>
   <div @click="gotoHelp('help/withdraw')" class="help">
-    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">余额用不完怎么办，如何提现？</span>
+    <img src="@/assets/home/doc-s1.svg" class="help-img" /><span class="help-text">{{ $t("MANAGE-031") }}</span>
   </div>
 </template>
 <script setup>
 import { useRouter } from "vue-router";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const router = useRouter();
 const gotoHelp = (route) => {
   router.push(route);

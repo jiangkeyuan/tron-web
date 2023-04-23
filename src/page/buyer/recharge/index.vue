@@ -6,39 +6,39 @@
           <el-tab-pane label="DAPP" name="first">
             <div class="recharge-content">
               <div class="recharge-content" v-if="store.state.userInfo?.userInfo?.walletAddress">
-                <el-input placeholder="请输入充值TRX币额" v-model="rechargeAmount" size="large" class="recharge-content-input">
+                <el-input :placeholder="$t('MANAGE-006')" v-model="rechargeAmount" size="large" class="recharge-content-input">
                   <template #append>TRX</template>
                 </el-input>
-                <el-button @click="addMoney" type="primary" class="recharge-content-button">充 值</el-button>
-                <span class="recharge-content-text">充值实时到账,用不完的余额也可随时提取</span>
+                <el-button @click="addMoney" type="primary" class="recharge-content-button">{{ $t('MANAGE-005')}}</el-button>
+                <span class="recharge-content-text">{{ $t('MANAGE-007')}}</span>
               </div>
               <div v-else>
                 <div v-if="isConnectedWallet()">
                   <div class="recharge-content">
                     <el-input :value="walletAddress()" disabled size="large" class="recharge-content-input" />
                     <el-button @click="() => bindWalletHandle()" type="primary" class="recharge-content-button">
-                      绑 定</el-button>
-                    <span class="recharge-content-text">绑定钱包地址</span>
+                      {{ $t('MANAGE-034') }}</el-button>
+                    <span class="recharge-content-text">{{ $t('MANAGE-035') }}</span>
                   </div>
                 </div>
                 <div v-else>
                   <div class="tron-link-btn">
-                    <img class="tron-link-logo" src="@/assets/login/tron-link-logo.svg" width="80" alt="图片加载失败">
-                    <span>波场钱包</span>
+                    <img class="tron-link-logo" src="@/assets/login/tron-link-logo.svg" width="80" :alt="$t('MANAGE-036')">
+                    <span>{{ $t('MANAGE-037') }}</span>
                   </div>
 
-                  <div class="tips" data-v-045b4c20="">1、还没有钱包？</div>
+                  <div class="tips" data-v-045b4c20="">{{ $t('MANAGE-038') }}</div>
                   <div class="download tips" data-v-045b4c20=""><a target="_blank"
                       href="https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec"
-                      data-v-045b4c20="">2、安装TronLink钱包</a></div>
-                  <div class="tips" data-v-045b4c20="">3、一个账户只能绑定一个钱包。一旦一个钱包被绑定,它就不能被解除绑定或与另一个账户绑定</div>
+                      data-v-045b4c20="">{{ $t('MANAGE-039') }}</a></div>
+                  <div class="tips" data-v-045b4c20="">{{ $t('MANAGE-040') }}</div>
                 </div>
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="转账充值" name="second">
+          <el-tab-pane :label="$t('MANAGE-008')" name="second">
             <div class="recharge-content">
-              <span>平台钱包地址(转账充值大概在2分钟内到账)</span>
+              <span>{{ $t('MANAGE-009') }}</span>
               <div class="recharge-content-address">
                 <span>{{ rechargeTransferAdress }}</span>
                 <el-icon @click="copyEnd" class="recharge-content-address-icon" color="#c53027">
@@ -48,20 +48,20 @@
               <div class="recharge-content-two-text">
                 <span>*</span>
                 <span class="recharge-content-two-text-child">
-                  请使用波场浏览器或手机钱包进行转账</span>
+                  {{ $t('MANAGE-010') }}</span>
               </div>
               <div class="recharge-content-two-text">
                 <span>*</span>
                 <span class="recharge-content-two-text-child">
-                  请核对钱包地址后再转账,若转账后没查到充值金额,可联系客服找回</span>
+                  {{ $t('MANAGE-011') }}</span>
               </div>
               <div class="recharge-content-two-text">
                 <span>*</span>
-                <span> 必须使用账号绑定的钱包地址转账充值才可以正常入账</span>
+                <span> {{ $t('MANAGE-012') }}</span>
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="充值记录" name="three">
+          <el-tab-pane :label="$t('MANAGE-013')" name="three">
             <RechareLog ref="rechareRef"></RechareLog>
           </el-tab-pane>
         </el-tabs>
@@ -77,6 +77,8 @@ import { isConnectedWallet, walletAddress, tronErrorList } from '@/utils/utils/t
 import { dappRecharge, bindWallets, getPlatformRechargeAddress,getPlatformDappRechargeAddress } from '@/utils/axios/buyer/index';
 import { ElMessage } from "element-plus";
 import RechareLog from '../recharge-log/index.vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const router = useRouter();
 const activeName = ref("first");
 const rechargeAmount = ref("");
@@ -100,7 +102,7 @@ const bindWalletHandle = async () => {
   })
   fullscreenLoading.value = false;
   if (data.code === 12000) {
-    ElMessage.success('绑定成功')
+    ElMessage.success(t('BindingSuccessful'))
     store.dispatch('getUserInfoAction')
   } else {
     ElMessage.error(data.msg);
@@ -122,7 +124,7 @@ const addMoney = async () => {
   };
   if (walletAddress() !== store.state.userInfo?.userInfo?.walletAddress) {
     fullscreenLoading.value = false;
-    ElMessage.error('钱包地址与绑定地址不匹配，请使用绑定的钱包充值')
+    ElMessage.error(t('MANAGE-041'))
     return;
   }
   try {
@@ -176,7 +178,7 @@ const copyEnd = () => {
   copy({
     msg: rechargeTransferAdress.value,
     callback: () => {
-      ElMessage.success("复制成功");
+      ElMessage.success(t('MANAGE-042'));
     },
   });
 };

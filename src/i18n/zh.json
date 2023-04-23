@@ -32,5 +32,20 @@
   "Announcement": "平台公告",
   "FAQ": "常见问题",
   "Business": "商务合作",
-  "Login": "登录/注册"
+  "Login": "登录/注册",
+  "SetUp": "设置",
+  "OperateSuccess": "操作成功",
+  "DeletedSuccess": "删除成功",
+  "AddSuccess": "添加成功",
+  "EditSuccess": "修改成功",
+  "resetting": "重置",
+  "Query": "查询",
+  "MoreActions": "更多操作",
+  "NoData": "暂无数据",
+  "BindingSuccessful": "绑定成功",
+  "Cancel": "取消",
+  "Edit": "编辑",
+  "Delete": "删除",
+  "OK": "好的",
+  "ReplicatingSuccess": "复制成功"
 }

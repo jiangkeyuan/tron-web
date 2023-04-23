@@ -4,10 +4,10 @@
       <div class="today-wrap">
         <div class="histogram"></div>
         <div class="today-wrap-right">
-          <h5>今日租用</h5>
+          <h5>{{ $t("MANAGE-001") }}</h5>
           <div class="today-wrap-right-num">
             {{ buyerObj.todayRentalEnergy || 0 }}
-            <span class="today-wrap-right-text">能量</span>
+            <span class="today-wrap-right-text">{{ $t("MANAGE-003") }}</span>
           </div>
         </div>
       </div>
@@ -15,37 +15,37 @@
       <div class="today-wrap">
         <div class="histogram"></div>
         <div class="today-wrap-right">
-          <h5>昨日租用</h5>
+          <h5>{{ $t("MANAGE-002") }}</h5>
           <div class="today-wrap-right-num">
             {{ buyerObj.yesterRentalEenrgy || 0 }}
-            <span class="today-wrap-right-text">能量</span>
+            <span class="today-wrap-right-text">{{ $t("MANAGE-003") }}</span>
           </div>
         </div>
       </div>
     </div>
     <div class="dashbord-top-right">
       <div class="dashbord-top-right-content">
-        <h5 class="dashbord-top-right-content-top">账号可租量</h5>
+        <h5 class="dashbord-top-right-content-top">{{ $t("MANAGE-004") }}</h5>
         <div class="dashbord-top-right-content-num-kk">
           <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy?.toLocaleString() || 0 }}</span>
-          能量
+          {{ $t("MANAGE-003") }}
         </div>
         <div class="dashbord-top-right-content-button" @click="router.push('/console/buyer/recharge')">
-          充值
+          {{ $t("MANAGE-005") }}
         </div>
       </div>
       <div class="divide-lines"></div>
       <div class="dashbord-top-right-content">
-        <h5 class="dashbord-top-right-content-top">API密钥</h5>
+        <h5 class="dashbord-top-right-content-top">{{ $t("MANAGE-033") }}</h5>
         <div class="dashbord-top-right-content-num-kk apikeys">
           <div>
             <span class="dashbord-top-right-content-num">{{ buyerObj.apiKeyCount || 0 }}</span>
             /3
           </div>
-          <div @click="gotoApiKeys">设置</div>
+          <div @click="gotoApiKeys">{{ $t("SetUp") }}</div>
         </div>
         <div class="dashbord-top-right-content-button" @click="creatAPI">
-          创建KEY
+          {{ $t("MANAGE-018") }}
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
       <div id="echarts" class="dashbord-bottom-left-content"></div>
     </div>
     <div class="dashbord-bottom-right">
-      <div class="dashbord-bottom-right-title">帮助文档</div>
+      <div class="dashbord-bottom-right-title">{{ $t("MANAGE-020") }}</div>
       <div class="dashbord-bottom-right-value">
         <HelpItems></HelpItems>
       </div>
@@ -67,6 +67,8 @@ import * as echarts from "echarts";
 import { useRouter } from "vue-router";
 import { createAPIKEY } from "@/utils/utils/utils-ui.js";
 import { bunyerIndex } from '@/utils/axios/buyer/index';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const router = useRouter();
 const buyerObj = reactive({});
 
@@ -127,7 +129,7 @@ onMounted(async () => {
         }
         var arr = [
           "{a|" + name + "}",
-          "{b|" + rentalEnergy + "能量}",
+          "{b|" + rentalEnergy + t('LOGIN-041') + "}",
           "{c|" + usedTrx + " TRX}",
         ];
         return arr.join("  ");

@@ -1,0 +1,16 @@
+{
+   
+    "RECHARGE-001": "Please enter the recharge TRX currency amount",
+    "RECHARGE-002": "Recharge in real-time, and any unused balance can be withdrawn at any time",
+    "RECHARGE-003": "Transfer recharge",
+    "RECHARGE-004": "Platform wallet address (transfer and recharge will arrive in approximately 2 minutes)",
+    "RECHARGE-005": "Please use Wave Field Browser or Mobile Wallet to transfer funds",
+    "RECHARGE-006": "Please check the wallet address before transferring. If the recharge amount is not found after the transfer, please contact customer service to retrieve it",
+    "RECHARGE-007": "You must use the wallet address bound to your account to transfer and recharge in order to be credited normally",
+    "RECHARGE-008": "Recharge Record",
+    "RECHARGE-009": "Recharge amount",
+    "RECHARGE-010": "Entry amount",
+    "RECHARGE-011": "Order Status",
+    "RECHARGE-012": "Transaction Hash",
+    "RECHARGE-013": "Create KEY"
+}

@@ -1,16 +1,16 @@
 <template>
   <div class="api-key">
-    <el-button class="api-key-button" type="primary" v-if="apiList.length !== 0" @click="createApi">创建API密钥</el-button>
+    <el-button class="api-key-button" type="primary" v-if="apiList.length !== 0" @click="createApi">{{$t('KEY-003')}}</el-button>
 
     <div class="api-key-content" v-if="apiList.length === 0">
       <DashBord>
         <div class="api-key-content-header">
           <div class="api-key-content-header-left">
-            <span class="api-key-content-header-left-title">API密钥(0/3)</span>
+            <span class="api-key-content-header-left-title">{{$t('KEY-013')}}(0/3)</span>
           </div>
           <div class="api-key-content-header-left">
-            <span class="api-key-content-header-left-title api-key-content-header-left-title-color">如何使用API?</span>
-            <el-button class="api-key-button" type="primary" @click="createApi">创建API密钥</el-button>
+            <span class="api-key-content-header-left-title api-key-content-header-left-title-color">{{$t('KEY-014')}}</span>
+            <el-button class="api-key-button" type="primary" @click="createApi">{{$t('KEY-003')}}</el-button>
           </div>
         </div>
 
@@ -28,13 +28,13 @@
       </DashBord>
     </div>
 
-    <div class="api-key-content" v-for="item in apiList">
+    <div class="api-key-content" v-for="item in apiList" :key="item.index">
       <DashBord>
         <div class="api-key-content-header">
           <div class="api-key-content-header-left">
             <span class="api-key-content-header-left-title">{{ item.keyName }}</span>
-            <span class="api-key-content-header-left-edit" @click="() => edit(item)">编辑 </span>
-            <span class="api-key-content-header-left-edit" @click="() => deleteApikey(item)"> 删除</span>
+            <span class="api-key-content-header-left-edit" @click="() => edit(item)">{{$t('Edit')}} </span>
+            <span class="api-key-content-header-left-edit" @click="() => deleteApikey(item)"> {{$t('Delete')}}</span>
           </div>
           <div class="api-key-content-header-left">
             <span class="api-key-content-header-left-title api-key-content-header-left-title-color">{{ item.apiKey
@@ -47,15 +47,15 @@
 
         <div class="api-key-content-header-body">
           <div class="api-key-content-header-body-item">
-            <span class="api-key-content-header-body-item-key">今日租用:</span>
-            <span class="api-key-content-header-body-item-value">{{ item.rentalEnergy || 0 }} 能量 / 消耗 {{ item.usedAmount
+            <span class="api-key-content-header-body-item-key">{{$t('KEY-001')}}:</span>
+            <span class="api-key-content-header-body-item-value">{{ item.rentalEnergy || 0 }} {{$t('KEY-015')}} {{ item.usedAmount
               || 0 }}
               TRX</span>
           </div>
 
           <div class="api-key-content-header-body-item">
-            <span class="api-key-content-header-body-item-key">昨日租用:</span>
-            <span class="api-key-content-header-body-item-value">{{ item.billingEnergy || 0 }} 能量 / 消耗 {{
+            <span class="api-key-content-header-body-item-key">{{$t('KEY-002')}}:</span>
+            <span class="api-key-content-header-body-item-value">{{ item.billingEnergy || 0 }} {{$t('KEY-015')}} {{
               item.sbillingAmount || 0 }}
               TRX</span>
           </div>
@@ -72,24 +72,26 @@ import { createAPIKEY } from "@/utils/utils/utils-ui.js";
 import { getApiList, addApiList, updateApiList, delApiList } from '@/utils/axios/buyer/index.js'
 import { onMounted } from "vue";
 import { ElMessage } from "element-plus";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const apiList = ref([]);
 
 const copyEnd = (msg) => {
   copy({
     msg,
     callback: () => {
-      ElMessage.success("复制成功");
+      ElMessage.success(t('ReplicatingSuccess'));
     },
   });
 };
 
 const deleteApikey = (item) => {
   ElMessageBox.confirm(
-    '是否删除当前的API KEY',
-    '警告',
+    t('KEY-006'),
+    t('KEY-005'),
     {
-      confirmButtonText: '好的',
-      cancelButtonText: '取消',
+      confirmButtonText: t('OK'),
+      cancelButtonText: t('Cancel'),
       type: 'warning',
     }
   )
@@ -99,7 +101,7 @@ const deleteApikey = (item) => {
         searchApi();
         ElMessage({
           type: 'success',
-          message: '删除成功',
+          message: t('DeletedSuccess'),
         })
       } else {
         ElMessage({
@@ -112,10 +114,10 @@ const deleteApikey = (item) => {
 }
 
 const edit = (item) => {
-  ElMessageBox.prompt("", "请输入Key的名称，以便区分统计", {
-    confirmButtonText: "确定",
+  ElMessageBox.prompt("", t('KEY-009'), {
+    confirmButtonText: t('KEY-010'),
     inputErrorMessage: "Invalid Email",
-    inputPlaceholder: "请输入内容",
+    inputPlaceholder: t('KEY-016'),
     showCancelButton: false,
     inputValue: item.keyName,
     beforeClose: async (a, b, done) => {
@@ -138,7 +140,7 @@ const edit = (item) => {
 
 const createApi = () => {
   if (apiList.value.length >= 3) {
-    ElMessage.error('API KEYS最多只能三条')
+    ElMessage.error(t('KEY-004'))
     return;
   }
   createAPIKEY(() => {

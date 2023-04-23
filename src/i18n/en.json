@@ -33,5 +33,17 @@
   "Announcement": "Announcement",
   "FAQ": "FAQ",
   "Business": "Business",
-  "Login": "Login"
+  "Login": "Login",
+  "SetUp": "SetUp",
+  "OperateSuccess": "Operation successful",
+  "DeletedSuccess": "Successfully deleted",
+  "AddSuccess": "Add Success",
+  "EditSuccess": "Edit Success",
+  "resetting": "resetting",
+  "Query": "Query",
+  "MoreActions": "More Actions",
+  "NoData": "no data",
+  "BindingSuccessful": "Binding successful",
+  "Cancel": "Cancel",
+  "OK": "OK"
 }

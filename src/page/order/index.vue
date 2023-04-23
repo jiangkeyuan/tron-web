@@ -256,6 +256,7 @@
 import { filterDate, filterHours } from '@/utils/utils/date.js'
 import { getOrderCenter, exportOrder } from '@/utils/axios/order/index.js'
 import { ElMessage } from 'element-plus'
+import { getParamsNew } from '@/utils/utils/index.js';
 const tableData = ref([])
 const form = reactive({})
 const ruleFormRef = ref()
@@ -334,6 +335,12 @@ const seach = async () => {
   } else {
     forms.date = []
   }
+
+  const orderstatus = getParamsNew('orderstatus');
+  if(orderstatus !== null){
+    forms.orderStatus = orderstatus;
+  }
+
   const data = await getOrderCenter({ ...forms })
   if (data.code === 12000) {
     tableData.value = data.data.data

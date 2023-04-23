@@ -191,6 +191,7 @@ onMounted(() => {
   font-size: 14px;
   color: #c53027;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .recharge-content-address-icon {

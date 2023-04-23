@@ -122,8 +122,11 @@
       <div class="statistics-root">
         <div class="item" v-for="item in order" :key="item.index">
           <div class="flex">
-            <div class="item-tltle">
-              {{ filterOrderstatus(item.orderstatus) }} {{ $t('STATISTICS-016') }}
+            <div class="item-tltle item-tltle-goto">
+              <span>
+                {{ filterOrderstatus(item.orderstatus) }} {{ $t('STATISTICS-016') }}
+              </span>
+              <el-link :href="`#/console/order?orderstatus=${item.orderstatus}`" type="primary">查看详情</el-link>
             </div>
             <div class="font icon-question">
               <Tips :content="`${$t('STATISTICS-002')}=${$t('STATISTICS-003')}+${$t('STATISTICS-004')}`"></Tips>
@@ -310,6 +313,13 @@ getData();
       color: #121c41;
     }
   }
+}
+
+.item-tltle-goto{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .flex {

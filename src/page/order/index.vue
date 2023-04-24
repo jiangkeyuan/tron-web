@@ -13,7 +13,7 @@
         <el-input v-model="forms.toAddress" />
       </el-form-item>
       <el-form-item label="时间" prop="date">
-        <el-date-picker v-model="forms.date" type="daterange" start-placeholder="开始时间" end-placeholder="结束时间" />
+        <el-date-picker type="datetimerange" v-model="forms.date" start-placeholder="开始时间" end-placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
         <el-button @click="reset">重置</el-button>
@@ -69,7 +69,7 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination @current-change="currentChange" layout="prev, pager, next" v-model:current-page="form.pageIndex"
+      <el-pagination @current-change="currentChange" layout="prev, pager, next, jumper" v-model:current-page="form.pageIndex"
         v-model:page-size="form.pageSize" :total="forms.totalCount" />
     </div>
   </el-card>
@@ -278,11 +278,18 @@ const seach = async () => {
   if (orderstatus !== null && reset != 1) {
     forms.orderStatus = orderstatus;
     const now = new Date();
-    const iso8601String = now.toISOString();
-    const yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000)).toISOString();
-    forms.date = [yesterday, iso8601String];
-    forms.starTime = yesterday;
-    forms.endTime = iso8601String
+    // 设置时间为当天的开始（即00:00:00.000）
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // 设置时间为当天的结束（即23:59:59.999）
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+    // 转换成 ISO 8601 格式
+    const isoStartOfDay = startOfDay.toISOString();
+    const isoEndOfDay = endOfDay.toISOString();
+    forms.date = [isoStartOfDay, isoEndOfDay];
+    forms.starTime = isoStartOfDay;
+    forms.endTime = isoEndOfDay
   }
 
   const data = await getOrderCenter({ ...forms })

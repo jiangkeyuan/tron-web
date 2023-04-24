@@ -129,7 +129,7 @@
                   </el-table-column>
                 </el-table>
                 <div class="ctc-pagination">
-                  <el-pagination layout="prev, pager, next" v-model:current-page="form.pageIndex"
+                  <el-pagination layout="prev, pager, next, jumper" v-model:current-page="form.pageIndex"
                     v-model:page-size="form.pageSize" hide-on-single-page :total="totalCount"
                     @current-change="currentChange" />
                 </div>

@@ -16,7 +16,7 @@
       </el-table-column>
     </el-table>
     <div class="recharge-log-pagination">
-      <el-pagination layout="prev, pager, next" v-model:current-page='form.pageIndex' v-model:page-size="form.pageSize"
+      <el-pagination layout="prev, pager, next, jumper" v-model:current-page='form.pageIndex' v-model:page-size="form.pageSize"
         :total="form.totalCount" @current-change="search" />
     </div>
   </div>

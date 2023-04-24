@@ -18,52 +18,29 @@
         <el-input v-model="forms.walletAddress" />
       </el-form-item>
       <el-form-item :label="$t('USRER-003')" prop="date">
-        <el-date-picker
-          v-model="forms.date"
-          type="daterange"
-          :start-placeholder="$t('USRER-003')"
-          :end-placeholder="$t('USRER-004')"
-        />
+        <el-date-picker v-model="forms.date" type="daterange" :start-placeholder="$t('USRER-003')"
+          :end-placeholder="$t('USRER-004')" />
       </el-form-item>
       <el-form-item>
         <el-button @click="reset">{{ $t('USRER-020') }}</el-button>
-        <el-button type="primary" color="#c53027" @click="seach"
-          >{{ $t('USRER-021') }}</el-button
-        >
+        <el-button type="primary" color="#c53027" @click="seach">{{ $t('USRER-021') }}</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" @sort-change="sortChange">
       <el-table-column prop="email" label="email" />
       <el-table-column prop="walletAddress" :label="$t('USRER-002')">
         <template #default="{ row }">
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            :content="row.walletAddress"
-            placement="top"
-          >
-            <div class="text-ellipsis">{{ row.walletAddress?.replace( /^(\w{4})\w+(\w{4})$/, "$1****$2") }}</div>
+          <el-tooltip class="box-item" effect="dark" :content="row.walletAddress" placement="top">
+            <div class="text-ellipsis">{{ row.walletAddress?.replace(/^(\w{4})\w+(\w{4})$/, "$1****$2") }}</div>
           </el-tooltip>
-          
+
         </template>
       </el-table-column>
-      <el-table-column
-        prop="createDate"
-        sortable="custom"
-        :label="$t('USRER-022')"
-        :formatter="row => filterDate(row.createDate)"
-      />
+      <el-table-column prop="createDate" sortable="custom" :label="$t('USRER-022')"
+        :formatter="row => filterDate(row.createDate)" />
       <el-table-column prop="availableBalance" :label="$t('USRER-006')" />
-      <el-table-column
-        prop="state"
-        :label="$t('USRER-007')"
-        :formatter="row => filterState(row.state)"
-      />
-      <el-table-column
-        prop="roles"
-        :label="$t('USRER-008')"
-        :formatter="row => filterRoles(row.roles)"
-      />
+      <el-table-column prop="state" :label="$t('USRER-007')" :formatter="row => filterState(row.state)" />
+      <el-table-column prop="roles" :label="$t('USRER-008')" :formatter="row => filterRoles(row.roles)" />
       <el-table-column prop="settlementRatio" :label="$t('USRER-009')">
         <template #default="{ row }">
           <div>{{ row.settlementRatio }}%</div>
@@ -76,12 +53,8 @@
       </el-table-column>
       <el-table-column :label="$t('USRER-011')">
         <template #default="scope">
-          <el-button
-            type="primary"
-            link
-            @click="() => change(scope)"
-            v-if="scope.row.roles?.includes('BUYER') || scope.row.permissionId"
-          >
+          <el-button type="primary" link @click="() => change(scope)"
+            v-if="scope.row.roles?.includes('BUYER') || scope.row.permissionId">
             {{ $t('USRER-023') }}
           </el-button>
           <!-- <el-button type="primary" link @click="() => deleteList(scope)">
@@ -91,66 +64,28 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination
-        @current-change="currentChange"
-        layout="prev, pager, next"
-        v-model:current-page="form.pageIndex"
-        v-model:page-size="form.pageSize"
-        :total="forms.totalCount"
-      />
+      <el-pagination @current-change="currentChange" layout="prev, pager, next, jumper"
+        v-model:current-page="form.pageIndex" v-model:page-size="form.pageSize" :total="forms.totalCount" />
     </div>
   </el-card>
 
-  <el-dialog
-    v-model="dialogFormVisible"
-    :title="$t('USRER-023')"
-    append-to-body
-    destroy-on-close
-  >
-    <el-form
-      :model="form"
-      label-position="right"
-      label-width="100"
-      ref="ruleFormRef"
-      :rules="rules"
-    >
+  <el-dialog v-model="dialogFormVisible" :title="$t('USRER-023')" append-to-body destroy-on-close>
+    <el-form :model="form" label-position="right" label-width="100" ref="ruleFormRef" :rules="rules">
       <el-form-item label="email:" prop="email" v-if="form.email">
-        <el-input
-          v-model="form.email"
-          autocomplete="off"
-          disabled
-          placeholder=""
-        />
+        <el-input v-model="form.email" autocomplete="off" disabled placeholder="" />
       </el-form-item>
       <el-form-item :label="`${$t('USRER-002')}:`" prop="email" v-else>
-        <el-input
-          v-model="form.walletAddress"
-          autocomplete="off"
-          disabled
-          placeholder=""
-        />
+        <el-input v-model="form.walletAddress" autocomplete="off" disabled placeholder="" />
       </el-form-item>
       <el-form-item :label="`${$t('USRER-009')}:`" prop="settlementRatio">
-        <el-input
-          v-model="form.settlementRatio"
-          autocomplete="off"
-          placeholder="0~100"
-          oninput="if(value > 100) value = 100; if(value < 0 || value == null) value = '';"
-          :maxlength="3"
-          :minlength="1"
-        >
+        <el-input v-model="form.settlementRatio" autocomplete="off" placeholder="0~100"
+          oninput="if(value > 100) value = 100; if(value < 0 || value == null) value = '';" :maxlength="3" :minlength="1">
           <template #append>%</template>
         </el-input>
       </el-form-item>
       <el-form-item :label="`${$t('USRER-010')}:`" prop="commissionRatio">
-        <el-input
-          v-model="form.commissionRatio"
-          autocomplete="off"
-          placeholder="0~100"
-          oninput="if(value > 100) value = 100; if(value < 0 || value == null) value = '';"
-          :maxlength="3"
-          :minlength="1"
-        >
+        <el-input v-model="form.commissionRatio" autocomplete="off" placeholder="0~100"
+          oninput="if(value > 100) value = 100; if(value < 0 || value == null) value = '';" :maxlength="3" :minlength="1">
           <template #append>%</template>
         </el-input>
       </el-form-item>

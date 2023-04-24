@@ -26,17 +26,22 @@
       <el-radio-button label="UNAVAILABLE">{{ $t('RENT-009') }}</el-radio-button>
     </el-radio-group>
 
-    <el-table :data="tableData" stripe class="sale-record-table-list" v-loading="fullscreenLoading" :empty-text="$t('NoData')">
+    <el-table :data="tableData" stripe class="sale-record-table-list" v-loading="fullscreenLoading"
+      :empty-text="$t('NoData')">
       <el-table-column prop="orderNo" :label="$t('RENT-001')" width="220" />
       <el-table-column prop="toAddress" :label="$t('RENT-002')" width="180" />
       <el-table-column prop="rentalQuantity" :label="$t('RENT-010')" width="120" />
       <el-table-column prop="doneRentalQuantity" :label="$t('RENT-011')" width="220" />
-      <el-table-column prop="rentalHours" :label="$t('RENT-012')" width="120" :formatter="(row) => filterHours(row.rentalHours)" />
+      <el-table-column prop="rentalHours" :label="$t('RENT-012')" width="140"
+        :formatter="(row) => filterHours(row.rentalHours)" />
       <el-table-column prop="payDate" :label="$t('RENT-013')" width="180" :formatter="(row) => filterDate(row.payDate)" />
-      <el-table-column prop="delegateDate" :label="$t('RENT-018')" width="180" :formatter="(row) => filterDate(row.delegateDate)" />
-      <el-table-column prop="expiredDate" :label="$t('RENT-019')" width="180" :formatter="(row) => filterDate(row.expiredDate)" />
+      <el-table-column prop="delegateDate" :label="$t('RENT-018')" width="180"
+        :formatter="(row) => filterDate(row.delegateDate)" />
+      <el-table-column prop="expiredDate" :label="$t('RENT-019')" width="180"
+        :formatter="(row) => filterDate(row.expiredDate)" />
       <el-table-column prop="payAmount" :label="$t('RENT-020')" width="200" />
-      <el-table-column prop="orderStatus" :label="$t('RENT-021')" width="120" :formatter="(row) => filterStatus(row.orderStatus)" />
+      <el-table-column prop="orderStatus" :label="$t('RENT-021')" width="120"
+        :formatter="(row) => filterStatus(row.orderStatus)" />
       <el-table-column prop="date" :label="$t('RENT-014')" width="220" fixed="right">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="details(scope)">{{ $t('RENT-022') }}</el-button>
@@ -49,26 +54,28 @@
     </el-table>
     <div class="sale-record-table-pagination">
       <el-pagination v-model:current-page='form.pageIndex' @current-change="() => currentChange()"
-        v-model:page-size="form.pageSize" layout="prev, pager, next" :total="form.totalCount" />
+        v-model:page-size="form.pageSize" layout="prev, pager, next, jumper" :total="form.totalCount" />
     </div>
 
     <el-dialog v-model="dialogTableVisible" append-to-body center :title="`${$t('RENT-001')}:${detailsValue.orderNo}`">
       <div class="custom-modal-centent">
         <div class="modal-content">
           <div class="detail">
-            <div>{{$t('RENT-024')}}:<span class="text">{{ store.state.userInfo?.userInfo?.email }}</span></div>
+            <div>{{ $t('RENT-024') }}:<span class="text">{{ store.state.userInfo?.userInfo?.email }}</span></div>
             <div>
-              {{$t('RENT-025')}}:
+              {{ $t('RENT-025') }}:
               <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
                 store.state.userInfo?.userInfo?.walletAddress }}</a>
             </div>
             <div>
-              <div>TRX{{$t('RENT-026')}}：<span class="text">{{ store.state.userInfo?.userInfo?.availableBalance }}</span></div>
+              <div>TRX{{ $t('RENT-026') }}：<span class="text">{{ store.state.userInfo?.userInfo?.availableBalance
+              }}</span>
+              </div>
             </div>
           </div>
           <div class="detail">
             <div>
-              {{$t('RENT-027')}}:
+              {{ $t('RENT-027') }}:
               <span class="text" style="padding: 0px 5px">{{ detailsValue.transactionHash || '-' }}</span>
             </div>
             <div>
@@ -76,38 +83,38 @@
               <span class="text" style="padding: 0px 5px">{{ detailsValue.apiKey || '-' }}</span>
             </div>
             <div>
-              {{$t('RENT-028')}}:
+              {{ $t('RENT-028') }}:
               <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
                 detailsValue.toAddress }}</a>
             </div>
             <div>
-              {{$t('RENT-029')}}:<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
+              {{ $t('RENT-029') }}:<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
                 <use xlink:href="#icon-seller-selling-energy"></use>
               </svg><span class="text">{{ detailsValue.rentalQuantity }}</span>
             </div>
             <div>
-              {{$t('RENT-030')}}:<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
+              {{ $t('RENT-030') }}:<svg class="vben-svg-icon" aria-hidden="true" style="width: 16px; height: 16px">
                 <use xlink:href="#icon-seller-selling-energy"></use>
               </svg><span class="text">{{ detailsValue.doneRentalQuantity }}</span>
             </div>
             <div>
-              {{$t('RENT-031')}}:<span class="text">{{ filterHours(detailsValue.rentalHours) }}</span>
+              {{ $t('RENT-031') }}:<span class="text">{{ filterHours(detailsValue.rentalHours) }}</span>
             </div>
-            <div>{{$t('RENT-020')}}: <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
+            <div>{{ $t('RENT-020') }}: <span class="text">{{ detailsValue.payAmount }} TRX</span></div>
             <div>
-              {{$t('RENT-036')}}：
+              {{ $t('RENT-036') }}：
               <span class="text">{{ filterDate(detailsValue.payDate) }}</span>
             </div>
             <div>
-              {{$t('RENT-018')}}:
+              {{ $t('RENT-018') }}:
               <span class="text">{{ filterDate(detailsValue.stakeDate) }}</span>
             </div>
             <div>
-              {{$t('RENT-019')}}:
+              {{ $t('RENT-019') }}:
               <span class="text">{{ filterDate(detailsValue.expiredDate) }}</span>
             </div>
             <div class="flex">
-              <span>{{$t('RENT-021')}}:</span>
+              <span>{{ $t('RENT-021') }}:</span>
               <div style="
                     display: inline-block;
                     width: fit-content;

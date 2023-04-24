@@ -33,7 +33,7 @@
         </el-table-column>
       </el-table>
       <div class="sale-record-table-pagination">
-        <el-pagination layout="prev, pager, next" v-model:current-page='form.pageIndex' v-model:page-size="form.pageSize"
+        <el-pagination layout="prev, pager, next, jumper" v-model:current-page='form.pageIndex' v-model:page-size="form.pageSize"
           :total="form.totalCount" @current-change="() => search()" />
       </div>
     </div>

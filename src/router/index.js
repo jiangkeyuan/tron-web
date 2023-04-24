@@ -95,6 +95,21 @@ const routes = [
           helper: () => import("../page/order/index.vue"),
           default: () => import("../page/order/index.vue"),
         },
+      },
+      {
+        path: "withdraw",
+        beforeEnter: (to, from, next) => {
+          console.log(from.path);
+          if (store.state?.roles?.roles?.includes("ADMIN")) {
+            next();
+          } else {
+            next(from.path);
+          }
+        },
+        components: {
+          helper: () => import("../page/withdraw/index.vue"),
+          default: () => import("../page/withdraw/index.vue"),
+        },
       },        
       {
         path: "user",

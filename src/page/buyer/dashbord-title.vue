@@ -7,7 +7,7 @@
         {{ rightTitleFunc() }}
       </span>
       <span class="home-right-wrapper-header-r" v-else>
-        {{ $t('buyer-004')  }}
+        {{ $t('buyer-006')  }}
       </span>
     </div>
 
@@ -169,6 +169,9 @@ const rightTitleFunc = () => {
   },{
     router: '/common/fund-change',
     name: t("FundDetails")
+  },{
+    router: '/console/withdraw',
+    name: t("buyer-005")
   }]
 
   adminRouter.map(v => {

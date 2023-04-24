@@ -2,5 +2,7 @@
     "buyer-001":"Password",
     "buyer-002":"User Info",
     "buyer-003":"Sign out",
-    "buyer-004":"Balance"
+    "buyer-004":"Balance",
+    "buyer-005":"Withdrawal Audit",
+    "buyer-006":"Other"
 }

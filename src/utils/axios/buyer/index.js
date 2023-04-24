@@ -74,6 +74,11 @@ export const cancelOrder = async (params) => {
   return await service.post("/buyer/order/cancel",params);
 };
 
+export const getWithdrawList = async (params) => {
+  return await service.post("/admin/withdrawCoinsAuditing",params);
+};
+
+
 
 
 

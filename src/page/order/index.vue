@@ -13,29 +13,17 @@
         <el-input v-model="forms.toAddress" />
       </el-form-item>
       <el-form-item label="时间" prop="date">
-        <el-date-picker
-          v-model="forms.date"
-          type="daterange"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-        />
+        <el-date-picker v-model="forms.date" type="daterange" start-placeholder="开始时间" end-placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
         <el-button @click="reset">重置</el-button>
-        <el-button type="primary" color="#c53027" @click="seach"
-          >查询</el-button
-        >
-        <el-button type="primary" color="#c53027" @click="exportExcel"
-          >导出excel</el-button
-        >
+        <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
+        <el-button type="primary" color="#c53027" :disabled="tableData.length === 0"
+          @click="exportExcel">导出excel</el-button>
       </el-form-item>
     </el-form>
 
-    <el-radio-group
-      v-model="forms.orderStatus"
-      class="sale-record-group"
-      @change="seach"
-    >
+    <el-radio-group v-model="forms.orderStatus" class="sale-record-group" @change="radioGroupClick">
       <el-radio-button label="">全部</el-radio-button>
       <el-radio-button label="WAIT_DELEGATE">待代理</el-radio-button>
       <el-radio-button label="DELEGATEING">代理中</el-radio-button>
@@ -43,73 +31,35 @@
       <el-radio-button label="DONE">已完成</el-radio-button>
       <el-radio-button label="UNAVAILABLE">未生效</el-radio-button>
     </el-radio-group>
-    <el-table :data="tableData" style="width: 100%" @sort-change="sortChange">
+    <el-table :data="tableData" style="width: 100%" @sort-change="sortChange" :empty-text="$t('NoData')">
       <el-table-column prop="orderNo" label="订单号" />
       <el-table-column prop="toAddress" label="地址" width="200">
         <template #default="scope">
           <div class="text-overflow">
             <span>代理：</span>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              :content="scope.row.fromAddress"
-              placement="top"
-            >
-              <el-link
-                :href="`https://tronscan.org/#/address/${scope.row.fromAddress}`"
-                target="_blank"
-                type="primary"
-                >{{ formatAddr(scope.row.fromAddress) }}</el-link
-              >
+            <el-tooltip class="box-item" effect="dark" :content="scope.row.fromAddress" placement="top">
+              <el-link :href="`https://tronscan.org/#/address/${scope.row.fromAddress}`" target="_blank" type="primary">{{
+                formatAddr(scope.row.fromAddress) }}</el-link>
             </el-tooltip>
           </div>
           <div class="text-overflow">
             <span>接收：</span>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              :content="scope.row.toAddress"
-              placement="top"
-            >
-              <el-link
-                :href="`https://tronscan.org/#/address/${scope.row.toAddress}`"
-                target="_blank"
-                type="primary"
-                >{{ formatAddr(scope.row.toAddress) }}</el-link
-              >
+            <el-tooltip class="box-item" effect="dark" :content="scope.row.toAddress" placement="top">
+              <el-link :href="`https://tronscan.org/#/address/${scope.row.toAddress}`" target="_blank" type="primary">{{
+                formatAddr(scope.row.toAddress) }}</el-link>
             </el-tooltip>
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="rentalQuantity" label="租用量" />
       <!-- <el-table-column prop="doneRentalQuantity" label="已完成租用量" /> -->
-      <el-table-column
-        prop="rentalHours"
-        label="租用时长"
-        :formatter="row => filterHours(row.rentalHours)"
-      />
+      <el-table-column prop="rentalHours" label="租用时长" :formatter="row => filterHours(row.rentalHours)" />
 
       <el-table-column prop="payAmount" label="支付金额" />
-      <el-table-column
-        prop="delegateDate"
-        label="代理时间"
-        :formatter="row => filterDate(row.delegateDate)"
-      />
-      <el-table-column
-        prop="expiredDate"
-        label="到期时间"
-        :formatter="row => filterDate(row.expiredDate)"
-      />
-      <el-table-column
-        prop="orderStatus"
-        label="状态"
-        :formatter="row => filterStatus(row.orderStatus)"
-      />
-      <el-table-column
-        prop="createDate"
-        label="创建时间"
-        :formatter="row => filterDate(row.createDate)"
-      />
+      <el-table-column prop="delegateDate" label="代理时间" :formatter="row => filterDate(row.delegateDate)" />
+      <el-table-column prop="expiredDate" label="到期时间" :formatter="row => filterDate(row.expiredDate)" />
+      <el-table-column prop="orderStatus" label="状态" :formatter="row => filterStatus(row.orderStatus)" />
+      <el-table-column prop="createDate" label="创建时间" :formatter="row => filterDate(row.createDate)" />
       <el-table-column label="操作">
         <template #default="scope">
           <el-button type="primary" link @click="() => details(scope)">
@@ -119,22 +69,12 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination
-        @current-change="currentChange"
-        layout="prev, pager, next"
-        v-model:current-page="form.pageIndex"
-        v-model:page-size="form.pageSize"
-        :total="forms.totalCount"
-      />
+      <el-pagination @current-change="currentChange" layout="prev, pager, next" v-model:current-page="form.pageIndex"
+        v-model:page-size="form.pageSize" :total="forms.totalCount" />
     </div>
   </el-card>
 
-  <el-dialog
-    v-model="dialogFormVisible"
-    title="订单详情"
-    append-to-body
-    destroy-on-close
-  >
+  <el-dialog v-model="dialogFormVisible" title="订单详情" append-to-body destroy-on-close>
     <div class="detail">
       <div>
         订单号：
@@ -144,12 +84,8 @@
       </div>
       <div>
         交易哈希：
-        <a
-          class="jump-a"
-          target="_blank"
-          :href="`https://tronscan.org/#/transaction/${detailsValue.transactionHash}`"
-          >{{ detailsValue.transactionHash || '-' }}</a
-        >
+        <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/transaction/${detailsValue.transactionHash}`">{{
+          detailsValue.transactionHash || '-' }}</a>
       </div>
       <div>
         apiKey：
@@ -159,21 +95,13 @@
       </div>
       <div>
         代理：
-        <a
-          class="jump-a"
-          target="_blank"
-          :href="`https://tronscan.org/#/address/${detailsValue.fromAddress}`"
-          >{{ detailsValue.fromAddress || '-' }}</a
-        >
+        <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.fromAddress}`">{{
+          detailsValue.fromAddress || '-' }}</a>
       </div>
       <div>
         接收：
-        <a
-          class="jump-a"
-          target="_blank"
-          :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`"
-          >{{ detailsValue.toAddress || '-' }}</a
-        >
+        <a class="jump-a" target="_blank" :href="`https://tronscan.org/#/address/${detailsValue.toAddress}`">{{
+          detailsValue.toAddress || '-' }}</a>
       </div>
       <div>
         租用量： <span class="text">{{ detailsValue.rentalQuantity }}</span>
@@ -208,8 +136,7 @@
       </div>
       <div class="flex">
         <span>订单类型：</span>
-        <div
-          style="
+        <div style="
             display: inline-block;
             width: fit-content;
             padding: 1px 7px;
@@ -219,15 +146,13 @@
             border-radius: 3px;
             font-size: 12px;
             color: rgb(191, 191, 191);
-          "
-        >
+          ">
           {{ filterOrderType(detailsValue.orderType) }}
         </div>
       </div>
       <div class="flex">
         <span>状态：</span>
-        <div
-          style="
+        <div style="
             display: inline-block;
             width: fit-content;
             padding: 1px 7px;
@@ -237,8 +162,7 @@
             border-radius: 3px;
             font-size: 12px;
             color: #67C23A;
-          "
-        >
+          ">
           {{ filterStatus(detailsValue.orderStatus) }}
         </div>
       </div>
@@ -256,7 +180,7 @@
 import { filterDate, filterHours } from '@/utils/utils/date.js'
 import { getOrderCenter, exportOrder } from '@/utils/axios/order/index.js'
 import { ElMessage } from 'element-plus'
-import { getParamsNew } from '@/utils/utils/index.js';
+import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js';
 const tableData = ref([])
 const form = reactive({})
 const ruleFormRef = ref()
@@ -280,6 +204,19 @@ const rules = reactive({
 const sortChange = e => {
   forms.order = e.order === 'ascending' ? 'ASC' : 'DESC'
   seach()
+}
+
+const radioGroupClick = () => {
+  seachReset()
+  seach()
+}
+
+const seachReset = () => {
+  var newurl = updateQueryStringParameter(window.location.href, 'reset', '1');
+  //向当前url添加参数，没有历史记录
+  window.history.replaceState({
+    path: newurl
+  }, '', newurl);
 }
 
 const currentChange = val => {
@@ -337,8 +274,15 @@ const seach = async () => {
   }
 
   const orderstatus = getParamsNew('orderstatus');
-  if(orderstatus !== null){
+  const reset = getParamsNew('reset');
+  if (orderstatus !== null && reset != 1) {
     forms.orderStatus = orderstatus;
+    const now = new Date();
+    const iso8601String = now.toISOString();
+    const yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000)).toISOString();
+    forms.date = [yesterday, iso8601String];
+    forms.starTime = yesterday;
+    forms.endTime = iso8601String
   }
 
   const data = await getOrderCenter({ ...forms })
@@ -412,6 +356,7 @@ onMounted(() => {
 .sale-record-search {
   margin-bottom: 30px;
 }
+
 .detail {
   padding: 10px;
   border: 1px dashed transparent;
@@ -422,9 +367,11 @@ onMounted(() => {
 .detail div {
   margin: 0.4em 0;
 }
+
 .sale-record-group {
   margin-bottom: 20px;
 }
+
 .el-form--inline .el-form-item {
   margin-bottom: 18px;
 }

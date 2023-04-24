@@ -8,7 +8,8 @@
       <el-table-column prop="pay_action" :label="$t('MANAGE-017')">
         <template #default="scope">
           <el-tooltip class="box-item" effect="dark" :content="scope.row.transactionHash" placement="bottom">
-            <el-button link type="primary" size="small" @click="() => handleClick(scope)">{{ $t('MANAGE-044') }}</el-button>
+            <el-button link type="primary" size="small" @click="() => handleClick(scope)">{{ $t('MANAGE-044')
+            }}</el-button>
           </el-tooltip>
 
         </template>

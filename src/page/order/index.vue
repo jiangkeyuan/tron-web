@@ -21,6 +21,9 @@
         <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
         <el-button type="primary" color="#c53027" :disabled="tableData.length === 0"
           @click="exportExcel">导出excel</el-button>
+        <el-link
+          :href="`http://api.energy.hashgo.xyz/admin/order/export?orderNo=${forms.orderNo}&toAddress=${forms.toAddress}&startTime=${forms.date[0] || ''}&endTime=${forms.date[1] || ''}`"
+          type="primary" color="#c53027" :disabled="tableData.length === 0" @click="exportExcel">导出excel</el-link>
       </el-form-item>
     </el-form>
 
@@ -255,10 +258,18 @@ const addManager = () => {
 }
 const exportExcel = async () => {
   const data = await exportOrder({ ...forms, date: "" })
+  console.log(data.fileName, "jny");
   const blob = new Blob([data])
   console.log('blob', blob)
   const link = document.createElement('a')
   link.style.display = 'none'
+  // 创建一个新的日期对象
+  var now = new Date();
+
+  // 创建一个日期时间格式化器，并将其格式化为指定的格式
+  var formatter = new Intl.DateTimeFormat('zh', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  var formattedTime = formatter.format(now).replace(/\D/g, '');
+  link.download = '订单中心' + formattedTime;
   link.href = URL.createObjectURL(data)
   document.body.appendChild(link)
   link.click()

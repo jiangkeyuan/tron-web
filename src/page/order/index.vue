@@ -21,9 +21,6 @@
         <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
         <el-button type="primary" color="#c53027" :disabled="tableData.length === 0"
           @click="exportExcel">导出excel</el-button>
-        <el-link
-          :href="`http://api.energy.hashgo.xyz/admin/order/export?orderNo=${forms.orderNo}&toAddress=${forms.toAddress}&startTime=${forms.date[0] || ''}&endTime=${forms.date[1] || ''}`"
-          type="primary" color="#c53027" :disabled="tableData.length === 0" @click="exportExcel">导出excel</el-link>
       </el-form-item>
     </el-form>
 

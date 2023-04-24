@@ -7,8 +7,8 @@
       <el-input v-model="form.toAddress" />
     </el-form-item>
     <el-form-item :label="$t('RENT-003')">
-      <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
-        end-placeholder="End date" />
+      <el-date-picker v-model="form.date" value-format="x" type="datetimerange" range-separator="To"
+        start-placeholder="Start date" end-placeholder="End date" />
     </el-form-item>
     <el-form-item label="Api Key">
       <el-input v-model="form.apikey" />

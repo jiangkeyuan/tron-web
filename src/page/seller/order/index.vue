@@ -8,7 +8,8 @@
         <el-input v-model="form.toAddress" placeholder="请输入地址" />
       </el-form-item>
       <el-form-item label="时间" prop="date">
-        <el-date-picker v-model="form.date" type="daterange" start-placeholder="开始时间" end-placeholder="结束时间" />
+        <el-date-picker value-format="x" v-model="form.date" type="daterange" start-placeholder="开始时间"
+          end-placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
         <el-button @click="resetForm">重置</el-button>

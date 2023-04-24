@@ -13,7 +13,8 @@
         <el-input v-model="forms.toAddress" />
       </el-form-item>
       <el-form-item label="时间" prop="date">
-        <el-date-picker type="datetimerange" v-model="forms.date" start-placeholder="开始时间" end-placeholder="结束时间" />
+        <el-date-picker type="datetimerange" value-format="x" v-model="forms.date" start-placeholder="开始时间"
+          end-placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
         <el-button @click="reset">重置</el-button>
@@ -69,8 +70,8 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination @current-change="currentChange" layout="prev, pager, next, jumper" v-model:current-page="form.pageIndex"
-        v-model:page-size="form.pageSize" :total="forms.totalCount" />
+      <el-pagination @current-change="currentChange" layout="prev, pager, next, jumper"
+        v-model:current-page="form.pageIndex" v-model:page-size="form.pageSize" :total="forms.totalCount" />
     </div>
   </el-card>
 
@@ -253,7 +254,7 @@ const addManager = () => {
   dialogFormVisible.value = true
 }
 const exportExcel = async () => {
-  const data = await exportOrder({ ...forms })
+  const data = await exportOrder({ ...forms, date: "" })
   const blob = new Blob([data])
   console.log('blob', blob)
   const link = document.createElement('a')
@@ -267,7 +268,7 @@ const exportExcel = async () => {
 }
 const seach = async () => {
   if (forms.date && forms.date.length > 0) {
-    forms.starTime = forms.date[0]
+    forms.startTime = forms.date[0]
     forms.endTime = forms.date[1]
   } else {
     forms.date = []
@@ -283,12 +284,11 @@ const seach = async () => {
 
     // 设置时间为当天的结束（即23:59:59.999）
     const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-
-    // 转换成 ISO 8601 格式
-    const isoStartOfDay = startOfDay.toISOString();
-    const isoEndOfDay = endOfDay.toISOString();
+    // 转换成 是时间戳
+    const isoStartOfDay = startOfDay.getTime();
+    const isoEndOfDay = endOfDay.getTime();
     forms.date = [isoStartOfDay, isoEndOfDay];
-    forms.starTime = isoStartOfDay;
+    forms.startTime = isoStartOfDay;
     forms.endTime = isoEndOfDay
   }
 

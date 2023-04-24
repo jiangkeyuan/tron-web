@@ -18,7 +18,7 @@
         <el-input v-model="forms.walletAddress" />
       </el-form-item>
       <el-form-item :label="$t('USRER-003')" prop="date">
-        <el-date-picker v-model="forms.date" type="daterange" :start-placeholder="$t('USRER-003')"
+        <el-date-picker v-model="forms.date" type="daterange" value-format="x" :start-placeholder="$t('USRER-003')"
           :end-placeholder="$t('USRER-004')" />
       </el-form-item>
       <el-form-item>

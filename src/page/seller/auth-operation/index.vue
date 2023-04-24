@@ -7,7 +7,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="时间">
-        <el-date-picker v-model="form.date" type="daterange" start-placeholder="开始时间" end-placeholder="结束时间" />
+        <el-date-picker v-model="form.date" value-format="x" type="daterange" start-placeholder="开始时间"
+          end-placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
         <el-button @click="resetForm">重置</el-button>

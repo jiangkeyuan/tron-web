@@ -8,7 +8,7 @@
         <el-input v-model="form.maxAmount" />
       </el-form-item>
       <el-form-item label="时间">
-        <el-date-picker v-model="form.date" type="datetimerange" range-separator="To" start-placeholder="Start date"
+        <el-date-picker v-model="form.date" value-format="x" type="datetimerange" range-separator="To" start-placeholder="Start date"
           end-placeholder="End date" />
       </el-form-item>
       <el-form-item label="类型">

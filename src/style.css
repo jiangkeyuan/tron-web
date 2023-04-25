@@ -4,6 +4,11 @@
   --el-color-primary: #ce4b13 !important;
   --el-button-text-color: #ce4b13 
 }
+
+.error-table-row{
+  color:#ce4b13
+}
+
 .ElMessageClass{
   z-index: 9999 !important;
 }

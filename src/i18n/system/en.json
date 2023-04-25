@@ -10,5 +10,7 @@
     "SYSTEM-009": "Please enter a comment",
     "SYSTEM-010": "Please enter the system name",
     "SYSTEM-011": "Please enter the system value",
-    "SYSTEM-012": "Please enter a comment"
+    "SYSTEM-012": "Please enter a comment",
+    "SYSTEM-013": "Please enter a name",
+    "SYSTEM-014": "Confirm"
 }

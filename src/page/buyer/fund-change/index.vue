@@ -20,15 +20,25 @@
       <el-button type="primary" color="#c53027" @click="() => search()">查询</el-button>
     </el-form>
     <div class="sale-record-table">
-      <el-table :data="tableData" stripe class="sale-record-table-list" empty-text="暂无数据">
+      <el-table :data="tableData" stripe class="sale-record-table-list" empty-text="暂无数据" :row-class-name="tableRowClassName">
         <el-table-column prop="createDate" label="发生时间" :formatter="(row) => filterDate(row.createDate)" />
         <el-table-column prop="type" label="类型" :formatter="(row) => filterType(row.type)" />
         <el-table-column prop="amount" label="入账金额(TRX)" />
         <el-table-column prop="transactionHash" label="交易哈希">
           <template #default="scope">
-            <el-tooltip class="box-item" effect="dark" :content="scope.row.transactionHash" placement="bottom">
+            <el-button link v-if="scope.row.orderStatus == 'waitAudit'">
+              等待审核
+            </el-button>
+            
+            <el-button link v-else-if="scope.row.orderStatus == 'fail'" type="primary">
+              <el-tooltip class="box-item" effect="dark" :content="scope.row.remarks" placement="bottom">
+                失败 [{{ scope.row.remarks }}]
+              </el-tooltip>
+            </el-button>
+            <el-tooltip class="box-item" effect="dark" :content="scope.row.transactionHash" placement="bottom" v-else>
               <el-button link type="primary" size="small" @click="() => handleClick(scope)">查看</el-button>
             </el-tooltip>
+
           </template>
         </el-table-column>
       </el-table>
@@ -151,6 +161,14 @@ const filterType = (type) => {
     }
   })
   return d;
+}
+
+const tableRowClassName = ({row})=>{
+    console.log(row.orderStatus)
+    if(row.orderStatus == 'fail'){
+      return 'error-table-row'
+    }
+    return ''
 }
 
 const handleClick = (scope) => {

@@ -5,7 +5,7 @@
           <span>提现审核</span>
         </div>
       </template>
-      <el-form :model="forms" inline class="sale-record sale-record-search">
+      <el-form :model="forms" inline class="sale-record sale-record-search" :loading='loading'>
         <el-form-item label="钱包地址:">
           <el-input v-model="forms.walletAddress" />
         </el-form-item>
@@ -45,16 +45,32 @@
 
           </template>
         </el-table-column>
-        <el-table-column prop="audit" label="审核状态" :formatter="row => filterAudit(row.audit)"/>
-  
-        <el-table-column prop="status" label="提取状态" :formatter="row => filterAudit(row.status)"/>
-        <el-table-column label="操作">
+        <el-table-column prop="createDate" label="创建时间" :formatter="(row) => filterDate(row.createDate)"/>
+        <el-table-column prop="lastUpdateDate" label="最后更新时间" :formatter="(row) => filterDate(row.lastUpdateDate)"/>
+        <el-table-column prop="withdrawalAmount" label="金额(TRX)"/>
+        <el-table-column prop="audit" label="审核状态">
           <template #default="scope">
-            <el-button type="primary" link @click="() => widthdrawRequest(scope)">
+            <el-button :type="scope.row.status == 0 ? 'danger' : 'success'" link>
+              {{filterAudit(scope.row.status)}}
+            </el-button>
+          </template>
+        </el-table-column>
+  
+        <el-table-column prop="status" label="提取状态">
+          <template #default="scope">
+            <el-button :type="scope.row.audit == 0 ? 'danger' : 'success'" link>
+              {{filterAudit(scope.row.audit)}}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="remarks" label="备注"/>
+        <el-table-column label="操作">
+          <template #default="scope" >
+            <el-button type="primary" v-if="scope.row.audit == 2" link @click="() => widthdrawRequest(scope.row)">
               同意
             </el-button>
 
-            <el-button type="primary" link @click="() => cancelWidthdrawRequest(scope)">
+            <el-button type="primary" v-if="scope.row.audit == 2" link @click="() => cancelWidthdrawRequest(scope.row)">
               拒绝
             </el-button>
           </template>
@@ -68,11 +84,12 @@
   </template>
   <script setup>
   import { filterDate } from '@/utils/utils/date.js'
-  import { getWithdrawList } from '@/utils/axios/buyer/index.js'
+  import { getWithdrawList,postWithdraw } from '@/utils/axios/buyer/index.js'
   import { ElMessage } from 'element-plus'
   import { getParamsNew, updateQueryStringParameter } from '@/utils/utils/index.js';
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
+  const loading = ref(false);
   const tableData = ref([{}])
   const forms = reactive({
     pageIndex: 1,
@@ -98,18 +115,20 @@
       confirmButtonText: t('OK'),
       cancelButtonText: t('Cancel'),
       beforeClose: async (a, b, done)=>{
-        console.log(a,b,"kkkkk");
         if(a === 'confirm'){
           if(!b.inputValue){
             ElMessage.error("请输入拒绝原因");
             return;
           }
           loading.value = true;
-          const data = await getWithdrawbalance({withdrawAmount:b.inputValue});
+          const data = await postWithdraw({
+            audit:"0",
+            userId:row.userId,
+            remarks:b.inputValue
+          });
           loading.value = false;
           if(data.code === 12000){
             ElMessage.success(t('OperateSuccess'));
-            store.dispatch('getUserInfoAction');
             done()
           }else{
             ElMessage.error(data.msg);
@@ -129,23 +148,32 @@
       confirmButtonText: t('OK'),
       cancelButtonText: t('Cancel'),
       type: 'success',
+      beforeClose:async (a, b, done)=>{
+        if(a === 'confirm'){
+          const data = await postWithdraw({
+            audit:"1",
+            userId:row.userId,
+            remarks:'同意'
+          });
+          if (data.code == 12000) {
+            searchApi();
+            ElMessage({
+              type: 'success',
+              message:'操作成功',
+            })
+            done()
+          } else {
+            ElMessage({
+              type: 'error',
+              message: data.msg
+            })
+          }
+        }else{
+          done()
+        }
+      }
     }
   )
-    .then(async () => {
-      const data = await delApiList({ apikey: row.apiKey })
-      if (data.code == 12000) {
-        searchApi();
-        ElMessage({
-          type: 'success',
-          message: t('DeletedSuccess'),
-        })
-      } else {
-        ElMessage({
-          type: 'error',
-          message: data.msg
-        })
-      }
-    })
   }
 
   const sortChange = e => {
@@ -220,13 +248,12 @@
     }
   }
   const filterAudit = val => {
-    switch (val) {
-      case "0":
-        return '未激活'
-      case "1":
-        return '已激活'
-      default:
-        return ''
+    if(val == 0){
+      return '失败'
+    }else if(val==1){
+      return '成功'
+    }else{
+      return ''
     }
   }
   onMounted(() => {

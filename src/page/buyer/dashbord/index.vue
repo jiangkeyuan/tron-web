@@ -129,7 +129,7 @@ onMounted(async () => {
         }
         var arr = [
           "{a|" + name + "}",
-          "{b|" + rentalEnergy + t('LOGIN-041') + "}",
+          "{b|" + rentalEnergy + t('MANAGE-003') + "}",
           "{c|" + usedTrx + " TRX}",
         ];
         return arr.join("  ");

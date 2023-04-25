@@ -18,7 +18,8 @@
           {{ store.state.userInfo?.userInfo?.availableBalance?.toLocaleString() }}
           <span style="margin: 0px 20px 0px 8px"> TRX </span>
           <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">{{$t('USRER-020')}}</div>
-          <div class="font btn" @click="()=> withdrawbalance()" :loading='loading'>{{$t('USRER-030')}}</div>
+          <div class="font btn" style="margin-right: 20px" @click="()=> withdrawbalance()" :loading='loading'>{{$t('USRER-030')}}</div>
+          <div class="font btn" :loading='loading'>{{store.state.userInfo?.userInfo?.withdrawCoinsRemarks}}</div>
         </div>
         <div class="font">{{$t('USRER-031')}}</div>
         <div class="font text">2023-03-02 12:09:42</div>
@@ -52,6 +53,7 @@ import { bindWallets,getWithdrawbalance } from '@/utils/axios/buyer/index';
 import { useRouter } from "vue-router";
 import { ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n'
+import { computed } from 'vue';
 const { t } = useI18n()
 
 const store = useStore();
@@ -62,6 +64,10 @@ const loading = ref(false);
 const handleBind = () => {
   showBind.value = true;
 }
+
+const allowWithdrawCoins = computed(()=>{
+  return store.state.userInfo?.userInfo?.allowWithdrawCoins
+})
 
 const pushRecharge = () => {
   store.commit("changeMenuType", 0);

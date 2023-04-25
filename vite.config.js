@@ -123,7 +123,7 @@ export default ({ mode }) => {
 
     build: {
       outDir: "tron-web",
-      sourcemap: true,
+      sourcemap: false,
       chunkSizeWarningLimit: 800,
       assetsDir: "./assets",
       emptyOutDir: true,

@@ -128,6 +128,7 @@
           });
           loading.value = false;
           if(data.code === 12000){
+            seach()
             ElMessage.success(t('OperateSuccess'));
             done()
           }else{
@@ -156,7 +157,7 @@
             remarks:'同意'
           });
           if (data.code == 12000) {
-            searchApi();
+            seach();
             ElMessage({
               type: 'success',
               message:'操作成功',

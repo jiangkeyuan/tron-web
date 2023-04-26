@@ -85,22 +85,22 @@
       </el-dropdown>
     </div>
 
-    <el-dialog width="500" v-model="dialogFormVisible" title="修改密码" center destroy-on-close append-to-body>
+    <el-dialog width="500" v-model="dialogFormVisible" :title="$t('buyer-001')" center destroy-on-close append-to-body>
       <el-form :model="form" size="" ref="ruleFormRef" :rules="rules">
         <el-form-item prop="passWord">
-          <el-input v-model="form.passWord" autocomplete="off" type="password" show-password placeholder="请输入旧密码" />
+          <el-input v-model="form.passWord" autocomplete="off" type="password" show-password :placeholder="$t('buyer-006')" />
         </el-form-item>
         <el-form-item prop="newPwd">
-          <el-input v-model="form.newPwd" autocomplete="off" type="password" show-password placeholder="请输入新密码" />
+          <el-input v-model="form.newPwd" autocomplete="off" type="password" show-password :placeholder="$t('buyer-007')" />
         </el-form-item>
         <el-form-item prop="checkNewPassWord">
           <el-input v-model="form.checkNewPassWord" autocomplete="off" type="password" show-password
-            placeholder="请再输入新密码" />
+            :placeholder="$t('buyer-008')" />
         </el-form-item>
       </el-form>
       <template #footer>
         <el-button class="dialog-footer" type="primary" @click="changePassWordConfirm(ruleFormRef)">
-          修改密码
+          {{ $t('buyer-001') }}
         </el-button>
       </template>
     </el-dialog>
@@ -114,13 +114,31 @@ import { logout } from '@/utils/axios/home/index.js';
 import { ElMessage } from "element-plus";
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+const { t,locale } = useI18n()
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
 const dialogFormVisible = ref(false);
 const form = reactive({});
 const ruleFormRef = ref('');
+
+watch(locale,()=>{
+  Object.assign(rules,{
+    passWord: [
+      { required: true, message: t('buyer-030'), trigger: ['blur', 'change'] },
+      { required: true, min: 8, message: t('buyer-010'), trigger: ['blur', 'change'] },
+    ],
+    newPwd: [
+      { required: true, message: t('buyer-007'), trigger: ['blur', 'change'] },
+      { required: true, min: 8, message: t('buyer-010'), trigger: ['blur', 'change'] },
+    ],
+
+    checkNewPassWord: [
+      { required: true, message: t('buyer-011'), trigger: ['blur', 'change'] },
+      { required: true, validator: checkPassWord, trigger: ['blur', 'change'] },
+    ]
+  })
+})
 
 const logoutUser = async () => {
   const data = await logout({});
@@ -185,7 +203,7 @@ const rightTitleFunc = () => {
 
 const checkPassWord = (rule, v, callback) => {
   if (v !== form.newPwd) {
-    callback(new Error("两次输入的密码不一致！"))
+    callback(new Error($t('buyer-009')))
   } else {
     callback()
   }
@@ -193,16 +211,16 @@ const checkPassWord = (rule, v, callback) => {
 
 const rules = reactive({
   passWord: [
-    { required: true, message: '请输入密码！', trigger: ['blur', 'change'] },
-    { required: true, min: 8, message: '请输入大于8位数的密码！', trigger: ['blur', 'change'] },
+    { required: true, message: t('buyer-030'), trigger: ['blur', 'change'] },
+    { required: true, min: 8, message: t('buyer-010'), trigger: ['blur', 'change'] },
   ],
   newPwd: [
-    { required: true, message: '请输入新密码！', trigger: ['blur', 'change'] },
-    { required: true, min: 8, message: '请输入大于8位数的密码！', trigger: ['blur', 'change'] },
+    { required: true, message: t('buyer-007'), trigger: ['blur', 'change'] },
+    { required: true, min: 8, message: t('buyer-010'), trigger: ['blur', 'change'] },
   ],
 
   checkNewPassWord: [
-    { required: true, message: '请输入二次密码！', trigger: ['blur', 'change'] },
+    { required: true, message: t('buyer-011'), trigger: ['blur', 'change'] },
     { required: true, validator: checkPassWord, trigger: ['blur', 'change'] },
   ]
 

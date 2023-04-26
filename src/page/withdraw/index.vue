@@ -2,14 +2,14 @@
     <el-card class="box-card">
       <template #header>
         <div class="card-header">
-          <span>提现审核</span>
+          <span>{{ $t('buyer-005')  }}</span>
         </div>
       </template>
       <el-form :model="forms" inline class="sale-record sale-record-search" :loading='loading'>
-        <el-form-item label="钱包地址:">
+        <el-form-item :label="$t('buyer-031')">
           <el-input v-model="forms.walletAddress" />
         </el-form-item>
-        <el-form-item label="审核状态:">
+        <el-form-item :label="$t('buyer-032')">
           <el-select v-model="forms.audit" class="m-2" placeholder="Select">
             <el-option
               v-for="item in auditOptions"
@@ -20,7 +20,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="提取状态:">
+        <el-form-item :label="$t('buyer-033')">
           <el-select v-model="forms.status" class="m-2" placeholder="Select">
             <el-option
               v-for="item in auditOptions"
@@ -31,8 +31,8 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button @click="reset">重置</el-button>
-          <el-button type="primary" color="#c53027" @click="seach">查询</el-button>
+          <el-button @click="reset">{{$t('resetting')}}</el-button>
+          <el-button type="primary" color="#c53027" @click="seach">{{$t('Query')}}</el-button>
         </el-form-item>
       </el-form>
 
@@ -45,10 +45,10 @@
 
           </template>
         </el-table-column>
-        <el-table-column prop="createDate" label="创建时间" :formatter="(row) => filterDate(row.createDate)"/>
-        <el-table-column prop="lastUpdateDate" label="最后更新时间" :formatter="(row) => filterDate(row.lastUpdateDate)"/>
-        <el-table-column prop="withdrawalAmount" label="金额(TRX)"/>
-        <el-table-column prop="audit" label="审核状态">
+        <el-table-column prop="createDate" :label="$t('buyer-034')" :formatter="(row) => filterDate(row.createDate)"/>
+        <el-table-column prop="lastUpdateDate" width="150" :label="$t('buyer-037')" :formatter="(row) => filterDate(row.lastUpdateDate)"/>
+        <el-table-column prop="withdrawalAmount" width="200" :label="$t('buyer-038')"/>
+        <el-table-column prop="audit" :label="$t('buyer-032')">
           <template #default="scope">
             <el-button :type="scope.row.status == 0 ? 'danger' : 'success'" link>
               {{filterAudit(scope.row.status)}}
@@ -56,22 +56,22 @@
           </template>
         </el-table-column>
   
-        <el-table-column prop="status" label="提取状态">
+        <el-table-column prop="status" width="150" :label="$t('buyer-033')">
           <template #default="scope">
             <el-button :type="scope.row.audit == 0 ? 'danger' : 'success'" link>
               {{filterAudit(scope.row.audit)}}
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="remarks" label="备注"/>
-        <el-table-column label="操作">
+        <el-table-column prop="remarks" :label="$t('buyer-039')"/>
+        <el-table-column :label="$t('buyer-044')" width="180">
           <template #default="scope" >
             <el-button type="primary" v-if="scope.row.audit == 2" link @click="() => widthdrawRequest(scope.row)">
-              同意
+              {{ $t('buyer-045') }}
             </el-button>
 
             <el-button type="primary" v-if="scope.row.audit == 2" link @click="() => cancelWidthdrawRequest(scope.row)">
-              拒绝
+              {{ $t('buyer-046') }}
             </el-button>
           </template>
         </el-table-column>
@@ -101,23 +101,23 @@
 
   const auditOptions = ref([
     {
-      label:'成功',
+      label:t('buyer-047'),
       value:1
     },
     {
-      label:'失败',
+      label:t('buyer-048'),
       value:0
     }
   ])
   
   const cancelWidthdrawRequest = (row)=>{
-    ElMessageBox.prompt('是否拒绝该提现申请', "提现申请", {
+    ElMessageBox.prompt(t('buyer-040'), t('buyer-041'), {
       confirmButtonText: t('OK'),
       cancelButtonText: t('Cancel'),
       beforeClose: async (a, b, done)=>{
         if(a === 'confirm'){
           if(!b.inputValue){
-            ElMessage.error("请输入拒绝原因");
+            ElMessage.error(t('buyer-042'));
             return;
           }
           loading.value = true;
@@ -143,8 +143,8 @@
 
   const widthdrawRequest =(row)=>{
     ElMessageBox.confirm(
-    '是否同意该提现申请',
-    '提现申请',
+      t('buyer-043'),
+      t('buyer-041'),
     {
       confirmButtonText: t('OK'),
       cancelButtonText: t('Cancel'),
@@ -154,13 +154,13 @@
           const data = await postWithdraw({
             audit:"1",
             userId:row.userId,
-            remarks:'同意'
+            remarks:t('buyer-045')
           });
           if (data.code == 12000) {
             seach();
             ElMessage({
               type: 'success',
-              message:'操作成功',
+              message:t('OperateSuccess'),
             })
             done()
           } else {
@@ -250,9 +250,9 @@
   }
   const filterAudit = val => {
     if(val == 0){
-      return '失败'
+      return ('buyer-048')
     }else if(val==1){
-      return '成功'
+      return ('buyer-047')
     }else{
       return ''
     }

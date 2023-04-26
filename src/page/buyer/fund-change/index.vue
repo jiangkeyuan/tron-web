@@ -1,42 +1,42 @@
 <template>
   <div class="recharge-log">
     <el-form :model="form" inline class="sale-record sale-record-search">
-      <el-form-item label="最小金额">
+      <el-form-item :label="$t('buyer-012')">
         <el-input v-model="form.minAmount" />
       </el-form-item>
-      <el-form-item label="最大金额">
+      <el-form-item :label="$t('buyer-027')">
         <el-input v-model="form.maxAmount" />
       </el-form-item>
-      <el-form-item label="时间">
+      <el-form-item :label="$t('buyer-013')">
         <el-date-picker v-model="form.date" value-format="x" type="datetimerange" range-separator="To" start-placeholder="Start date"
           end-placeholder="End date" />
       </el-form-item>
-      <el-form-item label="类型">
-        <el-select v-model="form.type" placeholder="请选择类型">
+      <el-form-item :label="$t('buyer-014')">
+        <el-select v-model="form.type" :placeholder="$t('buyer-028')">
           <el-option v-for="i in typeList" :label="i.label" :value="i.value" />
         </el-select>
       </el-form-item>
-      <el-button @click="() => reset()">重置</el-button>
-      <el-button type="primary" color="#c53027" @click="() => search()">查询</el-button>
+      <el-button @click="() => reset()">{{ $t('resetting') }}</el-button>
+      <el-button type="primary" color="#c53027" @click="() => search()">{{ $t('Query') }}</el-button>
     </el-form>
     <div class="sale-record-table">
-      <el-table :data="tableData" stripe class="sale-record-table-list" empty-text="暂无数据" :row-class-name="tableRowClassName">
-        <el-table-column prop="createDate" label="发生时间" :formatter="(row) => filterDate(row.createDate)" />
-        <el-table-column prop="type" label="类型" :formatter="(row) => filterType(row.type)" />
-        <el-table-column prop="amount" label="入账金额(TRX)" />
-        <el-table-column prop="transactionHash" label="交易哈希">
+      <el-table :data="tableData" stripe class="sale-record-table-list" :empty-text="NoData" :row-class-name="tableRowClassName">
+        <el-table-column prop="createDate" :label="$t('buyer-015')" :formatter="(row) => filterDate(row.createDate)" />
+        <el-table-column prop="type" :label="$t('buyer-014')" :formatter="(row) => filterType(row.type)" />
+        <el-table-column prop="amount" :label="$t('buyer-029')" />
+        <el-table-column prop="transactionHash" :label="$t('buyer-017')">
           <template #default="scope">
             <el-button link v-if="scope.row.orderStatus == 'waitAudit'">
-              等待审核
+              {{ $t('buyer-018') }}
             </el-button>
             
             <el-button link v-else-if="scope.row.orderStatus == 'fail'" type="primary">
               <el-tooltip class="box-item" effect="dark" :content="scope.row.remarks" placement="bottom">
-                失败 [{{ scope.row.remarks }}]
+                {{ $t('buyer-019') }} [{{ scope.row.remarks }}]
               </el-tooltip>
             </el-button>
             <el-tooltip class="box-item" effect="dark" :content="scope.row.transactionHash" placement="bottom" v-else>
-              <el-button link type="primary" size="small" @click="() => handleClick(scope)">查看</el-button>
+              <el-button link type="primary" size="small" @click="() => handleClick(scope)">{{ $t('buyer-020') }}</el-button>
             </el-tooltip>
 
           </template>
@@ -52,6 +52,9 @@
 <script setup>
 import { transcations } from '@/utils/axios/buyer/index';
 import { filterDate } from '@/utils/utils/date.js'
+// import { NODATA } from 'dns';
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const form = reactive({
   date: [],
   type: "",
@@ -61,27 +64,27 @@ const form = reactive({
 });
 const typeList = ref([
   {
-    label: "全部",
+    label: t('buyer-021'),
     value: ""
   },
   {
-    label: "充值",
+    label: t('buyer-022'),
     value: "RECHARGE"
   },
   {
-    label: "提现",
+    label: t('buyer-023'),
     value: "WITHDRAW"
   },
   {
-    label: "手工下单",
+    label: t('buyer-024'),
     value: "INNER_ORDER"
   },
   {
-    label: "出售定单",
+    label: t('buyer-025'),
     value: "SELL_ORDER"
   },
   {
-    label: "API下单",
+    label: t('buyer-026'),
     value: "API_ORDER"
   },
 ]);

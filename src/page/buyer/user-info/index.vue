@@ -1,44 +1,47 @@
 <template>
   <div class="user-content">
-    <h5>{{$t('USRER-025')}}</h5>
+    <h5>{{ $t('USRER-025') }}</h5>
     <div class="user-content-one">
       <div class="basic-info">
-        <div class="font">{{$t('USRER-026')}}</div>
+        <div class="font">{{ $t('USRER-026') }}</div>
         <div class="font text">{{ store.state.userInfo?.userInfo?.userName || store.state.userInfo?.userInfo?.email }}
         </div>
-        <div class="font">{{$t('USRER-027')}}</div>
+        <div class="font">{{ $t('USRER-027') }}</div>
         <div class="font text">
           {{ store.state.userInfo?.userInfo?.walletAddress }}
         </div>
       </div>
       <div class="content-line"></div>
       <div class="basic-info">
-        <div class="font">{{$t('USRER-028')}}</div>
+        <div class="font">{{ $t('USRER-028') }}</div>
         <div class="font text">
-          {{ store.state.userInfo?.userInfo?.availableBalance?.toLocaleString() }}
+          {{ ('' + store.state.userInfo?.userInfo?.availableBalance)?.toLocaleString() }}
           <span style="margin: 0px 20px 0px 8px"> TRX </span>
-          <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">{{$t('USRER-020')}}</div>
-          <div class="font btn" style="margin-right: 20px" @click="()=> withdrawbalance()" :loading='loading'>{{$t('USRER-030')}}</div>
-          <div class="font btn" :loading='loading'>{{store.state.userInfo?.userInfo?.withdrawCoinsRemarks}}</div>
+          <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">{{ $t('USRER-020') }}</div>
+          <div class="font btn" style="margin-right: 20px" @click="() => withdrawbalance()" :loading='loading'>
+            {{ $t('USRER-030') }}</div>
+          <div class="font btn" :loading='loading'>{{
+            $t('USRER-046', { amount: store.state.userInfo?.userInfo?.withdrawCoinsAmount }) }}</div>
         </div>
-        <div class="font">{{$t('USRER-031')}}</div>
+        <div class="font">{{ $t('USRER-031') }}</div>
         <div class="font text">2023-03-02 12:09:42</div>
       </div>
     </div>
   </div>
   <div class="user-content">
-    <h1>{{$t('USRER-032')}}</h1>
-    <p class="fontn tips">{{$t('USRER-033')}}</p>
+    <h1>{{ $t('USRER-032') }}</h1>
+    <p class="fontn tips">{{ $t('USRER-033') }}</p>
     <div class="login-method">
-      <div class="font">{{$t('USRER-034')}}</div>
-      <div class="font">{{$t('USRER-035')}}</div>
+      <div class="font">{{ $t('USRER-034') }}</div>
+      <div class="font">{{ $t('USRER-035') }}</div>
       <div class="font text">{{ store.state?.userInfo?.userInfo?.email }}</div>
-      <div class="btn font" @click="handleBind" v-if="!store.state.userInfo?.userInfo?.email">{{$t('USRER-044')}}</div>
+      <div class="btn font" @click="handleBind" v-if="!store.state.userInfo?.userInfo?.email">{{ $t('USRER-044') }}</div>
       <div v-else></div>
-      <div class="font">{{$t('USRER-036')}}</div>
-      <div class="font">{{$t('USRER-043')}}</div>
+      <div class="font">{{ $t('USRER-036') }}</div>
+      <div class="font">{{ $t('USRER-043') }}</div>
       <div class="font text">{{ store.state.userInfo?.userInfo?.walletAddress }}</div>
-      <div class="btn font" @click="handleBindAdress" v-if="!store.state.userInfo.userInfo.walletAddress">{{$t('USRER-045')}}</div>
+      <div class="btn font" @click="handleBindAdress" v-if="!store.state.userInfo.userInfo.walletAddress">
+        {{ $t('USRER-045') }}</div>
     </div>
     <div v-if="showBind">
       <BindEmailsInput @close='showBind = false'></BindEmailsInput>
@@ -49,7 +52,7 @@
 <script setup>
 import BindEmailsInput from '../../../components/bind-emails-input.vue';
 import { isConnectedWallet, walletAddress, connectedWallet } from '@/utils/utils/tron.js';
-import { bindWallets,getWithdrawbalance } from '@/utils/axios/buyer/index';
+import { bindWallets, getWithdrawbalance } from '@/utils/axios/buyer/index';
 import { useRouter } from "vue-router";
 import { ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n'
@@ -65,7 +68,7 @@ const handleBind = () => {
   showBind.value = true;
 }
 
-const allowWithdrawCoins = computed(()=>{
+const allowWithdrawCoins = computed(() => {
   return store.state.userInfo?.userInfo?.allowWithdrawCoins
 })
 
@@ -74,32 +77,32 @@ const pushRecharge = () => {
   router.push('/console/buyer/recharge')
 }
 
-const withdrawbalance = ()=>{
+const withdrawbalance = () => {
   ElMessageBox.prompt(t('USRER-037'), (t('USRER-037')), {
     confirmButtonText: t('OK'),
     cancelButtonText: t('Cancel'),
-    beforeClose: async (a, b, done)=>{
-      if(a === 'confirm'){
-        if(!b.inputValue){
+    beforeClose: async (a, b, done) => {
+      if (a === 'confirm') {
+        if (!b.inputValue) {
           ElMessage.error(t('USRER-040'));
           return;
         }
 
-        if(+b.inputValue > store.state.userInfo?.userInfo?.availableBalance){
+        if (+b.inputValue > store.state.userInfo?.userInfo?.availableBalance) {
           ElMessage.error(t('USRER-041'));
           return;
         }
         loading.value = true;
-        const data = await getWithdrawbalance({withdrawAmount:b.inputValue});
+        const data = await getWithdrawbalance({ withdrawAmount: b.inputValue });
         loading.value = false;
-        if(data.code === 12000){
+        if (data.code === 12000) {
           ElMessage.success(t('OperateSuccess'));
           store.dispatch('getUserInfoAction');
           done()
-        }else{
+        } else {
           ElMessage.error(data.msg);
         }
-      } else{
+      } else {
         done()
       }
     },
@@ -131,9 +134,7 @@ const bind = async () => {
 }
 
 onMounted(() => {
-  if (!store.state.userInfo.userInfo.email) {
-    store.dispatch('getUserInfoAction');
-  }
+  store.dispatch('getUserInfoAction');
 })
 
 </script>

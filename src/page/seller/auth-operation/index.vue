@@ -73,7 +73,7 @@ const options = [
   },
   {
     value: 'STAKE',
-    label: '代理'
+    label: '自动质押'
   }
 ]
 const operationList = ref([])

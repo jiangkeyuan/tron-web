@@ -2,7 +2,7 @@
   <div class="maual-lease" v-loading.fullscreen.lock="fullscreenLoading">
     <el-form :model="form" label-width="200px" label-position="left">
       <el-form-item :label="$t('MANUAL-001')" class="maual-lease-item">
-        <span>{{ store.state.userInfo?.userInfo?.availableBalance?.toLocaleString() }} TRX</span>
+        <span>{{ ("" + store.state.userInfo?.userInfo?.availableBalance)?.toLocaleString() }} TRX</span>
       </el-form-item>
       <el-form-item :label="$t('MANUAL-002')">
         <div class="maual-lease-item-energy">

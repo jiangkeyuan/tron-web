@@ -15,12 +15,12 @@
             <div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-005') }}: </span>
-                <span class="font text red">{{ item.numtotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + item.numtotal)?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-007') }}: </span>
-                <span class="font text red">{{ item.amounttotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + item.amounttotal)?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">TRX</span>
               </div>
             </div>
@@ -48,12 +48,12 @@
             <div>
               <div>
                 <span class="font">{{ $t('STATISTICS-010') }}:</span>
-                <span class="font text red">{{ users.BUYER?.toLocaleString() }}</span>
+                <span class="font text red">{{ ("" + users.BUYER?.toLocaleString()) }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-011') }}</span>
               </div>
               <div>
                 <span class="font">{{ $t('STATISTICS-012') }}:</span>
-                <span class="font text red">{{ users.SELLER?.toLocaleString() }}</span>
+                <span class="font text red">{{ ("" + users.SELLER?.toLocaleString()) }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-011') }}</span>
               </div>
             </div>
@@ -75,12 +75,12 @@
             <div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-005') }}: </span>
-                <span class="font text red">{{ recharge.rechargetotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + recharge.rechargetotal?.toLocaleString()) || 0 }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-007') }}: </span>
-                <span class="font text red">{{ recharge.amounttotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + recharge.amounttotal?.toLocaleString()) || 0 }}</span>
                 <span class="font min-font">TRX</span>
               </div>
             </div>
@@ -102,12 +102,12 @@
             <div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-005') }}: </span>
-                <span class="font text red">{{ sellereIncome.numtotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + sellereIncome.numtotal)?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-007') }}: </span>
-                <span class="font text red">{{ sellereIncome.amounttotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + sellereIncome.amounttotal)?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">TRX</span>
               </div>
             </div>
@@ -136,12 +136,12 @@
             <div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-005') }}: </span>
-                <span class="font text red">{{ item.ordertotal?.toLocaleString() }}</span>
+                <span class="font text red">{{ ("" + item.ordertotal)?.toLocaleString() }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-007') }}: </span>
-                <span class="font text red">{{ item.amounttotal?.toLocaleString() }}</span>
+                <span class="font text red">{{ ("" + item.amounttotal)?.toLocaleString() }}</span>
                 <span class="font min-font">TRX</span>
               </div>
             </div>
@@ -168,12 +168,12 @@
             <div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-005') }}: </span>
-                <span class="font text red">{{ item.ordertotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + item.ordertotal)?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-006') }}</span>
               </div>
               <div>
                 <span class="font"> {{ $t('STATISTICS-007') }}: </span>
-                <span class="font text red">{{ item.energytotal?.toLocaleString() || 0 }}</span>
+                <span class="font text red">{{ ("" + item.energytotal)?.toLocaleString() || 0 }}</span>
                 <span class="font min-font">{{ $t('STATISTICS-024') }}</span>
               </div>
             </div>
@@ -315,7 +315,7 @@ getData();
   }
 }
 
-.item-tltle-goto{
+.item-tltle-goto {
   width: 100%;
   display: flex;
   flex-direction: row;

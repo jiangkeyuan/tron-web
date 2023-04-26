@@ -27,7 +27,7 @@
       <div class="dashbord-top-right-content">
         <h5 class="dashbord-top-right-content-top">{{ $t("MANAGE-004") }}</h5>
         <div class="dashbord-top-right-content-num-kk">
-          <span class="dashbord-top-right-content-num">{{ buyerObj.canRentalEnergy?.toLocaleString() || 0 }}</span>
+          <span class="dashbord-top-right-content-num">{{ ("" + buyerObj.canRentalEnergy)?.toLocaleString() || 0 }}</span>
           {{ $t("MANAGE-003") }}
         </div>
         <div class="dashbord-top-right-content-button" @click="router.push('/console/buyer/recharge')">

@@ -43,5 +43,6 @@
     "USRER-042": "Amount error",
     "USRER-043": "Bind wallet address, automatically recognize and record recharge",
     "USRER-044": "Bind email",
-    "USRER-045": "Binding"
+    "USRER-045": "Binding",
+    "USRER-046": "You have a withdrawal waiting for review, amount: {amount} TRX."
 }

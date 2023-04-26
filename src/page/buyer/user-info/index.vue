@@ -20,7 +20,7 @@
           <div class="font btn" style="margin-right: 20px" @click="() => pushRecharge()">{{ $t('USRER-020') }}</div>
           <div class="font btn" style="margin-right: 20px" @click="() => withdrawbalance()" :loading='loading'>
             {{ $t('USRER-030') }}</div>
-          <div class="font btn" :loading='loading'>{{
+          <div class="font btn" :loading='loading' v-if="store.state.userInfo?.userInfo?.withdrawCoinsAmount">{{
             $t('USRER-046', { amount: store.state.userInfo?.userInfo?.withdrawCoinsAmount }) }}</div>
         </div>
         <div class="font">{{ $t('USRER-031') }}</div>

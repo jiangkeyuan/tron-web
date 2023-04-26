@@ -10,8 +10,8 @@ import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import IconsResolver from "unplugin-icons/resolver";
 import { svg4VuePlugin } from "vite-plugin-svg4vue";
-const pathSrc = path.resolve(__dirname, "src");
 
+import { terser } from 'rollup-plugin-terser';
 import {
   createStyleImportPlugin,
   AndDesignVueResolve,
@@ -20,6 +20,7 @@ import {
   NutuiResolve,
   AntdResolve,
 } from "vite-plugin-style-import";
+const pathSrc = path.resolve(__dirname, "src");
 
 export default ({ mode }) => {
   return defineConfig({
@@ -129,14 +130,22 @@ export default ({ mode }) => {
       emptyOutDir: true,
       preload: [/\.vue\?type=script/],
       prefetch: [/\.png$/, /\.json$/, /\.css$/],
-      // rollupOptions: {
-      //   input: entrances,
-      //   output: {
-      //     chunkFileNames: "static/js/[name]-[hash].js",
-      //     entryFileNames: "static/js/[name]-[hash].js",
-      //     assetFileNames: "static/[ext]/[name]-[hash].[ext]",
-      //   },
-      // },
+      rollupOptions: {
+        plugins: [
+          // ...其他插件
+          terser({
+            compress: {
+              drop_console: true, // 删除 console
+            },
+          }),
+        ],
+        // input: entrances,
+        // output: {
+        //   chunkFileNames: "static/js/[name]-[hash].js",
+        //   entryFileNames: "static/js/[name]-[hash].js",
+        //   assetFileNames: "static/[ext]/[name]-[hash].[ext]",
+        // },
+      },
     },
 
     server: {

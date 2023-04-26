@@ -320,7 +320,19 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior(to,from,savedPosition){
+    console.log(to,"to");
+    console.log(from,"from");
+    if(to.path === '/' && from.path.includes('/help/')){
+      return { 
+        top: document.body.scrollHeight,
+      }
+    }else{
+      return { 
+        top: 0,
+      }
+    }
+  },
   routes: routes,
 });
 

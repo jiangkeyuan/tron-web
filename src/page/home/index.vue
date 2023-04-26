@@ -65,11 +65,25 @@ const cooperationDialogClose = () => {
 const goPoint = event => {
   const id = '#' + event
   console.log('id', id)
-  document.querySelector(id).scrollIntoView({
-    behavior: 'smooth',
-    block: 'center',
-    inline: 'nearest'
-  })
+  if(document.querySelector(id)){
+    document.querySelector(id).scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest'
+    })
+  }else{
+    router.push('/')
+    setTimeout(()=>{
+      document.querySelector(id).scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'nearest'
+      })
+    },300)
+   
+  }
+ 
+
 }
 onMounted(() => { })
 </script>

@@ -6,8 +6,12 @@
       <span class="home-right-wrapper-header-r" v-if="rightTitleFunc()">
         {{ rightTitleFunc() }}
       </span>
+        <span class="home-right-wrapper-header-r" v-else-if="route.name == 'guide'">
+        
+      </span>
       <span class="home-right-wrapper-header-r" v-else>
         {{ $t('buyer-006')  }}
+        {{route.name}}
       </span>
     </div>
 

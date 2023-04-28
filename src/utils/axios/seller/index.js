@@ -17,7 +17,7 @@ export const getUserSells = async data => {
 
 export const getPermission = async data => {
     return await service({
-      url: '/seller/user/authorize/permission',
+      url: '/buyer/user/authorize/permission',
       method: 'post',
       data
     })
@@ -48,7 +48,7 @@ export const saveSellConfig = async (data) => {
 
 export const getNothing = async () => {
     return await service({
-      url: '/seller/nothing'
+      url: '/buyer/nothing'
     })
 }
 

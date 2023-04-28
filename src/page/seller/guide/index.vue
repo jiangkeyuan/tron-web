@@ -123,6 +123,7 @@ const onSubmit = async () => {
   const data = await getPermission()
   console.log(data)
   if (data.code === 12000) {
+    window.localStorage.setItem('token', data.data);
     await store.dispatch('getUserInfoAction')
     router.push('/console/seller/auth-operation')
   } else {

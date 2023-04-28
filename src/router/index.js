@@ -266,6 +266,7 @@ const routes = [
 
       {
         path: "seller/dashboard",
+        name: 'sellerDashboard',
         components: {
           helper: () => import("../page/seller/dashbord/index.vue"),
           default: () => import("../page/seller/dashbord/index.vue"),
@@ -273,6 +274,7 @@ const routes = [
       },
       {
         path: "seller/order",
+        name: "sellerOrder",
         components: {
           helper: () => import("../page/seller/order/index.vue"),
           default: () => import("../page/seller/order/index.vue"),
@@ -280,6 +282,7 @@ const routes = [
       },
       {
         path: "seller/auto-sell",
+        name: "sellerAutoSell",
         components: {
           helper: () => import("../page/seller/auto-sell/index.vue"),
           default: () => import("../page/seller/auto-sell/index.vue"),
@@ -287,6 +290,7 @@ const routes = [
       },
       {
         path: "seller/auth-operation",
+        name: "sellerAuthOperation",
         components: {
           helper: () => import("../page/seller/auth-operation/index.vue"),
           default: () => import("../page/seller/auth-operation/index.vue"),
@@ -294,6 +298,7 @@ const routes = [
       },
       {
         path: "seller/help",
+        name: "sellerHelp",
         components: {
           helper: () => import("../page/seller/help/index.vue"),
           default: () => import("../page/seller/help/index.vue"),
@@ -336,4 +341,20 @@ const router = createRouter({
   routes: routes,
 });
 
+router.beforeEach(async(to, from, next) => {
+    const { userInfo } = store.state.userInfo
+    const list = ['sellerDashboard', 'sellerOrder','sellerAutoSell', 'sellerAuthOperation', 'sellerHelp']
+    let user = {}
+    if(Object.keys(userInfo).length == 0 && list.includes(to.name)) {
+        user = await store.dispatch('getUserInfoAction')
+    }else {
+        user = userInfo
+    }
+    if(!user.permissionId && list.includes(to.name)) {
+        next('/console/seller/guide')
+    } else {
+
+        next()
+    }
+})
 export default router;

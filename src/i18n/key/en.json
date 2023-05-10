@@ -8,5 +8,11 @@
     "KEY-007": "cancel",
     "KEY-008": "OK",
     "KEY-009": "Please enter the name of the Key to distinguish between the system",
-    "KEY-010": "define"
+    "KEY-010": "define",
+    "KEY-012": "Delete Success",
+    "KEY-013": "API Keys",
+    "KEY-014": "How to use the API?",
+    "KEY-015": "energy / consumption",
+    "KEY-016": "Please enter content",
+    "KEY-017": "Create key"
 }

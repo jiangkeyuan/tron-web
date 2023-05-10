@@ -44,7 +44,7 @@
 <script setup>
 import { manaulBuy,getPlatformPrice } from '@/utils/axios/buyer/index';
 import { ElMessage } from 'element-plus';
-import { watch } from 'vue';
+import { reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const store = useStore();
@@ -54,14 +54,20 @@ const form = reactive({
   rentalHours: 1,
   rentalEnergyQuantity: ''
 });
-const platformPrice = ref(0);
+const platformPrice = reactive({});
 
 let rentalEnergynum = ref(null);
 
 let commission = ref(0.6);
 
 watch([() => form.rentalEnergyQuantity, () => form.rentalHours], (n, o) => {
-  rentalEnergynum.value = +n[0] * platformPrice.value * Math.floor((+n[1] + 23) / 24) / 1000000
+  let platformPriceNum = 0;
+  if(+n[1] > 1){
+    platformPriceNum = platformPrice.day
+  }else{
+    platformPriceNum = platformPrice.hour
+  }
+  rentalEnergynum.value = +n[0] * platformPriceNum * Math.floor((+n[1] + 23) / 24) / 1000000
 })
 
 watch(()=> form.rentalEnergyQuantity,(n)=>{
@@ -76,7 +82,7 @@ watch(()=> form.rentalEnergyQuantity,(n)=>{
 const pageGetPlatformPrice = async ()=>{
   const data = await getPlatformPrice();
   if(data.code === 12000){
-    platformPrice.value = +data.data;
+    Object.assign(platformPrice,data.data)
   }
 }
 

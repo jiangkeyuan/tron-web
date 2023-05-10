@@ -56,7 +56,7 @@
           <div class="api-key-content-header-body-item">
             <span class="api-key-content-header-body-item-key">{{$t('KEY-002')}}:</span>
             <span class="api-key-content-header-body-item-value">{{ item.billingEnergy || 0 }} {{$t('KEY-015')}} {{
-              item.sbillingAmount || 0 }}
+              item.billingAmount || 0 }}
               TRX</span>
           </div>
         </div>

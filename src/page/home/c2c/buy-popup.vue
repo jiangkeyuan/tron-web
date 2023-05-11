@@ -42,8 +42,8 @@
             </template>
             <template #value>
               <el-input-number
-                v-model="form.price"
-                :min="price"
+                v-model="form.price.day"
+                :min="price.day"
                 :max="99999"
                 @change="handleChange"
               />
@@ -118,12 +118,12 @@ import {
 } from '@/utils/axios/home/index.js'
 import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 const emit = defineEmits(['close'])
 const radioVal = ref('能量')
 const form = reactive({
   rentalHours: 72,
-  price: 120,
+  price: {},
   rentalEnergyQuantity: '',
   receiveAddress: ''
 })
@@ -211,12 +211,12 @@ const queryPlatformTransferAddress = async () => {
     ElMessage.error(data.msg)
   }
 }
-const price = ref('')
+const price = reactive({})
 const queryPlatformPrice = async () => {
   const data = await getPlatformPrice()
   if (data.code === 12000) {
     form.price = data.data
-    price.value = data.data
+    Object.assign(price,data.data)
   } else {
     ElMessage.error(data.msg)
   }
@@ -240,7 +240,7 @@ const economize = computed(() => {
 })
 const getAmount = () => {
   const rentalHours = Math.floor((Number(form.rentalHours) + 23) / 24)
-  const amount = form.rentalEnergyQuantity * rentalHours * form.price
+  const amount = form.rentalEnergyQuantity * rentalHours * (Number(form.rentalHours) > 1 ? form.price.day : form.price.hour);
   return tronWeb.fromSun(amount)
 }
 const getCommissionValue = (val) =>{

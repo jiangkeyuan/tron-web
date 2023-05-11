@@ -143,7 +143,7 @@
                     <div class="info">
                       <div>
                         价格/天：
-                        <span>{{ price }}</span>
+                        <span>{{ price.day }}</span>
                         sun
                       </div>
                       <!-- <div>
@@ -181,7 +181,7 @@
                 {{ defaultAddr }}
               </div>
               <div class="input-panel rentVal">
-                <div class="title">租用量</div>
+                <div class="title">租用量1</div>
                 <div class="input">
                   <el-input
                     v-model="capacity"
@@ -255,7 +255,7 @@
                     <div class="info">
                       <div>
                         价格/天：
-                        <span>{{ price }}</span>
+                        <span>{{rentalDays > 1 ?  price.day : price.hour }}</span>
                         sun
                       </div>
                       <!-- <div>
@@ -480,7 +480,7 @@ const onParser = value => {
 watch(rentalDays, o => {
   console.log('o', o)
   const sum = Math.floor((Number(o) + 23) / 24)
-  const fromSun = amountFilter(capacity.value * sum * price.value)
+  const fromSun = amountFilter(capacity.value * sum * (Number(o) > 1 ? price.day : price.hour))
   fromSunAmount.value = fromSun
   amount.value =
     fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
@@ -539,8 +539,9 @@ const onClick = val => {
     sum = Math.floor((Number(rentalDays.value) + 23) / 24)
   }
   capacity.value = Number(capacity.value) + Number(val)
-  const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
+  const fromSun = tronWeb?.fromSun(capacity.value * sum * (Number(capacity.value) > 1 ? price.day : price.hour))
   fromSunAmount.value = fromSun
+  console.log(fromSun)
   amount.value =
     fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
   //   amount.value = +tronWeb?.fromSun(capacity.value * sum * price.value) + getCommissionValue(capacity.value)
@@ -557,7 +558,7 @@ const onInput = val => {
     sum = Math.floor((Number(rentalDays.value) + 23) / 24)
   }
   capacity.value = val
-  const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
+  const fromSun = tronWeb?.fromSun(capacity.value * sum * (Number(rentalDays.value) > 1 ? price.day : price.hour));
   fromSunAmount.value = fromSun
   amount.value =
     fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
@@ -575,7 +576,7 @@ const changeVal = val => {
     sum = Math.floor((Number(rentalDays.value) + 23) / 24)
   }
   console.log('changeVal', sum)
-  const fromSun = tronWeb?.fromSun(capacity.value * sum * price.value)
+  const fromSun = tronWeb?.fromSun(capacity.value * sum * (Number(capacity.value) > 1 ? price.day : price.hour))
   fromSunAmount.value = fromSun
   amount.value =
     fromSun != 0 ? +fromSun + getCommissionValue(capacity.value) : fromSun
@@ -695,11 +696,11 @@ const queryPlatformTransferAddress = async () => {
     ElMessage.error(data.msg)
   }
 }
-const price = ref('')
+const price = reactive({});
 const queryPlatformPrice = async () => {
   const data = await getPlatformPrice()
   if (data.code === 12000) {
-    price.value = data.data
+    Object.assign(price,data.data);
   } else {
     ElMessage.error(data.msg)
   }

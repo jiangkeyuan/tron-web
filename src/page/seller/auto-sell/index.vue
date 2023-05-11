@@ -64,7 +64,7 @@
             <el-radio :label="true">默认</el-radio>
             <el-radio :label="false">自定义</el-radio>
           </el-radio-group>
-          <span class="desc">选择默认则按平台规则单价进行代理，当前单价为：{{price}}</span>
+          <span class="desc">选择默认则按平台规则单价进行代理，当前单价为：{{price.day}}</span>
         </el-form-item>
         <el-form-item label="自定义能量单价" v-if="!sellConfigData.energeDefaultPrice">
           <template #label>
@@ -197,11 +197,11 @@ const querySellConfig = async () => {
   }
   console.log('sellConfigData', sellConfigData)
 }
-const price = ref('')
+const price = reactive({})
 const queryPlatformPrice = async () => {
   const data = await getPlatformPrice()
   if (data.code === 12000) {
-    price.value = data.data
+    Object.assign(price,data.data);
   } else {
     ElMessage.error(data.msg)
   }

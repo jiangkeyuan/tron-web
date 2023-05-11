@@ -181,7 +181,7 @@
                 {{ defaultAddr }}
               </div>
               <div class="input-panel rentVal">
-                <div class="title">租用量1</div>
+                <div class="title">租用量</div>
                 <div class="input">
                   <el-input
                     v-model="capacity"
@@ -538,8 +538,9 @@ const onClick = val => {
   } else {
     sum = Math.floor((Number(rentalDays.value) + 23) / 24)
   }
+  console.log(1234)
   capacity.value = Number(capacity.value) + Number(val)
-  const fromSun = tronWeb?.fromSun(capacity.value * sum * (Number(capacity.value) > 1 ? price.day : price.hour))
+  const fromSun = tronWeb?.fromSun(capacity.value * sum * (Number(rentalDays.value) > 1 ? price.day : price.hour))
   fromSunAmount.value = fromSun
   console.log(fromSun)
   amount.value =

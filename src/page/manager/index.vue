@@ -37,7 +37,7 @@
       </el-table-column>
     </el-table>
     <div class="sale-record-table-pagination">
-      <el-pagination @current-change="currentChange" layout="prev, pager, next, jumper" v-model:current-page='form.pageIndex'
+      <el-pagination @current-change="currentChange" layout="prev, pager, next, jumper" v-model:current-page='forms.pageIndex'
         v-model:page-size="form.pageSize" :total="forms.totalCount" />
     </div>
   </el-card>

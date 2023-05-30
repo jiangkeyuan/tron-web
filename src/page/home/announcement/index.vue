@@ -1,6 +1,6 @@
 <template>
   <Content>
-     <h1>平台公告</h1>
+     <!-- <h1>平台公告</h1>
       <ul class="list">
         <li>
           <a href="#/announcement/detail" class="item">
@@ -10,7 +10,8 @@
           </a>
         </li>
       </ul>
-      <el-empty v-if="false" description="暂无公告" />
+      <el-empty v-if="false" description="暂无公告" /> -->
+      <el-empty description="暂无公告" />
   </Content>
 </template>
 
